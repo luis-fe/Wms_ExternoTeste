@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 import datetime
 import numpy
 
-import ConexaoPostgreRailway
+
 
 
 # Função para criar os agrupamentos
