@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 import datetime
 import numpy
 
-
+import ConexaoPostgreMPL
 
 
 # Função para criar os agrupamentos
@@ -42,7 +42,7 @@ def FilaTags():
     {'user': 'root', 'password': 'ccscache'},
     'CacheDB.jar'
 )
-    conn2 = ConexaoPostgreRailway.conexao()
+    conn2 = ConexaoPostgreMPL.conexao()
     df_tags = pd.read_sql(
         "SELECT  codBarrasTag as codbarrastag, codNaturezaAtual , codEngenharia , codReduzido as codreduzido,(SELECT i.nome  FROM cgi.Item i WHERE i.codigo = t.codEngenharia) as descricao , numeroop as numeroop,"
         " (SELECT i2.codCor  FROM cgi.Item2  i2 WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as cor,"
@@ -112,3 +112,4 @@ def LerEPC():
 
     print(consulta)
     return consulta
+FilaTags()
