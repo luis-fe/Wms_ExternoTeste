@@ -1,12 +1,11 @@
 import pandas as pd
 import jaydebeapi
-import time
+
 from sqlalchemy import create_engine
 import datetime
 import numpy
-import CalculoNecessidadesEndereco
+
 import ConexaoPostgreRailway
-from psycopg2 import sql
 
 
 # Função para criar os agrupamentos
