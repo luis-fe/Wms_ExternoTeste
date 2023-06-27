@@ -91,7 +91,7 @@ def FilaTags():
    # except:
     #    print('falha na funçao Inserir')
      #   hora = obterHoraAtual()
-      3  return tamanho, hora
+      #  return tamanho, hora
 
 
 def LerEPC():
