@@ -1,16 +1,23 @@
-# This is a sample Python script.
+from flask import Flask, render_template, jsonify, request
+import pandas as pd
+from functools import wraps
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+app = Flask(__name__)
+port = int(os.environ.get('PORT', 5000))
 
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.headers.get('Authorization')
+        if token == 'a40016aabcx9':  # Verifica se o token é igual ao token fixo
+            return f(*args, **kwargs)
+        return jsonify({'message': 'Acesso negado'}), 401
+    return decorated_function
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    app.run(host='0.0.0.0', port=port)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
