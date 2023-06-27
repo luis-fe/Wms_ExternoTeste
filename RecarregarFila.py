@@ -25,7 +25,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
-    engine = create_engine(f'postgresql://{user}:{password}@{host}:{port}/{database}')
+    engine = create_engine(f'postgresql://{user}:{"Master@100"}@{host}:{port}/{database}')
 
 
     # Inserir dados em lotes
