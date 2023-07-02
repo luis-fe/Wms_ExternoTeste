@@ -302,7 +302,6 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora):
             'WHERE "codbarrastag" = %s', (codbarras,)
         )
         prateleira = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
-
         if not prateleira.empty:
             retorno = 'Reposto'
         else:
