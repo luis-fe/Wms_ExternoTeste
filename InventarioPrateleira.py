@@ -30,12 +30,13 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
 
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
-            'set situacaoinventario  = '+"'OK'"+ \
+            'set situacaoinventario  = '+"'OK', "+ \
+            'usuario = %s  '\
             'where codbarrastag = %s'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
-                           codbarra,))
+                           usuario, codbarra,))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
@@ -198,17 +199,17 @@ def Estoque_endereco(endereco):
 
 def SalvarInventario(endereco):
     conn = ConexaoPostgreMPL.conexao()
-
+    DataReposicao = obterHoraAtual()
     # Inserir de volta as tags que deram certo
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
              '"numeroop", "cor", "tamanho", "totalop") ' \
              'SELECT "usuario", "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-             '"DataReposicao", "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop" ' \
+             ' %s ,  "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop" ' \
              'FROM "Reposicao".tagsreposicao_inventario t ' \
              'WHERE "Endereco" = %s and "situacaoinventario" = %s ;'
     cursor = conn.cursor()
-    cursor.execute(insert, (endereco,'OK'))
+    cursor.execute(insert, (DataReposicao,endereco,'OK'))
     numero_linhas_afetadas = cursor.rowcount
     conn.commit()
     cursor.close()
