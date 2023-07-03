@@ -512,7 +512,6 @@ def get_ApontarTagInventario():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-
 @app.route('/api/FinalizarInventario', methods=['POST'])
 @token_required
 def get_FinalizarInventario():
