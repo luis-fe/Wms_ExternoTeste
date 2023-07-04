@@ -39,7 +39,7 @@ def FilaPedidos():
     conn = ConexaoPostgreMPL.conexao()
     pedido = pd.read_sql(
         ' select f.codigopedido , f.vlrsugestao, f.codcliente , f.desc_cliente, f.cod_usuario, f.cidade, f.estado, '
-        'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido  '
+        'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido, situacaopedido  '
         '  from "Reposicao".filaseparacaopedidos f ', conn)
     pedidosku = pd.read_sql('select codpedido, sum(qtdesugerida) as qtdesugerida, sum(necessidade) as necessidade   from "Reposicao".pedidossku p  '
                             'group by codpedido ', conn)
@@ -57,7 +57,7 @@ def FilaPedidos():
                  'codrepresentante': '08-codrepresentante', 'desc_representante': '09-Repesentante',
                  'cod_usuario': '10-codUsuarioAtribuido',
                  'nomeusuario_atribuido': '11-NomeUsuarioAtribuido', 'vlrsugestao': '12-vlrsugestao',
-                 'condicaopgto': '13-CondPgto', 'agrupamentopedido': '14-AgrupamentosPedido'}, inplace=True)
+                 'condicaopgto': '13-CondPgto', 'agrupamentopedido': '14-AgrupamentosPedido','situacaopedido': '22- situacaopedido'}, inplace=True)
 
     pedido['12-vlrsugestao'] = 'R$ ' + pedido['12-vlrsugestao']
 
@@ -96,6 +96,7 @@ def FilaPedidos():
     marca.rename(columns={'codpedido': '01-CodPedido'}, inplace=True)
     pedido = pd.merge(pedido, marca, on='01-CodPedido', how='left')
     pedido['21-MARCA'].fillna('-', inplace=True)
+    pedido['22- situacaopedido'].fillna('No Retorna', inplace=True)
 
 
 
