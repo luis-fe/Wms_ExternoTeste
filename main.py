@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, CORS
 import pandas as pd
 import os
 from functools import wraps
