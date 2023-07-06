@@ -99,3 +99,18 @@ def InformacaoPedidoViaTag(codbarras):
 
     return Informa
 
+
+def EnderecosDisponiveis():
+    conn = ConexaoPostgreMPL.conexao()
+    relatorioEndereço = pd.read_sql(
+        'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
+        'where contagem = 0 ', conn)
+
+    tamanho = relatorioEndereço.size
+    conn.close()
+    data = {
+
+        '1- Total de Enderecos Disponiveis': tamanho,
+        '2- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
+    }
+    return [data]
