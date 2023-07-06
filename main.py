@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-#from flask_cors import CORS
+from flask_cors import CORS
 import pandas as pd
 import os
 from functools import wraps
@@ -20,7 +20,7 @@ import ReposicaoSku
 
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 5000))
-
+CORS(app)
 
 # Decorator para verificar o token fixo
 def token_required(f):
