@@ -700,7 +700,7 @@ def get_RelatorioTotalFila():
 def get_DisponibilidadeEnderecos():
     # Obtém os dados do corpo da requisição (JSON)
 
-    Endereco_det = Relatorios.relatorioTotalFila()
+    Endereco_det = Relatorios.EnderecosDisponiveis()
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
