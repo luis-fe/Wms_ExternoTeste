@@ -15,7 +15,7 @@ def Deletar_Endereco(Endereco):
                   'where codendereco = %s '
         # Execute a consulta usando a conexão e o cursor apropriados
         cursor = conn.cursor()
-        cursor.execute(delatar, (Endereco))
+        cursor.execute(delatar, (Endereco,))
         conn.commit()
         return pd.DataFrame({'Mensagem': [f'Endereco excluido!'], 'Status':True})
 
