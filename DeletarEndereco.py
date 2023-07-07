@@ -8,7 +8,7 @@ def Deletar_Endereco(Endereco):
     Validar = pd.read_sql(
         'select "Endereco" from "Reposicao".tagsreposicao '
         'where "Endereco" = '+"'"+Endereco+"'", conn)
-    if not Validar.empety:
+    if not Validar.empty:
          return pd.DataFrame({'Mensagem': [f'Endereco com saldo, nao pode ser excluido'], 'Status':False})
     else:
         delatar = 'delete from "Reposicao".cadendereco ' \
