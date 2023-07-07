@@ -12,9 +12,9 @@ def DetalhaPedido(codPedido):
 
     if skus1.empty:
         # Olha Para os Pedidos de Transferencia
-            skus = pd.read_sql("select descricaopedido as codigopedido, 'Transferencia' as desc_tiponota,"
-                               " 'Transferencia de Naturezas' as cliente  "
-                                ",'Transferencia de Naturezas' as repres, "
+            skus = pd.read_sql("select descricaopedido as codigopedido, 'transferencia' as desc_tiponota,"
+                               " 'transferencia de Naturezas' as cliente  "
+                                ",'transferencia de Naturezas' as repres, "
                                 'codigopedido as agrupamentopedido '
                                 '"from "Reposicao"."pedidosTransferecia" f  '
                                 "where situacao = 'aberto'" 
