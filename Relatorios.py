@@ -123,8 +123,8 @@ def EnderecosDisponiveis():
     data = {
 
         '1- Total de Enderecos Naturarez 5': tamanho2,
-        '1- Total de Enderecos Disponiveis': tamanho,
-        '2- Taxa de Oculpaçao dos Enderecos': f'{TaxaOcupacao} %',
-        '3- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
+        '2- Total de Enderecos Disponiveis': tamanho,
+        '3- Taxa de Oculpaçao dos Enderecos': f'{TaxaOcupacao} %',
+        '4- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
     }
     return [data]
