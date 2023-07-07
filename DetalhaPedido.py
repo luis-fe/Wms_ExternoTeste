@@ -16,7 +16,7 @@ def DetalhaPedido(codPedido):
                                " 'transferencia de Naturezas' as cliente  "
                                 ",'transferencia de Naturezas' as repres, "
                                 'codigopedido as agrupamentopedido '
-                                '"from "Reposicao"."pedidosTransferecia" f  '
+                                'from "Reposicao"."pedidosTransferecia" f  '
                                 "where situacao = 'aberto'" 
                                 ' and descricaopedido= ' + "'" + codPedido + "'"
                        , conn)
