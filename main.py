@@ -3,6 +3,8 @@ from flask_cors import CORS
 import pandas as pd
 import os
 from functools import wraps
+
+import DeletarEndereco
 import DetalhaPedido
 import DistribuicaoPedidosMPLInterno
 import Incremento
@@ -803,6 +805,23 @@ def get_RelatorioNecessidadeReposicao():
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
     end_data = []
     for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+@app.route('/api/Usuarios/<int:codigoEndereco>', methods=['DELETE'])
+@token_required
+def delet_Endereco(codigoEndereco):
+    # Obtém os dados do corpo da requisição (JSON)
+    data = request.get_json()
+    # Verifica se a coluna "funcao" está presente nos dados recebidos
+    dados = DeletarEndereco.Deletar_Endereco(codigoEndereco)
+    # Obtém os nomes das colunas
+    column_names = dados.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in dados.iterrows():
         end_dict = {}
         for column_name in column_names:
             end_dict[column_name] = row[column_name]
