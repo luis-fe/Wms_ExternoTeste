@@ -21,6 +21,7 @@ def DetalhaPedido(codPedido):
                                 ' and descricaopedido= ' + "'" + codPedido + "'"
                        , conn)
     else:
+
             skus = skus1
 
     grupo = pd.read_sql('select agrupamentopedido '
