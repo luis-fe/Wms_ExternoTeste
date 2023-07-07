@@ -4,10 +4,25 @@ import ConexaoPostgreMPL
 def DetalhaPedido(codPedido):
     # 1- Filtrando o Pedido na tabela de pedidosSku
     conn = ConexaoPostgreMPL.conexao()
-    skus = pd.read_sql('select codigopedido, desc_tiponota  , codcliente ||' + "'-'" + '|| desc_cliente as cliente  '
+
+    skus1 = pd.read_sql('select codigopedido, desc_tiponota  , codcliente ||' + "'-'" + '|| desc_cliente as cliente  '
                                                                                        ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido '
                                                                                                                          'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                        , conn)
+
+    if skus1.empty:
+        # Olha Para os Pedidos de Transferencia
+            skus = pd.read_sql("select descricaopedido as codigopedido, 'Transferencia' as desc_tiponota,"
+                               " 'Transferencia de Naturezas' as cliente  "
+                                ",'Transferencia de Naturezas' as repres, "
+                                'codigopedido as agrupamentopedido '
+                                '"from "Reposicao"."pedidosTransferecia" f  '
+                                "where situacao = 'aberto'" 
+                                ' and descricaopedido= ' + "'" + codPedido + "'"
+                       , conn)
+    else:
+            skus = skus1
+
     grupo = pd.read_sql('select agrupamentopedido '
                         'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                         , conn)
