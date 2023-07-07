@@ -111,9 +111,18 @@ def EnderecosDisponiveis():
     TaxaOcupacao = 1-(relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size)
     TaxaOcupacao = round(TaxaOcupacao, 2) * 100
     tamanho = relatorioEndereço["codendereco"].size
+    tamanho2 = relatorioEndereço2["codendereco"].size
+    tamanho2 = "{:,.0f}".format(tamanho2)
+    tamanho2 = str(tamanho2)
+    tamanho2 = tamanho2.replace(',', '.')
+    tamanho = "{:,.0f}".format(tamanho)
+    tamanho = str(tamanho)
+    tamanho = tamanho.replace(',', '.')
+
     conn.close()
     data = {
 
+        '1- Total de Enderecos Naturarez 5': tamanho2,
         '1- Total de Enderecos Disponiveis': tamanho,
         '2- Taxa de Oculpaçao dos Enderecos': f'{TaxaOcupacao} %',
         '3- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
