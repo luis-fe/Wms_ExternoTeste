@@ -109,7 +109,6 @@ def EnderecosDisponiveis():
         'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
         ' ', conn)
     TaxaOcupacao = relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size
-    TaxaOcupacao = TaxaOcupacao *100
     TaxaOcupacao = round(TaxaOcupacao, 2) * 100
     tamanho = relatorioEndereço["codendereco"].size
     conn.close()
