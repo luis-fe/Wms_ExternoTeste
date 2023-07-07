@@ -810,7 +810,7 @@ def get_RelatorioNecessidadeReposicao():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-@app.route('/api/Usuarios/<int:codigoEndereco>', methods=['DELETE'])
+@app.route('/api/endereco/<int:codigoEndereco>', methods=['DELETE'])
 @token_required
 def delet_Endereco(codigoEndereco):
     # Obtém os dados do corpo da requisição (JSON)
