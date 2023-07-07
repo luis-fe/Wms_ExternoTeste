@@ -106,7 +106,7 @@ def EnderecosDisponiveis():
         'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
         'where contagem = 0 ', conn)
 
-    tamanho = relatorioEndereço.size
+    tamanho = relatorioEndereço["codendereco"].size
     conn.close()
     data = {
 
