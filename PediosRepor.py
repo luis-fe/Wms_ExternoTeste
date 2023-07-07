@@ -40,7 +40,12 @@ def FilaPedidos():
     pedido = pd.read_sql(
         ' select f.codigopedido , f.vlrsugestao, f.codcliente , f.desc_cliente, f.cod_usuario, f.cidade, f.estado, '
         'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido, situacaopedido  '
-        '  from "Reposicao".filaseparacaopedidos f ', conn)
+        '  from "Reposicao".filaseparacaopedidos f '
+        " union select descricaopedido as codigopedido, 0 as vlrsugestao, 'Transf' as codcliente, 'transf' as desc_cliente, usuario as cod_usuario, 'tra' as cidade   "
+        " 'tra' as estado, datageracao, 'tra' as codrepresentante, 'transferencia' as desc_representante,"
+        " 'transferencia' as desc_tiponota, 'transferencia' as desc_tiponota, 'transferencia' as condicaopgto,"
+        " descricaopedido as agrupamentopedido, 'transferencia' as situacaopedido from"
+        ' "Reposicao"."pedidosTransferecia"  ', conn)
     pedidosku = pd.read_sql('select codpedido, sum(qtdesugerida) as qtdesugerida, sum(necessidade) as necessidade   from "Reposicao".pedidossku p  '
                             'group by codpedido ', conn)
     pedidosku.rename(columns={'codpedido': '01-CodPedido', 'qtdesugerida': '15-qtdesugerida','necessidade': '19-necessidade'}, inplace=True)
