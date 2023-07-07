@@ -108,7 +108,7 @@ def EnderecosDisponiveis():
     relatorioEndereço2 = pd.read_sql(
         'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
         ' ', conn)
-    TaxaOcupacao = relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size
+    TaxaOcupacao = 1-(relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size)
     TaxaOcupacao = round(TaxaOcupacao, 2) * 100
     tamanho = relatorioEndereço["codendereco"].size
     conn.close()
