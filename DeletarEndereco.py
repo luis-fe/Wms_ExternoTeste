@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def Deletar_Endereco(Endereco):
-    conn = ConexaoPostgreMPL
+    conn = ConexaoPostgreMPL.conexao()
     # Validar se existe Restricao Para excluir o endereo
     Validar = pd.read_sql(
         'select codendereco from "Reposicao".tagsreposicao '
@@ -13,7 +13,9 @@ def Deletar_Endereco(Endereco):
     else:
         delatar = 'delete from "Reposicao".cadendereco ' \
                   'where codendereco = %s '
+        # Execute a consulta usando a conexão e o cursor apropriados
         cursor = conn.cursor()
         cursor.execute(delatar, (Endereco))
         conn.commit()
+        return pd.DataFrame({'Mensagem': [f'Endereco excluido!'], 'Status':True})
 
