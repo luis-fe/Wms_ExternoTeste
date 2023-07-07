@@ -6,7 +6,7 @@ def Deletar_Endereco(Endereco):
     conn = ConexaoPostgreMPL.conexao()
     # Validar se existe Restricao Para excluir o endereo
     Validar = pd.read_sql(
-        'select codendereco from "Reposicao".tagsreposicao '
+        'select "Endereco" from "Reposicao".tagsreposicao '
         'where "Endereco" = '+"'"+Endereco+"'", conn)
     if not Validar.empety:
          return pd.DataFrame({'Mensagem': [f'Endereco com saldo, nao pode ser excluido'], 'Status':False})
