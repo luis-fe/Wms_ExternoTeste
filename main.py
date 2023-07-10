@@ -535,7 +535,6 @@ def get_FinalizarInventario():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-
 # Aqui comeca as API's referente aos pedidos
 @app.route('/api/FilaPedidos', methods=['GET'])
 @token_required
