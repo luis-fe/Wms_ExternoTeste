@@ -324,7 +324,7 @@ def VerificacoesApontamento(codbarra, codpedido):
     if not pesquisa.empty:
         pesquisa2 = pd.read_sql(
             ' select p.codpedido, p.produto , p.necessidade, p.valorunitarioliq, p.endereco  from "Reposicao".pedidossku p    '
-            'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + pesquisa['codreduzido'][0] + " and endereco= '"+ pesquisa['Endereco'][0] + "'", conn)
+            'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + pesquisa['codreduzido'][0] + "'" + "and endereco= '"+ pesquisa['Endereco'][0] + "'", conn)
         conn.close()
         if not pesquisa2.empty:
             return 1, pesquisa['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisa['Endereco'][0]
