@@ -118,10 +118,10 @@ def DetalhaPedido(codPedido):
                 print(f'Pedido {codPedido} Detalhado Pela Tabela de  Reposicao + Fila + Separacao')
 
     # continuacao do codigo
-    descricaoSku.drop_duplicates(subset=('reduzido', 'referencia'), inplace=True)
+
 
     DetalhaSku = pd.merge(DetalhaSku, descricaoSku, on='reduzido', how='left')
-    DetalhaSku.drop_duplicates(subset=('reduzido', 'referencia'), inplace=True)
+
 
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
