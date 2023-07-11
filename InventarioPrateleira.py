@@ -1,10 +1,13 @@
+import pytz
+
 import ConexaoPostgreMPL
 import pandas as pd
 import datetime
 import numpy
 def obterHoraAtual():
-    agora = datetime.datetime.now()
-    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%d/%m/%Y %H:%M')
     return hora_str
 def RegistrarInventario(usuario, data, endereco):
     conn = ConexaoPostgreMPL.conexao()
