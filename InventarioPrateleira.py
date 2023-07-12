@@ -204,6 +204,16 @@ def Estoque_endereco(endereco):
 def SalvarInventario(endereco):
     conn = ConexaoPostgreMPL.conexao()
     DataReposicao = obterHoraAtual()
+
+    # Avisar sobre as Tags migradas
+    Aviso = pd.read_sql('SELECT * FROM "Reposicao".tagsreposicao_inventario t '
+             'WHERE "Endereco" = '+ "'"+endereco+"'"+' and "situacaoinventario" is not null ;', conn)
+
+    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
+    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
+                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
+
+
     # Inserir de volta as tags que deram certo
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
@@ -219,9 +229,7 @@ def SalvarInventario(endereco):
     cursor.close()
 
 
-    # Avisar sobre as Tags migradas
-    Aviso = pd.read_sql('SELECT * FROM "Reposicao".tagsreposicao_inventario t '
-             'WHERE "Endereco" = '+ "'"+endereco+"'"+' and "situacaoinventario" is not null ;', conn)
+
 
     #Autorizar migracao
     numero_tagsMigradas = Aviso["Endereco"].size
@@ -238,9 +246,7 @@ def SalvarInventario(endereco):
     numero_linhas_afetadas = cursor.rowcount
     conn.commit()
 
-    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
-    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
-                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
+
 
     numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
     #deletar as tag's ok
