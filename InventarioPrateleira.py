@@ -30,7 +30,7 @@ def RegistrarInventario(usuario, data, endereco):
 def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     conn = ConexaoPostgreMPL.conexao()
 
-    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop   = PesquisarTagPrateleira(codbarra)
+    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop   = PesquisarTagPrateleira(codbarra, endereco)
 
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
@@ -48,6 +48,22 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         cursor.close()
         conn.close()
         return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} conferida!']})
+    if validador == 11:
+        query = 'update "Reposicao".tagsreposicao_inventario '\
+            'set situacaoinventario  = '+"'OK', "+ \
+            'usuario = %s, "Endereco" = %s  '\
+            'where codbarrastag = %s'
+        cursor = conn.cursor()
+        cursor.execute(query
+                       , (
+                           usuario,endereco, codbarra,))
+
+        # Obter o número de linhas afetadas
+        numero_linhas_afetadas = cursor.rowcount
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} mudado para {endereco}!']})
     if validador == False:
         conn.close()
         return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} não exite no estoque! ']})
@@ -108,14 +124,19 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
 
 
 
-def PesquisarTagPrateleira(codbarra):
+def PesquisarTagPrateleira(codbarra, endereco):
     conn = ConexaoPostgreMPL.conexao()
-    query1 = pd.read_sql('SELECT "codbarrastag" from "Reposicao".tagsreposicao_inventario t '
+    query1 = pd.read_sql('SELECT "codbarrastag", "Endereco" from "Reposicao".tagsreposicao_inventario t '
             'where codbarrastag = '+"'"+codbarra+"'",conn )
+    enderecoNovo = query1["Endereco"][0]
+    if not query1.empty and enderecoNovo == endereco :
 
-    if not query1.empty:
         conn.close()
         return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10
+    if not query1.empty and enderecoNovo != endereco :
+
+        conn.close()
+        return 11, 12, 13, 14, 15, 16 ,17 ,18 , 19 , 20
 
     else:
         query2 = pd.read_sql('select codbarrastag, "Endereco"   from "Reposicao".tagsreposicao f  '
