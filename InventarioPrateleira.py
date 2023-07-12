@@ -208,10 +208,10 @@ def SalvarInventario(endereco):
     # Avisar sobre as Tags migradas
     Aviso = pd.read_sql('SELECT * FROM "Reposicao".tagsreposicao_inventario t '
              'WHERE "Endereco" = '+ "'"+endereco+"'"+' and "situacaoinventario" is not null ;', conn)
+    #Autorizar migracao
+    numero_tagsMigradas = Aviso["Endereco"].size
 
-    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
-    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
-                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
+
 
 
     # Inserir de volta as tags que deram certo
@@ -231,8 +231,7 @@ def SalvarInventario(endereco):
 
 
 
-    #Autorizar migracao
-    numero_tagsMigradas = Aviso["Endereco"].size
+
     datahora = obterHoraAtual()
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
@@ -248,7 +247,7 @@ def SalvarInventario(endereco):
 
 
 
-    numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
+
     #deletar as tag's ok
 
     delete = 'Delete FROM "Reposicao".tagsreposicao_inventario t ' \
@@ -268,6 +267,12 @@ def SalvarInventario(endereco):
     cursor.execute(deleteMigradas, (endereco,))
     conn.commit()
     cursor.close()
+
+    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
+    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
+                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
+
+    numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
 
 
 
