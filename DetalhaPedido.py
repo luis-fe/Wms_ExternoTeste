@@ -6,8 +6,8 @@ def DetalhaPedido(codPedido):
     conn = ConexaoPostgreMPL.conexao()
 
     skus1 = pd.read_sql('select codigopedido, desc_tiponota  , codcliente ||' + "'-'" + '|| desc_cliente as cliente  '
-                                                                                       ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido '
-                                                                                                                         'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
+                        ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido '
+                    'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                        , conn)
 
     if skus1.empty:
@@ -35,89 +35,11 @@ def DetalhaPedido(codPedido):
 
     # Validando as descricoes + cor + tamanho dos produtos para nao ser null
 
-    validador1 = pd.read_sql('select distinct * from '
-                             '(select p.codpedido , p.produto , t.codreduzido  from "Reposicao".pedidossku p '
-                             'left join "Reposicao".tagsreposicao t on t.codreduzido = p.produto) as var '
-                             'where var.codreduzido is null and '
-                             "var.codpedido = '"+codPedido+"'",conn)
-    if validador1.empty:
-        descricaoSku = pd.read_sql(
-            'select  f.engenharia as referencia, f."codreduzido" as reduzido, f."descricao" , f."cor" , f.tamanho  from "Reposicao".tagsreposicao f  '
-            'where f."codreduzido" in '
-            '(select  produto as reduzido '
-            ' from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                                                                                     'group by f."codreduzido", f.descricao , f."cor" , f.tamanho , f.engenharia',
-            conn)
-        print(f'Pedido {codPedido} Detalhado Pela Tabela de  Reposicao')
-    else:
-        validadorFilas = pd.read_sql('select p.codpedido , p.produto , t.codreduzido  from "Reposicao".pedidossku p '
-                                 'left join "Reposicao".filareposicaoportag t on t.codreduzido = p.produto '
-                                 'where t.codreduzido is null and '
-                                 "p.codpedido = '" + codPedido + "'", conn)
-
-        if validadorFilas.empty:
-            descricaoSku = pd.read_sql(
-                'select  f.engenharia as referencia, f."codreduzido" as reduzido, f."descricao" , f."cor" , f.tamanho  from "Reposicao".filareposicaoportag f  '
-                'where f."codreduzido" in '
-                '(select  produto as reduzido '
-                ' from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                                                                                         'group by f."codreduzido", f.descricao , f."cor" , f.tamanho , f.engenharia',
-                conn)
-            print(f'Pedido {codPedido} Detalhado Pela Tabela da Fila')
-
-        else:
-            validador2 = pd.read_sql('SELECT p.codpedido, p.produto '
-                                 'FROM "Reposicao".pedidossku p '
-                                 'LEFT JOIN ( '
-                                 '     SELECT f.codreduzido AS codreduzido'
-                                 '     FROM "Reposicao".filareposicaoportag f '
-                                 ' union '
-                                 '     SELECT t.codreduzido AS codreduzido'
-                                 '     FROM "Reposicao".tagsreposicao t '
-                                 ' ) AS procurar ON procurar.codreduzido = p.produto'
-                                 " where p.codpedido = '"+codPedido+"' "
-                                                                   "AND procurar.codreduzido IS NULL ", conn)
-
-            if validador2.empty:
-                descricaoSku = pd.read_sql(
-                'select  f.engenharia as referencia, f."codreduzido" as reduzido, f."descricao" , f."cor" , f.tamanho  from "Reposicao".tagsreposicao f '
-                ' where f."codreduzido" in '
-                '(select  produto as reduzido '
-                'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                'group by f."codreduzido", f.descricao , f."cor" , f.tamanho , f.engenharia'                        
-                ' union '
-                'select t.engenharia as referencia, t."codreduzido", t."descricao" , t.cor , t.tamanho  from "Reposicao".filareposicaoportag t '
-                ' where t.descricao is not null and'
-                ' t."codreduzido" in '
-                '(select  produto as reduzido '
-                'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                'group by t."codreduzido", t.descricao , t."cor" , t.tamanho , t.engenharia', conn)
-
-                print(f'Pedido {codPedido} Detalhado Pela Tabela de  Reposicao + Fila')
-
-            else:
-                descricaoSku = pd.read_sql(
-                    'select  f.engenharia as referencia, f."codreduzido" as reduzido, f."descricao" , f."cor" , f.tamanho  from "Reposicao".tagsreposicao f '
-                    ' where f."codreduzido" in '
+    descricaoSku = pd.read_sql(
+                    'select engenharia as referencia, codreduzido as reduzido, descricao, cor ,tamanho from "Reposicao"."Tabela_Sku" '
+                    ' where codreduzido in '
                     '(select  produto as reduzido '
-                    'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                    'group by f."codreduzido", f.descricao , f."cor" , f.tamanho , f.engenharia'
-                    ' union '
-                    'select t.engenharia as referencia, t."codreduzido", t."descricao" , t.cor , t.tamanho  from "Reposicao".filareposicaoportag t '
-                    ' where t.descricao is not null '
-                    ' and t."codreduzido" in '
-                    '(select  produto as reduzido '
-                    'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                    'group by t."codreduzido", t.descricao , t."cor" , t.tamanho , t.engenharia'
-                ' union'
-                ' select  f.engenharia as referencia, f."codreduzido" as reduzido, f."descricao" , f."cor" , f.tamanho  from "Reposicao".tags_separacao f '
-                ' where f."codreduzido" in '
-                '(select  produto as reduzido '
-                'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') "
-                'group by f."codreduzido", f.descricao , f."cor" , f.tamanho , f.engenharia' , conn)
-                print(f'Pedido {codPedido} Detalhado Pela Tabela de  Reposicao + Fila + Separacao')
-
-    # continuacao do codigo
+                    'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') ", conn)
 
 
     DetalhaSku = pd.merge(DetalhaSku, descricaoSku, on='reduzido', how='left')
