@@ -7,7 +7,7 @@ import numpy
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
-    hora_str = agora.strftime('%d/%m/%Y %H:%M')
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%SS')
     return hora_str
 def RegistrarInventario(usuario, data, endereco):
     conn = ConexaoPostgreMPL.conexao()

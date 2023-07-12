@@ -315,73 +315,80 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, padrao= Fals
         return pd.DataFrame({'Mensagem': [f'tag nao encontrada no estoque do endereço']})
 
 
+
 def VerificacoesApontamento(codbarra, codpedido):
     conn = ConexaoPostgreMPL.conexao()
-    pesquisa = pd.read_sql(
-        ' select "codbarrastag", "codreduzido" as codreduzido, "Endereco"  from "Reposicao".tagsreposicao f   '
-        'where codbarrastag = ' + "'" + codbarra + "'", conn)
 
-    if not pesquisa.empty:
+    pesquisaTagReposicao = pd.read_sql(
+        'SELECT "codbarrastag", "codreduzido", "Endereco" FROM "Reposicao".tagsreposicao f WHERE codbarrastag = %s',
+        conn, params=(codbarra,))
+
+    if not pesquisaTagReposicao.empty:
         pesquisa2 = pd.read_sql(
-            ' select p.codpedido, p.produto , p.necessidade, p.valorunitarioliq, p.endereco  from "Reposicao".pedidossku p    '
-            'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + pesquisa['codreduzido'][0] + "'" + "and endereco= '"+ pesquisa['Endereco'][0] + "'", conn)
+            'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
+            'WHERE codpedido = %s AND produto = %s AND endereco = %s and necessidade >0 ',
+            conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0], pesquisaTagReposicao['Endereco'][0]))
+        tamanhoPesquisa2 = pesquisa2['codpedido'].size
         conn.close()
-        if not pesquisa2.empty:
-            return 1, pesquisa['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisa['Endereco'][0]
+
+        if tamanhoPesquisa2 == 1:
+            return 1, pesquisaTagReposicao['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
         else:
             pesquisa2_1 = pd.read_sql(
-                ' select p.codpedido, p.produto , p.necessidade, p.valorunitarioliq, p.endereco  from "Reposicao".pedidossku p    '
-                'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + pesquisa['codreduzido'][0] + "'",
-                conn)
+                'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s',
+                conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
+
             conn.close()
+
             if not pesquisa2_1.empty:
-
-                return 11, pesquisa['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], \
-                pesquisa['Endereco'][0]
-
+                return 11, pesquisaTagReposicao['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
             else:
+                return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, 2
 
-                return 2, pesquisa['codreduzido'][0], 2, 2, 2
     else:
         pesquisa3 = pd.read_sql(
-            ' select "codbarrastag", "codreduzido" as codreduzido  from "Reposicao".filareposicaoportag f   '
-            'where codbarrastag = ' + "'" + codbarra + "'", conn)
+            'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".filareposicaoportag f '
+            'WHERE codbarrastag = %s', conn, params=(codbarra,))
+
         if not pesquisa3.empty:
             pesquisa4 = pd.read_sql(
-                ' select p.codpedido, p.produto , p.necessidade  from "Reposicao".pedidossku p    '
-                'where codpedido = ' + "'" + codpedido + "'"+' and produto = ' + "'" + pesquisa3['codreduzido'][0] + "'",
-                conn)
+                'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisa3['codreduzido'][0]))
+
             conn.close()
-            return 3, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0],3, 3
-        if pesquisa3.empty:
-            pesquisarInventario = pd.read_sql(
-                ' select "codbarrastag", "codreduzido" as codreduzido  from "Reposicao".tagsreposicao_inventario f   '
-                'where codbarrastag = ' + "'" + codbarra + "'", conn)
-            if not pesquisarInventario.empty:
-                pesquisa4 = pd.read_sql(
-                    ' select p.codpedido, p.produto , p.necessidade  from "Reposicao".pedidossku p    '
-                    'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + pesquisa['codreduzido'][
-                        0] + "'",
-                    conn)
-                conn.close()
-                return 4, pesquisa4['codreduzido'][0], pesquisa4['necessidade'][0],4 , 4
 
-            else:
-                pesquisarSeparacao = pd.read_sql(
-                    ' select "codbarrastag", "codreduzido" as codreduzido  from "Reposicao".tags_separacao f   '
-                    'where codbarrastag = ' + "'" + codbarra + "'", conn)
+            return 3, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 3, 3
 
-                if not pesquisarSeparacao.empty:
-                    pesquisa5 = pd.read_sql(
-                        ' select p.codpedido, p.produto as codreduzido, p.necessidade  from "Reposicao".pedidossku p '
-                        'where codpedido = ' + "'" + codpedido + "'"+' and produto = ' + "'" + pesquisarSeparacao['codreduzido'][
-                            0] + "'",
-                        conn)
-                    conn.close()
-                    return 5,pesquisa5['codreduzido'][0], pesquisa5['necessidade'][0],5 , 5
+        pesquisarInventario = pd.read_sql(
+            'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".tagsreposicao_inventario f '
+            'WHERE codbarrastag = %s', conn, params=(codbarra,))
 
-                conn.close()
-                return 0, 0, 0 ,0 , 0
+        if not pesquisarInventario.empty:
+            pesquisa4 = pd.read_sql(
+                'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
+
+            conn.close()
+
+            return 4, pesquisa4['codreduzido'][0], pesquisa4['necessidade'][0], 4, 4
+
+        pesquisarSeparacao = pd.read_sql(
+            'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".tags_separacao f '
+            'WHERE codbarrastag = %s', conn, params=(codbarra,))
+
+        if not pesquisarSeparacao.empty:
+            pesquisa5 = pd.read_sql(
+                'SELECT p.codpedido, p.produto AS codreduzido, p.necessidade FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisarSeparacao['codreduzido'][0]))
+
+            conn.close()
+
+            return 5, pesquisa5['codreduzido'][0], pesquisa5['necessidade'][0], 5, 5
+
+        conn.close()
+        return 0, 0, 0, 0, 0
+
 
 
 def pesquisarSKUxPedido(codpedido, reduzido):
