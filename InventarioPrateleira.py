@@ -9,6 +9,7 @@ def obterHoraAtual():
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%SS')
     return hora_str
+
 def RegistrarInventario(usuario, data, endereco):
     conn = ConexaoPostgreMPL.conexao()
     # VERIFICANDO SE EXISTE CODIGO DE BARRAS DUPLICADOS NA FILA
