@@ -212,7 +212,7 @@ def SalvarInventario(endereco):
 
     numero_tagsMigradas = Aviso["Endereco"].size
 
-    if numero_tagsMigradas.empty:
+    if Aviso.empty:
         numero_tagsMigradas = 0
     else:
         numero_tagsMigradas = numero_tagsMigradas
@@ -279,7 +279,7 @@ def SalvarInventario(endereco):
 
     numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
 
-    if numero_tagsNaoEncontradas.empty:
+    if Aviso2.empty:
         numero_tagsMigradas = 0
     else:
         numero_tagsNaoEncontradas = numero_tagsMigradas
