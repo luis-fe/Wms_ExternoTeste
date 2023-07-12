@@ -213,10 +213,9 @@ def SalvarInventario(endereco):
     numero_tagsMigradas = Aviso["Endereco"].size
 
     if Aviso.empty:
-        numero_tagsMigradas = 0
+            numero_tagsMigradas = 0
     else:
-        numero_tagsMigradas = numero_tagsMigradas
-
+            numero_tagsMigradas = numero_tagsMigradas
 
 
     # Inserir de volta as tags que deram certo
@@ -233,8 +232,16 @@ def SalvarInventario(endereco):
     conn.commit()
     cursor.close()
 
+    #deletar as tag's ok
 
+    delete = 'Delete FROM "Reposicao".tagsreposicao_inventario t ' \
+             'WHERE "Endereco" = %s and "situacaoinventario" = %s;'
+    cursor = conn.cursor()
+    cursor.execute(delete, (endereco,'OK'))
+    conn.commit()
+    cursor.close()
 
+    cursor.close()
 
 
     datahora = obterHoraAtual()
@@ -253,16 +260,11 @@ def SalvarInventario(endereco):
 
 
 
-    #deletar as tag's ok
+    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
+    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
+                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
 
-    delete = 'Delete FROM "Reposicao".tagsreposicao_inventario t ' \
-             'WHERE "Endereco" = %s and "situacaoinventario" = %s;'
-    cursor = conn.cursor()
-    cursor.execute(delete, (endereco,'OK'))
-    conn.commit()
-    cursor.close()
-
-    cursor.close()
+    numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
 
     # deletar as tag's MIGRADAS
 
@@ -272,12 +274,6 @@ def SalvarInventario(endereco):
     cursor.execute(deleteMigradas, (endereco,))
     conn.commit()
     cursor.close()
-
-    # Tags nao encontradas , avisar e trazer a lista de codigo barras e epc para o usuario tomar decisao
-    Aviso2 = pd.read_sql('SELECT "codbarrastag", "epc" FROM "Reposicao".tagsreposicao_inventario t '
-                         'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
-
-    numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
 
     if Aviso2.empty:
         numero_tagsMigradas = 0
