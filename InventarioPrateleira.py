@@ -212,11 +212,6 @@ def SalvarInventario(endereco):
 
     numero_tagsMigradas = Aviso["Endereco"].size
 
-    if Aviso.empty:
-            numero_tagsMigradas = 0
-    else:
-            numero_tagsMigradas = numero_tagsMigradas
-
 
     # Inserir de volta as tags que deram certo
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
