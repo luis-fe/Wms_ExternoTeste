@@ -209,8 +209,13 @@ def SalvarInventario(endereco):
     Aviso = pd.read_sql('SELECT * FROM "Reposicao".tagsreposicao_inventario t '
              'WHERE "Endereco" = '+ "'"+endereco+"'"+' and "situacaoinventario" is not null ;', conn)
     #Autorizar migracao
+
     numero_tagsMigradas = Aviso["Endereco"].size
 
+    if numero_tagsMigradas.empty:
+        numero_tagsMigradas = 0
+    else:
+        numero_tagsMigradas = numero_tagsMigradas
 
 
 
@@ -273,6 +278,11 @@ def SalvarInventario(endereco):
                          'WHERE "Endereco" = ' + "'" + endereco + "'" + ' and "situacaoinventario" is null;', conn)
 
     numero_tagsNaoEncontradas = Aviso2["codbarrastag"].size
+
+    if numero_tagsNaoEncontradas.empty:
+        numero_tagsMigradas = 0
+    else:
+        numero_tagsNaoEncontradas = numero_tagsMigradas
 
 
 
