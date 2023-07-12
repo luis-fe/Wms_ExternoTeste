@@ -528,7 +528,7 @@ def get_FinalizarInventario():
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
     end_data = []
-    for index, row in Endereco_det.terrows():
+    for index, row in Endereco_det.iterrows():
         end_dict = {}
         for column_name in column_names:
             end_dict[column_name] = row[column_name]

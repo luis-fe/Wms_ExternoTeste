@@ -223,7 +223,6 @@ def SalvarInventario(endereco):
              'WHERE "Endereco" = %s and "situacaoinventario" = %s ;'
     cursor = conn.cursor()
     cursor.execute(insert, (DataReposicao,endereco,'OK'))
-    numero_linhas_afetadas = cursor.rowcount
     conn.commit()
     cursor.close()
 
