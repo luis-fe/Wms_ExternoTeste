@@ -275,11 +275,6 @@ def SalvarInventario(endereco):
     conn.commit()
     cursor.close()
 
-    if Aviso2.empty:
-        numero_tagsMigradas = 0
-    else:
-        numero_tagsNaoEncontradas = numero_tagsMigradas
-
 
 
     data = {
