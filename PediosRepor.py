@@ -143,19 +143,19 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, padrao= Fals
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s and endereco = %s ;'
+                           'where "produto" = %s and codpedido= %s ;'
             colunaNecessidade = colunaNecessidade - 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                            , (
-                               colunaNecessidade, colunaReduzido, codpedido, endereco))
+                               colunaNecessidade, colunaReduzido, codpedido))
             conn.commit()
             cursor.close()
 
             # atualizando a necessidade
             conn.close()
             return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada!'], 'status': [True]})
-    if validacao == 11:
+    if validacao == 12:
         if colunaNecessidade <= 0:
             return pd.DataFrame(
                 {'Mensagem': [f'o produto {colunaReduzido} já foi totalmente bipado. Deseja estornar ?']})
@@ -183,7 +183,48 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, padrao= Fals
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s and endereco = %s ;'
+                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 ;'
+            colunaNecessidade = colunaNecessidade - 1
+            cursor = conn.cursor()
+            cursor.execute(uptadePedido
+                           , (
+                               colunaNecessidade, colunaReduzido, codpedido, endereco))
+            conn.commit()
+            cursor.close()
+
+            # atualizando a necessidade
+            conn.close()
+            return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada!'], 'status': [True]})
+
+    if validacao == 12:
+        if colunaNecessidade <= 0:
+            return pd.DataFrame(
+                {'Mensagem': [f'o produto {colunaReduzido} já foi totalmente bipado. Deseja estornar ?']})
+        else:
+            conn = ConexaoPostgreMPL.conexao()
+            insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
+                     '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
+                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao") ' \
+                     'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
+                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
+                     "%s, %s " \
+                     'FROM "Reposicao".tagsreposicao t ' \
+                     'WHERE "codbarrastag" = %s;'
+            cursor = conn.cursor()
+            cursor.execute(insert, (codusuario, 'tagSeparado', codpedido, datahora, codbarra))
+            conn.commit()
+            cursor.close()
+            delete = 'Delete from "Reposicao"."tagsreposicao"  ' \
+                     'where "codbarrastag" = %s;'
+            cursor = conn.cursor()
+            cursor.execute(delete
+                           , (
+                               codbarra,))
+            conn.commit()
+            cursor.close()
+            uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+                           ' SET necessidade= %s ' \
+                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 ;'
             colunaNecessidade = colunaNecessidade - 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
@@ -198,6 +239,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, padrao= Fals
 
     if validacao == 2:
         return pd.DataFrame({'Mensagem': [f'pedido {codpedido} nao encontrado']})
+
     if validacao == 3:
         conn = ConexaoPostgreMPL.conexao()
         insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
@@ -324,27 +366,31 @@ def VerificacoesApontamento(codbarra, codpedido):
         conn, params=(codbarra,))
 
     if not pesquisaTagReposicao.empty:
-        pesquisa2 = pd.read_sql(
+        pesquisaPedidoSkU1 = pd.read_sql(
             'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
-            'WHERE codpedido = %s AND produto = %s AND endereco = %s and necessidade >0 ',
-            conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0], pesquisaTagReposicao['Endereco'][0]))
-        tamanhoPesquisa2 = pesquisa2['codpedido'].size
+            'WHERE codpedido = %s AND produto = %s and necessidade >0 ',
+            conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
+        tamanhoPesquisa2 = pesquisaPedidoSkU1['codpedido'].size
         conn.close()
 
         if tamanhoPesquisa2 == 1:
-            return 1, pesquisaTagReposicao['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
-        else:
-            pesquisa2_1 = pd.read_sql(
+            return 1, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSkU1['necessidade'][0], pesquisaPedidoSkU1['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
+
+        elif tamanhoPesquisa2 > 1:
+            pesquisaPedidoSkU2 = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
-                'WHERE codpedido = %s AND produto = %s',
-                conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
+                'WHERE codpedido = %s AND produto = %s and necessidade >0 and endereco =%s',
+                conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0],pesquisaTagReposicao['Endereco'][0]))
+            if not pesquisaPedidoSkU2.empty:
+                return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSkU2['necessidade'][0], \
+                    pesquisaPedidoSkU2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
+            else :
+                return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSkU1['necessidade'][0], \
+                pesquisaPedidoSkU1['valorunitarioliq'][0], pesquisaPedidoSkU1['endereco'][0]
 
-            conn.close()
+        else:
 
-            if not pesquisa2_1.empty:
-                return 11, pesquisaTagReposicao['codreduzido'][0], pesquisa2['necessidade'][0], pesquisa2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
-            else:
-                return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, 2
+            return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, 2
 
     else:
         pesquisa3 = pd.read_sql(
@@ -359,35 +405,36 @@ def VerificacoesApontamento(codbarra, codpedido):
             conn.close()
 
             return 3, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 3, 3
-
-        pesquisarInventario = pd.read_sql(
+        else:
+            pesquisarInventario = pd.read_sql(
             'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".tagsreposicao_inventario f '
             'WHERE codbarrastag = %s', conn, params=(codbarra,))
 
-        if not pesquisarInventario.empty:
-            pesquisa4 = pd.read_sql(
+            if not pesquisarInventario.empty:
+                pesquisa4 = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
                 'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
 
-            conn.close()
+                conn.close()
 
-            return 4, pesquisa4['codreduzido'][0], pesquisa4['necessidade'][0], 4, 4
-
-        pesquisarSeparacao = pd.read_sql(
+                return 4, pesquisa4['codreduzido'][0], pesquisa4['necessidade'][0], 4, 4
+            else:
+                pesquisarSeparacao = pd.read_sql(
             'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".tags_separacao f '
             'WHERE codbarrastag = %s', conn, params=(codbarra,))
 
-        if not pesquisarSeparacao.empty:
-            pesquisa5 = pd.read_sql(
+                if not pesquisarSeparacao.empty:
+                    pesquisa5 = pd.read_sql(
                 'SELECT p.codpedido, p.produto AS codreduzido, p.necessidade FROM "Reposicao".pedidossku p '
                 'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisarSeparacao['codreduzido'][0]))
 
-            conn.close()
+                    conn.close()
 
-            return 5, pesquisa5['codreduzido'][0], pesquisa5['necessidade'][0], 5, 5
+                    return 5, pesquisa5['codreduzido'][0], pesquisa5['necessidade'][0], 5, 5
+                else:
+                    conn.close()
+                    return 0, 0, 0, 0, 0
 
-        conn.close()
-        return 0, 0, 0, 0, 0
 
 
 
