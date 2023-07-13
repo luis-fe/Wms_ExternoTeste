@@ -371,9 +371,10 @@ def VerificacoesApontamento(codbarra, codpedido):
             'WHERE codpedido = %s AND produto = %s and necessidade >0 ',
             conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
         tamanhoPesquisa2 = pesquisaPedidoSkU1['codpedido'].size
-        conn.close()
+
 
         if tamanhoPesquisa2 == 1:
+            conn.close()
             return 1, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSkU1['necessidade'][0], pesquisaPedidoSkU1['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
 
         elif tamanhoPesquisa2 > 1:
@@ -382,6 +383,7 @@ def VerificacoesApontamento(codbarra, codpedido):
                 'WHERE codpedido = %s AND produto = %s and necessidade >0 and endereco =%s',
                 conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0],pesquisaTagReposicao['Endereco'][0]))
             if not pesquisaPedidoSkU2.empty:
+                conn.close()
                 return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSkU2['necessidade'][0], \
                     pesquisaPedidoSkU2['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
             else :
