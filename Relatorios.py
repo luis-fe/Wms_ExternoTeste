@@ -97,6 +97,10 @@ def InformacaoPedidoViaTag(codbarras):
     Informa = pd.read_sql('Select codpedido, usuario, dataseparacao  from "Reposicao".tags_separacao '
                           'where codbarrastag = '+"'"+codbarras+"'",conn)
 
+    Informa2 = pd.read_sql('select codigopedido as codpedido, codcliente, desc_cliente, desc_tiponota  from "Reposicao".filaseparacaopedidos',conn)
+
+    Informa = pd.merge(Informa,Informa2,on='codpedido')
+
     return Informa
 
 
