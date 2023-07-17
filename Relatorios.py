@@ -28,10 +28,11 @@ def relatorioTotalFila():
         ' GROUP BY "numeroop" ',conn)
 
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where endereco = 'Não Reposto' and necessidade > 0",conn)
+                        " where endereco = 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
 
     query3 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where endereco <> 'Não Reposto' and necessidade > 0",conn)
+                        " where endereco <> 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
+
     Inventario = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao_inventario ti' ,conn)
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti' ,conn)
 
@@ -41,6 +42,7 @@ def relatorioTotalFila():
     Inventario['codreduzido'] = Inventario['codreduzido'].count()
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
     total =  query3['contagem'][0] +  query2['contagem'][0]
+
     Percentual = query3['contagem'][0] / total
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+Inventario["codreduzido"][0]
