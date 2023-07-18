@@ -51,7 +51,7 @@ def DetalhaPedido(codPedido):
     DetalhaSku['qtdrealizado'] = DetalhaSku.groupby('reduzido')['qtdrealizado'].transform('sum')
     DetalhaSku['a_concluir'] = DetalhaSku.groupby('reduzido')['a_concluir'].transform('sum')
 
-    DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'] +'/'+DetalhaSku['qtdesugerida']
+    DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'].astype(str) +'/'+DetalhaSku['qtdesugerida'].astype(str)
     DetalhaSku = DetalhaSku.drop_duplicates()
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
