@@ -47,7 +47,7 @@ def DetalhaPedido(codPedido):
     # Agrupar os valores da col2 por col1 e concatenar em uma nova coluna
     DetalhaSku['endereco'] = DetalhaSku.groupby(['reduzido'])['endereco'].transform(lambda x: ', '.join(x))
     # Remover as linhas duplicadas
-    DetalhaSku['qtdesugerida'] = DetalhaSku['qtdesugerida'].sum()
+    DetalhaSku['qtdesugerida'] = DetalhaSku.groupby(['reduzido'])['qtdesugerida'].sum()
     DetalhaSku = DetalhaSku.drop_duplicates()
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
