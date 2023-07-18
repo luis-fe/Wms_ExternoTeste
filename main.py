@@ -598,12 +598,12 @@ def get_ApontamentoTagPedido():
     datas = request.get_json()
     codusuario = datas['codUsuario']
     codpedido = datas['codpedido']
-    endereco = datas['endereço']
+    enderecoApi = datas['endereco']
     codbarras = datas['codbarras']
     dataSeparacao = datas['dataHoraBipágem']
     Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
 
-    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,endereco,
+    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,enderecoApi,
                                                           Estornar)
 
     # Obtém os nomes das colunasok
