@@ -240,7 +240,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 
         # atualizando a necessidade
         conn.close()
-        return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
+        return pd.DataFrame({'Mensagem': [f' tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
 
     if validacao == 4:
         conn = ConexaoPostgreMPL.conexao()
