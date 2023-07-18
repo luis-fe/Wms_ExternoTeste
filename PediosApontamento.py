@@ -113,7 +113,7 @@ def FilaAtribuidaUsuario(codUsuario):
     return x
 
 
-def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi, padrao: False):
+def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi, padrao= False):
     # Aqui inplanto uma funcao para verificar qual a validação de onde vem  o **Codigo Barras*** , exemplo vem da: fila ? reposicao? estornar? ....
     validacao, colunaReduzido, colunaNecessidade,colunaValorUnit, endereco = VerificacoesApontamento(codbarra, codpedido, enderecoApi)
 
