@@ -240,7 +240,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 
         # atualizando a necessidade
         conn.close()
-        return pd.DataFrame({'Mensagem': [f' tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
+        return pd.DataFrame({'Mensagem': [f'3- tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
 
     if validacao == 4:
         conn = ConexaoPostgreMPL.conexao()
@@ -371,7 +371,7 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             # 2.1 - Caso a tag seja encontrada na fila mas nao na separacao
             pesquisa4 = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
-                'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisa3['codreduzido'][0]))
+                'WHERE codpedido = %s AND produto = %s, endereco = %s', conn, params=(codpedido, pesquisa3['codreduzido'][0],enderecoAPI))
 
             conn.close()
             return 3, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 3, 3
