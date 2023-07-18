@@ -49,10 +49,10 @@ def DetalhaPedido(codPedido):
     # Remover as linhas duplicadas
     DetalhaSku['total'] = DetalhaSku.groupby('reduzido')['total'].transform('sum')
     DetalhaSku['qtdesugerida'] = DetalhaSku.groupby('reduzido')['qtdesugerida'].transform('sum')
-    DetalhaSku['qtdesugerida'] = DetalhaSku['qtdesugerida'].round(0)
+
     DetalhaSku['qtdrealizado'] = DetalhaSku.groupby('reduzido')['qtdrealizado'].transform('sum')
     DetalhaSku['a_concluir'] = DetalhaSku.groupby('reduzido')['a_concluir'].transform('sum')
-
+    DetalhaSku['qtdesugerida'] = DetalhaSku['qtdesugerida'].astype(int)
     DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'].astype(str) +'/'+DetalhaSku['qtdesugerida'].astype(str)
     DetalhaSku = DetalhaSku.drop_duplicates()
     data = {
