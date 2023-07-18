@@ -9,7 +9,7 @@ import DetalhaPedido
 import DistribuicaoPedidosMPLInterno
 import Incremento
 import InventarioPrateleira
-import PediosRepor
+import PediosApontamento
 import Relatorios
 import Silk_PesquisaNew
 import TratamentoErros
@@ -366,7 +366,7 @@ def get_DetalhaEndereco():
 def get_DetalhaTag():
     # Obtém o código do usuário e a senha dos parâmetros da URL
     codbarra = request.args.get('codbarra')
-    codbarra, codbarra1 = PediosRepor.EndereçoTag(codbarra)
+    codbarra, codbarra1 = PediosApontamento.EndereçoTag(codbarra)
     # Obtém os nomes das colunas
     column_names = codbarra1.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -399,7 +399,7 @@ def get_ApontaReposicao():
                 Reposicao.EstornoApontamento(codbarra)
                 return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
 
-            ender, ender2 = PediosRepor.EndereçoTag(codbarra)
+            ender, ender2 = PediosApontamento.EndereçoTag(codbarra)
             return jsonify({'message': f'codigoBarras {codbarra} ja reposto no endereço {ender}'})
 
         if Apontamento is False:
@@ -540,7 +540,7 @@ def get_FinalizarInventario():
 @token_required
 def get_FilaPedidos():
 
-    Pedidos = PediosRepor.FilaPedidos()
+    Pedidos = PediosApontamento.FilaPedidos()
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -557,7 +557,7 @@ def get_FilaPedidos():
 @token_required
 def get_FilaPedidosUsuario():
     codUsuario = request.args.get('codUsuario')
-    Pedidos = PediosRepor.FilaAtribuidaUsuario(codUsuario)
+    Pedidos = PediosApontamento.FilaAtribuidaUsuario(codUsuario)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -598,13 +598,13 @@ def get_ApontamentoTagPedido():
     datas = request.get_json()
     codusuario = datas['codUsuario']
     codpedido = datas['codpedido']
-    # endereco = datas['endereço']
+    endereco = datas['endereço']
     codbarras = datas['codbarras']
     dataSeparacao = datas['dataHoraBipágem']
     Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
 
-    Endereco_det = PediosRepor.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,
-                                                           Estornar)
+    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,
+                                                          Estornar)
 
     # Obtém os nomes das colunasok
     column_names = Endereco_det.columns
