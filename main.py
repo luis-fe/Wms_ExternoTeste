@@ -598,7 +598,7 @@ def get_ApontamentoTagPedido():
     datas = request.get_json()
     codusuario = datas['codUsuario']
     codpedido = datas['codpedido']
-    enderecoApi = datas['endereco']
+    enderecoApi = datas['endereço']
     codbarras = datas['codbarras']
     dataSeparacao = datas['dataHoraBipágem']
     Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
