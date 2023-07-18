@@ -28,7 +28,7 @@ def DetalhaPedido(codPedido):
                         'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                         , conn)
     DetalhaSku = pd.read_sql(
-        'select  produto as reduzido, qtdesugerida , status as concluido_X_total, endereco as endereco, necessidade as a_concluir , '
+        'select  produto as reduzido, qtdesugerida , endereco as endereco, necessidade as a_concluir , '
         'qtdesugerida as total, (qtdesugerida - necessidade) as qtdrealizado'
         ' from "Reposicao".pedidossku p  where codpedido= ' + "'" + codPedido + "'"
                                                                                 " order by endereco asc", conn)
@@ -48,6 +48,10 @@ def DetalhaPedido(codPedido):
     DetalhaSku['endereco'] = DetalhaSku.groupby(['reduzido'])['endereco'].transform(lambda x: ', '.join(x))
     # Remover as linhas duplicadas
     DetalhaSku['qtdesugerida'] = DetalhaSku.groupby('reduzido')['qtdesugerida'].transform('sum')
+    DetalhaSku['qtdrealizado'] = DetalhaSku.groupby('reduzido')['qtdrealizado'].transform('sum')
+    DetalhaSku['a_concluir'] = DetalhaSku.groupby('reduzido')['a_concluir'].transform('sum')
+
+    DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'] +'/'+DetalhaSku['qtdesugerida']
     DetalhaSku = DetalhaSku.drop_duplicates()
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
