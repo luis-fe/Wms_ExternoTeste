@@ -28,7 +28,7 @@ def DetalhaPedido(codPedido):
                         'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                         , conn)
     DetalhaSku = pd.read_sql(
-        "select  produto as reduzido, sum(qtdesugerida) , (sum(qtdesugerida) - sum(necessidade))||'/'||sum(qtdesugerida) as concluido_X_total, endereco as endereco, sum(necessidade) as a_concluir , "
+        "select  produto as reduzido, sum(qtdesugerida) as qtdesugerida , (sum(qtdesugerida) - sum(necessidade))||'/'||sum(qtdesugerida) as concluido_X_total, endereco as endereco, sum(necessidade) as a_concluir , "
         'sum(qtdesugerida) as total, (sum(qtdesugerida) - sum(necessidade)) as qtdrealizado'
         ' from "Reposicao".pedidossku p  where codpedido= ' + "'" + codPedido + "'"
                                                                                 " group by produto, endereco "
