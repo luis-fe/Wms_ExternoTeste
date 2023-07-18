@@ -44,7 +44,10 @@ def DetalhaPedido(codPedido):
 
     DetalhaSku = pd.merge(DetalhaSku, descricaoSku, on='reduzido', how='left')
 
-
+    # Agrupar os valores da col2 por col1 e concatenar em uma nova coluna
+    DetalhaSku['endereco'] = DetalhaSku.groupby(['reduzido'])['endereco'].transform(lambda x: ', '.join(x))
+    # Remover as linhas duplicadas
+    DetalhaSku = DetalhaSku.drop_duplicates()
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
         '2 - Tiponota': f'{skus["desc_tiponota"][0]} ',
@@ -53,6 +56,7 @@ def DetalhaPedido(codPedido):
         # '4.1- Grupo.': f'{skus["grupo"][0]} ',
         '5- Detalhamento dos Sku:': DetalhaSku.to_dict(orient='records')
     }
+
     return [data]
 
 def AtualizadoEnderecoPedido(codpedido):
