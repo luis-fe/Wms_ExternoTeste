@@ -242,6 +242,39 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
         conn.close()
         return pd.DataFrame({'Mensagem': [f'3- tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
 
+    if validacao == 32:
+        conn = ConexaoPostgreMPL.conexao()
+        insert = 'UPDATE "Reposicao".tags_separacao ' \
+                 'set "Endereco" = %s, codpedido = %s ' \
+                 'WHERE "codbarrastag" = %s;'
+        cursor = conn.cursor()
+        cursor.execute(insert, (enderecoApi, codpedido,
+                                codbarra))
+        conn.commit()
+        cursor.close()
+        delete = 'Delete from "Reposicao"."filareposicaoportag" ' \
+                 'where "codbarrastag" = %s;'
+        cursor = conn.cursor()
+        cursor.execute(delete
+                       , (
+                           codbarra,))
+        conn.commit()
+        cursor.close()
+        uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+                       ' SET necessidade= %s ' \
+                       'where "produto" = %s and codpedido= %s and endereco = %s ;'
+        Necessidade = Necessidade - 1
+        cursor = conn.cursor()
+        cursor.execute(uptadePedido
+                       , (
+                           Necessidade, Reduzido, codpedido, enderecoApi))
+        conn.commit()
+        cursor.close()
+
+        # atualizando a necessidade
+        conn.close()
+        return pd.DataFrame({'Mensagem': [f'3- tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
+
     if validacao == 4:
         conn = ConexaoPostgreMPL.conexao()
         insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
@@ -357,7 +390,7 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, 2  # Se as condicoes nao forem atendidas
 
     else:
-        # 2 - Else caso a tag nao seja encontrada na reposicao
+        # 2 - Else caso a tag NAO seja encontrada na reposicao
         pesquisa3 = pd.read_sql(
             'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".filareposicaoportag f '
             'WHERE codbarrastag = %s', conn, params=(codbarra,))
