@@ -278,22 +278,18 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
     if validacao == 33:
         if padrao == False:
             return pd.DataFrame(
-                {'Mensagem': [f'o produto {Reduzido} já foi  bipado em outro Pedido. Deseja estornar ?']})
+                {'Mensagem': [f'o produto {Reduzido} já foi  bipado em outro Pedido. Deseja transferir ?']})
         else:
             conn = ConexaoPostgreMPL.conexao()
-            insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
-                     '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                     '"numeroop", "cor", "tamanho", "totalop") ' \
-                     'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop"' \
-                     'FROM "Reposicao".tags_separacao t ' \
+            insert = 'UPDATE "Reposicao".tags_separacao ' \
+                     'set "Endereco" = %s, codpedido = %s ' \
                      'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
-            cursor.execute(insert,
-                           (codusuario, 'Estornado', codbarra))
+            cursor.execute(insert, (enderecoApi, codpedido,
+                                    codbarra))
             conn.commit()
             cursor.close()
-            delete = 'Delete from "Reposicao"."tags_separacao" ' \
+            delete = 'Delete from "Reposicao"."filareposicaoportag" ' \
                      'where "codbarrastag" = %s;'
             cursor = conn.cursor()
             cursor.execute(delete
@@ -303,21 +299,19 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s ;'
-            Necessidade = Necessidade + 1
+                           'where "produto" = %s and codpedido= %s and endereco = %s ;'
+            Necessidade = Necessidade - 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                            , (
-                               Necessidade, Reduzido, codpedido))
+                               Necessidade, Reduzido, codpedido, enderecoApi))
             conn.commit()
             cursor.close()
 
             # atualizando a necessidade
             conn.close()
-
-            return pd.DataFrame({'Mensagem': [f'tag  {codbarra} estornado no pedido'],'status': [True]} )
-
-
+            return pd.DataFrame(
+                {'Mensagem': [f'33- tag {codbarra} apontada, TRANSFERIDO na separacao!'], 'status': [True]})
 
     if validacao == 4:
         conn = ConexaoPostgreMPL.conexao()
@@ -343,12 +337,12 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
         cursor.close()
         uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                        ' SET necessidade= %s ' \
-                       'where "produto" = %s and codpedido= %s ;'
+                       'where "produto" = %s and codpedido= %s and endereco = %s;'
         Necessidade = Necessidade - 1
         cursor = conn.cursor()
         cursor.execute(uptadePedido
                        , (
-                           Necessidade, Reduzido, codpedido))
+                           Necessidade, Reduzido, codpedido, enderecoApi))
         conn.commit()
         cursor.close()
 
@@ -382,12 +376,12 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s ;'
+                           'where "produto" = %s and codpedido= %s and endereco = %s ;'
             Necessidade = Necessidade + 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                            , (
-                               Necessidade, Reduzido, codpedido))
+                               Necessidade, Reduzido, codpedido, enderecoApi))
             conn.commit()
             cursor.close()
 
