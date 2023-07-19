@@ -273,7 +273,51 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 
         # atualizando a necessidade
         conn.close()
-        return pd.DataFrame({'Mensagem': [f'3- tag {codbarra} apontada, veio da FILA!'], 'status': [True]})
+        return pd.DataFrame({'Mensagem': [f'32- tag {codbarra} apontada, veio da FILA e consta na separacao!'], 'status': [True]})
+
+    if validacao == 33:
+        if padrao == False:
+            return pd.DataFrame(
+                {'Mensagem': [f'o produto {Reduzido} já foi  bipado em outro Pedido. Deseja estornar ?']})
+        else:
+            conn = ConexaoPostgreMPL.conexao()
+            insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
+                     '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
+                     '"numeroop", "cor", "tamanho", "totalop") ' \
+                     'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
+                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop"' \
+                     'FROM "Reposicao".tags_separacao t ' \
+                     'WHERE "codbarrastag" = %s;'
+            cursor = conn.cursor()
+            cursor.execute(insert,
+                           (codusuario, 'Estornado', codbarra))
+            conn.commit()
+            cursor.close()
+            delete = 'Delete from "Reposicao"."tags_separacao" ' \
+                     'where "codbarrastag" = %s;'
+            cursor = conn.cursor()
+            cursor.execute(delete
+                           , (
+                               codbarra,))
+            conn.commit()
+            cursor.close()
+            uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+                           ' SET necessidade= %s ' \
+                           'where "produto" = %s and codpedido= %s ;'
+            Necessidade = Necessidade + 1
+            cursor = conn.cursor()
+            cursor.execute(uptadePedido
+                           , (
+                               Necessidade, Reduzido, codpedido))
+            conn.commit()
+            cursor.close()
+
+            # atualizando a necessidade
+            conn.close()
+
+            return pd.DataFrame({'Mensagem': [f'tag  {codbarra} estornado no pedido'],'status': [True]} )
+
+
 
     if validacao == 4:
         conn = ConexaoPostgreMPL.conexao()
@@ -409,14 +453,26 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             conn.close()
             return 3, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 3, 3
 
-        if not pesquisa3.empty and not pesquisaSeparacao.empty:
+        if not pesquisa3.empty and not pesquisaSeparacao.empty and codpedido == pesquisaSeparacao['codpedido'][0] :
             # 2.2 - Caso a tag seja encontrada na separacao e na fila, faz um UPDATE no pedido na separacao
             pesquisa4 = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
                 'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisa3['codreduzido'][0]))
 
             conn.close()
+
             return 32, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 32, 32
+
+        if not pesquisa3.empty and not pesquisaSeparacao.empty and codpedido != pesquisaSeparacao['codpedido'][0]:
+            # 2.2 - Caso a tag seja encontrada na separacao e na fila, faz um UPDATE no pedido na separacao
+            pesquisa4 = pd.read_sql(
+                'SELECT p.codpedido, p.produto, p.necessidade FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s', conn, params=(codpedido, pesquisa3['codreduzido'][0]))
+
+            conn.close()
+
+            return 32, pesquisa3['codreduzido'][0], pesquisa4['necessidade'][0], 32, 32
+
         else:
             pesquisarInventario = pd.read_sql(
                 'SELECT "codbarrastag", "codreduzio" AS codreduzido FROM "Reposicao".tagsreposicao_inventario f '
