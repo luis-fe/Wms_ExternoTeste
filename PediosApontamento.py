@@ -169,10 +169,10 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn = ConexaoPostgreMPL.conexao()
             insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                      '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao") ' \
+                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao", "usuario_rep") ' \
                      'SELECT %s, "codbarrastag", "codreduzido", %s, "engenharia", ' \
                      '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
-                     "%s, %s " \
+                     "%s, %s, usuario " \
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
@@ -209,14 +209,14 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
         conn = ConexaoPostgreMPL.conexao()
         insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                  '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                 '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao") ' \
+                 '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao", "usuario_rep") ' \
                  'SELECT %s, "codbarrastag", "codreduzido", %s, "engenharia", ' \
                  '%s, "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
-                 "%s, %s " \
+                 "%s, %s, %s " \
                  'FROM "Reposicao".filareposicaoportag t ' \
                  'WHERE "codbarrastag" = %s;'
         cursor = conn.cursor()
-        cursor.execute(insert, (codusuario,'Veio Da Fila',datahora, 'tagSeparado', codpedido, datahora, codbarra))
+        cursor.execute(insert, (codusuario,'Veio Da Fila',datahora, 'tagSeparado', codpedido, datahora, codbarra, codusuario))
         conn.commit()
         cursor.close()
         delete = 'Delete from "Reposicao"."filareposicaoportag" ' \
