@@ -134,7 +134,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
-            cursor.execute(insert, (codusuario, 'tagSeparado', codpedido, datahora, codbarra))
+            cursor.execute(insert, (codusuario, 'tagSeparado(v1)', codpedido, datahora, codbarra))
             conn.commit()
             cursor.close()
             delete = 'Delete from "Reposicao"."tagsreposicao"  ' \
@@ -176,7 +176,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
-            cursor.execute(insert, (codusuario, enderecoApi,'tagSeparado', codpedido, datahora, codbarra))
+            cursor.execute(insert, (codusuario, enderecoApi,'tagSeparado(v12)', codpedido, datahora, codbarra))
             conn.commit()
             cursor.close()
             delete = 'Delete from "Reposicao"."tagsreposicao"  ' \
