@@ -127,7 +127,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn = ConexaoPostgreMPL.conexao()
             insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                      '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao, "usuario_rep") ' \
+                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao", "usuario_rep") ' \
                      'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
                      '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
                      "%s, %s, usuario " \
