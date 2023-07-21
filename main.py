@@ -499,7 +499,7 @@ def get_ApontarTagInventario():
     datas = request.get_json()
     codbarras = datas['codbarras']
     codusuario = datas['codUsuario']
-    endereco = datas['endereço']
+    endereco = datas['endereço','-']
     Prosseguir = datas.get('Prosseguir', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
 
     Endereco_det = InventarioPrateleira.ApontarTagInventario(codbarras, endereco, codusuario, Prosseguir)
