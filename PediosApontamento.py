@@ -194,7 +194,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                            , (
-                               Necessidade, Reduzido, codpedido, enderecoApi))
+                               Necessidade, Reduzido, codpedido, endereco))
             conn.commit()
             cursor.close()
 
