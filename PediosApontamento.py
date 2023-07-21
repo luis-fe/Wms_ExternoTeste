@@ -203,8 +203,48 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada!'], 'status': [True]})
 
     if validacao == 2:
-        return pd.DataFrame(
+        if padrao == False:
+            return pd.DataFrame(
             {'Mensagem': [f'o produto {Reduzido} já foi totalmente bipado. Deseja estornar ?']})
+
+        else:
+                conn = ConexaoPostgreMPL.conexao()
+                insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
+                         '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
+                         '"numeroop", "cor", "tamanho", "totalop") ' \
+                         'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
+                         '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop"' \
+                         'FROM "Reposicao".tags_separacao t ' \
+                         'WHERE "codbarrastag" = %s;'
+                cursor = conn.cursor()
+                cursor.execute(insert,
+                               (codusuario, 'Estornado', codbarra))
+                conn.commit()
+                cursor.close()
+                delete = 'Delete from "Reposicao"."tags_separacao" ' \
+                         'where "codbarrastag" = %s;'
+                cursor = conn.cursor()
+                cursor.execute(delete
+                               , (
+                                   codbarra,))
+                conn.commit()
+                cursor.close()
+                uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+                               ' SET necessidade= %s ' \
+                               'where "produto" = %s and codpedido= %s and endereco = %s ;'
+                Necessidade = Necessidade + 1
+                cursor = conn.cursor()
+                cursor.execute(uptadePedido
+                               , (
+                                   Necessidade, Reduzido, codpedido, enderecoApi))
+                conn.commit()
+                cursor.close()
+
+                # atualizando a necessidade
+                conn.close()
+
+                return pd.DataFrame({'Mensagem': [f'tag  {codbarra} estornado no pedido'], 'status': [True]})
+
 
     if validacao == 3:
         conn = ConexaoPostgreMPL.conexao()
