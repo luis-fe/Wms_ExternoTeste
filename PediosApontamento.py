@@ -526,7 +526,7 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
 
         else:
             pesquisarInventario = pd.read_sql(
-                'SELECT "codbarrastag", "codreduzio" AS codreduzido FROM "Reposicao".tagsreposicao_inventario f '
+                'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".tagsreposicao_inventario f '
                 'WHERE codbarrastag = %s', conn, params=(codbarra,))
 
             if not pesquisarInventario.empty:
