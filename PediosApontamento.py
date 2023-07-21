@@ -479,9 +479,10 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
         else:
             pesquisaPedidoSKUEstornado = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
-                'WHERE codpedido = %s AND produto = %s and necessidade = 0',
+                'WHERE codpedido = %s AND produto = %s',
                 conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
 
+            print('Pegou o 2 estornar')
             return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, pesquisaPedidoSKUEstornado['endereco'][0]  # Se as condicoes nao forem atendidas
 
     else:
