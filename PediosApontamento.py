@@ -232,12 +232,12 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                                ' SET necessidade= %s ' \
-                               'where "produto" = %s and codpedido= %s and endereco = %s ;'
+                               'where "produto" = %s and codpedido= %s, endereco = %s  ;'
             Necessidade = Necessidade + 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                                , (
-                                   Necessidade, Reduzido, codpedido, enderecoApi))
+                                   Necessidade, Reduzido, codpedido, endereco))
             conn.commit()
             cursor.close()
 
@@ -477,7 +477,12 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             else:
                 return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSKU1['necessidade'][0], pesquisaPedidoSKU1['valorunitarioliq'][0], pesquisaPedidoSKU1['endereco'][0]
         else:
-            return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, 2  # Se as condicoes nao forem atendidas
+            pesquisaPedidoSKUEstornado = pd.read_sql(
+                'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
+                'WHERE codpedido = %s AND produto = %s and necessidade = 0',
+                conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
+
+            return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, pesquisaPedidoSKUEstornado['endereco'][0]  # Se as condicoes nao forem atendidas
 
     else:
         # 2 - Else caso a tag NAO seja encontrada na reposicao
