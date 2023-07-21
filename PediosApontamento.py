@@ -213,13 +213,13 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                          '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
                          '"numeroop", "cor", "tamanho", "totalop") ' \
-                         'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
+                         'SELECT usuario_rep, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
                          '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop"' \
                          'FROM "Reposicao".tags_separacao t ' \
                          'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
             cursor.execute(insert,
-                               (codusuario, 'Estornado', codbarra))
+                               ( 'Estornado', codbarra))
             conn.commit()
             cursor.close()
             delete = 'Delete from "Reposicao"."tags_separacao" ' \
