@@ -203,7 +203,8 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada!'], 'status': [True]})
 
     if validacao == 2:
-        return pd.DataFrame({'Mensagem': [f'pedido {codpedido} nao encontrado']})
+        return pd.DataFrame(
+            {'Mensagem': [f'o produto {Reduzido} já foi totalmente bipado. Deseja estornar ?']})
 
     if validacao == 3:
         conn = ConexaoPostgreMPL.conexao()
