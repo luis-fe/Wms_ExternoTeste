@@ -185,7 +185,7 @@ def get_TagsSeparacao():
     data_inicial = request.args.get('DataInicial')
     data_final = request.args.get('DataFinal')
 
-    TagReposicao = OPfilaRepor.ProdutividadeSeparadores()
+    TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns
