@@ -182,8 +182,8 @@ def get_TagsReposicao():
 @token_required
 def get_TagsSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
-    data_inicial = request.args.get('DataInicial')
-    data_final = request.args.get('DataFinal')
+    data_inicial = request.args.get('DataInicial','0')
+    data_final = request.args.get('DataFinal','0')
 
     TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
 
