@@ -38,7 +38,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                                    'group by "usuario" , substring("DataReposicao",1,10)) as grupo '
                                    'group by "DataReposicao", "min", "max", "usuario" ', conn)
 
-        TagsRepoS = pd.read_sql('"usuario", sum(count) as Qtde2, "DataReposicao" '
+        TagsRepoS = pd.read_sql('"usuario", sum(count) as qtde2, "DataReposicao" from '
                                 '(select tr."usuario_rep" as usuario, '
                                    'count(tr."codbarrastag") as qtde2, '
                                    'substring("DataReposicao",1,10) as "DataReposicao"'                                   
@@ -47,7 +47,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                                    'group by "DataReposicao", "usuario" ',conn)
         TagReposicao = pd.merge(TagReposicao,TagsRepoS, on=('usuario', 'DataReposicao'), how='left')
 
-        TagReposicao['Qtde'] =TagReposicao['Qtde']+TagReposicao['Qtde2']
+        TagReposicao['qtde'] =TagReposicao['qtde']+TagReposicao['qtde2']
 
 
         # Converte a coluna "DataString" em datetime
