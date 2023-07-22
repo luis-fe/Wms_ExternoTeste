@@ -1,3 +1,4 @@
+import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 
@@ -50,9 +51,11 @@ def FilaPedidos():
         'select codigo as cod_usuario , nome as nomeusuario_atribuido  from "Reposicao".cadusuarios c ', conn)
     usuarios['cod_usuario'] = usuarios['cod_usuario'].astype(str)
     pedido = pd.merge(pedido, usuarios, on='cod_usuario', how='left')
+    conn2 = ConexaoCSW.Conexao()
     transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
                              ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
-                             ' WHERE t.Empresa = 1 ',conn)
+                             ' WHERE t.Empresa = 1 ',conn2)
+    conn2.close()
     pedido = pd.merge(pedido, transporta, on=["cidade","estado"],how='left')
 
     pedido.rename(
