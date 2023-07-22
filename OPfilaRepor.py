@@ -35,16 +35,21 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                                    'min("DataReposicao") as min, '
                                    'max("DataReposicao") as max '
                                    'from "Reposicao"."tagsreposicao" tr '
-                                   'group by "usuario" , substring("DataReposicao",1,10) '
-                                   'union '
-                                   'select tr."usuario_rep" as usuario, '
-                                   'count(tr."codbarrastag"), '
-                                   'substring("DataReposicao",1,10) as "DataReposicao", '
-                                   'min("DataReposicao") as min, '
-                                   'max("DataReposicao") as max '
-                                   'from "Reposicao".tags_separacao tr '
+                                   'group by "usuario" , substring("DataReposicao",1,10)) '
+                                   'group by "DataReposicao", "min", "max", "usuario" ', conn)
+
+        TagsRepoS = pd.read_sql('"usuario", sum(count) as Qtde2, "DataReposicao" '
+                                '(select tr."usuario_rep" as usuario, '
+                                   'count(tr."codbarrastag") as qtde2, '
+                                   'substring("DataReposicao",1,10) as "DataReposicao"'                                   
+                                ' from "Reposicao".tags_separacao tr '
                                    'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
-                                   'group by "DataReposicao", "min", "max", "usuario"  ', conn)
+                                   'group by "DataReposicao", "usuario" ',conn)
+        TagReposicao = pd.merge(TagReposicao,TagsRepoS, on=('usuario', 'DataReposicao'), how='left')
+
+        TagReposicao['Qtde'] =TagReposicao['Qtde']+TagReposicao['Qtde2']
+
+
         # Converte a coluna "DataString" em datetime
         TagReposicao['DataReposicao'] = pd.to_datetime(TagReposicao['DataReposicao'])
 
