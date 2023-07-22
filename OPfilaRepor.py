@@ -26,7 +26,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         return TagReposicao
     else:
 
-        TagReposicao = pd.read_sql('select  "usuario", sum(count), "DataReposicao", "min" , "max"   from '
+        TagReposicao = pd.read_sql('select  "usuario", sum(count) as Qtde, "DataReposicao", "min" , "max"   from '
                                    '(select tr."usuario", '
                                    'count(tr."codbarrastag"), '
                                    'substring("DataReposicao",1,10) as "DataReposicao", '
