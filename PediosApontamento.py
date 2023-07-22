@@ -64,7 +64,6 @@ def FilaPedidos():
                  'nomeusuario_atribuido': '11-NomeUsuarioAtribuido', 'vlrsugestao': '12-vlrsugestao',
                  'condicaopgto': '13-CondPgto', 'agrupamentopedido': '14-AgrupamentosPedido','situacaopedido': '22- situacaopedido',"transportadora":"23-transportadora"}, inplace=True)
     pedido['12-vlrsugestao'] = 'R$ ' + pedido['12-vlrsugestao']
-
     pedido = pd.merge(pedido, pedidosku, on='01-CodPedido', how='left')
     pedido['15-qtdesugerida'] = pedido['15-qtdesugerida'].fillna(0)
     pedidoskuReposto = pd.read_sql('select codpedido, sum(necessidade) as reposto  from "Reposicao".pedidossku p '
