@@ -98,8 +98,7 @@ def FilaPedidos():
     pedido = pd.merge(pedido, marca, on='01-CodPedido', how='left')
     pedido['21-MARCA'].fillna('-', inplace=True)
     pedido['22- situacaopedido'].fillna('No Retorna', inplace=True)
-
-
+    pedido.fillna('-', inplace=True)
 
     return pedido
 
