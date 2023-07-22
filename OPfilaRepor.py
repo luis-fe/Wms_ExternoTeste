@@ -38,7 +38,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                                    'group by "usuario" , substring("DataReposicao",1,10)) as grupo '
                                    'group by "DataReposicao", "min", "max", "usuario" ', conn)
 
-        TagsRepoS = pd.read_sql('select "usuario", sum(count) as qtde2, "DataReposicao" from '
+        TagsRepoS = pd.read_sql('select "usuario", sum(qtde2) as qtde2, "DataReposicao" from '
                                 '(select tr."usuario_rep" as usuario, '
                                    'count(tr."codbarrastag") as qtde2, '
                                    'substring("DataReposicao",1,10) as "DataReposicao"'                                   
