@@ -24,10 +24,10 @@ def ProdutividadeRepositores():
                    'group by "DataReposicao", "min", "max", "usuario"  ')
     TagReposicao = cursor.fetchall()
     return TagReposicao
-def ProdutividadeSeparadores(dataInicial = '', dataFInal =''):
+def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
 
-    if dataInicial == '' and dataFInal == '':
+    if dataInicial == '0' and dataFInal == '0':
 
      TagReposicao = pd.read_sql('select tr."usuario", '
                    'count(tr."codbarrastag") as Qtde, '
