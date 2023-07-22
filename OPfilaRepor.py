@@ -22,7 +22,9 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                    'from "Reposicao".tags_separacao tr '
                    'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
                    'group by "DataReposicao", "min", "max", "usuario"  ',conn)
-
+        Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
+        Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         return TagReposicao
     else:
 
@@ -74,6 +76,9 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                    'from "Reposicao".tags_separacao tr '
                    ' where "dataseparacao" is not null '
                    'group by "usuario" , substring("dataseparacao",1,10) ',conn)
+     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+     TagReposicao = pd.merge(TagReposicao, Usuarios, on='usuario', how='left')
 
      return TagReposicao
     else:
@@ -93,6 +98,9 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         TagReposicao = TagReposicao[(TagReposicao['dataseparacao'] >= dataInicial) & (TagReposicao['dataseparacao'] <= dataFInal)]
         TagReposicao['dataseparacao'] = TagReposicao['dataseparacao'].dt.strftime('%d/%m/%Y')
+        Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
+        Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
 
         return TagReposicao
 
