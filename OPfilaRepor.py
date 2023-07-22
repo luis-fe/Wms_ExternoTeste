@@ -51,6 +51,9 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
 
         TagReposicao = TagReposicao[(TagReposicao['DataReposicao'] >= dataInicial) & (TagReposicao['DataReposicao'] <= dataFInal)]
         TagReposicao['DataReposicao'] = TagReposicao['DataReposicao'].dt.strftime('%d/%m/%Y')
+        Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ')
+        Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        TagReposicao.merge(TagReposicao, Usuarios,on='usuario')
 
         return TagReposicao
 
