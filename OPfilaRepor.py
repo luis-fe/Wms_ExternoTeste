@@ -2,10 +2,10 @@ import ConexaoPostgreMPL
 import pandas as pd
 import numpy
 
-def ProdutividadeRepositores():
+def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
-    cursor = conn.cursor()
-    cursor.execute('select  "usuario", sum(count), "DataReposicao", "min" , "max"   from '
+    if dataInicial == '0' and dataFInal == '0':
+        TagReposicao = pd.read_sql('select  "usuario", sum(count), "DataReposicao", "min" , "max"   from '
                    '(select tr."usuario", '
                    'count(tr."codbarrastag"), '
                    'substring("DataReposicao",1,10) as "DataReposicao", '
@@ -21,9 +21,43 @@ def ProdutividadeRepositores():
                    'max("DataReposicao") as max '
                    'from "Reposicao".tags_separacao tr '
                    'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
-                   'group by "DataReposicao", "min", "max", "usuario"  ')
-    TagReposicao = cursor.fetchall()
-    return TagReposicao
+                   'group by "DataReposicao", "min", "max", "usuario"  ',conn)
+
+        return TagReposicao
+    else:
+
+        TagReposicao = pd.read_sql('select  "usuario", sum(count), "DataReposicao", "min" , "max"   from '
+                                   '(select tr."usuario", '
+                                   'count(tr."codbarrastag"), '
+                                   'substring("DataReposicao",1,10) as "DataReposicao", '
+                                   'min("DataReposicao") as min, '
+                                   'max("DataReposicao") as max '
+                                   'from "Reposicao"."tagsreposicao" tr '
+                                   'group by "usuario" , substring("DataReposicao",1,10) '
+                                   'union '
+                                   'select tr."usuario_rep" as usuario, '
+                                   'count(tr."codbarrastag"), '
+                                   'substring("DataReposicao",1,10) as "DataReposicao", '
+                                   'min("DataReposicao") as min, '
+                                   'max("DataReposicao") as max '
+                                   'from "Reposicao".tags_separacao tr '
+                                   'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
+                                   'group by "DataReposicao", "min", "max", "usuario"  ', conn)
+        # Converte a coluna "DataString" em datetime
+        TagReposicao['dataseparacao'] = pd.to_datetime(TagReposicao['dataseparacao'])
+
+        dataInicial = pd.to_datetime(dataInicial)
+        dataFInal = pd.to_datetime(dataFInal)
+
+        TagReposicao = TagReposicao[(TagReposicao['dataseparacao'] >= dataInicial) & (TagReposicao['dataseparacao'] <= dataFInal)]
+        TagReposicao['dataseparacao'] = TagReposicao['dataseparacao'].dt.strftime('%d/%m/%Y')
+
+        return TagReposicao
+
+
+
+
+
 def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
 

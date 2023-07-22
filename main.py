@@ -162,21 +162,22 @@ def check_user_password():
 @app.route('/api/TagsReposicao/Resumo', methods=['GET'])
 @token_required
 def get_TagsReposicao():
-    TagReposicao = OPfilaRepor.ProdutividadeRepositores()
+    # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
+    data_inicial = request.args.get('DataInicial','0')
+    data_final = request.args.get('DataFinal','0')
+
+    TagReposicao = OPfilaRepor.ProdutividadeRepositores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
-    column_names = ['usuario', 'Qtde', 'DataReposicao', 'min', 'max']
+    column_names = TagReposicao.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    TagReposicao_data = []
-    for row in TagReposicao:
-        # Converte a coluna 'Qtde' para inteiro
-        row = list(row)  # Convertendo a tupla em uma lista mutável
-        row[1] = int(row[1])  # Convertendo o valor da coluna 'Qtde' para inteiro
-        TagReposicao_dict = dict(zip(column_names, row))
-        TagReposicao_data.append(TagReposicao_dict)
-
-    return jsonify(TagReposicao_data)
-
+    pedidos_data = []
+    for index, row in TagReposicao.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
 
 @app.route('/api/TagsSeparacao/Resumo', methods=['GET'])
 @token_required
