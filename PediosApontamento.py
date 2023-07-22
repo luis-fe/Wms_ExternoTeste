@@ -50,6 +50,10 @@ def FilaPedidos():
         'select codigo as cod_usuario , nome as nomeusuario_atribuido  from "Reposicao".cadusuarios c ', conn)
     usuarios['cod_usuario'] = usuarios['cod_usuario'].astype(str)
     pedido = pd.merge(pedido, usuarios, on='cod_usuario', how='left')
+    transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
+                             ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
+                             ' WHERE t.Empresa = 1 ',conn)
+    pedido = pd.merge(pedido, transporta, on=["cidade","estado"],how='left')
 
     pedido.rename(
         columns={'codigopedido': '01-CodPedido', 'datageracao': '02- Data Sugestao', 'desc_tiponota': '03-TipoNota',
@@ -58,7 +62,7 @@ def FilaPedidos():
                  'codrepresentante': '08-codrepresentante', 'desc_representante': '09-Repesentante',
                  'cod_usuario': '10-codUsuarioAtribuido',
                  'nomeusuario_atribuido': '11-NomeUsuarioAtribuido', 'vlrsugestao': '12-vlrsugestao',
-                 'condicaopgto': '13-CondPgto', 'agrupamentopedido': '14-AgrupamentosPedido','situacaopedido': '22- situacaopedido'}, inplace=True)
+                 'condicaopgto': '13-CondPgto', 'agrupamentopedido': '14-AgrupamentosPedido','situacaopedido': '22- situacaopedido',"transportadora":"23-transportadora"}, inplace=True)
 
     pedido['12-vlrsugestao'] = 'R$ ' + pedido['12-vlrsugestao']
 
@@ -99,6 +103,8 @@ def FilaPedidos():
     pedido['21-MARCA'].fillna('-', inplace=True)
     pedido['22- situacaopedido'].fillna('No Retorna', inplace=True)
     pedido.fillna('-', inplace=True)
+
+
 
     return pedido
 
