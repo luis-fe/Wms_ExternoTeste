@@ -24,9 +24,12 @@ def ProdutividadeRepositores():
                    'group by "DataReposicao", "min", "max", "usuario"  ')
     TagReposicao = cursor.fetchall()
     return TagReposicao
-def ProdutividadeSeparadores():
+def ProdutividadeSeparadores(dataInicial = '', dataFInal =''):
     conn = ConexaoPostgreMPL.conexao()
-    TagReposicao = pd.read_sql('select tr."usuario", '
+
+    if dataInicial == '' and dataFInal == '':
+
+     TagReposicao = pd.read_sql('select tr."usuario", '
                    'count(tr."codbarrastag") as Qtde, '
                    'substring("dataseparacao",1,10) as "dataseparacao", '
                    'min("dataseparacao") as min, '
@@ -35,7 +38,25 @@ def ProdutividadeSeparadores():
                    ' where "dataseparacao" is not null '
                    'group by "usuario" , substring("dataseparacao",1,10) ',conn)
 
-    return TagReposicao
+     return TagReposicao
+    else:
+        TagReposicao = pd.read_sql('select tr."usuario", '
+                                   'count(tr."codbarrastag") as Qtde, '
+                                   'substring("dataseparacao",1,10) as "dataseparacao", '
+                                   'min("dataseparacao") as min, '
+                                   'max("dataseparacao") as max '
+                                   'from "Reposicao".tags_separacao tr '
+                                   ' where "dataseparacao" is not null '
+                                   'group by "usuario" , substring("dataseparacao",1,10) ', conn)
+        # Converte a coluna "DataString" em datetime
+        TagReposicao['dataseparacao'] = pd.to_datetime(TagReposicao['dataseparacao'])
+
+        dataInicial = pd.to_datetime(dataInicial)
+        dataFInal = pd.to_datetime(dataFInal)
+
+        TagReposicao = TagReposicao[(TagReposicao['dataseparacao'] >= dataInicial) & (TagReposicao['dataseparacao'] <= dataFInal)]
+
+        return TagReposicao
 
 def FilaPorOP():
     conn = ConexaoPostgreMPL.conexao()

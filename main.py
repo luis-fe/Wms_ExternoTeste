@@ -181,6 +181,10 @@ def get_TagsReposicao():
 @app.route('/api/TagsSeparacao/Resumo', methods=['GET'])
 @token_required
 def get_TagsSeparacao():
+    # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
+    data_inicial = request.args.get('DataInicial')
+    data_final = request.args.get('DataFinal')
+
     TagReposicao = OPfilaRepor.ProdutividadeSeparadores()
 
     # Obtém os nomes das colunas
