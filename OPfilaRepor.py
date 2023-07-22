@@ -55,6 +55,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         dataFInal = pd.to_datetime(dataFInal)
 
         TagReposicao = TagReposicao[(TagReposicao['dataseparacao'] >= dataInicial) & (TagReposicao['dataseparacao'] <= dataFInal)]
+        TagReposicao['dataseparacao'] = TagReposicao['dataseparacao'].dt.strftime('%d/%m/%Y')
 
         return TagReposicao
 
