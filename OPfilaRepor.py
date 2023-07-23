@@ -46,7 +46,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
                                    'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
                                    'group by "DataReposicao", "usuario" ',conn)
         TagReposicao = pd.merge(TagReposicao,TagsRepoS, on=('usuario', 'DataReposicao'), how='left')
-
+        TagReposicao.fillna(0, inplace=True)
         TagReposicao['qtde'] =TagReposicao['qtde']+TagReposicao['qtde2']
 
 
