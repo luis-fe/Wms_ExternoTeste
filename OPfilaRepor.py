@@ -48,6 +48,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao,TagsRepoS, on=('usuario', 'DataReposicao'), how='left')
         TagReposicao.fillna(0, inplace=True)
         TagReposicao['qtde'] =TagReposicao['qtde']+TagReposicao['qtde2']
+        TagReposicao.drop('qtde2', axis=1, inplace=True)
 
 
         # Converte a coluna "DataString" em datetime
