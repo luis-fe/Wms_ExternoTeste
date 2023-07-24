@@ -1,0 +1,203 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+    
+    @media (max-width: 800px) {
+    .Titulo h1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    }
+    }
+    
+    body {  
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    }
+    
+    .Titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    padding: 20px;
+    color: royalblue;
+    }
+    
+    .Titulo img {
+    margin-right: 50PX;
+    background-size: 10%;
+    }
+    
+    .Corpo {
+    width: 80%;
+    margin: 0 auto;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    }
+    
+    
+    
+    .TituloPrograma {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    background-color: royalblue ;
+    width: 80%;
+    margin-top: 10px;
+    border: 2px solid royalblue;
+    border-radius: 10px;
+    max-height: 45px;
+    }
+    
+    h2{
+    margin-top: 5px;
+    color: white;
+    font-size: 25px;
+    font-family: Cambria;
+    }
+        
+    
+    #Usuário{
+        margin-top: 25px;
+    }
+    
+    
+
+    .Rodape{
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto;
+    background-color: LightSkyBlue ;
+    width: 80%;
+    margin-top: 30px;
+    border: 2px solid LightSkyBlue;
+    border-radius: 10px;
+    max-height: 35px;
+    margin-bottom: 20px;
+      }
+
+.Rodape p{
+  margin-top: 8px;
+  }
+
+.TabelaContainer {
+  border-collapse: collapse;
+  border: 2px solid darkgray;
+  margin-left: 10%;
+  width: 80%;
+  max-width: 1550px;
+  min-height: 600px;
+  max-height: 650px;
+  text-align: center;
+  margin-top: 10px;
+  overflow: auto;
+  }
+        
+.TabelaContainer .TabelaTabelaDistribuicao {
+  font-size: 15px;
+  border-collapse: collapse;
+  border: 2px solid darkgray;
+  min-width: 2000px;
+  overflow: auto;
+}
+        
+.TabelaContainer .TabelaTabelaDistribuicao th {
+  background-color: lightgray;
+  max-height: 20px;
+}
+        
+.TabelaContainer .TabelaTabelaDistribuicao td {
+  height: 40px; /* Defina a altura desejada em pixels */
+  vertical-align: middle; /* Centraliza o conteúdo verticalmente */
+  overflow: hidden; /* Oculta o conteúdo extra que ultrapassar a altura definida */
+}
+        
+.TabelaContainer .TabelaTabelaDistribuicao thead {
+  position: sticky;
+  top: 0;
+  background-color: lightgray;
+  z-index: 1;
+  border: 2px solid darkgray;
+}
+
+
+#loader {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+        
+
+.ModalLoading {
+  display: none; /* Oculta o modal por padrão */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+}
+        
+#loader1 {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+        
+
+.ModalLoading1 {
+  display: none; /* Oculta o modal por padrão */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+}
+
+  #InputBusca{
+    font-size: 20px;
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    background-color: white;
+    width: 80%;
+    margin-top: 20px;
+    border: 2px solid darkgray;
+    border-radius: 10px;
+    min-height: 30px;
+  }
+
+  #Usuarios {
+    font-size: 16px;
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    background-color: white;
+    width: 25%;
+    margin-top: 20px;
+    border: 2px solid darkgray;
+    border-radius: 10px;
+    min-height: 30px;
+  }
+    
+        
