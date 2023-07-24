@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="./css/estiloDistribuicao.css"/>
+</head>
+<body>
+    <div class="Titulo">
+        <a href="index.html">
+        <img src="imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+        </a>
+        <h1>WMS GERENCIAL</h1>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Distribuição de Pedidos</h2></div>
+
+        <div class="Busca">
+            <input id="InputBusca" type="text" class="InputBusca" placeholder="Digite aqui sua busca!">
+        </div>
+        
+
+        <div class="Usuarios">
+            <select id="Usuarios" onchange="if (this.value !== 'Selecione um usuário para Atribuição!')">
+                <option disabled selected>Selecione um usuário para Atribuição!</option>
+            </select>
+        </div>
+
+
+    <div class="TabelaContainer">
+        <table border="2" class="TabelaTabelaDistribuicao" id="TabelaTabelaDistribuicao">
+            
+        </table>
+        </div>
+    
+        <div id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+    <footer class="Rodape">
+        <p>Grupo Mpl</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    
+    
+</body>
+<script src="./js/funcoes.js"></script>
+</html>
