@@ -183,19 +183,19 @@ function CarregarDados() {
 
 
 
-        
+
 const ApiUsuarios = "http://192.168.0.183:5000/api/Usuarios"
 
 function CarregarUsuarios() {
     const selecaoUsuarios = document.getElementById('Usuarios');
     selecaoUsuarios.innerHTML = ''; // Limpa os valores antigos da combobox
-        
+
     const opcaoInicial = document.createElement('option');
     opcaoInicial.textContent = 'Selecione um Separador para Atribuição!'; // Texto inicial
     opcaoInicial.disabled = true;
     opcaoInicial.selected = true;
     selecaoUsuarios.appendChild(opcaoInicial);
-        
+
     fetch(ApiUsuarios, {
         method: 'GET',
         headers: {
@@ -224,31 +224,31 @@ function CarregarUsuarios() {
             FecharModalLoading();
     });
 }
-        
+
 window.addEventListener('load', () => CarregarDados());
 
 
 const InputBusca = document.getElementById('InputBusca');
 const TabelaPedidos = document.getElementById('TabelaTabelaDistribuicao');
-        
+
 InputBusca.addEventListener('keyup', () => {
     const expressao = InputBusca.value.trim().toLowerCase();
     const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-        
+
         for (let i = 1; i < linhasTabela.length; i++) {
             const linha = linhasTabela[i];
             const colunas = linha.getElementsByTagName('td');
             let encontrou = false;
-        
+
         for (let j = 1; j < colunas.length; j++) {
             const conteudoColuna = colunas[j].textContent.trim().toLowerCase();
-        
+
         if (conteudoColuna.includes(expressao)) {
             encontrou = true;
             break;
             }
         }
-        
+
         if (encontrou) {
             linha.style.display = '';
         } else {
@@ -263,13 +263,13 @@ InputBusca.addEventListener('keyup', () => {
     function PintarPedidosCompletos() {
         const colunaDesejada = 6; // Índice da coluna com base em 0 (coluna 7 na contagem padrão)
         const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-    
+
         // Pinta a coluna de verde se o valor for igual a "100.00"
         for (let i = 1; i < linhasTabela.length; i++) {
             const linha = linhasTabela[i];
             const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
             const valor = colunaValor.textContent.trim();
-    
+
             if (valor === "100.00%") {
                 colunaValor.style.backgroundColor = 'lightgreen'; // Pinta a célula da coluna de verde
             } else {
@@ -277,34 +277,34 @@ InputBusca.addEventListener('keyup', () => {
             }
         }
     }
-    
+
 
 
 function marcarLinhasDuplicadas() {
     const valoresContados = {};
     const colunaDesejada = 9; // Índice da coluna "Usuário Atribuído" na tabela (lembrando que a contagem começa em 0)
-        
+
     const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-        
+
             // Conta quantas vezes cada valor aparece na coluna desejada
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
         const valor = colunaValor.textContent.trim();
-        
+
         if (valor in valoresContados) {
             valoresContados[valor]++;
             } else {
                 valoresContados[valor] = 1;
             }
         }
-        
+
 // Pinta todas as linhas que possuem valores duplicados
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
         const valor = colunaValor.textContent.trim();
-        
+
         if (valoresContados[valor] > 1) {
             linha.style.backgroundColor = 'yellow'; // Altera a cor de fundo da linha para amarelo (indicando duplicata)
         } else {
@@ -320,14 +320,14 @@ function capturarItensSelecionados() {
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const checkbox = linha.querySelector('input[type="checkbox"]');
-        
+
         if (checkbox.checked) {
             const colunas = linha.getElementsByTagName('td');
             const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
-            
+
             // Verifica se há mais de um pedido na string e separa-os em uma lista
             const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
-            
+
             // Adiciona os pedidos à lista
             PedidosSelecionados.push(...pedidosSeparados);
         }
@@ -373,12 +373,12 @@ function AtribuicaoPedidos() {
     .then(data => {
         CarregarDados();
         console.log(data);
-        
+
     })
     .catch(error => {
         console.error(error);
     });
-    
+
 }}
 
 const comboboxUsuarios = document.getElementById('Usuarios');
@@ -388,5 +388,4 @@ comboboxUsuarios.addEventListener('change', () => {
     AtribuicaoPedidos();
 });
 
-    
-    
+
