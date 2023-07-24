@@ -212,11 +212,11 @@ function CarregarUsuarios() {
     })
     .then(data => {
         data.forEach(item => {
-            if (item.funcao === "SEPARADOR    ") {
+
             const novoItem = document.createElement('option');
             novoItem.textContent = `${item.codigo}-${item.nome}`;
             selecaoUsuarios.appendChild(novoItem);
-            }
+
         });
     })
     .catch(error => {
@@ -389,12 +389,4 @@ comboboxUsuarios.addEventListener('change', () => {
 });
 
     
-        
-
-
-
-       
-        
-
-        
-        
+    
