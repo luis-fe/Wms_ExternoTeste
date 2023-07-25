@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     }
-    
+
     @media (max-width: 800px) {
     .Titulo h1 {
     overflow: hidden;
@@ -11,13 +11,13 @@
     white-space: nowrap;
     }
     }
-    
-    body {  
+
+    body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     }
-    
+
     .Titulo {
     display: flex;
     justify-content: center;
@@ -27,21 +27,21 @@
     padding: 20px;
     color: royalblue;
     }
-    
+
     .Titulo img {
     margin-right: 50PX;
     background-size: 10%;
     }
-    
+
     .Corpo {
     width: 80%;
     margin: 0 auto;
     border: 2px solid royalblue;
     border-radius: 10px;
     }
-    
-    
-    
+
+
+
     .TituloPrograma {
     display: flex;
     justify-content: center;
@@ -55,20 +55,20 @@
     border-radius: 10px;
     max-height: 45px;
     }
-    
+
     h2{
     margin-top: 5px;
     color: white;
     font-size: 25px;
     font-family: Cambria;
     }
-        
-    
+
+
     #Usuário{
         margin-top: 25px;
     }
-    
-    
+
+
 
     .Rodape{
     font-weight: bold;
@@ -99,7 +99,7 @@
   margin-top: 10px;
   overflow: auto;
   }
-        
+
 .TabelaContainer .TabelaTabelaDistribuicao {
   font-size: 15px;
   border-collapse: collapse;
@@ -107,18 +107,18 @@
   min-width: 2000px;
   overflow: auto;
 }
-        
+
 .TabelaContainer .TabelaTabelaDistribuicao th {
   background-color: lightgray;
   max-height: 20px;
 }
-        
+
 .TabelaContainer .TabelaTabelaDistribuicao td {
   height: 40px; /* Defina a altura desejada em pixels */
   vertical-align: middle; /* Centraliza o conteúdo verticalmente */
   overflow: hidden; /* Oculta o conteúdo extra que ultrapassar a altura definida */
 }
-        
+
 .TabelaContainer .TabelaTabelaDistribuicao thead {
   position: sticky;
   top: 0;
@@ -135,7 +135,7 @@
   transform: translate(-50%, -50%);
   z-index: 9999;
 }
-        
+
 
 .ModalLoading {
   display: none; /* Oculta o modal por padrão */
@@ -148,7 +148,7 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
 }
-        
+
 #loader1 {
   position: absolute;
   top: 15%;
@@ -156,7 +156,7 @@
   transform: translate(-50%, -50%);
   z-index: 9999;
 }
-        
+
 
 .ModalLoading1 {
   display: none; /* Oculta o modal por padrão */
@@ -199,11 +199,11 @@
     border-radius: 10px;
     min-height: 30px;
   }
-    
-      
 
 
-  #ButtonQuantidade, 
+
+
+  #ButtonQuantidade,
   #ButtonReposto,
   #ButtonSeparado,
   #ButtonData,
@@ -218,7 +218,7 @@
     height: 15px;
     cursor: pointer;
   }
-  
+
   #ButtonQuantidade img,
   #ButtonReposto img,
   #ButtonSeparado img,
