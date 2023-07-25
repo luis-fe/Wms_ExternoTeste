@@ -43,9 +43,14 @@ def ClassificarFila(coluna, tipo):
 
     if tipo == 'desc':
         fila = fila.sort_values(by=coluna, ascending=False)
+        fila['12-vlrsugestao'] = fila['12-vlrsugestao'] .astype(str)
+        fila['12-vlrsugestao'] = 'R$ ' + fila['12-vlrsugestao']
+
         return fila
 
     else:
+        fila['12-vlrsugestao'] = fila['12-vlrsugestao'] .astype(str)
+        fila['12-vlrsugestao'] = 'R$ ' + fila['12-vlrsugestao']
         fila = fila.sort_values(by=coluna, ascending=True)
         return fila
 
