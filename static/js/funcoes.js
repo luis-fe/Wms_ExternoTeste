@@ -2,7 +2,10 @@ const ApiDistribuicao = 'http://192.168.0.183:5000/api/FilaPedidos';
 const indiceExibicao = 0;
 let PedidosSelecionados = [];
 let UsuarioSelecionado;
-let PedidosExibicao = []
+let PedidosExibicao = [];
+let ordenacaoAscendente = true;
+
+
 
 function criarTabelaDistribuicao(listaPedidos) {
     const tabela = document.getElementById('TabelaTabelaDistribuicao');
@@ -13,13 +16,77 @@ function criarTabelaDistribuicao(listaPedidos) {
     const cabecalhoRow = document.createElement('tr');
     const colunaCheckbox = document.createElement('th');
     const ColunaPedido = document.createElement('th');
+    const botaoProduto = document.createElement('button');
+    botaoProduto.id = 'ButtonProduto';
+    botaoProduto.classList.add('botaoProduto');
+    const imagemBotao = document.createElement('img');
+    imagemBotao.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoProduto.appendChild(imagemBotao);
+    botaoProduto.addEventListener('click', () => OrdenarTabela("01-CodPedido"));
+
     const ColunaNomeUsuario = document.createElement('th');
+    const botaoUsuario = document.createElement('button');
+    botaoUsuario.id = 'ButtonUsuario';
+    botaoUsuario.classList.add('botaoUsuario');
+    const imagemBotao1 = document.createElement('img');
+    imagemBotao1.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoUsuario.appendChild(imagemBotao1);
+    botaoUsuario.addEventListener('click', () => OrdenarTabela("11-NomeUsuarioAtribuido"));
+
     const ColunaTipoDeNota = document.createElement('th');
+    const botaoNota = document.createElement('button');
+    botaoNota.id = 'ButtonNota';
+    botaoNota.classList.add('botaoNota');
+    const imagemBotao2 = document.createElement('img');
+    imagemBotao2.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoNota.appendChild(imagemBotao2);
+    botaoNota.addEventListener('click', () => OrdenarTabela("03-TipoNota"));
+
     const ColunaDataSugestao = document.createElement('th');
+    const botaoData = document.createElement('button');
+    botaoData.id = 'ButtonData';
+    botaoData.classList.add('botaoData');
+    const imagemBotao3 = document.createElement('img');
+    imagemBotao3.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoData.appendChild(imagemBotao3);
+    botaoData.addEventListener('click', () => OrdenarTabela("02- Data Sugestao"));
+
     const ColunaQuantidadePeças = document.createElement('th');
+    const botaoQuantidade = document.createElement('button');
+    botaoQuantidade.id = 'ButtonQuantidade';
+    botaoQuantidade.classList.add('botaoQuantidade');
+    const imagemBotao4 = document.createElement('img');
+    imagemBotao4.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoQuantidade.appendChild(imagemBotao4);
+    botaoQuantidade.addEventListener('click', () => OrdenarTabela("15-qtdesugerida"));
+
     const ColunaTotalReposto = document.createElement('th');
+    const botaoReposto = document.createElement('button');
+    botaoReposto.id = 'ButtonReposto';
+    botaoReposto.classList.add('botaoQuantidade');
+    const imagemBotao5 = document.createElement('img');
+    imagemBotao5.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoReposto.appendChild(imagemBotao5);
+    botaoReposto.addEventListener('click', () => OrdenarTabela("18-%Reposto"));
+
     const ColunaTotalSeparado = document.createElement('th');
+    const botaoSeparado = document.createElement('button');
+    botaoSeparado.id = 'ButtonSeparado';
+    botaoSeparado.classList.add('botaoQuantidade');
+    const imagemBotao6 = document.createElement('img');
+    imagemBotao6.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoSeparado.appendChild(imagemBotao6);
+    botaoSeparado.addEventListener('click', () => OrdenarTabela("20-Separado%"));
+
     const ColunaValorPedido = document.createElement('th');
+    const botaoValor = document.createElement('button');
+    botaoValor.id = 'ButtonValor';
+    botaoValor.classList.add('botaoQuantidade');
+    const imagemBotao7 = document.createElement('img');
+    imagemBotao7.src = 'assets/imagens/IconeOrdenacao.png';
+    botaoValor.appendChild(imagemBotao7);
+    botaoValor.addEventListener('click', () => OrdenarTabela("12-vlrsugestao"));
+
     const ColunaPedidosAgrupados = document.createElement('th');
     const ColunaEstado = document.createElement('th');
     const ColunaSituacaoPedido = document.createElement('th');
@@ -28,18 +95,31 @@ function criarTabelaDistribuicao(listaPedidos) {
 
     colunaCheckbox.textContent = '';
     ColunaPedido.textContent = 'Pedido';
+    ColunaPedido.setAttribute('data-orderable', 'true');
     ColunaNomeUsuario.textContent = 'Usuário Atribuído';
+    ColunaNomeUsuario.setAttribute('data-orderable', 'true');
     ColunaTipoDeNota.textContent = 'Tipo de Nota';
+    ColunaTipoDeNota.setAttribute('data-orderable', 'true');
     ColunaDataSugestao.textContent = 'Data Sugestão';
+    ColunaDataSugestao.setAttribute('data-orderable', 'true');
     ColunaQuantidadePeças.textContent = 'Quantidade Peças';
+    ColunaQuantidadePeças.setAttribute('data-orderable', 'true');
     ColunaTotalReposto.textContent = '% Reposto';
+    ColunaTotalReposto.setAttribute('data-orderable', 'true');
     ColunaTotalSeparado.textContent = '% Separado';
+    ColunaTotalSeparado.setAttribute('data-orderable', 'true');
     ColunaValorPedido.textContent = 'Valor R$';
+    ColunaValorPedido.setAttribute('data-orderable', 'true');
     ColunaPedidosAgrupados.textContent = 'Pedidos Agrupados';
+    ColunaPedidosAgrupados.setAttribute('data-orderable', 'true');
     ColunaEstado.textContent = 'Estado';
+    ColunaEstado.setAttribute('data-orderable', 'true');
     ColunaSituacaoPedido.textContent = 'Situacao Pedido';
+    ColunaSituacaoPedido.setAttribute('data-orderable', 'true');
     ColunaMarca.textContent = 'Marca';
+    ColunaMarca.setAttribute('data-orderable', 'true');
     ColunaTransportadora.textContent = 'Transportadora';
+    ColunaTransportadora.setAttribute('data-orderable', 'true');
 
     colunaCheckbox.style.width = '30px';
     ColunaPedido.style.width = '100px'
@@ -56,6 +136,14 @@ function criarTabelaDistribuicao(listaPedidos) {
     ColunaMarca.style.width = '100px'
     ColunaTransportadora.style.width = '250px'
 
+    ColunaPedido.appendChild(botaoProduto);
+    ColunaNomeUsuario.appendChild(botaoUsuario);
+    ColunaTipoDeNota.appendChild(botaoNota);
+    ColunaDataSugestao.appendChild(botaoData);
+    ColunaQuantidadePeças.appendChild(botaoQuantidade);
+    ColunaTotalReposto.appendChild(botaoReposto);
+    ColunaTotalSeparado.appendChild(botaoSeparado);
+    ColunaValorPedido.appendChild(botaoValor);
     cabecalhoRow.appendChild(colunaCheckbox);
     cabecalhoRow.appendChild(ColunaPedido);
     cabecalhoRow.appendChild(ColunaNomeUsuario);
@@ -160,6 +248,7 @@ function CarregarDados() {
         }
         })
     .then(data => {
+        console.log(data)
         data.forEach(item => {
             item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
             item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
@@ -174,6 +263,8 @@ function CarregarDados() {
     PintarPedidosCompletos();
     marcarLinhasDuplicadas();
     CarregarUsuarios();
+    
+
     })
     .catch(error => {
         console.error(error);
@@ -183,19 +274,19 @@ function CarregarDados() {
 
 
 
-
+        
 const ApiUsuarios = "http://192.168.0.183:5000/api/Usuarios"
 
 function CarregarUsuarios() {
     const selecaoUsuarios = document.getElementById('Usuarios');
     selecaoUsuarios.innerHTML = ''; // Limpa os valores antigos da combobox
-
+        
     const opcaoInicial = document.createElement('option');
     opcaoInicial.textContent = 'Selecione um Separador para Atribuição!'; // Texto inicial
     opcaoInicial.disabled = true;
     opcaoInicial.selected = true;
     selecaoUsuarios.appendChild(opcaoInicial);
-
+        
     fetch(ApiUsuarios, {
         method: 'GET',
         headers: {
@@ -224,31 +315,31 @@ function CarregarUsuarios() {
             FecharModalLoading();
     });
 }
-
-window.addEventListener('load', () => CarregarDados());
+        
+window.addEventListener('load', () => {CarregarDados();});
 
 
 const InputBusca = document.getElementById('InputBusca');
 const TabelaPedidos = document.getElementById('TabelaTabelaDistribuicao');
-
+        
 InputBusca.addEventListener('keyup', () => {
     const expressao = InputBusca.value.trim().toLowerCase();
     const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-
+        
         for (let i = 1; i < linhasTabela.length; i++) {
             const linha = linhasTabela[i];
             const colunas = linha.getElementsByTagName('td');
             let encontrou = false;
-
+        
         for (let j = 1; j < colunas.length; j++) {
             const conteudoColuna = colunas[j].textContent.trim().toLowerCase();
-
+        
         if (conteudoColuna.includes(expressao)) {
             encontrou = true;
             break;
             }
         }
-
+        
         if (encontrou) {
             linha.style.display = '';
         } else {
@@ -263,13 +354,13 @@ InputBusca.addEventListener('keyup', () => {
     function PintarPedidosCompletos() {
         const colunaDesejada = 6; // Índice da coluna com base em 0 (coluna 7 na contagem padrão)
         const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-
+    
         // Pinta a coluna de verde se o valor for igual a "100.00"
         for (let i = 1; i < linhasTabela.length; i++) {
             const linha = linhasTabela[i];
             const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
             const valor = colunaValor.textContent.trim();
-
+    
             if (valor === "100.00%") {
                 colunaValor.style.backgroundColor = 'lightgreen'; // Pinta a célula da coluna de verde
             } else {
@@ -277,34 +368,34 @@ InputBusca.addEventListener('keyup', () => {
             }
         }
     }
-
+    
 
 
 function marcarLinhasDuplicadas() {
     const valoresContados = {};
     const colunaDesejada = 9; // Índice da coluna "Usuário Atribuído" na tabela (lembrando que a contagem começa em 0)
-
+        
     const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-
+        
             // Conta quantas vezes cada valor aparece na coluna desejada
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
         const valor = colunaValor.textContent.trim();
-
+        
         if (valor in valoresContados) {
             valoresContados[valor]++;
             } else {
                 valoresContados[valor] = 1;
             }
         }
-
+        
 // Pinta todas as linhas que possuem valores duplicados
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
         const valor = colunaValor.textContent.trim();
-
+        
         if (valoresContados[valor] > 1) {
             linha.style.backgroundColor = 'yellow'; // Altera a cor de fundo da linha para amarelo (indicando duplicata)
         } else {
@@ -320,14 +411,14 @@ function capturarItensSelecionados() {
     for (let i = 1; i < linhasTabela.length; i++) {
         const linha = linhasTabela[i];
         const checkbox = linha.querySelector('input[type="checkbox"]');
-
+        
         if (checkbox.checked) {
             const colunas = linha.getElementsByTagName('td');
             const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
-
+            
             // Verifica se há mais de um pedido na string e separa-os em uma lista
             const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
-
+            
             // Adiciona os pedidos à lista
             PedidosSelecionados.push(...pedidosSeparados);
         }
@@ -373,12 +464,12 @@ function AtribuicaoPedidos() {
     .then(data => {
         CarregarDados();
         console.log(data);
-
+        
     })
     .catch(error => {
         console.error(error);
     });
-
+    
 }}
 
 const comboboxUsuarios = document.getElementById('Usuarios');
@@ -389,3 +480,57 @@ comboboxUsuarios.addEventListener('change', () => {
 });
 
 
+
+
+function OrdenarTabela(Coluna) {
+
+    ApiOrdenacao = `http://192.168.0.183:5000/api/FilaPedidosClassificacao?coluna=${Coluna}&tipo=${ordenacaoAscendente ? 'asc' : 'desc'}`;
+
+    fetch(ApiOrdenacao, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'a40016aabcx9'
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro ao atribuir pedidos');
+        }
+    })
+    .then(data => {
+            console.log(data)
+            data.forEach(item => {
+                item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
+                item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
+                item["18-%Reposto"] += "%";
+                item["20-Separado%"] = parseFloat(item["20-Separado%"]);
+                item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
+                item["20-Separado%"] += "%";
+                item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
+                    });
+
+                    ordenacaoAscendente = !ordenacaoAscendente;
+
+        FecharModalLoading();
+        criarTabelaDistribuicao(data);
+        PintarPedidosCompletos();
+        marcarLinhasDuplicadas();
+        CarregarUsuarios();
+        
+        })
+    .catch(error => {
+        console.error(error);
+    });
+    
+}
+
+
+
+
+
+
+    
+    
