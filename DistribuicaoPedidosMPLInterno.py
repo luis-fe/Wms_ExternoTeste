@@ -1,6 +1,9 @@
 import ConexaoPostgreMPL
 import pandas as pd
 
+import PediosApontamento
+
+
 def AtribuirPedido(usuario, pedidos, dataAtribuicao):
     tamanho = len(pedidos)
     pedidosNovo = []
@@ -33,4 +36,18 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
         '3- dataAtribuicao:': dataAtribuicao
     }
     return [data]
+
+def ClassificarFila(coluna, tipo):
+    fila = PediosApontamento.FilaPedidos()
+
+    if tipo == 'desc':
+        return fila.sort_values(by=coluna, ascending=False)
+
+    else:
+        return fila.sort_values(by=coluna, ascending=True)
+
+
+
+
+
 
