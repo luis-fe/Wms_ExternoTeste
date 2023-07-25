@@ -200,4 +200,34 @@
     min-height: 30px;
   }
     
-        
+      
+
+
+  #ButtonQuantidade, 
+  #ButtonReposto,
+  #ButtonSeparado,
+  #ButtonData,
+  #ButtonNota,
+  #ButtonUsuario,
+  #ButtonProduto,
+  #ButtonValor {
+    /* Defina o tamanho do botão */
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+  }
+  
+  #ButtonQuantidade img,
+  #ButtonReposto img,
+  #ButtonSeparado img,
+  #ButtonData img,
+  #ButtonNota img,
+  #ButtonUsuario img,
+  #ButtonProduto img,
+  #ButtonValor img  {
+    width: 100%;
+    height: 100%;
+    /* Adicione outros estilos desejados para a imagem, se necessário */
+  }
