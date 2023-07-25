@@ -39,12 +39,15 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
 
 def ClassificarFila(coluna, tipo):
     fila = PediosApontamento.FilaPedidos()
+    fila['12-vlrsugestao'] = fila['12-vlrsugestao'].str.replace("R\$", "").astype(float)
 
     if tipo == 'desc':
-        return fila.sort_values(by=coluna, ascending=False)
+        fila = fila.sort_values(by=coluna, ascending=False)
+        return fila
 
     else:
-        return fila.sort_values(by=coluna, ascending=True)
+        fila = fila.sort_values(by=coluna, ascending=True)
+        return fila
 
 
 

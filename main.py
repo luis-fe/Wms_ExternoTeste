@@ -560,8 +560,8 @@ def get_FilaPedidos():
 @app.route('/api/FilaPedidosClassificacao', methods=['GET'])
 @token_required
 def get_FilaPedidosClassificacao():
-    coluna = request.args.get('coluna')
-    tipo = request.args.get('tipo')
+    coluna = request.args.get('coluna','01-CodPedido')
+    tipo = request.args.get('tipo','desc')
 
     Pedidos = DistribuicaoPedidosMPLInterno.ClassificarFila(coluna, tipo)
     # Obtém os nomes das colunas
