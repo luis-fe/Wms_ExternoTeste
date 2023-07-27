@@ -708,8 +708,8 @@ def get_RelatorioFila():
 @app.route('/api/RelatorioSeparadores', methods=['GET'])
 def get_RelatorioSeparadores():
     # Obtém os dados do corpo da requisição (JSON)
-    pagina = request.args.get('pagina','1')
-    itens = request.args.get('itens','50')
+    pagina = request.args.get('pagina',1)
+    itens = request.args.get('itens',50)
 
     Endereco_det = Relatorios.RelatorioSeparadores(itens,pagina)
 
