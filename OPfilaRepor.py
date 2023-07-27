@@ -113,7 +113,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 def FilaPorOP(natureza, codempresa):
     conn = ConexaoPostgreMPL.conexao()
     df_OP1 = pd.read_sql(' select "numeroop", "totalop" as qtdpeçs_total, "usuario" as codusuario_atribuido, count("numeroop") as qtdpeçs_arepor  from "Reposicao"."filareposicaoportag" frt ' 
-                        '  group by "numeroop", "usuario", "totalop"  ',conn)
+                        ' where codNaturezaAtual = s% '
+                         ' group by "numeroop", "usuario", "totalop"  ',conn,params=(natureza,))
 
     df_OP_Iniciada =pd.read_sql(' select "numeroop", count("numeroop") as qtdpeçs_reposto  from "Reposicao"."tagsreposicao" frt ' 
                         ' group by "numeroop" ',conn)
@@ -139,8 +140,6 @@ def FilaPorOP(natureza, codempresa):
     df_OP1['nomeusuario_atribuido'] = df_OP1['nomeusuario_atribuido'].replace('', numpy.nan).fillna('-')
     conn.close()
     # Limitar o número de linhas usando head()
-    df_OP1 = df_OP1[df_OP1['codNaturezaAtual'] == natureza]
-    df_OP1 = df_OP1[df_OP1['codempresa'] == codempresa]
     df_OP1 = df_OP1.head(50)  # Retorna as 3 primeiras linhas
     return df_OP1
 
