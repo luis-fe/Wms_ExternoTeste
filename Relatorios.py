@@ -139,6 +139,9 @@ def RelatorioSeparadores(itensPag, pagina):
 
     conn = ConexaoPostgreMPL.conexao()
     relatorio = pd.read_sql('select * from "Reposicao".tags_separacao order by dataseparacao desc',conn)
+    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+    relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
     final = pagina * itensPag
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
