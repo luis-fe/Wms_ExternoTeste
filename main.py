@@ -711,7 +711,7 @@ def get_RelatorioSeparadores():
     pagina = request.args.get('pagina',1)
     itens = request.args.get('itens',50)
 
-    Endereco_det = Relatorios.RelatorioSeparadores(itens,pagina)
+    Endereco_det = Relatorios.RelatorioSeparadores(int(itens),int(pagina))
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
