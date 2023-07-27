@@ -221,7 +221,10 @@ def get_ConsultaPedidoViaTag():
 @app.route('/api/FilaReposicaoOP', methods=['GET'])
 @token_required
 def get_FilaReposicaoOP():
-    FilaReposicaoOP = OPfilaRepor.FilaPorOP()
+    empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+
+    FilaReposicaoOP = OPfilaRepor.FilaPorOP(natureza, empresa)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
