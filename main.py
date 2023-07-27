@@ -706,7 +706,7 @@ def get_RelatorioFila():
     return jsonify(end_data)
 
 @app.route('/api/RelatorioSeparadores', methods=['GET'])
-def get_RelatorioFila():
+def get_RelatorioSeparadores():
     # Obtém os dados do corpo da requisição (JSON)
     Endereco_det = Relatorios.RelatorioSeparadores()
 
