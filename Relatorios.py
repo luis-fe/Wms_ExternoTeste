@@ -134,3 +134,9 @@ def EnderecosDisponiveis():
         '4- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
     }
     return [data]
+
+def RelatorioSeparadores():
+
+    conn = ConexaoPostgreMPL.conexao()
+    relatorio = pd.read_sql('select * from "Reposicao".tags_separacao',conn)
+    return relatorio
