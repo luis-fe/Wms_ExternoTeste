@@ -41,6 +41,10 @@ def token_required(f):
 def home():
     return render_template('index.html')
 
+@app.route('/Usuarios')
+def Usuarios():
+    return render_template('Usuarios.html')
+
 
 # Rota protegida que requer o token fixo para trazer os Usuarios Cadastrados
 @app.route('/api/Usuarios', methods=['GET'])
