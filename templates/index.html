@@ -17,11 +17,21 @@
         <h1>WMS GERENCIAL</h1>
     </div>
 
+    <div class="Opcoes">
+        <nav>
+            <select id="Configuracoes" onchange="if (this.value !== 'Menu') { window.location.href = this.value; this.value = 'Menu'; }">
+                <option disabled selected>Menu</option>
+                <option value="Usuarios.html">Gerenciar Usuários</option>
+                <option value="index.html">Atribuição de Pedidos</option>
+            </select>
+        </nav>
+    </div>
+
     <div class="TituloPrograma">
         <h2>Distribuição de Pedidos</h2></div>
 
         <div class="Busca">
-            <input id="InputBusca" type="text" class="InputBusca" placeholder="Digite aqui sua busca!">
+            <input id="InputBusca" type="search" class="InputBusca" placeholder="Digite aqui sua busca!">
         </div>
 
 
@@ -48,9 +58,9 @@
         <p>Grupo Mpl</p>
     </footer>
 
-
+    
     <script src="/static/js/funcoes.js"></script>
-
+    
 
 </body>
 </html>
