@@ -13,7 +13,7 @@ import PediosApontamento
 import Relatorios
 import Silk_PesquisaNew
 import TratamentoErros
-import Usuarios
+import UsuariosCad
 import OPfilaRepor
 import Reposicao
 import ReposicaoSku
@@ -50,7 +50,7 @@ def Usuarios():
 @app.route('/api/Usuarios', methods=['GET'])
 @token_required
 def get_usuarios():
-    usuarios = Usuarios.PesquisarUsuarios()
+    usuarios = UsuariosCad.PesquisarUsuarios()
     # Obtém os nomes das colunas
     column_names = ['codigo', 'nome', 'funcao', 'situacao']
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -64,7 +64,7 @@ def get_usuarios():
 @app.route('/api/UsuarioSenhaRestricao', methods=['GET'])
 @token_required
 def get_usuariosRestricao():
-    usuarios = Usuarios.PesquisarSenha()
+    usuarios = UsuariosCad.PesquisarSenha()
 
     # Obtém os nomes das colunas
     column_names = ['codigo', 'nome ', 'senha']
@@ -85,7 +85,7 @@ def update_usuario(codigo):
     # Obtém os dados do corpo da requisição (JSON)
     data = request.get_json()
     # Verifica se a coluna "funcao" está presente nos dados recebidos
-    nome_ant, funcao_ant, situacao_ant = Usuarios.PesquisarUsuariosCodigo(codigo)
+    nome_ant, funcao_ant, situacao_ant = UsuariosCad.PesquisarUsuariosCodigo(codigo)
     if 'funcao' in data:
         nova_funcao = data['funcao']
     else:
@@ -115,11 +115,11 @@ def criar_usuario():
     senha = novo_usuario.get('senha')
     situacao = novo_usuario.get('situacao')
     # inserir o novo usuário no banco de dados
-    c, n, f = Usuarios.PesquisarUsuariosCodigo(codigo)
+    c, n, f = UsuariosCad.PesquisarUsuariosCodigo(codigo)
     if c != 0:
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} ja existe'}), 201
     else:
-        Usuarios.InserirUsuario(codigo, funcao, nome, senha, situacao)
+        UsuariosCad.InserirUsuario(codigo, funcao, nome, senha, situacao)
         # Retorne uma resposta indicando o sucesso da operação
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} criado com sucesso'}), 201
 
@@ -137,7 +137,7 @@ def check_user_password():
         return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
 
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    result = Usuarios.ConsultaUsuarioSenha(codigo, senha)
+    result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha)
 
     # Verifica se o usuário existe
     if result == 1:
