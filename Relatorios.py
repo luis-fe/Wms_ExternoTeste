@@ -163,5 +163,6 @@ def RelatorioSeparadores(itensPag, pagina):
 
     df['ritmo'] = df.groupby(['nome', 'data'])['horario_centecimal'].diff()
     df['ritmo'] = df['ritmo'] * 3600
+    df['horario'] = df['horario'].astype(str)
 
     return df
