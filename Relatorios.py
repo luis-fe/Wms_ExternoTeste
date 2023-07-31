@@ -151,10 +151,10 @@ def RelatorioSeparadores(itensPag, pagina):
     valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
     df = relatorio[valid_dates]
     # Ordene o DataFrame pelo nome e data
-    df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
+   # df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
 
     # Calcule o ritmo de apontamento por nome e data
-    df['ritmo'] = df.groupby(['usuario', 'data'])['horario'].diff().shift(-1)
+    #df['ritmo'] = df.groupby(['usuario', 'data'])['horario'].diff().shift(-1)
 
     # Crie uma função para converter o ritmo em um formato legível
 
@@ -167,7 +167,7 @@ def RelatorioSeparadores(itensPag, pagina):
         return "-"
 
     # Aplique a função de formatação à coluna 'ritmo'
-    df['ritmo'] = df['ritmo'].apply(format_timedelta)
+    #df['ritmo'] = df['ritmo'].apply(format_timedelta)
 
 
     return df
