@@ -17,7 +17,6 @@ import UsuariosCad
 import OPfilaRepor
 import Reposicao
 import ReposicaoSku
-import imprimirEtiqueta
 
 # TESTE
 
