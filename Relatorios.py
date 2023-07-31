@@ -145,6 +145,7 @@ def RelatorioSeparadores(itensPag, pagina):
     final = pagina * itensPag
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
+    relatorio = pd.to_datetime(relatorio['horario'], format='%H:%M:%S')
 
 
     return relatorio

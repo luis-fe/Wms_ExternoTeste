@@ -6,7 +6,7 @@ import tempfile
 import os
 from reportlab.graphics import barcode
 from PIL import Image
-import cups #Importe o pacote pycups
+import pycups #Importe o pacote pycups
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora):
     # Configurações das etiquetas e colunas
