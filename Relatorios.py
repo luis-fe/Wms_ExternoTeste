@@ -136,10 +136,10 @@ def EnderecosDisponiveis():
     }
     return [data]
 
-def RelatorioSeparadores(itensPag, pagina):
 
+def RelatorioSeparadores(itensPag, pagina):
     conn = ConexaoPostgreMPL.conexao()
-    relatorio = pd.read_sql('select * from "Reposicao".tags_separacao order by dataseparacao desc',conn)
+    relatorio = pd.read_sql('select * from "Reposicao".tags_separacao order by dataseparacao desc', conn)
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     relatorio = pd.merge(relatorio, Usuarios, on='usuario', how='left')
@@ -150,18 +150,18 @@ def RelatorioSeparadores(itensPag, pagina):
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
     relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 10)
     relatorio['horario'] = pd.to_datetime(relatorio['horario']).dt.time
-    df = relatorio.dropna(subset=['horario'])
-    # Ordene o DataFrame pelo nome e data
+    relatorio = relatorio.dropna(subset=['horario'])
 
-    df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
+    # Ordene o DataFrame pelo usuario, data e horario
+    relatorio.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
 
     def horario_centecimal(time):
         return time.hour + (time.minute / 60) + (time.second / 3600)
 
-    df['horario'] = df['horario'].apply(horario_centecimal)
-    df.sort_values(by=['nome', 'data', 'horario'], inplace=True)
+    relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
 
-    df['ritmo'] = df.groupby(['nome', 'data'])['horario'].diff()
-    #df['ritmo'] = df['ritmo'] * 3600
+    # Cálculo da coluna 'ritmo' em segundos
+    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
+    relatorio['ritmo'] = relatorio['ritmo'].dt.total_seconds()
 
-    return df
+    return relatorio
