@@ -168,6 +168,7 @@ def RelatorioSeparadores(itensPag, pagina):
 
     # Aplique a função de formatação à coluna 'ritmo'
     #df['ritmo'] = df['ritmo'].apply(format_timedelta)
+    df['horario'] = df['horario'].astype(str)
 
 
     return df
