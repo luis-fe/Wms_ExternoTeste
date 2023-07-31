@@ -148,8 +148,8 @@ def RelatorioSeparadores(itensPag, pagina):
     relatorio = relatorio.iloc[inicial:final]
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
     relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 10)
-    valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
-    df = relatorio[valid_dates]
+    relatorio['horario'] = pd.to_datetime(relatorio['horario']).dt.time
+    df = relatorio.dropna(subset=['horario'])
     # Ordene o DataFrame pelo nome e data
     df.fillna('-', inplace=True)
     df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
