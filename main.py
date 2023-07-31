@@ -139,6 +139,7 @@ def check_user_password():
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
     result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha)
 
+
     # Verifica se o usuário existe
     if result == 1:
         # Consulta no banco de dados para obter informações adicionais do usuário
