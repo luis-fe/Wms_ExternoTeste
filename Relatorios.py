@@ -1,5 +1,6 @@
 import pandas as pd
 import ConexaoPostgreMPL
+import datetime
 import numpy
 import time
 
@@ -145,6 +146,7 @@ def RelatorioSeparadores(itensPag, pagina):
     final = pagina * itensPag
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
+    relatorio['horario'] = pd.to_datetime(relatorio['data separacao'], format='%Y-%m-%d %H:%M:%S')
     relatorio = pd.to_datetime(relatorio['horario'], format='%H:%M:%S')
 
 
