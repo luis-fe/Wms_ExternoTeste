@@ -147,14 +147,14 @@ def RelatorioSeparadores(itensPag, pagina):
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 20)
-    relatorio['dataseparacao'] = relatorio['dataseparacao'].str.slice(0, 9)
+    relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 9)
     valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
     df = relatorio[valid_dates]
     # Ordene o DataFrame pelo nome e data
-    df.sort_values(by=['usuario', 'dataseparacao', 'horario'], inplace=True)
+    df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
 
     # Calcule o ritmo de apontamento por nome e data
-    df['ritmo'] = df.groupby(['usuario', 'dataseparacao'])['horario'].diff().shift(-1)
+    df['ritmo'] = df.groupby(['usuario', 'data'])['horario'].diff().shift(-1)
 
     # Crie uma função para converter o ritmo em um formato legível
 
