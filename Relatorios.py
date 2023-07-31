@@ -161,6 +161,7 @@ def RelatorioSeparadores(itensPag, pagina):
 
     relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
     relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
+    relatorio['ritmo'] = relatorio['ritmo'] * 3600
     relatorio.fillna('-', inplace=True)
 
     return relatorio
