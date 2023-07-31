@@ -98,7 +98,7 @@ def update_usuario(codigo):
         situacao_novo = data['situacao']
     else:
         situacao_novo = situacao_ant
-    Usuarios.AtualizarInformacoes(nome_novo, nova_funcao, situacao_novo, codigo)
+    UsuariosCad.AtualizarInformacoes(nome_novo, nova_funcao, situacao_novo, codigo)
 
     return jsonify({'message': f'Dados do Usuário {codigo} - {nome_novo} atualizado com sucesso'})
 
