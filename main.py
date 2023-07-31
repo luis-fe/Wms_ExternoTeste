@@ -143,7 +143,7 @@ def check_user_password():
     if result == 1:
         # Consulta no banco de dados para obter informações adicionais do usuário
 
-        nome, funcao, situacao = Usuarios.PesquisarUsuariosCodigo(codigo)
+        nome, funcao, situacao = UsuariosCad.PesquisarUsuariosCodigo(codigo)
 
         # Verifica se foram encontradas informações adicionais do usuário
         if nome != 0:
