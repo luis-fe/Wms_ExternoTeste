@@ -160,7 +160,7 @@ def RelatorioSeparadores(itensPag, pagina):
         return time.hour + (time.minute / 60) + (time.second / 3600)
 
     relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
-    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario_centecimal'].diff()
+    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
 
     return relatorio
 
