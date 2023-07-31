@@ -146,32 +146,22 @@ def RelatorioSeparadores(itensPag, pagina):
     final = pagina * itensPag
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
-    relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
-    relatorio['horario'] = relatorio['horario'].str.replace('-', '/')
 
+    relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
     relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 10)
     relatorio['horario'] = pd.to_datetime(relatorio['horario']).dt.time
     df = relatorio.dropna(subset=['horario'])
     # Ordene o DataFrame pelo nome e data
-    df.fillna('-', inplace=True)
+
     df.sort_values(by=['usuario', 'data', 'horario'], inplace=True)
 
-    # Calcule o ritmo de apontamento por nome e data
-    df['ritmo'] = df.groupby(['usuario', 'data'])['horario'].diff().shift(-1)
+    def horario_centecimal(time):
+        return time.hour + (time.minute / 60) + (time.second / 3600)
 
-    # Crie uma função para converter o ritmo em um formato legível
-    def format_timedelta(td):
-        if pd.notna(td):
-            total_seconds = td.total_seconds()
-            hours, remainder = divmod(total_seconds, 3600)
-            minutes, seconds = divmod(remainder, 60)
-            return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
-        return "-"
+    df['horario_centecimal'] = df['horario'].apply(horario_centecimal)
+    df.sort_values(by=['nome', 'data', 'horario'], inplace=True)
 
-    # Aplique a função de formatação à coluna 'ritmo'
-    df['ritmo'] = df['ritmo'].apply(format_timedelta)
-    df['horario'] = df['horario'].astype(str)
-    df['ritmo'] = df['ritmo'].astype(str)
-
+    df['ritmo'] = df.groupby(['nome', 'data'])['horario_centecimal'].diff()
+    df['ritmo'] = df['ritmo'] * 3600
 
     return df
