@@ -147,8 +147,8 @@ def RelatorioSeparadores(itensPag, pagina):
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 20)
-    #valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
-    #relatorio = relatorio[valid_dates]
+    valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
+    relatorio = relatorio[valid_dates]
 
 
     return relatorio
