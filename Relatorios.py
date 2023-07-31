@@ -146,8 +146,9 @@ def RelatorioSeparadores(itensPag, pagina):
     final = pagina * itensPag
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
-    relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 20)
+    relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
     relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 9)
+    valid_dates1 = pd.to_datetime(relatorio['data'], format='%YY:%MM:%dd', errors='coerce').notna()
     valid_dates = pd.to_datetime(relatorio['horario'], format='%H:%M:%S', errors='coerce').notna()
     df = relatorio[valid_dates]
     # Ordene o DataFrame pelo nome e data
