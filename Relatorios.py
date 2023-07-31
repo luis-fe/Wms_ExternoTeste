@@ -147,6 +147,8 @@ def RelatorioSeparadores(itensPag, pagina):
     inicial = (pagina - 1) * itensPag
     relatorio = relatorio.iloc[inicial:final]
     relatorio['horario'] = relatorio['dataseparacao'].str.slice(11, 21)
+    relatorio['horario'] = relatorio['horario'].str.replace('-', '/')
+
     relatorio['data'] = relatorio['dataseparacao'].str.slice(0, 10)
     relatorio['horario'] = pd.to_datetime(relatorio['horario']).dt.time
     df = relatorio.dropna(subset=['horario'])
