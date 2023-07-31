@@ -161,9 +161,6 @@ def RelatorioSeparadores(itensPag, pagina):
 
     relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
 
-    # Cálculo da coluna 'ritmo' em segundos
-    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].shift(-1) - relatorio['horario']
-    relatorio['ritmo'] = relatorio['ritmo'].apply(lambda x: x.total_seconds() if not pd.isnull(x) else None)
 
     return relatorio
 
