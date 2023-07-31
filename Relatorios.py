@@ -138,6 +138,7 @@ def EnderecosDisponiveis():
 
 
 def RelatorioSeparadores(itensPag, pagina):
+
     conn = ConexaoPostgreMPL.conexao()
     relatorio = pd.read_sql('select * from "Reposicao".tags_separacao order by dataseparacao desc', conn)
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
@@ -161,7 +162,7 @@ def RelatorioSeparadores(itensPag, pagina):
     relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
 
     # Cálculo da coluna 'ritmo' em segundos
-    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
-    relatorio['ritmo'] = relatorio['ritmo'].dt.total_seconds()
+    relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].shift(-1) - relatorio['horario']
+    relatorio['ritmo'] = relatorio['ritmo'].apply(lambda x: x.total_seconds())
 
     return relatorio
