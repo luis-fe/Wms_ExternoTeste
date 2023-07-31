@@ -162,6 +162,6 @@ def RelatorioSeparadores(itensPag, pagina):
     df.sort_values(by=['nome', 'data', 'horario'], inplace=True)
 
     df['ritmo'] = df.groupby(['nome', 'data'])['horario'].diff()
-    df['ritmo'] = df['ritmo'] * 3600
+    #df['ritmo'] = df['ritmo'] * 3600
 
     return df
