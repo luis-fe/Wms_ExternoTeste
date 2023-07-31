@@ -158,11 +158,10 @@ def RelatorioSeparadores(itensPag, pagina):
     def horario_centecimal(time):
         return time.hour + (time.minute / 60) + (time.second / 3600)
 
-    df['horario_centecimal'] = df['horario'].apply(horario_centecimal)
+    df['horario'] = df['horario'].apply(horario_centecimal)
     df.sort_values(by=['nome', 'data', 'horario'], inplace=True)
 
-    df['ritmo'] = df.groupby(['nome', 'data'])['horario_centecimal'].diff()
+    df['ritmo'] = df.groupby(['nome', 'data'])['horario'].diff()
     df['ritmo'] = df['ritmo'] * 3600
-    df['horario'] = df['horario'].astype(str)
 
     return df
