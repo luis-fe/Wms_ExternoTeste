@@ -158,7 +158,6 @@ def RelatorioSeparadores(itensPag, pagina):
     df['ritmo'] = df.groupby(['usuario', 'data'])['horario'].diff().shift(-1)
 
     # Crie uma função para converter o ritmo em um formato legível
-
     def format_timedelta(td):
         if pd.notna(td):
             total_seconds = td.total_seconds()
