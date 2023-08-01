@@ -89,8 +89,9 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
      return TagReposicao
     else:
-        TagReposicao = pd.read_sql('SELECT * from "Reposicao"."ProducaoSeparadores" '
-                                   'where dataseparacao >= %s and dataseparacao <= %s', conn, params=(dataInicial,dataFInal,))
+        TagReposicao = pd.read_sql('SELECT usuario, count(usuario) as Qtde, dataseparacao from "Reposicao"."ProducaoSeparadores" '
+                                   'where dataseparacao >= %s and dataseparacao <= %s '
+                                   'group by usuario, dataseparacao', conn, params=(dataInicial,dataFInal,))
         # Converte a coluna "DataString" em datetime
         TagReposicao['dataseparacao'] = pd.to_datetime(TagReposicao['dataseparacao'])
 
