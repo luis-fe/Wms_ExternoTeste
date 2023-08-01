@@ -45,10 +45,10 @@ def FilaTags():
 )
     conn2 = ConexaoPostgreMPL.conexao()
     df_tags = pd.read_sql(
-        "SELECT  codBarrasTag as codbarrastag, codNaturezaAtual , codEngenharia , codReduzido as codreduzido,(SELECT i.nome  FROM cgi.Item i WHERE i.codigo = t.codEngenharia) as descricao , numeroop as numeroop,"
+        "SELECT  codBarrasTag as codbarrastag, codNaturezaAtual as codnaturezaatual  , codEngenharia , codReduzido as codreduzido,(SELECT i.nome  FROM cgi.Item i WHERE i.codigo = t.codEngenharia) as descricao , numeroop as numeroop,"
         " (SELECT i2.codCor  FROM cgi.Item2  i2 WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as cor,"
         " (SELECT tam.descricao  FROM cgi.Item2  i2 join tcp.Tamanhos tam on tam.codEmpresa = i2.Empresa and tam.sequencia = i2.codSeqTamanho  WHERE i2.Empresa = 1 and  i2.codItem  = t.codReduzido) as tamanho"
-        " from tcr.TagBarrasProduto t WHERE codEmpresa = 1 and codNaturezaAtual = 5 and situacao = 3", conn)
+        " from tcr.TagBarrasProduto t WHERE codEmpresa = 1 and codnaturezaatual = 5 and situacao = 3", conn)
 
     df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                               'from tco.MovimentacaoOPFase WHERE codEmpresa = 1 and codFase = 236  '
@@ -56,7 +56,7 @@ def FilaTags():
 
     df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
     df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
-    df_tags['codNaturezaAtual'] = df_tags['codNaturezaAtual'].astype(str)
+    df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)
     df_tags['totalop'] = df_tags['totalop'].astype(int)
     # CRIANDO O DATAFRAME DO QUE JA FOI REPOSTO E USANDO MERGE
        # Verificando as tag's que ja foram repostas
