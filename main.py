@@ -170,7 +170,7 @@ def get_TagsReposicao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
     data_final = request.args.get('DataFinal','0')
-
+    Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = OPfilaRepor.ProdutividadeRepositores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
@@ -190,7 +190,7 @@ def get_TagsSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
     data_final = request.args.get('DataFinal','0')
-
+    Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
