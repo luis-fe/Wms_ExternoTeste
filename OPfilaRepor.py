@@ -62,6 +62,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
+        TagReposicao.fillna('-', inplace=True)
 
         return TagReposicao
 
@@ -107,6 +108,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
+        TagReposicao.fillna('-', inplace=True)
+
 
         return TagReposicao
 
