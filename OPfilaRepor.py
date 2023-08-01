@@ -201,13 +201,13 @@ def detalhaSku(codreduzido):
     else:
         return df_op2
     
-def detalhaOPxSKU(numeroop):
+def detalhaOPxSKU(numeroop, empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     df_op = pd.read_sql('select "numeroop", "codreduzido", "engenharia", "cor", "tamanho", "descricao" '
-                   'from "Reposicao"."filareposicaoportag" frt where "numeroop" = ' +"'"+  numeroop +"' "+
+                   'from "Reposicao"."filareposicaoportag" frt where "numeroop" = ' +"'"+  numeroop +"' and codnaturezaatual = '"+natureza+"' "
                    'group by "numeroop", "codreduzido","descricao" , "cor","tamanho","engenharia"', conn)
     df_op2 = pd.read_sql('select "numeroop", "codreduzido", "engenharia", "cor", "tamanho", "descricao" '
-                   'from "Reposicao"."tagsreposicao" frt where "numeroop" = ' +"'"+  numeroop +"'"+
+                   'from "Reposicao"."tagsreposicao" frt where "numeroop" = ' +"'"+  numeroop +"' and natureza = '"+natureza+"' "
                    ' group by "numeroop", "codreduzido","descricao" , "cor","tamanho","engenharia"', conn)
     df_op2.rename(columns={'codreduzido': 'codreduzido', "engenharia": 'engenharia', "cor": "cor", "descricao": "descricao"}, inplace=True)
 
