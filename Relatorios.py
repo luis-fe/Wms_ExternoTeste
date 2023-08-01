@@ -187,20 +187,18 @@ def RelatorioSeparadoresLimite(limite):
         relatorio['horario'] = relatorio['horario'].apply(horario_centecimal)
         relatorio['ritmo'] = relatorio.groupby(['usuario', 'data'])['horario'].diff()
         relatorio['ritmo'] = relatorio['ritmo'] * 3600
+
+        # Remova esta linha, pois o ritmo já foi calculado corretamente
         relatorio.fillna(500, inplace=True)
 
-        for _, row in relatorio.head(limite).iterrows():
-            ritmo = row['ritmo']
-            pedido = row['codpedido']
-            datahora = row['dataseparacao']
-            update = 'UPDATE "Reposicao".tags_separacao ' \
-                     'SET ritmo = %s ' \
-                     'WHERE codpedido = %s AND dataseparacao = %s'
+        update = 'UPDATE "Reposicao".tags_separacao ' \
+                 'SET ritmo = %s ' \
+                 'WHERE codpedido = %s AND dataseparacao = %s'
 
-            cursor = conn.cursor()
-            cursor.execute(update, (ritmo, pedido, datahora))
-            conn.commit()
-            cursor.close()
+        cursor = conn.cursor()
+        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'dataseparacao']].values)
+        conn.commit()
+        cursor.close()
     else:
         print('ok')
 
