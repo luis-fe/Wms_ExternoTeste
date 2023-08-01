@@ -61,7 +61,7 @@ def relatorioTotalFila(empresa, natureza):
 
     conn.close()
     data = {
-        '1.0':f' Informacoes Gerais do Estoque{natureza}',
+        '1.0':f' Informacoes Gerais do Estoque natureza: {natureza}',
         '1.1-Total de Peças Nat. 5':   f'{totalPecas} pçs',
         '1.2-Saldo na Fila':   f'{saldo_str} pçs',
         '1.3-Peçs Repostas':   f'{Reposto["codreduzido"][0]} pçs',
