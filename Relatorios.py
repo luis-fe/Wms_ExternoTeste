@@ -22,11 +22,11 @@ def relatorioFila ():
 
 
 
-def relatorioTotalFila():
+def relatorioTotalFila(empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     query = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS Saldo '
-        'FROM "Reposicao".filareposicaoportag t' 
-        ' GROUP BY "numeroop" ',conn)
+        'FROM "Reposicao".filareposicaoportag t where codnatureza = %s ' 
+        ' GROUP BY "numeroop" ',conn,params=(natureza,))
 
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
                         " where endereco = 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
@@ -35,7 +35,7 @@ def relatorioTotalFila():
                         " where endereco <> 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
 
     Inventario = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao_inventario ti' ,conn)
-    Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti' ,conn)
+    Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
     query['saldo'] = query['saldo'].sum()
     query2['contagem'] = query2['contagem'].sum()

@@ -761,8 +761,9 @@ def get_RelatorioSeparadores():
 @token_required
 def get_RelatorioTotalFila():
     # Obtém os dados do corpo da requisição (JSON)
-
-    Endereco_det = Relatorios.relatorioTotalFila()
+    empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+    Endereco_det = Relatorios.relatorioTotalFila(empresa,natureza)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
