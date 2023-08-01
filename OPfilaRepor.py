@@ -93,13 +93,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         # Converte a coluna "DataString" em datetime
-        TagReposicao['dataseparacao'] = pd.to_datetime(TagReposicao['dataseparacao'])
 
-        dataInicial = pd.to_datetime(dataInicial)
-        dataFInal = pd.to_datetime(dataFInal)
 
-        TagReposicao = TagReposicao[(TagReposicao['dataseparacao'] >= dataInicial) & (TagReposicao['dataseparacao'] <= dataFInal)]
-        TagReposicao['dataseparacao'] = TagReposicao['dataseparacao'].dt.strftime('%d/%m/%Y')
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
