@@ -196,7 +196,7 @@ def RelatorioSeparadoresLimite(limite):
                  'WHERE codpedido = %s AND dataseparacao = %s'
 
         cursor = conn.cursor()
-        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'dataseparacao']].values)
+        cursor.executemany(update, relatorio.head(limite)[['ritmo', 'codpedido', 'datatempo']].values)
         conn.commit()
         cursor.close()
     else:
