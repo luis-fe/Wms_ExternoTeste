@@ -46,7 +46,7 @@ def Usuarios():
     return render_template('Usuarios.html')
 
 @app.route('/Produtividade')
-def Usuarios():
+def Produtividade():
     return render_template('Produtividade.html')
 
 
