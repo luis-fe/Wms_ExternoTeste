@@ -45,6 +45,10 @@ def home():
 def Usuarios():
     return render_template('Usuarios.html')
 
+@app.route('/Produtividade')
+def Usuarios():
+    return render_template('Produtividade.html')
+
 
 # Rota protegida que requer o token fixo para trazer os Usuarios Cadastrados
 @app.route('/api/Usuarios', methods=['GET'])
