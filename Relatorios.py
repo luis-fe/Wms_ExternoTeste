@@ -25,7 +25,7 @@ def relatorioFila ():
 def relatorioTotalFila(empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     query = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS Saldo '
-        'FROM "Reposicao".filareposicaoportag t where codnatureza = %s ' 
+        'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s ' 
         ' GROUP BY "numeroop" ',conn,params=(natureza,))
 
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
