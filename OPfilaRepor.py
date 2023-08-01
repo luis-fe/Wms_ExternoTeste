@@ -97,6 +97,12 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 2) as ritmo '
+                            ' FROM "Reposicao"."ProducaoSeparadores"'
+                            ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 350 '
+                            ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
+
+        TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
 
