@@ -170,7 +170,7 @@ def get_TagsReposicao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
     data_final = request.args.get('DataFinal','0')
-    Relatorios.RelatorioSeparadoresLimite(10)
+    #Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = OPfilaRepor.ProdutividadeRepositores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
@@ -190,7 +190,7 @@ def get_TagsSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
     data_final = request.args.get('DataFinal','0')
-    Relatorios.RelatorioSeparadoresLimite(10)
+   # Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
 
     # Obtém os nomes das colunas
@@ -287,9 +287,12 @@ def get_AtribuirOPRepositor():
 @app.route('/api/DetalhaOP', methods=['GET'])
 @token_required
 def get_DetalhaOP():
+    empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+
     # Obtém o código do usuário e a senha dos parâmetros da URL
     NumeroOP = request.args.get('numeroOP')
-    op = OPfilaRepor.detalhaOP(NumeroOP)
+    op = OPfilaRepor.detalhaOP(NumeroOP,natureza)
     # Obtém os nomes das colunas
     column_names = op.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
