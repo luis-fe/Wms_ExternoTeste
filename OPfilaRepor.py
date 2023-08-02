@@ -1,6 +1,8 @@
 import ConexaoPostgreMPL
 import pandas as pd
 import numpy
+import locale
+
 
 def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
@@ -63,14 +65,18 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
      return TagReposicao
     else:
-        pd.options.display.float_format = '{:,.2f}'.format
 
         TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde from "Reposicao"."ProducaoSeparadores" '
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         # Converte a coluna "DataString" em datetime
+        # Função para formatar com separador numérico
+        def format_with_separator(value):
+            return locale.format('%0.2f', value, grouping=True)
 
-        TagReposicao['qtde'] =TagReposicao['qtde'].astype(float)
+        # Aplicar a função na coluna do DataFrame
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
+
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
