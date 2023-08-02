@@ -68,7 +68,6 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
 
         Atualizado = obterHoraAtual()
 
-
         data = {
             '0- Atualizado:':f'{Atualizado}',
             '1- Record Repositor': f'{record["nome"][0]}',
