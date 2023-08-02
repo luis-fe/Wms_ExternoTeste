@@ -1,8 +1,16 @@
+import pytz
+
 import ConexaoPostgreMPL
 import pandas as pd
 import numpy
 import locale
-
+import datetime
+import numpy
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
+    return hora_str
 
 def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
@@ -56,10 +64,11 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
 
-
+        Atualizado = obterHoraAtual()
 
 
         data = {
+            '0- Atualizado:':f'{Atualizado}',
             '1- Record Repositor': f'{record["nome"][0]}',
             '1.1- Record qtd': f'{record["qtde"][0]}',
             '1.2- Record data': f'{record["datareposicao"][0]}',
