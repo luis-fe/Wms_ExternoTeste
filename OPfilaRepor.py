@@ -146,13 +146,18 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         record = pd.merge(record, Usuarios,on='usuario',how='left')
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
+        record1 = record["qtde"][0]
+        record1 = "{:,.0f}".format(record1)
+
+        record1 = str(record1)
+        record1 = record1.replace(',','.')
 
         Atualizado = obterHoraAtual()
 
         data = {
             '0- Atualizado:': f'{Atualizado}',
             '1- Record Repositor': f'{record["nome"][0]}',
-            '1.1- Record qtd': f'{record["qtde"][0]}',
+            '1.1- Record qtd': f'{record1}',
             '1.2- Record data': f'{record["dataseparacao"][0]}',
             '2 Total Periodo': f'{total}',
             '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
