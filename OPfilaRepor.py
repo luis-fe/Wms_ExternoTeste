@@ -44,11 +44,11 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             'group by usuario ', conn, params=(dataInicial, dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
 
-        def format_with_separator(value):
+        def format_with_separator2(value):
             return locale.format('%0.0f', value, grouping=True)
 
             # Aplicar a função na coluna do DataFrame
-        #TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator2)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
         #total = str(total)
         #total = total.replace(',','.')
