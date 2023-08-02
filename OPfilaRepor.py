@@ -43,6 +43,9 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             'where datareposicao >= %s and datareposicao <= %s '
             'group by usuario ', conn, params=(dataInicial, dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+        def format_with_separator(value):
+            return locale.format('%0.0f', value, grouping=True)
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
 
 
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
