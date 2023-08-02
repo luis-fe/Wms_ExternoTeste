@@ -86,5 +86,5 @@
     
     
 </body>
-<script src="static/js/Produtividade.js"></script>
+<script src="/static/js/Produtividade.js"></script>
 </html>
