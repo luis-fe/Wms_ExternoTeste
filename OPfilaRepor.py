@@ -28,37 +28,11 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         return TagReposicao
     else:
 
-        TagReposicao = pd.read_sql('select  "usuario", sum(count) as Qtde, "DataReposicao", "min" , "max"   from '
-                                   '(select tr."usuario", '
-                                   'count(tr."codbarrastag"), '
-                                   'substring("DataReposicao",1,10) as "DataReposicao", '
-                                   'min("DataReposicao") as min, '
-                                   'max("DataReposicao") as max '
-                                   'from "Reposicao"."tagsreposicao" tr '
-                                   'group by "usuario" , substring("DataReposicao",1,10)) as grupo '
-                                   'group by "DataReposicao", "min", "max", "usuario" ', conn)
+        TagReposicao = pd.read_sql(
+            'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores" '
+            'where datareposicao >= %s and datareposicao <= %s '
+            'group by usuario ', conn, params=(dataInicial, dataFInal,))
 
-        TagsRepoS = pd.read_sql('select "usuario", sum(qtde2) as qtde2, "DataReposicao" from '
-                                '(select tr."usuario_rep" as usuario, '
-                                   'count(tr."codbarrastag") as qtde2, '
-                                   'substring("DataReposicao",1,10) as "DataReposicao"'                                   
-                                ' from "Reposicao".tags_separacao tr '
-                                   'group by "usuario_rep" , substring("DataReposicao",1,10)) as grupo '
-                                   'group by "DataReposicao", "usuario" ',conn)
-        TagReposicao = pd.merge(TagReposicao,TagsRepoS, on=('usuario', 'DataReposicao'), how='left')
-        TagReposicao.fillna(0, inplace=True)
-        TagReposicao['qtde'] =TagReposicao['qtde']+TagReposicao['qtde2']
-        TagReposicao.drop('qtde2', axis=1, inplace=True)
-
-
-        # Converte a coluna "DataString" em datetime
-        TagReposicao['DataReposicao'] = pd.to_datetime(TagReposicao['DataReposicao'])
-
-        dataInicial = pd.to_datetime(dataInicial)
-        dataFInal = pd.to_datetime(dataFInal)
-
-        TagReposicao = TagReposicao[(TagReposicao['DataReposicao'] >= dataInicial) & (TagReposicao['DataReposicao'] <= dataFInal)]
-        TagReposicao['DataReposicao'] = TagReposicao['DataReposicao'].dt.strftime('%d/%m/%Y')
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
@@ -97,7 +71,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
-        ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 2) as ritmo '
+        ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
                             ' FROM "Reposicao"."ProducaoSeparadores"'
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 350 '
                             ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
