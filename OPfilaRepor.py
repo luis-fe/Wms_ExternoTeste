@@ -71,6 +71,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        TagReposicao['Qtde']=TagReposicao['Qtde'].astype(int)
         ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
                             ' FROM "Reposicao"."ProducaoSeparadores"'
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 350 '
