@@ -34,6 +34,8 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores" '
             'where datareposicao >= %s and datareposicao <= %s '
             'group by usuario ', conn, params=(dataInicial, dataFInal,))
+        TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
