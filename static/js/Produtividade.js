@@ -23,7 +23,7 @@ function criarTabelasProdutividade(listaDados, tabela) {
     tabelaProdutividade.appendChild(cabecalho);
   
     // Ordena a lista de dados pela quantidade em ordem decrescente
-    listaDados.sort((a, b) => b.qtde - a.qtde);
+    //listaDados.sort((a, b) => b.qtde - a.qtde);
   
     listaDados.forEach((item, index) => {
       const row = document.createElement('tr');
