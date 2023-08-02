@@ -112,11 +112,12 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         def format_with_separator(value):
             return locale.format('%0.0f', value, grouping=True)
-        total = TagReposicao['qtde'].sum().apply(format_with_separator)  # Formula do valor Total
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
+
+        total = TagReposicao['qtde'].sum()  # Formula do valor Total
         total = str(total)
 
         # Aplicar a função na coluna do DataFrame
-        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
