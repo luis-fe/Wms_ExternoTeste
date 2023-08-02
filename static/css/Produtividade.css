@@ -45,10 +45,9 @@ body {
   }
 
   .Retorna,
-  .Faturado,
-  .Metas {
+  .Faturado{
     font-size: 1.8vw;
-    width: 25%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     justify-content: center;
