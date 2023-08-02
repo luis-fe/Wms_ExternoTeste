@@ -92,7 +92,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
                             ' FROM "Reposicao"."ProducaoSeparadores"'
-                            ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 350 '
+                            ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 300 '
                             ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
 
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
