@@ -116,6 +116,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
         total = str(total)
+        total = total.replace(',','.')
 
         # Aplicar a função na coluna do DataFrame
 
