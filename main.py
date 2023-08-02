@@ -196,6 +196,7 @@ def get_TagsSeparacao():
     data_final = request.args.get('DataFinal','0')
     #Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
+    TagReposicao = pd.DataFrame(TagReposicao)
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns

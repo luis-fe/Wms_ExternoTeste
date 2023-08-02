@@ -50,9 +50,12 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         TagReposicao.fillna('-', inplace=True)
+        data = {
 
+            '2- Ranking Separadores': TagReposicao.to_dict(orient='records')
+        }
+        return [data]
 
-        return TagReposicao
 
 
 
