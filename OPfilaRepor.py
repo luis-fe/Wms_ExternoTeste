@@ -72,7 +72,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         # Converte a coluna "DataString" em datetime
         # Função para formatar com separador numérico
         def format_with_separator(value):
-            return locale.format('%0.2f', value, grouping=True)
+            return locale.format('%0.0f', value, grouping=True)
 
         # Aplicar a função na coluna do DataFrame
         TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
