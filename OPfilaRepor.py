@@ -43,6 +43,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             'where datareposicao >= %s and datareposicao <= %s '
             'group by usuario ', conn, params=(dataInicial, dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
 
         def format_with_separator(value):
@@ -59,6 +60,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         TagReposicao.fillna('-', inplace=True)
+
         record = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores" '
                              ' group by usuario, datareposicao', conn)
         record = record.sort_values(by='qtde', ascending=False)
