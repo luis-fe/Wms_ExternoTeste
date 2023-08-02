@@ -87,8 +87,9 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
-        #TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
-        #TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
+        TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+        TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
+        TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
 
         return TagReposicao
 
