@@ -1,210 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtividade</title>
+    <link rel="stylesheet" href="static/css/Produtividade.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<body>
+    <div class="Titulo">
+        <h1>Produtividade</h1>
+    </div>
 
-let qtdSugerida = 0;
-let valorSugerido = 0;
-let qtdSugerida1 = 0;
-let valorSugerido1 = 0;
+    <div class="Filtros">
+        <div class="DataInicio">
+            <label for="text">Data Inicial:</label>
+            <input id="DataInicial" type="date">
+        </div>
+        <div class="DataFim">
+            <label for="text">Data Final:</label>
+            <input id="DataFinal" type="date">
+        </div>
+        <div class="Botao">
+            <button id="btnFiltrar">Filtrar</button>
+        </div>
+        <div class="Retorna">
+            <div class="RetornaPcs">
+            <label for="text">Retorna Pçs:</label>
+            <label id="RetornaPcs" for="text"></label>
+            </div>
+                <div class="RetornaR$">
+                <label  for="text">Retorna:</label>
+                <label id="RetornaValor" for="text"></label>
+                </div>
+        </div>
+        <div class="Faturado">
+            <div class="FaturadoPcs">
+                <label for="text">Retorna Mplus Pçs:</label>
+                <label id="RetornaMplus" for="text"></label>
+            </div>
+                    <div class="FaturadoR$">
+                    <label for="text">Retorna Mplus:</label>
+                    <label id="RetornaMplusR$" for="text"></label>
+                    </div>
+        </div>
+    </div>
 
-function criarTabelasProdutividade(listaDados, tabela) {
-    const tabelaProdutividade = document.getElementById(tabela);
-    tabelaProdutividade.innerHTML = '';
-    
-  
-    const cabecalho = document.createElement('thead');
-    const cabecalhoRow = document.createElement('tr');
-    const ColunaRanking = document.createElement('th');
-    const ColunaColaborador = document.createElement('th');
-    const ColunaQuantidade = document.createElement('th');
-    const ColunaRitmo = document.createElement('th');
-  
-    ColunaRanking.textContent = 'Ranking';
-    ColunaColaborador.textContent = 'Colaborador';
-    ColunaQuantidade.textContent = 'Quantidade';
-    ColunaRitmo.textContent = 'Ritmo';
-  
-    cabecalhoRow.appendChild(ColunaRanking);
-    cabecalhoRow.appendChild(ColunaColaborador);
-    cabecalhoRow.appendChild(ColunaQuantidade);
-    cabecalhoRow.appendChild(ColunaRitmo);
-    cabecalho.appendChild(cabecalhoRow);
-    tabelaProdutividade.appendChild(cabecalho);
-  
-    // Ordena a lista de dados pela quantidade em ordem decrescente
-    //listaDados.sort((a, b) => b.qtde - a.qtde);
-  
-    listaDados.forEach((item, index) => {
-      const row = document.createElement('tr');
-      const ColunaRanking = document.createElement('td');
-      const ColunaColaborador = document.createElement('td');
-      const ColunaQuantidade = document.createElement('td');
-      const ColunaRitmo = document.createElement('td');
-  
-      ColunaRanking.textContent = `${index + 1}º`; // Define o ranking baseado no índice
-      ColunaColaborador.textContent = item.nome;
-      ColunaQuantidade.textContent = item.qtde;
-      ColunaRitmo.textContent = item.ritmo; // Preencha com o valor adequado
-  
-      row.appendChild(ColunaRanking);
-      row.appendChild(ColunaColaborador);
-      row.appendChild(ColunaQuantidade);
-      row.appendChild(ColunaRitmo);
-  
-      tabelaProdutividade.appendChild(row);
-    });
-  }
-  
-  function formatarMoeda(valor) {
-    const formatoMoeda = {
-      style: "currency",
-      currency: "BRL"
-    };
-        return valor.toLocaleString("pt-BR", formatoMoeda);}
+    <div class="Produtividade">
+        <div class="ProdutividadeRepositor">
+            <h2>Produtividade Reposição</h2>
+            <div class="TabelaContainer">
+                <div class="TabelaContainer2">
+                <table border="2" id="TAbelaRepositor"></table>
+                </div>
+                <div class="TotalReposicao">
+                    <i class="bi bi-trophy"></i>
+                    <label id="NomeRecordeRep" for="text"></label>
+                    <label id="ValorRecordeRep" for="text"></label>
+                    <label id="LabelReposto" for="text">Total Reposto:</label>
+                    <label id="LabelTotalReposto" for="text"></label>
+                </div>
+            </div>
+        </div>
+        <div class="linha"></div>
+            <div class="ProdutividadeSeparador">
+                <h2>Produtividade Separação</h2>
+            <div class="TabelaContainer">
+                <div class="TabelaContainer2">
+                    <table border="2"  id="TAbelaSeparador"></table>
+                </div>
+                <div class="TotalSeparacao">
+                    <i class="bi bi-trophy"></i>
+                    <label id="NomeRecordeSep" for="text"></label>
+                    <label id="ValorRecordeSep" for="text"></label>
+                    <label id="LabelSeparado" for="text">Total Separado:</label>
+                    <label id="LabelTotalSeparado" for="text"></label>
+                </div>
+            </div>
+        </div>
+    </div>
 
-const ApiDistribuicao = 'http://192.168.0.183:5000/api/FilaPedidos';
 
-function DadosRetorna (){
-    fetch(ApiDistribuicao, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'a40016aabcx9'
-        },
-      })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            alert("Erro na Atualização, Recarregue a página!\nSe o problema persistir, contate o Administrador!");
-          }
-        })
-        .then(data => {
-            
-          const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS");
-          const Filtro2 = TipoNotaFiltrado.filter(item => item["22- situacaopedido"] !== "Em Conferencia");
-          Filtro2.forEach(item => {
-            item["12-vlrsugestao"] = item["12-vlrsugestao"].replace("R$", "");
-            item["12-vlrsugestao"] = parseFloat(item["12-vlrsugestao"]).toFixed(2);
-    
-            qtdSugerida += item["15-qtdesugerida"];
-            valorSugerido += parseFloat(item["12-vlrsugestao"]);
+
+
         
-
-        });
-
-            const TipoNotaFiltrado1 = data.filter(item2 => item2["03-TipoNota"] === "39 - BN MPLUS");
-            const Filtro3 = TipoNotaFiltrado1.filter(item2 => item2["22- situacaopedido"] !== "Em Conferencia");
-            TipoNotaFiltrado1.forEach(item2 => {
-                item2["12-vlrsugestao"] = item2["12-vlrsugestao"].replace("R$", "");
-                item2["12-vlrsugestao"] = parseFloat(item2["12-vlrsugestao"]).toFixed(2);
-                qtdSugerida1 += item2["15-qtdesugerida"];
-                valorSugerido1 += parseFloat(item2["12-vlrsugestao"]);
-            
-          });
     
-          document.getElementById("RetornaPcs").textContent = qtdSugerida;
-          document.getElementById("RetornaValor").textContent = formatarMoeda(valorSugerido); // Formata o valor após a soma
-          document.getElementById("RetornaMplus").textContent = qtdSugerida1;
-          document.getElementById("RetornaMplusR$").textContent = formatarMoeda(valorSugerido1); // Formata o valor após a soma
-          qtdSugerida = 0;
-          valorSugerido = 0;
-          qtdSugerida1 = 0;
-          valorSugerido1 = 0;
     
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-
-
-    function getFormattedDate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      }
-
-
-
-function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, QtdRecorde, Qtd){
-    fetch (`http://192.168.0.183:5000/api/${Consulta}/Resumo?DataInicial=${dataIni}&DataFinal==${DataFim}`,{
-        method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'a40016aabcx9'
-            },
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    alert("Erro na Atualização, Recarregue a página!\nSe o problema persistir contacte o Administrador!")
-                }
-            })
-            .then(data => {
-                const detalhamentoRanking = data[0]['3- Ranking Repositores'];
-                const detalhamentoNomeRecord = data[0]["1- Record Repositor"];
-                const detalhamentoQtdRecord = data[0]["1.1- Record qtd"];
-                const Total = data[0]["2 Total Periodo"];
-                criarTabelasProdutividade(detalhamentoRanking, Tabela);
-                document.getElementById(NomeRecorde).textContent = detalhamentoNomeRecord;
-                document.getElementById(QtdRecorde).textContent = `${detalhamentoQtdRecord} Pçs`
-                document.getElementById(Qtd).textContent = `${parseFloat(Total)} Pçs`;
-                
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }
-
-
-    function getFormattedDate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      }
-
-const botaoFiltrar = document.getElementById("btnFiltrar")
-
-
-botaoFiltrar.addEventListener('click', () => {
-    atualizarTabelas();
-    document.getElementById("btnFiltrar").disabled = true;
-})
-
-      
-      window.addEventListener('load', () => {
-        const currentDate = new Date();
-        const formattedDate = getFormattedDate(currentDate);
-      
-        tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto");
-        tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado");
-        DadosRetorna();
-
-        document.getElementById("DataInicial").value = formattedDate
-        document.getElementById("DataFinal").value = formattedDate
-        setTimeout(atualizarTabelas, 10000); // 60000 ms = 1 minuto
-    });
-      
-
-    function atualizarTabelas() {
-        const DataIni = document.getElementById("DataInicial").value;
-        const DataFin = document.getElementById("DataFinal").value;
-      
-        Promise.all([
-          tabelaProdutividade("TagsReposicao", "TAbelaRepositor", DataIni, DataFin, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto"),
-          tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", DataIni, DataFin, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado")
-        ]).then(() => {
-          criarTabelasProdutividade(dataReposicao, "TAbelaRepositor");
-          criarTabelasProdutividade(dataSeparacao, "TAbelaSeparador");
-          document.getElementById("btnFiltrar").disabled = false;
-        }).catch(error => {
-          console.error(error);
-          document.getElementById("btnFiltrar").disabled = false; // Habilita o botão mesmo em caso de erro
-        });
-      
-        DadosRetorna(); // Chama a função DadosRetorna() para atualizar os dados
-        setTimeout(atualizarTabelas, 60000); // 60000 ms = 1 minuto
-      }
-
-      
+</body>
+<script src="static/js/Produtividade.js"></script>
+</html>
