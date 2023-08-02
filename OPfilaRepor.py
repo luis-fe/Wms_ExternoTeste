@@ -63,6 +63,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
      return TagReposicao
     else:
+        pd.options.display.float_format = '{:,.2f}'.format
+
         TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde from "Reposicao"."ProducaoSeparadores" '
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
@@ -71,7 +73,6 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
-        TagReposicao['qtde']=TagReposicao['qtde'].astype(int)
         ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
                             ' FROM "Reposicao"."ProducaoSeparadores"'
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo < 350 '
