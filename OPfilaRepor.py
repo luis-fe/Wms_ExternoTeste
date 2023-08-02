@@ -50,7 +50,17 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         TagReposicao.fillna('-', inplace=True)
+        record = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores" '
+                             'where datareposicao >= %s and datareposicao <= %s '
+                             ' group by usuario, datareposicao', conn,params=(dataInicial,dataFInal))
+        record = record.sort_values(by='qtde', ascending=False)
+        record = pd.merge(record, Usuarios,on='usuario',how='left')
+
+
+
+
         data = {
+            '1- Record Repositor': f'{record["usuario"][0]}',
 
             '2- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
