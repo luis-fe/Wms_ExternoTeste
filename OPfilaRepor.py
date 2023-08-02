@@ -69,8 +69,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde from "Reposicao"."ProducaoSeparadores" '
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
-        # Converte a coluna "DataString" em datetime
-        # Função para formatar com separador numérico
+        TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         def format_with_separator(value):
             return locale.format('%0.0f', value, grouping=True)
 
@@ -87,7 +86,6 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
-        TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
 
