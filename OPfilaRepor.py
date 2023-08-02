@@ -109,7 +109,6 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
 
 
-
         def format_with_separator(value):
             return locale.format('%0.0f', value, grouping=True)
         TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
