@@ -60,7 +60,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
 
 
         data = {
-            '1- Record Repositor': f'{record["usuario"][0]}',
+            '1- Record Repositor': f'{record["nome"][0]}',
 
             '2- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
