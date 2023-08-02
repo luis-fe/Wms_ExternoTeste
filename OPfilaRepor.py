@@ -51,7 +51,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         TagReposicao.fillna('-', inplace=True)
         record = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores" '
-                             ' group by usuario, datareposicao', conn,params=(dataInicial,dataFInal))
+                             ' group by usuario, datareposicao', conn)
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
 
