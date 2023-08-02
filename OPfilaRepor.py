@@ -48,9 +48,10 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             return locale.format('%0.0f', value, grouping=True)
 
             # Aplicar a função na coluna do DataFrame
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
-        #total = str(total)
-        #total = total.replace(',','.')
+        total = str(total)
+        total = total.replace(',','.')
 
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
