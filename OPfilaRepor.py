@@ -52,7 +52,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         TagReposicao.fillna('-', inplace=True)
         data = {
 
-            '2- Ranking Separadores': TagReposicao.to_dict(orient='records')
+            '2- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
         return [data]
 
