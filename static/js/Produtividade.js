@@ -1,6 +1,9 @@
 
 let qtdSugerida = 0;
 let valorSugerido = 0;
+let qtdSugerida1 = 0;
+let valorSugerido1 = 0;
+
 function criarTabelasProdutividade(listaDados, tabela) {
     const tabelaProdutividade = document.getElementById(tabela);
     tabelaProdutividade.innerHTML = '';
@@ -74,6 +77,7 @@ function DadosRetorna (){
           }
         })
         .then(data => {
+            
           const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS");
           const Filtro2 = TipoNotaFiltrado.filter(item => item["22- situacaopedido"] !== "Em Conferencia");
           Filtro2.forEach(item => {
@@ -81,13 +85,29 @@ function DadosRetorna (){
             item["12-vlrsugestao"] = parseFloat(item["12-vlrsugestao"]).toFixed(2);
     
             qtdSugerida += item["15-qtdesugerida"];
-            valorSugerido += parseFloat(item["12-vlrsugestao"]); // Converte para número antes de acumular
+            valorSugerido += parseFloat(item["12-vlrsugestao"]);
+        
+
+        });
+
+            const TipoNotaFiltrado1 = data.filter(item2 => item2["03-TipoNota"] === "39 - BN MPLUS");
+            const Filtro3 = TipoNotaFiltrado1.filter(item2 => item2["22- situacaopedido"] !== "Em Conferencia");
+            TipoNotaFiltrado1.forEach(item2 => {
+                item2["12-vlrsugestao"] = item2["12-vlrsugestao"].replace("R$", "");
+                item2["12-vlrsugestao"] = parseFloat(item2["12-vlrsugestao"]).toFixed(2);
+                qtdSugerida1 += item2["15-qtdesugerida"];
+                valorSugerido1 += parseFloat(item2["12-vlrsugestao"]);
+            
           });
     
           document.getElementById("RetornaPcs").textContent = qtdSugerida;
           document.getElementById("RetornaValor").textContent = formatarMoeda(valorSugerido); // Formata o valor após a soma
+          document.getElementById("RetornaMplus").textContent = qtdSugerida1;
+          document.getElementById("RetornaMplusR$").textContent = formatarMoeda(valorSugerido1); // Formata o valor após a soma
           qtdSugerida = 0;
           valorSugerido = 0;
+          qtdSugerida1 = 0;
+          valorSugerido1 = 0;
     
         })
         .catch(error => {
@@ -128,7 +148,7 @@ function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, Q
                 criarTabelasProdutividade(detalhamentoRanking, Tabela);
                 document.getElementById(NomeRecorde).textContent = detalhamentoNomeRecord;
                 document.getElementById(QtdRecorde).textContent = `${detalhamentoQtdRecord} Pçs`
-                document.getElementById(Qtd).textContent = `${Total} Pçs`;
+                document.getElementById(Qtd).textContent = `${parseFloat(Total)} Pçs`;
                 
             })
             .catch(error => {
