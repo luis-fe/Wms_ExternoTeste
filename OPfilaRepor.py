@@ -108,6 +108,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+        total = TagReposicao['qtde'].sum()  # Formula do valor Total
+
         def format_with_separator(value):
             return locale.format('%0.0f', value, grouping=True)
 
@@ -124,10 +126,25 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
+        record = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores" '
+                             ' group by usuario, datareposicao', conn)
+        record = record.sort_values(by='qtde', ascending=False)
+        record = pd.merge(record, Usuarios,on='usuario',how='left')
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
 
-        return TagReposicao
+        Atualizado = obterHoraAtual()
+
+        data = {
+            '0- Atualizado:': f'{Atualizado}',
+            '1- Record Repositor': f'{record["nome"][0]}',
+            '1.1- Record qtd': f'{record["qtde"][0]}',
+            '1.2- Record data': f'{record["datareposicao"][0]}',
+            '2 Total Periodo': f'{total}',
+            '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
+        }
+        return [data]
+
 
 def FilaPorOP(natureza, codempresa):
     conn = ConexaoPostgreMPL.conexao()
