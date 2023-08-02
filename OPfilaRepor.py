@@ -70,7 +70,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         # Converte a coluna "DataString" em datetime
 
-
+        TagReposicao['qtde'] =TagReposicao['qtde'].astype(float)
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 0) as ritmo '
