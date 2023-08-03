@@ -27,7 +27,7 @@ def PesquisarSenha():
 def PesquisarUsuariosCodigo(codigo):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute('select codigo, nome, funcao, situacao from "Reposicao"."cadusuarios" c'
+    cursor.execute('select codigo, nome, funcao, situacao, empresa from "Reposicao"."cadusuarios" c'
                    ' where codigo = %s',(codigo,))
     usuarios = cursor.fetchall()
     cursor.close()
@@ -35,7 +35,7 @@ def PesquisarUsuariosCodigo(codigo):
     if not usuarios:
         return 0, 0, 0
     else:
-        return usuarios[0][1],usuarios[0][2],usuarios[0][3]
+        return usuarios[0][1],usuarios[0][2],usuarios[0][3],usuarios[0][4]
 
 def AtualizarInformacoes(novo_nome, nova_funcao, nova_situacao,  codigo):
     conn = ConexaoPostgreMPL.conexao()
@@ -56,13 +56,13 @@ def InserirUsuario(codigo, funcao, nome, senha, situacao):
     conn.close()
     return True
 
-def ConsultaUsuarioSenha(codigo, senha):
+def ConsultaUsuarioSenha(codigo, senha, empresa):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    query = 'SELECT COUNT(*) FROM "Reposicao"."cadusuarios" WHERE codigo = %s AND senha = %s'
+    query = 'SELECT COUNT(*) FROM "Reposicao"."cadusuarios" WHERE codigo = %s AND senha = %s and empresa = %s'
 
-    cursor.execute(query, (codigo, senha))
+    cursor.execute(query, (codigo, senha, empresa))
     result = cursor.fetchone()[0]
     cursor.close()
 

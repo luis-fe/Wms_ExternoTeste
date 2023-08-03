@@ -135,20 +135,21 @@ def check_user_password():
     # Obtém o código do usuário e a senha dos parâmetros da URL
     codigo = request.args.get('codigo')
     senha = request.args.get('senha')
+    empresa = request.args.get('senha','1')
 
     # Verifica se o código do usuário e a senha foram fornecidos
     if codigo is None or senha is None:
         return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
 
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha)
+    result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha,empresa)
 
 
     # Verifica se o usuário existe
     if result == 1:
         # Consulta no banco de dados para obter informações adicionais do usuário
 
-        nome, funcao, situacao = UsuariosCad.PesquisarUsuariosCodigo(codigo)
+        nome, funcao, situacao, empresa1 = UsuariosCad.PesquisarUsuariosCodigo(codigo)
 
         # Verifica se foram encontradas informações adicionais do usuário
         if nome != 0:
@@ -159,13 +160,14 @@ def check_user_password():
                 "message": "Usuário e senha VALIDADOS!",
                 "nome": nome,
                 "funcao": funcao,
-                "situacao": situacao
+                "situacao": situacao,
+                "empresa":empresa1
             })
         else:
             return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
     else:
         return jsonify({"status": False,
-                        "message": 'Usuário ou senha não existe'}), 401
+                        "message": f'Usuário ou senha não existe na empresa {empresa}'}), 401
 
 
 @app.route('/api/TagsReposicao/Resumo', methods=['GET'])
