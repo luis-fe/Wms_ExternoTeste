@@ -45,7 +45,7 @@ def home():
 def Usuarios():
     return render_template('Usuarios.html')
 
-@app.route('/Produtividade1')
+@app.route('/Produtividade')
 def Produtividade():
     return render_template('Produtividade.html')
 
