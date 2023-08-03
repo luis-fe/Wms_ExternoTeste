@@ -135,14 +135,13 @@ def check_user_password():
     # Obtém o código do usuário e a senha dos parâmetros da URL
     codigo = request.args.get('codigo')
     senha = request.args.get('senha')
-    empresa = request.args.get('senha','1')
 
     # Verifica se o código do usuário e a senha foram fornecidos
     if codigo is None or senha is None:
         return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
 
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha,empresa)
+    result = UsuariosCad.ConsultaUsuarioSenha(codigo, senha)
 
 
     # Verifica se o usuário existe
