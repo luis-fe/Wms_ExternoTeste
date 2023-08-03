@@ -166,7 +166,7 @@ def check_user_password():
             return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
     else:
         return jsonify({"status": False,
-                        "message": f'Usuário ou senha não existe na empresa {empresa}'}), 401
+                        "message": f'Usuário ou senha não existe'}), 401
 
 
 @app.route('/api/TagsReposicao/Resumo', methods=['GET'])
