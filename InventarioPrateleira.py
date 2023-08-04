@@ -233,9 +233,9 @@ def SalvarInventario(endereco):
     # Inserir de volta as tags que deram certo
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-             '"numeroop", "cor", "tamanho", "totalop") ' \
+             '"numeroop", "cor", "tamanho", "totalop","natureza") ' \
              'SELECT "usuario", "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-             ' %s ,  "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop" ' \
+             ' %s ,  "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", "natureza" ' \
              'FROM "Reposicao".tagsreposicao_inventario t ' \
              'WHERE "Endereco" = %s and "situacaoinventario" = %s ;'
     cursor = conn.cursor()
@@ -258,9 +258,9 @@ def SalvarInventario(endereco):
     datahora = obterHoraAtual()
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-             '"numeroop", "cor", "tamanho", "totalop") ' \
+             '"numeroop", "cor", "tamanho", "totalop", "natureza") ' \
              'SELECT "usuario", "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-             '%s , "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop" ' \
+             '%s , "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", "natureza" ' \
              'FROM "Reposicao".tagsreposicao_inventario t ' \
              'WHERE "Endereco" = %s and "situacaoinventario" is not null ;'
     cursor = conn.cursor()
