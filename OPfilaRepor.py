@@ -287,6 +287,6 @@ def ObterNaturezas():
 
 def ObterTipoPrateleira():
     conn = ConexaoPostgreMPL.conexao()
-    qurey = pd.read_sql('select tipo from "Reposicao".configuracaoTipo ',conn)
+    qurey = pd.read_sql('select tipo from "Reposicao"."configuracaoTipo" ',conn)
 
     return qurey
