@@ -17,6 +17,7 @@ import UsuariosCad
 import OPfilaRepor
 import Reposicao
 import ReposicaoSku
+import cadenderecoMassa
 
 # TESTE
 
@@ -403,6 +404,29 @@ def criar_enderco():
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f'Novo endereco:{codendereco} criado com sucesso'}), 201
+
+@app.route('/api/EnderecoAtacado', methods=['PUT'])
+@token_required
+def criar_enderco():
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+
+    rua = novo_endereco.get('ruaInicial')
+    ruaFinal = novo_endereco.get('ruaFinal')
+    modulo = novo_endereco.get('modulo')
+    moduloFinal = novo_endereco.get('moduloFinal')
+    posicao = novo_endereco.get('posicao')
+    posicaoFinal = novo_endereco.get('posicaoFinal')
+    tipo = novo_endereco.get('tipo','COLECAO')
+    natureza = novo_endereco.get('natureza','5')
+    empresa = novo_endereco.get('empresa','1')
+
+
+    cadenderecoMassa.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
+
+    # inserir o novo usuário no banco de dados
+    return jsonify({'message': f'Novos enderecos criado com sucesso'}), 200
 
 
 @app.route('/api/DetalhaEndereco', methods=['GET'])
