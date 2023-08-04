@@ -407,7 +407,7 @@ def criar_enderco():
 
 @app.route('/api/EnderecoAtacado', methods=['PUT'])
 @token_required
-def criar_enderco():
+def EnderecoAtacado():
     # Obtenha os dados do corpo da requisição
     novo_endereco = request.get_json()
     # Extraia os valores dos campos do novo usuário
