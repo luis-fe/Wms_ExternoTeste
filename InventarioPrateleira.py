@@ -128,15 +128,11 @@ def PesquisarTagPrateleira(codbarra, endereco):
     conn = ConexaoPostgreMPL.conexao()
     query1 = pd.read_sql('SELECT "codbarrastag", "Endereco" from "Reposicao".tagsreposicao_inventario t '
             'where codbarrastag = '+"'"+codbarra+"'",conn )
-    enderecoNovo = query1["Endereco"][0]
-    if not query1.empty and enderecoNovo == endereco :
+    #enderecoNovo = query1["Endereco"][0]
+    if not query1.empty  :
 
         conn.close()
         return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10
-    if not query1.empty and enderecoNovo != endereco :
-
-        conn.close()
-        return 11, 12, 13, 14, 15, 16 ,17 ,18 , 19 , 20
 
     else:
         query2 = pd.read_sql('select codbarrastag, "Endereco"   from "Reposicao".tagsreposicao f  '
