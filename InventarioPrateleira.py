@@ -30,7 +30,7 @@ def RegistrarInventario(usuario, data, endereco):
 def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     conn = ConexaoPostgreMPL.conexao()
 
-    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop   = PesquisarTagPrateleira(codbarra, endereco)
+    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop, natureza   = PesquisarTagPrateleira(codbarra, endereco)
 
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
@@ -69,12 +69,12 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} não exite no estoque! ']})
     if validador ==3:
         query = 'insert into  "Reposicao".tagsreposicao_inventario ' \
-                '("codbarrastag","Endereco","situacaoinventario","epc","tamanho","cor","engenharia","codreduzido","descricao","numeroop","totalop","usuario") ' \
-                'values(%s,%s,'+"'adicionado do fila'"+',%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                '("codbarrastag","Endereco","situacaoinventario","epc","tamanho","cor","engenharia","codreduzido","descricao","numeroop","totalop","usuario","natureza") ' \
+                'values(%s,%s,'+"'adicionado do fila'"+',%s,%s,%s,%s,%s,%s,%s,%s,%s, %s)'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
-                           codbarra,endereco,colu_epc, colu_tamanho,colu_cor,colu_eng,colu_red,colu_desc,colu_numeroop,colu_totalop, usuario))
+                           codbarra,endereco,colu_epc, colu_tamanho,colu_cor,colu_eng,colu_red,colu_desc,colu_numeroop,colu_totalop, usuario, natureza))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
@@ -132,7 +132,7 @@ def PesquisarTagPrateleira(codbarra, endereco):
     if not query1.empty  :
 
         conn.close()
-        return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10
+        return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10,11
 
     else:
         query2 = pd.read_sql('select codbarrastag, "Endereco"   from "Reposicao".tagsreposicao f  '
@@ -140,26 +140,26 @@ def PesquisarTagPrateleira(codbarra, endereco):
         if not query2.empty:
 
             conn.close()
-            return 2, query2["Endereco"][0], 2, 2,2,2,2,2,2,2
+            return 2, query2["Endereco"][0], 2, 2,2,2,2,2,2,2,2
         else:
             query3 = pd.read_sql('select "codbarrastag","epc", "tamanho", "cor", "engenharia" , "codreduzido",  '
-                                 '"descricao" ,"numeroop", "totalop" from "Reposicao".filareposicaoportag f  '
+                                 '"descricao" ,"numeroop", "totalop", "codnaturezaatual" from "Reposicao".filareposicaoportag f  '
                                  'where codbarrastag = ' + "'" + codbarra + "'", conn)
 
             if not query3.empty:
                 conn.close()
                 return 3, query3["codbarrastag"][0],query3["epc"][0],query3["tamanho"][0],query3["cor"][0],query3["engenharia"][0],query3["codreduzido"][0], \
-                    query3["descricao"][0],query3["numeroop"][0],query3["totalop"][0]
+                    query3["descricao"][0],query3["numeroop"][0],query3["totalop"][0], query3["codnaturezatual"][0]
 
             else:
                 query4 = pd.read_sql('select "Endereco"  from "Reposicao".tagsreposicao t  '
                                      'where codbarrastag = ' + "'" + codbarra + "'", conn)
                 if not query3.empty:
                     conn.close()
-                    return query4["Endereco"][0], 4, 4, 4,4,4,4,4,4,4
+                    return query4["Endereco"][0], 4, 4, 4,4,4,4,4,4,4,4
                 else:
                     conn.close()
-                    return False, False, False, False, False, False, False, False, False, False
+                    return False, False, False, False, False, False, False, False, False, False, False
 def SituacaoEndereco(endereco,usuario, data):
     conn = ConexaoPostgreMPL.conexao()
     select = 'select * from "Reposicao"."cadendereco" ce ' \
