@@ -41,6 +41,7 @@ def DetalhaPedido(codPedido):
                     '(select  produto as reduzido '
                     'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') ", conn)
 
+
     descricaoSku.drop_duplicates(subset='reduzido', keep='first', inplace=True)
 
 
