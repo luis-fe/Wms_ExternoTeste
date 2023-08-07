@@ -8,8 +8,8 @@ import time
 # CLASSE COM AS FUNÇOES PARA INTERAGIR COM AS APIS DE ACESSO DA "REPOSICAO"
 def relatorioEndereços ():
     conn = ConexaoPostgreMPL.conexao()
-    relatorioEndereço = pd.read_sql('select "Endereco","codreduzido" ,"engenharia" , count(codbarrastag) as saldo, "descricao", cor , tamanho     from "Reposicao".tagsreposicao t   '
-                                    'group by "Endereco", "codreduzido" , "engenharia" ,"descricao", cor , tamanho   ',conn)
+    relatorioEndereço = pd.read_sql('select "Endereco","codreduzido" ,"engenharia" , count(codbarrastag) as saldo, "descricao", cor , tamanho, natureza     from "Reposicao".tagsreposicao t   '
+                                    'group by "Endereco", "codreduzido" , "engenharia" ,"descricao", cor , tamanho, natureza   ',conn)
     conn.close()
     return relatorioEndereço
 
