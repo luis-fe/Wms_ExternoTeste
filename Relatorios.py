@@ -15,8 +15,8 @@ def relatorioEndereços ():
 
 def relatorioFila ():
     conn = ConexaoPostgreMPL.conexao()
-    relatorioFila = pd.read_sql('select "numeroop", count(codbarrastag) as Saldo, engenharia, descricao, codnaturezaatual as natureza from "Reposicao".filareposicaoportag t '
-                                'group by "numeroop", "engenharia", "descricao", codnaturezaatual ',conn)
+    relatorioFila = pd.read_sql('select "numeroop", count(codbarrastag) as Saldo, engenharia, descricao, codnaturezaatual as natureza, empresa from "Reposicao".filareposicaoportag t '
+                                'group by "numeroop", "engenharia", "descricao", codnaturezaatual, empresa ',conn)
     conn.close()
     return relatorioFila
 
