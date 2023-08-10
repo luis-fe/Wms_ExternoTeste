@@ -49,6 +49,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
 
         # Unir os DataFrames usando pd.concat()
         TagReposicao = pd.concat([TagReposicao, TagReposicao2])
+        TagReposicao = TagReposicao.groupby('usuario')['Qtde'].sum().reset_index()
 
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
