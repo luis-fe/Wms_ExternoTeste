@@ -1,622 +1,76 @@
-const ApiDistribuicao = 'http://192.168.0.183:5000/api/FilaPedidos';
-const indiceExibicao = 0;
-let PedidosSelecionados = [];
-let UsuarioSelecionado;
-let PedidosExibicao = [];
-let ordenacaoAscendente = true;
-
-
-
-function criarTabelaDistribuicao(listaPedidos) {
-    const tabela = document.getElementById('TabelaTabelaDistribuicao');
-    tabela.innerHTML = ''; // Limpa o conteúdo da tabela antes de preenchê-la novamente
-
-    // Cria o cabeçalho da tabela
-    const cabecalho = document.createElement('thead');
-    const cabecalhoRow = document.createElement('tr');
-    const colunaCheckbox = document.createElement('th');
-    const ColunaPedido = document.createElement('th');
-    const botaoProduto = document.createElement('button');
-    botaoProduto.id = 'ButtonProduto';
-    botaoProduto.classList.add('botaoProduto');
-    const imagemBotao = document.createElement('img');
-    imagemBotao.src = 'static/imagens/IconeOrdenacao.png';
-    botaoProduto.appendChild(imagemBotao);
-    botaoProduto.addEventListener('click', () => OrdenarTabela("01-CodPedido"));
-
-    const ColunaNomeUsuario = document.createElement('th');
-    const botaoUsuario = document.createElement('button');
-    botaoUsuario.id = 'ButtonUsuario';
-    botaoUsuario.classList.add('botaoUsuario');
-    const imagemBotao1 = document.createElement('img');
-    imagemBotao1.src = 'static/imagens/IconeOrdenacao.png';
-    botaoUsuario.appendChild(imagemBotao1);
-    botaoUsuario.addEventListener('click', () => OrdenarTabela("11-NomeUsuarioAtribuido"));
-
-    const ColunaTipoDeNota = document.createElement('th');
-    const botaoNota = document.createElement('button');
-    botaoNota.id = 'ButtonNota';
-    botaoNota.classList.add('botaoNota');
-    const imagemBotao2 = document.createElement('img');
-    imagemBotao2.src = 'static/imagens/IconeOrdenacao.png';
-    botaoNota.appendChild(imagemBotao2);
-    botaoNota.addEventListener('click', () => OrdenarTabela("03-TipoNota"));
-
-    const ColunaDataSugestao = document.createElement('th');
-    const botaoData = document.createElement('button');
-    botaoData.id = 'ButtonData';
-    botaoData.classList.add('botaoData');
-    const imagemBotao3 = document.createElement('img');
-    imagemBotao3.src = 'static/imagens/IconeOrdenacao.png';
-    botaoData.appendChild(imagemBotao3);
-    botaoData.addEventListener('click', () => OrdenarTabela("02- Data Sugestao"));
-
-    const ColunaQuantidadePeças = document.createElement('th');
-    const botaoQuantidade = document.createElement('button');
-    botaoQuantidade.id = 'ButtonQuantidade';
-    botaoQuantidade.classList.add('botaoQuantidade');
-    const imagemBotao4 = document.createElement('img');
-    imagemBotao4.src = 'static/imagens/IconeOrdenacao.png';
-    botaoQuantidade.appendChild(imagemBotao4);
-    botaoQuantidade.addEventListener('click', () => OrdenarTabela("15-qtdesugerida"));
-
-    const ColunaTotalReposto = document.createElement('th');
-    const botaoReposto = document.createElement('button');
-    botaoReposto.id = 'ButtonReposto';
-    botaoReposto.classList.add('botaoQuantidade');
-    const imagemBotao5 = document.createElement('img');
-    imagemBotao5.src = 'static/imagens/IconeOrdenacao.png';
-    botaoReposto.appendChild(imagemBotao5);
-    botaoReposto.addEventListener('click', () => OrdenarTabela("18-%Reposto"));
-
-    const ColunaTotalSeparado = document.createElement('th');
-    const botaoSeparado = document.createElement('button');
-    botaoSeparado.id = 'ButtonSeparado';
-    botaoSeparado.classList.add('botaoQuantidade');
-    const imagemBotao6 = document.createElement('img');
-    imagemBotao6.src = 'static/imagens/IconeOrdenacao.png';
-    botaoSeparado.appendChild(imagemBotao6);
-    botaoSeparado.addEventListener('click', () => OrdenarTabela("20-Separado%"));
-
-    const ColunaValorPedido = document.createElement('th');
-    const botaoValor = document.createElement('button');
-    botaoValor.id = 'ButtonValor';
-    botaoValor.classList.add('botaoQuantidade');
-    const imagemBotao7 = document.createElement('img');
-    imagemBotao7.src = 'static/imagens/IconeOrdenacao.png';
-    botaoValor.appendChild(imagemBotao7);
-    botaoValor.addEventListener('click', () => OrdenarTabela("12-vlrsugestao"));
-
-    const ColunaPedidosAgrupados = document.createElement('th');
-    const ColunaEstado = document.createElement('th');
-    const ColunaSituacaoPedido = document.createElement('th');
-    const ColunaMarca = document.createElement('th');
-    const ColunaTransportadora = document.createElement('th');
-
-    colunaCheckbox.textContent = '';
-    ColunaPedido.textContent = 'Pedido';
-    ColunaPedido.setAttribute('data-orderable', 'true');
-    ColunaNomeUsuario.textContent = 'Usuário Atribuído';
-    ColunaNomeUsuario.setAttribute('data-orderable', 'true');
-    ColunaTipoDeNota.textContent = 'Tipo de Nota';
-    ColunaTipoDeNota.setAttribute('data-orderable', 'true');
-    ColunaDataSugestao.textContent = 'Data Sugestão';
-    ColunaDataSugestao.setAttribute('data-orderable', 'true');
-    ColunaQuantidadePeças.textContent = 'Quantidade Peças';
-    ColunaQuantidadePeças.setAttribute('data-orderable', 'true');
-    ColunaTotalReposto.textContent = '% Reposto';
-    ColunaTotalReposto.setAttribute('data-orderable', 'true');
-    ColunaTotalSeparado.textContent = '% Separado';
-    ColunaTotalSeparado.setAttribute('data-orderable', 'true');
-    ColunaValorPedido.textContent = 'Valor R$';
-    ColunaValorPedido.setAttribute('data-orderable', 'true');
-    ColunaPedidosAgrupados.textContent = 'Pedidos Agrupados';
-    ColunaPedidosAgrupados.setAttribute('data-orderable', 'true');
-    ColunaEstado.textContent = 'Estado';
-    ColunaEstado.setAttribute('data-orderable', 'true');
-    ColunaSituacaoPedido.textContent = 'Situacao Pedido';
-    ColunaSituacaoPedido.setAttribute('data-orderable', 'true');
-    ColunaMarca.textContent = 'Marca';
-    ColunaMarca.setAttribute('data-orderable', 'true');
-    ColunaTransportadora.textContent = 'Transportadora';
-    ColunaTransportadora.setAttribute('data-orderable', 'true');
-
-    colunaCheckbox.style.width = '30px';
-    ColunaPedido.style.width = '100px'
-    ColunaNomeUsuario.style.width = '250px'
-    ColunaTipoDeNota.style.width = '150px'
-    ColunaDataSugestao.style.width = '100px'
-    ColunaQuantidadePeças.style.width = '100px'
-    ColunaTotalReposto.style.width = '100px'
-    ColunaTotalSeparado.style.width = '100px'
-    ColunaValorPedido.style.width = '150px'
-    ColunaPedidosAgrupados.style.width = '150px'
-    ColunaEstado.style.width = '100px'
-    ColunaSituacaoPedido.style.width = '100px'
-    ColunaMarca.style.width = '100px'
-    ColunaTransportadora.style.width = '250px'
-
-    ColunaPedido.appendChild(botaoProduto);
-    ColunaNomeUsuario.appendChild(botaoUsuario);
-    ColunaTipoDeNota.appendChild(botaoNota);
-    ColunaDataSugestao.appendChild(botaoData);
-    ColunaQuantidadePeças.appendChild(botaoQuantidade);
-    ColunaTotalReposto.appendChild(botaoReposto);
-    ColunaTotalSeparado.appendChild(botaoSeparado);
-    ColunaValorPedido.appendChild(botaoValor);
-    cabecalhoRow.appendChild(colunaCheckbox);
-    cabecalhoRow.appendChild(ColunaPedido);
-    cabecalhoRow.appendChild(ColunaNomeUsuario);
-    cabecalhoRow.appendChild(ColunaTipoDeNota);
-    cabecalhoRow.appendChild(ColunaDataSugestao);
-    cabecalhoRow.appendChild(ColunaQuantidadePeças);
-    cabecalhoRow.appendChild(ColunaTotalReposto);
-    cabecalhoRow.appendChild(ColunaTotalSeparado);
-    cabecalhoRow.appendChild(ColunaValorPedido);
-    cabecalhoRow.appendChild(ColunaPedidosAgrupados);
-    cabecalhoRow.appendChild(ColunaEstado);
-    cabecalhoRow.appendChild(ColunaSituacaoPedido);
-    cabecalhoRow.appendChild(ColunaMarca);
-    cabecalhoRow.appendChild(ColunaTransportadora)
-    cabecalho.appendChild(cabecalhoRow);
-    tabela.appendChild(cabecalho);
-
-    // Preenche a tabela com os dados dos usuários
-    PedidosExibicao = listaPedidos.slice(indiceExibicao, indiceExibicao + 99999);
-
-    PedidosExibicao.forEach(item => {
-        const row = document.createElement('tr');
-        const colunaCheckbox = document.createElement('td');
-        const ColunaPedido = document.createElement('td');
-        const ColunaNomeUsuario = document.createElement('td');
-        const ColunaTipoDeNota = document.createElement('td');
-        const ColunaDataSugestao = document.createElement('td');
-        const ColunaQuantidadePeças = document.createElement('td');
-        const ColunaTotalReposto = document.createElement('td');
-        const ColunaTotalSeparado = document.createElement('td');
-        const ColunaValorPedido = document.createElement('td');
-        const ColunaPedidosAgrupados = document.createElement('td');
-        const ColunaEstado = document.createElement('td');
-        const ColunaSituacaoPedido = document.createElement('td');
-        const ColunaMarca = document.createElement('td');
-        const ColunaTransportadora = document.createElement('td');
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox'; // Alterado de 'radio' para 'checkbox'
-        checkbox.value = item["01-CodPedido"];
-        checkbox.name = 'checkboxPedido';
-        colunaCheckbox.appendChild(checkbox);
-        ColunaPedido.textContent = item["01-CodPedido"];
-        ColunaNomeUsuario.textContent = item["11-NomeUsuarioAtribuido"];
-        ColunaTipoDeNota.textContent = item["03-TipoNota"];
-        ColunaDataSugestao.textContent = new Date(item["02- Data Sugestao"]).toLocaleDateString('pt-BR')
-        ColunaQuantidadePeças.textContent = item["15-qtdesugerida"];
-        ColunaTotalReposto.textContent = item["18-%Reposto"];
-        ColunaTotalSeparado.textContent = item["20-Separado%"];
-        ColunaValorPedido.textContent = item["12-vlrsugestao"];
-        ColunaPedidosAgrupados.textContent = item["14-AgrupamentosPedido"];
-        ColunaEstado.textContent = item["07-estado"];
-        ColunaSituacaoPedido.textContent = item["22- situacaopedido"];
-        ColunaMarca.textContent = item["21-MARCA"];
-        ColunaTransportadora.textContent = item["23-transportadora"];
-        row.appendChild(colunaCheckbox);
-        row.appendChild(ColunaPedido);
-        row.appendChild(ColunaNomeUsuario);
-        row.appendChild(ColunaTipoDeNota);
-        row.appendChild(ColunaDataSugestao);
-        row.appendChild(ColunaQuantidadePeças);
-        row.appendChild(ColunaTotalReposto);
-        row.appendChild(ColunaTotalSeparado);
-        row.appendChild(ColunaValorPedido);
-        row.appendChild(ColunaPedidosAgrupados);
-        row.appendChild(ColunaEstado);
-        row.appendChild(ColunaSituacaoPedido);
-        row.appendChild(ColunaMarca);
-        row.appendChild(ColunaTransportadora);
-        tabela.appendChild(row);
-        });
-
-    }
-
-const modalLoading = document.getElementById("ModalLoading");
-
-function AbrirModalLoading() {
-    modalLoading.style.display = "block";
-}
-
-function FecharModalLoading() {
-    modalLoading.style.display = "none";
-}
-
-
-function CarregarDados() {
-
-    AbrirModalLoading()
-
-    fetch(ApiDistribuicao, {
-            method: 'GET',
-            headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-                    },
-            })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Erro ao obter a lista de usuários');
-        }
-        })
-    .then(data => {
-        console.log(data)
-        const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS" )
-        TipoNotaFiltrado.forEach(item => {
-            item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
-            item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["18-%Reposto"] += "%";
-            item["20-Separado%"] = parseFloat(item["20-Separado%"]);
-            item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["20-Separado%"] += "%";
-            item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
-            
-                });
-    FecharModalLoading();
-    criarTabelaDistribuicao(TipoNotaFiltrado);
-    PintarPedidosCompletos();
-    marcarLinhasDuplicadas();
-    CarregarUsuarios();
-    
-
-    })
-    .catch(error => {
-        console.error(error);
-        FecharModalLoading();
-        });
-}
-
-
-
-        
-const ApiUsuarios = "http://192.168.0.183:5000/api/Usuarios"
-
-function CarregarUsuarios() {
-    const selecaoUsuarios = document.getElementById('Usuarios');
-    selecaoUsuarios.innerHTML = ''; // Limpa os valores antigos da combobox
-        
-    const opcaoInicial = document.createElement('option');
-    opcaoInicial.textContent = 'Selecione um Separador para Atribuição!'; // Texto inicial
-    opcaoInicial.disabled = true;
-    opcaoInicial.selected = true;
-    selecaoUsuarios.appendChild(opcaoInicial);
-        
-    fetch(ApiUsuarios, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-        },
-     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Erro ao obter a lista de usuários');
-        }
-    })
-    .then(data => {
-        data.forEach(item => {
-
-            const novoItem = document.createElement('option');
-            novoItem.textContent = `${item.codigo}-${item.nome}`;
-            selecaoUsuarios.appendChild(novoItem);
-
-        });
-    })
-    .catch(error => {
-        console.error(error);
-            FecharModalLoading();
-    });
-}
-        
-window.addEventListener('load', () => {CarregarDados();});
-
-
-const InputBusca = document.getElementById('InputBusca');
-const TabelaPedidos = document.getElementById('TabelaTabelaDistribuicao');
-        
-InputBusca.addEventListener('keyup', () => {
-    const expressao = InputBusca.value.trim().toLowerCase();
-    const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-        
-        for (let i = 1; i < linhasTabela.length; i++) {
-            const linha = linhasTabela[i];
-            const colunas = linha.getElementsByTagName('td');
-            let encontrou = false;
-        
-        for (let j = 1; j < colunas.length; j++) {
-            const conteudoColuna = colunas[j].textContent.trim().toLowerCase();
-        
-        if (conteudoColuna.includes(expressao)) {
-            encontrou = true;
-            break;
-            }
-        }
-        
-        if (encontrou) {
-            linha.style.display = '';
-        } else {
-            linha.style.display = 'none';
-        }
-            PintarPedidosCompletos();
-            marcarLinhasDuplicadas();
-        }
-    });
-
-
-    function PintarPedidosCompletos() {
-        const colunaDesejada = 6; // Índice da coluna com base em 0 (coluna 7 na contagem padrão)
-        const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-    
-        // Pinta a coluna de verde se o valor for igual a "100.00"
-        for (let i = 1; i < linhasTabela.length; i++) {
-            const linha = linhasTabela[i];
-            const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
-            const valor = colunaValor.textContent.trim();
-    
-            if (valor === "100.00%") {
-                colunaValor.style.backgroundColor = 'lightgreen'; // Pinta a célula da coluna de verde
-            } else {
-                colunaValor.style.backgroundColor = ''; // Remove a cor de fundo da célula caso não seja igual a "100.00"
-            }
-        }
-    }
-    
-
-
-function marcarLinhasDuplicadas() {
-    const valoresContados = {};
-    const colunaDesejada = 9; // Índice da coluna "Usuário Atribuído" na tabela (lembrando que a contagem começa em 0)
-        
-    const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
-        
-            // Conta quantas vezes cada valor aparece na coluna desejada
-    for (let i = 1; i < linhasTabela.length; i++) {
-        const linha = linhasTabela[i];
-        const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
-        const valor = colunaValor.textContent.trim();
-        
-        if (valor in valoresContados) {
-            valoresContados[valor]++;
-            } else {
-                valoresContados[valor] = 1;
-            }
-        }
-        
-// Pinta todas as linhas que possuem valores duplicados
-    for (let i = 1; i < linhasTabela.length; i++) {
-        const linha = linhasTabela[i];
-        const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
-        const valor = colunaValor.textContent.trim();
-        
-        if (valoresContados[valor] > 1) {
-            linha.style.backgroundColor = 'yellow'; // Altera a cor de fundo da linha para amarelo (indicando duplicata)
-        } else {
-            linha.style.backgroundColor = ''; // Remove a cor de fundo caso não seja duplicata
-        }
-        }
-}
-
-function capturarItensSelecionados() {
-    const linhasTabela = document.getElementById('TabelaTabelaDistribuicao').getElementsByTagName('tr');
-    const PedidosSelecionados = [];
-
-    for (let i = 1; i < linhasTabela.length; i++) {
-        const linha = linhasTabela[i];
-        const checkbox = linha.querySelector('input[type="checkbox"]');
-        
-        if (checkbox.checked) {
-            const colunas = linha.getElementsByTagName('td');
-            const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
-            
-            // Verifica se há mais de um pedido na string e separa-os em uma lista
-            const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
-            
-            // Adiciona os pedidos à lista
-            PedidosSelecionados.push(...pedidosSeparados);
-        }
-    }
-
-    return PedidosSelecionados;
-}
-
-const ApiAtribuicao = 'http://192.168.0.183:5000/api/AtribuirPedidos'
-
-function AtribuicaoPedidos() {
-    const PedidosSelecionados = capturarItensSelecionados();
-
-    if (PedidosSelecionados.length === 0) {
-        alert('Nenhum pedido selecionado');
-        CarregarUsuarios();
-    } else {
-    const comboboxUsuarios1 = document.getElementById('Usuarios');
-    const usuarioSelecionado = comboboxUsuarios1.value;
-    const codigoUsuario = usuarioSelecionado.split('-')[0].trim();
-
-    let Atribuicao = {
-        codUsuario: codigoUsuario,
-        pedidos: PedidosSelecionados,
-        data: "2023-06-22 08:00:00"
-    };
-
-    fetch(ApiAtribuicao, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-        },
-        body: JSON.stringify(Atribuicao),
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Erro ao atribuir pedidos');
-        }
-    })
-    .then(data => {
-        CarregarDados();
-        console.log(data);
-        
-    })
-    .catch(error => {
-        console.error(error);
-    });
-    
-}}
-
-const comboboxUsuarios = document.getElementById('Usuarios');
-
-comboboxUsuarios.addEventListener('change', () => {
-    console.log('Capturando itens selecionados...');
-    AtribuicaoPedidos();
-});
-
-
-
-
-function OrdenarTabela(Coluna) {
-
-    ApiOrdenacao = `http://192.168.0.183:5000/api/FilaPedidosClassificacao?coluna=${Coluna}&tipo=${ordenacaoAscendente ? 'asc' : 'desc'}`;
-
-    fetch(ApiOrdenacao, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-        },
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Erro ao atribuir pedidos');
-        }
-    })
-    .then(data => {
-            console.log(data)
-            const TipoNotaFiltrado1 = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS" )
-            TipoNotaFiltrado1.forEach(item => {
-            item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
-            item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["18-%Reposto"] += "%";
-            item["20-Separado%"] = parseFloat(item["20-Separado%"]);
-            item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["20-Separado%"] += "%";
-            item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
-            
-                });
-
-                    ordenacaoAscendente = !ordenacaoAscendente;
-
-        FecharModalLoading();
-        criarTabelaDistribuicao(TipoNotaFiltrado1);
-        PintarPedidosCompletos();
-        marcarLinhasDuplicadas();
-        CarregarUsuarios();
-        
-        })
-    .catch(error => {
-        console.error(error);
-    });
-    
-}
-
-function capturarPedidoVerificacao() {
-    const linhasTabela = document.getElementById('TabelaTabelaDistribuicao').getElementsByTagName('tr');
-    const PedidosSelecionados = [];
-
-    for (let i = 1; i < linhasTabela.length; i++) {
-        const linha = linhasTabela[i];
-        const checkbox = linha.querySelector('input[type="checkbox"]');
-        
-        if (checkbox.checked) {
-            const colunas = linha.getElementsByTagName('td');
-            const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
-            
-            // Verifica se há mais de um pedido na string e separa-os em uma lista
-            const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
-            
-            // Adiciona os pedidos à lista
-            PedidosSelecionados.push(...pedidosSeparados);
-        }
-    }
-
-    if (PedidosSelecionados.length > 1) {
-        alert('Você selecionou mais de um pedido. Por favor, verifique os pedidos antes de continuar.');
-    }
-
-    return PedidosSelecionados;
-}
-
-
-function PecasFaltantes() {
-    const PedidosSelecionados = capturarPedidoVerificacao();
-
-    fetch(`http://192.168.0.183:5000/api/DetalharPedido?codPedido=${PedidosSelecionados}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Erro ao atribuir pedidos');
-        }
-    })
-    .then(data => {
-        const detalhamentoPedido = data[0]["5- Detalhamento dos Sku:"];
-        const Filtro = detalhamentoPedido.filter(item => item["endereco"] === "Não Reposto");
-    
-        const listaPeçasFaltantes = document.getElementById("ListaPeçasFaltantes");
-        listaPeçasFaltantes.innerHTML = ''; // Limpa o conteúdo atual
-    
-        Filtro.forEach(item => {
-            const listItem = document.createElement("li");
-            listItem.textContent = `${item["referencia"]} / ${item["tamanho"]} / ${item["cor"]} - ${item["reduzido"]}`;
-            listaPeçasFaltantes.appendChild(listItem);
-        });
-
-        const modal = document.getElementById("ModalPeçasFaltantes");
-        const TituloModal = document.getElementById("TituloModal");
-        modal.style.display = "block";
-        TituloModal.textContent = `Peças Faltantes no Pedido: ${PedidosSelecionados}`
-    })
-    .catch(error => {
-        console.error(error);
-    });
-}
-
-const fecharModalBtn = document.querySelector(".close");
-
-fecharModalBtn.addEventListener('click', () => {
-    const modal = document.querySelector(".ModalPeçasFaltantes-content");
-    modal.style.display = "none";
-    const modal2 = document.querySelector(".modal");
-    modal2.style.display = "none";
-    
-});
-
-
-const BotaoFalta = document.getElementById("VerificarPecasFaltando");
-
-BotaoFalta.addEventListener('click', () => {
-    PecasFaltantes();
-});
-
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/css/estiloDistribuicao.css">
+
+
+
+</head>
+<body>
+    <div class="Titulo">
+        <a href="index.html">
+        <img src="static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+        </a>
+        <h1>WMS GERENCIAL</h1>
+    </div>
+
+    <div class="Opcoes">
+        <nav>
+            <select id="Configuracoes" onchange="if (this.value !== 'Menu') { window.location.href = this.value; this.value = 'Menu'; }">
+                <option disabled selected>Menu</option>
+                <option value="Usuarios.html">Gerenciar Usuários</option>
+                <option value="index.html">Atribuição de Pedidos</option>
+                <option value=" TelaEnderecos.html">Manutenção de Endereços</option>
+            </select>
+        </nav>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Distribuição de Pedidos</h2></div>
+
+        <div class="Busca">
+            <input id="InputBusca" type="search" class="InputBusca" placeholder="Digite aqui sua busca!">
+        </div>
+
+
+        <div class="Usuarios">
+            <select id="Usuarios" onchange="if (this.value !== 'Selecione um usuário para Atribuição!')">
+                <option disabled selected>Selecione um usuário para Atribuição!</option>
+            </select>
+            <button id="VerificarPecasFaltando">Peças Faltantes</button>
+        </div>
+
+
+    <div class="TabelaContainer">
+        <table border="2" class="TabelaTabelaDistribuicao" id="TabelaTabelaDistribuicao">
+
+        </table>
+        </div>
+
+        <div id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+        <div id="ModalPeçasFaltantes" class="modal">
+            <div class="ModalPeçasFaltantes-content">
+                <span class="close">&times;</span>
+                <h3 id="TituloModal">Peças Faltantes no Pedido</h3>
+                <ul id="ListaPeçasFaltantes"></ul>
+            </div>
+        </div>
+
+    <footer class="Rodape">
+        <p>Grupo Mpl</p>
+    </footer>
 
     
+    <script src="static/js/funcoes.js"></script>
     
+
+</body>
+</html>
