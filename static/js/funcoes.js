@@ -20,7 +20,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoProduto.id = 'ButtonProduto';
     botaoProduto.classList.add('botaoProduto');
     const imagemBotao = document.createElement('img');
-    imagemBotao.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao.src = '/static/imagens/IconeOrdenacao.png';
     botaoProduto.appendChild(imagemBotao);
     botaoProduto.addEventListener('click', () => OrdenarTabela("01-CodPedido"));
 
@@ -29,7 +29,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoUsuario.id = 'ButtonUsuario';
     botaoUsuario.classList.add('botaoUsuario');
     const imagemBotao1 = document.createElement('img');
-    imagemBotao1.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao1.src = '/static/imagens/IconeOrdenacao.png';
     botaoUsuario.appendChild(imagemBotao1);
     botaoUsuario.addEventListener('click', () => OrdenarTabela("11-NomeUsuarioAtribuido"));
 
@@ -38,7 +38,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoNota.id = 'ButtonNota';
     botaoNota.classList.add('botaoNota');
     const imagemBotao2 = document.createElement('img');
-    imagemBotao2.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao2.src = '/static/imagens/IconeOrdenacao.png';
     botaoNota.appendChild(imagemBotao2);
     botaoNota.addEventListener('click', () => OrdenarTabela("03-TipoNota"));
 
@@ -47,7 +47,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoData.id = 'ButtonData';
     botaoData.classList.add('botaoData');
     const imagemBotao3 = document.createElement('img');
-    imagemBotao3.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao3.src = '/static/imagens/IconeOrdenacao.png';
     botaoData.appendChild(imagemBotao3);
     botaoData.addEventListener('click', () => OrdenarTabela("02- Data Sugestao"));
 
@@ -56,7 +56,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoQuantidade.id = 'ButtonQuantidade';
     botaoQuantidade.classList.add('botaoQuantidade');
     const imagemBotao4 = document.createElement('img');
-    imagemBotao4.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao4.src = '/static/imagens/IconeOrdenacao.png';
     botaoQuantidade.appendChild(imagemBotao4);
     botaoQuantidade.addEventListener('click', () => OrdenarTabela("15-qtdesugerida"));
 
@@ -65,7 +65,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoReposto.id = 'ButtonReposto';
     botaoReposto.classList.add('botaoQuantidade');
     const imagemBotao5 = document.createElement('img');
-    imagemBotao5.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao5.src = '/static/imagens/IconeOrdenacao.png';
     botaoReposto.appendChild(imagemBotao5);
     botaoReposto.addEventListener('click', () => OrdenarTabela("18-%Reposto"));
 
@@ -74,7 +74,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoSeparado.id = 'ButtonSeparado';
     botaoSeparado.classList.add('botaoQuantidade');
     const imagemBotao6 = document.createElement('img');
-    imagemBotao6.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao6.src = '/static/imagens/IconeOrdenacao.png';
     botaoSeparado.appendChild(imagemBotao6);
     botaoSeparado.addEventListener('click', () => OrdenarTabela("20-Separado%"));
 
@@ -83,7 +83,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoValor.id = 'ButtonValor';
     botaoValor.classList.add('botaoQuantidade');
     const imagemBotao7 = document.createElement('img');
-    imagemBotao7.src = 'static/imagens/IconeOrdenacao.png';
+    imagemBotao7.src = '/static/imagens/IconeOrdenacao.png';
     botaoValor.appendChild(imagemBotao7);
     botaoValor.addEventListener('click', () => OrdenarTabela("12-vlrsugestao"));
 

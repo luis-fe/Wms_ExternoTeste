@@ -29,7 +29,7 @@ function Login() {
             const NomeUsuario = data.nome;
             localStorage.setItem('nomeUsuario', NomeUsuario);
             localStorage.setItem('CodEmpresa', Empresa);
-            window.location.href = "index.html";
+            window.location.href = "/home";
             return
         } 
         if(data.empresa !== Empresa) {
