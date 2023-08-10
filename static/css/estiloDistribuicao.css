@@ -25,7 +25,7 @@
     flex-wrap: wrap;
     margin: 0 auto;
     padding: 20px;
-    color: royalblue;
+    color: rgb(17, 45, 126);
     }
     
     .Titulo img {
@@ -36,7 +36,7 @@
     .Corpo {
     width: 80%;
     margin: 0 auto;
-    border: 2px solid royalblue;
+    border: 2px solid rgb(17, 45, 126);
     border-radius: 10px;
     }
     
@@ -49,7 +49,7 @@
       margin: 0 auto;
       background-color: white ;
       width: 80%;
-      border: 2px solid royalblue;
+      border: 2px solid rgb(17, 45, 126);
       border-radius: 10px;
       }
 
@@ -60,7 +60,7 @@
         width: 90px;
         background-color: lightgray;
         color: black;
-        border: 2px solid royalblue;
+        border: 2px solid rgb(17, 45, 126);
         border-radius: 10px;
         margin-left: 5px;
 
@@ -73,10 +73,10 @@
     align-items: start;
     flex-wrap: wrap;
     margin: 0 auto;
-    background-color: royalblue ;
+    background-color: rgb(17, 45, 126);;
     width: 80%;
     margin-top: 10px;
-    border: 2px solid royalblue;
+    border: 2px solid rgb(17, 45, 126);
     border-radius: 10px;
     max-height: 45px;
     }
@@ -210,13 +210,15 @@
     min-height: 30px;
   }
 
+  .Usuarios{
+    display: flex;
+    justify-content: center;
+  }
+
   #Usuarios {
     font-size: 16px;
     display: flex;
-    justify-content: left;
-    align-items: start;
-    flex-wrap: wrap;
-    margin: 0 auto;
+    justify-content: left;  
     background-color: white;
     width: 25%;
     margin-top: 20px;
@@ -225,6 +227,19 @@
     min-height: 30px;
   }
     
+  #VerificarPecasFaltando {
+    align-items: center;
+    font-size: 16px; 
+    background-color: white;
+    margin-top: 20px;
+    border: 2px solid darkgray;
+    border-radius: 10px;
+    min-height: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+    background-color: rgb(17, 45, 126);
+    color: white;
+  }
       
 
 
@@ -320,7 +335,7 @@
 
   #AdicionarUsuario{
     margin-right: 5px;
-    color: royalblue;
+    color: rgb(17, 45, 126);
     font-size: 35px;
     margin-left: 10px; /* Espaçamento entre a input e a imagem */
     cursor: pointer;
@@ -329,7 +344,7 @@
 
   #RemoverUsuario{
     margin-right: 5px;
-    color: royalblue;
+    color: rgb(17, 45, 126);
     font-size: 35px;
     margin-left: 10px; /* Espaçamento entre a input e a imagem */
     cursor: pointer;
@@ -338,7 +353,7 @@
 
   #EditarUsuario{
     margin-right: 5px;
-    color: royalblue;
+    color: rgb(17, 45, 126);
     font-size: 30px;
     margin-left: 10px; /* Espaçamento entre a input e a imagem */
     cursor: pointer;
@@ -391,7 +406,7 @@
     border: 2px solid lightgray;
     border-radius: 5px;
     text-align: center;
-    background-color: royalblue;
+    background-color: rgb(17, 45, 126);
     color: black;
     margin-top: 20px;
     margin-left: 38%;
@@ -431,7 +446,7 @@
     left: 0;
     width: 100%;
     padding: 20px;
-    background-color: royalblue;
+    background-color: rgb(17, 45, 126);
     text-align: center;
     font-size: 20px;
     font-family: Arial;
@@ -502,7 +517,7 @@ position: relative;
   border: 2px solid lightgray;
   border-radius: 5px;
   text-align: center;
-  background-color: royalblue;
+  background-color: rgb(17, 45, 126);
   color: black;
   margin-top: 20px;
   margin-left: 38%;
@@ -542,11 +557,56 @@ margin-top: 20px;
   left: 0;
   width: 100%;
   padding: 20px;
-  background-color: royalblue;
+  background-color: rgb(17, 45, 126);
   text-align: center;
   font-size: 20px;
   font-family: Arial;
   border: 5px;
   margin: 0;
   z-index: 2;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ModalPeçasFaltantes-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 500px;
+  position: relative;
+  z-index: 1;
+  max-height: 30vh;
+  overflow: auto;
+  text-align: center;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ModalPeçasFaltantes-content h3{
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
