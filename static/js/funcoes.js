@@ -590,8 +590,10 @@ function PecasFaltantes() {
         });
 
         const modal = document.getElementById("ModalPeçasFaltantes");
+        const modal2 = document.querySelector(".ModalPeçasFaltantes-content");
         const TituloModal = document.getElementById("TituloModal");
         modal.style.display = "block";
+        modal2.style.display = "block";
         TituloModal.textContent = `Peças Faltantes no Pedido: ${PedidosSelecionados}`
     })
     .catch(error => {

@@ -20,7 +20,7 @@ function Login() {
         if (response.ok) {
             return response.json();
         } else {
-            throw new Error('Erro ao fazer login');
+            UsuarioNegado.textContent = "Usuário ou Senha não Conferem!";
         }
     })
     .then(data => {
