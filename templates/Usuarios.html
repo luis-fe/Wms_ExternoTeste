@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WMS GERENCIAL</title>
-    <link rel="stylesheet" href="/static/css/estiloDistribuicao.css">
+    <link rel="stylesheet" href="static/css/estiloDistribuicao.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 
@@ -12,8 +12,8 @@
 </head>
 <body>
     <div class="Titulo">
-        <a href="Usuarios">
-        <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+        <a href="Usuarios.html">
+        <img src="static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
         </a>
         <h1>WMS GERENCIAL</h1>
     </div>
@@ -22,8 +22,9 @@
         <nav>
             <select id="Configuracoes" onchange="if (this.value !== 'Menu') { window.location.href = this.value; this.value = 'Menu'; }">
                 <option disabled selected>Menu</option>
-                <option value="/Usuarios">Gerenciar Usuários</option>
-                <option value="/">Atribuição de Pedidos</option>
+                <option value="Usuarios.html">Gerenciar Usuários</option>
+                <option value="index.html">Atribuição de Pedidos</option>
+                <option value=" TelaEnderecos.html">Manutenção de Endereços</option>
             </select>
         </nav>
     </div>
@@ -46,7 +47,7 @@
         </div>
 
         <div id="ModalLoading" class="ModalLoading">
-            <span id="loader"><img src="/static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
           </span>
           </div>
         </div>
@@ -109,7 +110,7 @@
 
     
 
-    <script src="/static/js/funcoesUsuarios.js"></script>
+    <script src="static/js/funcoesUsuarios.js"></script>
     
 
 </body>
