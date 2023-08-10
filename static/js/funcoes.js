@@ -20,7 +20,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoProduto.id = 'ButtonProduto';
     botaoProduto.classList.add('botaoProduto');
     const imagemBotao = document.createElement('img');
-    imagemBotao.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao.src = 'static/imagens/IconeOrdenacao.png';
     botaoProduto.appendChild(imagemBotao);
     botaoProduto.addEventListener('click', () => OrdenarTabela("01-CodPedido"));
 
@@ -29,7 +29,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoUsuario.id = 'ButtonUsuario';
     botaoUsuario.classList.add('botaoUsuario');
     const imagemBotao1 = document.createElement('img');
-    imagemBotao1.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao1.src = 'static/imagens/IconeOrdenacao.png';
     botaoUsuario.appendChild(imagemBotao1);
     botaoUsuario.addEventListener('click', () => OrdenarTabela("11-NomeUsuarioAtribuido"));
 
@@ -38,7 +38,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoNota.id = 'ButtonNota';
     botaoNota.classList.add('botaoNota');
     const imagemBotao2 = document.createElement('img');
-    imagemBotao2.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao2.src = 'static/imagens/IconeOrdenacao.png';
     botaoNota.appendChild(imagemBotao2);
     botaoNota.addEventListener('click', () => OrdenarTabela("03-TipoNota"));
 
@@ -47,7 +47,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoData.id = 'ButtonData';
     botaoData.classList.add('botaoData');
     const imagemBotao3 = document.createElement('img');
-    imagemBotao3.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao3.src = 'static/imagens/IconeOrdenacao.png';
     botaoData.appendChild(imagemBotao3);
     botaoData.addEventListener('click', () => OrdenarTabela("02- Data Sugestao"));
 
@@ -56,7 +56,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoQuantidade.id = 'ButtonQuantidade';
     botaoQuantidade.classList.add('botaoQuantidade');
     const imagemBotao4 = document.createElement('img');
-    imagemBotao4.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao4.src = 'static/imagens/IconeOrdenacao.png';
     botaoQuantidade.appendChild(imagemBotao4);
     botaoQuantidade.addEventListener('click', () => OrdenarTabela("15-qtdesugerida"));
 
@@ -65,7 +65,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoReposto.id = 'ButtonReposto';
     botaoReposto.classList.add('botaoQuantidade');
     const imagemBotao5 = document.createElement('img');
-    imagemBotao5.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao5.src = 'static/imagens/IconeOrdenacao.png';
     botaoReposto.appendChild(imagemBotao5);
     botaoReposto.addEventListener('click', () => OrdenarTabela("18-%Reposto"));
 
@@ -74,7 +74,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoSeparado.id = 'ButtonSeparado';
     botaoSeparado.classList.add('botaoQuantidade');
     const imagemBotao6 = document.createElement('img');
-    imagemBotao6.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao6.src = 'static/imagens/IconeOrdenacao.png';
     botaoSeparado.appendChild(imagemBotao6);
     botaoSeparado.addEventListener('click', () => OrdenarTabela("20-Separado%"));
 
@@ -83,7 +83,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoValor.id = 'ButtonValor';
     botaoValor.classList.add('botaoQuantidade');
     const imagemBotao7 = document.createElement('img');
-    imagemBotao7.src = '/static/imagens/IconeOrdenacao.png';
+    imagemBotao7.src = 'static/imagens/IconeOrdenacao.png';
     botaoValor.appendChild(imagemBotao7);
     botaoValor.addEventListener('click', () => OrdenarTabela("12-vlrsugestao"));
 
@@ -504,20 +504,22 @@ function OrdenarTabela(Coluna) {
     })
     .then(data => {
             console.log(data)
-            data.forEach(item => {
-                item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
-                item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-                item["18-%Reposto"] += "%";
-                item["20-Separado%"] = parseFloat(item["20-Separado%"]);
-                item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-                item["20-Separado%"] += "%";
-                item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
-                    });
+            const TipoNotaFiltrado1 = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS" )
+            TipoNotaFiltrado1.forEach(item => {
+            item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
+            item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
+            item["18-%Reposto"] += "%";
+            item["20-Separado%"] = parseFloat(item["20-Separado%"]);
+            item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
+            item["20-Separado%"] += "%";
+            item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
+            
+                });
 
                     ordenacaoAscendente = !ordenacaoAscendente;
 
         FecharModalLoading();
-        criarTabelaDistribuicao(data);
+        criarTabelaDistribuicao(TipoNotaFiltrado1);
         PintarPedidosCompletos();
         marcarLinhasDuplicadas();
         CarregarUsuarios();
@@ -529,8 +531,90 @@ function OrdenarTabela(Coluna) {
     
 }
 
+function capturarPedidoVerificacao() {
+    const linhasTabela = document.getElementById('TabelaTabelaDistribuicao').getElementsByTagName('tr');
+    const PedidosSelecionados = [];
+
+    for (let i = 1; i < linhasTabela.length; i++) {
+        const linha = linhasTabela[i];
+        const checkbox = linha.querySelector('input[type="checkbox"]');
+        
+        if (checkbox.checked) {
+            const colunas = linha.getElementsByTagName('td');
+            const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
+            
+            // Verifica se há mais de um pedido na string e separa-os em uma lista
+            const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
+            
+            // Adiciona os pedidos à lista
+            PedidosSelecionados.push(...pedidosSeparados);
+        }
+    }
+
+    if (PedidosSelecionados.length > 1) {
+        alert('Você selecionou mais de um pedido. Por favor, verifique os pedidos antes de continuar.');
+    }
+
+    return PedidosSelecionados;
+}
 
 
+function PecasFaltantes() {
+    const PedidosSelecionados = capturarPedidoVerificacao();
+
+    fetch(`http://192.168.0.183:5000/api/DetalharPedido?codPedido=${PedidosSelecionados}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'a40016aabcx9'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro ao atribuir pedidos');
+        }
+    })
+    .then(data => {
+        const detalhamentoPedido = data[0]["5- Detalhamento dos Sku:"];
+        const Filtro = detalhamentoPedido.filter(item => item["endereco"] === "Não Reposto");
+    
+        const listaPeçasFaltantes = document.getElementById("ListaPeçasFaltantes");
+        listaPeçasFaltantes.innerHTML = ''; // Limpa o conteúdo atual
+    
+        Filtro.forEach(item => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `${item["referencia"]} / ${item["tamanho"]} / ${item["cor"]} - ${item["reduzido"]}`;
+            listaPeçasFaltantes.appendChild(listItem);
+        });
+
+        const modal = document.getElementById("ModalPeçasFaltantes");
+        const TituloModal = document.getElementById("TituloModal");
+        modal.style.display = "block";
+        TituloModal.textContent = `Peças Faltantes no Pedido: ${PedidosSelecionados}`
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+const fecharModalBtn = document.querySelector(".close");
+
+fecharModalBtn.addEventListener('click', () => {
+    const modal = document.querySelector(".ModalPeçasFaltantes-content");
+    modal.style.display = "none";
+    const modal2 = document.querySelector(".modal");
+    modal2.style.display = "none";
+    
+});
+
+
+const BotaoFalta = document.getElementById("VerificarPecasFaltando");
+
+BotaoFalta.addEventListener('click', () => {
+    PecasFaltantes();
+});
 
 
 
