@@ -863,8 +863,9 @@ def get_RelatorioTotalFila():
 @token_required
 def get_DisponibilidadeEnderecos():
     # Obtém os dados do corpo da requisição (JSON)
-
-    Endereco_det = Relatorios.EnderecosDisponiveis()
+    empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+    Endereco_det = Relatorios.EnderecosDisponiveis(natureza, empresa)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns

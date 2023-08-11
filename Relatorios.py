@@ -107,14 +107,14 @@ def InformacaoPedidoViaTag(codbarras):
     return Informa
 
 
-def EnderecosDisponiveis():
+def EnderecosDisponiveis(natureza, empresa):
     conn = ConexaoPostgreMPL.conexao()
     relatorioEndereço = pd.read_sql(
         'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
-        'where contagem = 0 ', conn)
+        'where contagem = 0 and natureza = %s ', conn, params=(natureza,))
     relatorioEndereço2 = pd.read_sql(
-        'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" '
-        ' ', conn)
+        'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" where natureza = %s'
+        ' ', conn, params=(natureza,))
     TaxaOcupacao = 1-(relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size)
     TaxaOcupacao = round(TaxaOcupacao, 2) * 100
     tamanho = relatorioEndereço["codendereco"].size
@@ -129,7 +129,7 @@ def EnderecosDisponiveis():
     conn.close()
     data = {
 
-        '1- Total de Enderecos Naturarez 5': tamanho2,
+        '1- Total de Enderecos Natureza ': tamanho2,
         '2- Total de Enderecos Disponiveis': tamanho,
         '3- Taxa de Oculpaçao dos Enderecos': f'{TaxaOcupacao} %',
         '4- Enderecos disponiveis ': relatorioEndereço.to_dict(orient='records')
