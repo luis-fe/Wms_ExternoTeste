@@ -18,7 +18,7 @@ def ApontarTagReduzido(codbarra,endereco,usuario,dthora, Prosseguir = 0):
         cursor.execute(query
                        , (
                            codbarra, endereco, epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc,
-                           colu_numeroop, colu_totalop, usuario,'veio da fila'))
+                           colu_numeroop, colu_totalop, usuario,'veio da fila: reposicao por SKU'))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
