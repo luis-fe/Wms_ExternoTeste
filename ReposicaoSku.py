@@ -13,7 +13,7 @@ def ApontarTagReduzido(codbarra,endereco,usuario,dthora, Prosseguir = 0, empresa
         conn = ConexaoPostgreMPL.conexao()
         query = 'insert into  "Reposicao".tagsreposicao ' \
                 '("codbarrastag","Endereco","epc","tamanho","cor","Engenharia","codreduzido","descricao","numeroop","totalop","usuario",proveniencia, natureza) ' \
-                'values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                'values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
@@ -38,13 +38,13 @@ def ApontarTagReduzido(codbarra,endereco,usuario,dthora, Prosseguir = 0, empresa
     if pesquisa == 2 and Prosseguir ==0:
         conn = ConexaoPostgreMPL.conexao()
         query = 'insert into  "Reposicao".tagsreposicao ' \
-                '("codbarrastag","Endereco","situacaoinventario","epc","tamanho","cor","Engenharia","codreduzido","descricao","numeroop","totalop","usuario") ' \
-                'values(%s,%s,' + "'adicionado do fila'" + ',%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+                '("codbarrastag","Endereco","situacaoinventario","epc","tamanho","cor","Engenharia","codreduzido","descricao","numeroop","totalop","usuario", natureza, proveniencia) ' \
+                'values(%s,%s,' + "'adicionado do fila'" + ',%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
                            codbarra, endereco, epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc,
-                           colu_numeroop, colu_totalop, usuario))
+                           colu_numeroop, colu_totalop, usuario, natureza, 'veio do Inventario'))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
