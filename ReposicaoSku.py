@@ -5,20 +5,20 @@ import time
 
 
 # CLASSE COM AS FUNÇOES PARA INTERAGIR COM AS APIS DE ACESSO DA "REPOSICAO"
-def ApontarTagReduzido(codbarra,endereco,usuario,dthora, Prosseguir = 0):
+def ApontarTagReduzido(codbarra,endereco,usuario,dthora, Prosseguir = 0, empresa = '1', natureza = '5'):
 
     pesquisa, epc, colu_tamanho, colu_cor, colu_eng,colu_red, colu_desc,\
                            colu_numeroop, colu_totalop, enderecoAntes = PesquisarTagPrateleira(codbarra)
     if pesquisa == 1 and Prosseguir ==0:
         conn = ConexaoPostgreMPL.conexao()
         query = 'insert into  "Reposicao".tagsreposicao ' \
-                '("codbarrastag","Endereco","epc","tamanho","cor","Engenharia","codreduzido","descricao","numeroop","totalop","usuario",proveniencia) ' \
+                '("codbarrastag","Endereco","epc","tamanho","cor","Engenharia","codreduzido","descricao","numeroop","totalop","usuario",proveniencia, natureza) ' \
                 'values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
                            codbarra, endereco, epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc,
-                           colu_numeroop, colu_totalop, usuario,'veio da fila: reposicao por SKU'))
+                           colu_numeroop, colu_totalop, usuario,'veio da fila: reposicao por SKU',natureza))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount

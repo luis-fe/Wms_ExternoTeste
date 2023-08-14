@@ -773,8 +773,11 @@ def get_ApontarTagReduzido():
     endereco = datas['endereço']
     codbarra = datas['codbarras']
     Prosseguir = datas.get('Prosseguir', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
+    natureza = datas['natureza','5']
+    empresa = datas['empresa','1']
 
-    Endereco_det = ReposicaoSku.ApontarTagReduzido(codbarra, endereco, codusuario, 'dataHora', Prosseguir)
+
+    Endereco_det = ReposicaoSku.ApontarTagReduzido(codbarra, endereco, codusuario, 'dataHora', Prosseguir, natureza, empresa)
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
