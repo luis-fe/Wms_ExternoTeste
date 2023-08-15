@@ -98,11 +98,6 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
         }
         return [data]
 
-
-
-
-
-
 def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
     conn = ConexaoPostgreMPL.conexao()
 

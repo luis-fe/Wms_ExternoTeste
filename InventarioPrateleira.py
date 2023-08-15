@@ -35,12 +35,12 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
             'set situacaoinventario  = '+"'OK', "+ \
-            'usuario = %s  '\
+            'usuario = %s, "Endereco"= %s  '\
             'where codbarrastag = %s'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
-                           usuario, codbarra,))
+                           usuario, endereco,codbarra,))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
