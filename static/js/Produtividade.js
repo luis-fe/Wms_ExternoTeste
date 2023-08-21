@@ -59,8 +59,10 @@ function criarTabelasProdutividade(listaDados, tabela, exibirColunas = false) {
       row.appendChild(ColunaRanking);
       row.appendChild(ColunaColaborador);
       row.appendChild(ColunaQuantidade);
-      row.appendChild(ColunaQuantidadePedidos);
-      row.appendChild(ColunaMediaPedidos);
+      if (exibirColunas === true) { // Verifica se a coluna extra deve ser exibida
+        row.appendChild(ColunaQuantidadePedidos);
+        row.appendChild(ColunaMediaPedidos);
+      }
       row.appendChild(ColunaRitmo);
   
       tabelaProdutividade.appendChild(row);
