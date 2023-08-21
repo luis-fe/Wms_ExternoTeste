@@ -4,7 +4,7 @@ let valorSugerido = 0;
 let qtdSugerida1 = 0;
 let valorSugerido1 = 0;
 
-function criarTabelasProdutividade(listaDados, tabela) {
+function criarTabelasProdutividade(listaDados, tabela, exibirColunas = false) {
     const tabelaProdutividade = document.getElementById(tabela);
     tabelaProdutividade.innerHTML = '';
     
@@ -14,16 +14,25 @@ function criarTabelasProdutividade(listaDados, tabela) {
     const ColunaRanking = document.createElement('th');
     const ColunaColaborador = document.createElement('th');
     const ColunaQuantidade = document.createElement('th');
+    const ColunaQuantidadePedidos = document.createElement('th');
+    const ColunaMediaPedidos = document.createElement('th');
     const ColunaRitmo = document.createElement('th');
   
     ColunaRanking.textContent = 'Ranking';
     ColunaColaborador.textContent = 'Colaborador';
     ColunaQuantidade.textContent = 'Quantidade';
+    ColunaQuantidadePedidos.textContent = 'Quantidade Pedidos';
+    ColunaMediaPedidos.textContent = 'Média de Pçs';
     ColunaRitmo.textContent = 'Ritmo';
+
   
     cabecalhoRow.appendChild(ColunaRanking);
     cabecalhoRow.appendChild(ColunaColaborador);
     cabecalhoRow.appendChild(ColunaQuantidade);
+    if (exibirColunas === true) { // Verifica se a coluna extra deve ser exibida
+      cabecalhoRow.appendChild(ColunaQuantidadePedidos);
+      cabecalhoRow.appendChild(ColunaMediaPedidos);
+    }
     cabecalhoRow.appendChild(ColunaRitmo);
     cabecalho.appendChild(cabecalhoRow);
     tabelaProdutividade.appendChild(cabecalho);
@@ -36,16 +45,22 @@ function criarTabelasProdutividade(listaDados, tabela) {
       const ColunaRanking = document.createElement('td');
       const ColunaColaborador = document.createElement('td');
       const ColunaQuantidade = document.createElement('td');
+      const ColunaQuantidadePedidos = document.createElement('td');
+      const ColunaMediaPedidos = document.createElement('td');
       const ColunaRitmo = document.createElement('td');
   
       ColunaRanking.textContent = `${index + 1}º`; // Define o ranking baseado no índice
       ColunaColaborador.textContent = item.nome;
       ColunaQuantidade.textContent = item.qtde;
+      ColunaQuantidadePedidos.textContent = item["Qtd Pedido"];
+      ColunaMediaPedidos.textContent = item["Méd pçs/ped."];
       ColunaRitmo.textContent = item.ritmo; // Preencha com o valor adequado
   
       row.appendChild(ColunaRanking);
       row.appendChild(ColunaColaborador);
       row.appendChild(ColunaQuantidade);
+      row.appendChild(ColunaQuantidadePedidos);
+      row.appendChild(ColunaMediaPedidos);
       row.appendChild(ColunaRitmo);
   
       tabelaProdutividade.appendChild(row);
@@ -91,7 +106,6 @@ function DadosRetorna (){
         });
 
             const TipoNotaFiltrado1 = data.filter(item2 => item2["03-TipoNota"] === "39 - BN MPLUS");
-            const Filtro3 = TipoNotaFiltrado1.filter(item2 => item2["22- situacaopedido"] !== "Em Conferencia");
             TipoNotaFiltrado1.forEach(item2 => {
                 item2["12-vlrsugestao"] = item2["12-vlrsugestao"].replace("R$", "");
                 item2["12-vlrsugestao"] = parseFloat(item2["12-vlrsugestao"]).toFixed(2);
@@ -125,7 +139,7 @@ function DadosRetorna (){
 
 
 
-function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, QtdRecorde, Qtd){
+function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, QtdRecorde, Qtd, situacaoColuna){
     fetch (`http://192.168.0.183:5000/api/${Consulta}/Resumo?DataInicial=${dataIni}&DataFinal==${DataFim}`,{
         method: 'GET',
             headers: {
@@ -136,6 +150,7 @@ function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, Q
             .then(response => {
                 if (response.ok) {
                     return response.json();
+                    
                 } else {
                     alert("Erro na Atualização, Recarregue a página!\nSe o problema persistir contacte o Administrador!")
                 }
@@ -145,7 +160,7 @@ function tabelaProdutividade (Consulta, Tabela, dataIni, DataFim, NomeRecorde, Q
                 const detalhamentoNomeRecord = data[0]["1- Record Repositor"];
                 const detalhamentoQtdRecord = data[0]["1.1- Record qtd"];
                 const Total = data[0]["2 Total Periodo"];
-                criarTabelasProdutividade(detalhamentoRanking, Tabela);
+                criarTabelasProdutividade(detalhamentoRanking, Tabela, situacaoColuna);
                 document.getElementById(NomeRecorde).textContent = detalhamentoNomeRecord;
                 document.getElementById(QtdRecorde).textContent = `${detalhamentoQtdRecord} Pçs`
                 document.getElementById(Qtd).textContent = `${parseFloat(Total)} Pçs`;
@@ -177,8 +192,8 @@ botaoFiltrar.addEventListener('click', () => {
         const currentDate = new Date();
         const formattedDate = getFormattedDate(currentDate);
       
-        tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto");
-        tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado");
+        tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto", false);
+        tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", true);
         DadosRetorna();
 
         document.getElementById("DataInicial").value = formattedDate
@@ -192,11 +207,11 @@ botaoFiltrar.addEventListener('click', () => {
         const DataFin = document.getElementById("DataFinal").value;
       
         Promise.all([
-          tabelaProdutividade("TagsReposicao", "TAbelaRepositor", DataIni, DataFin, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto"),
-          tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", DataIni, DataFin, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado")
+          tabelaProdutividade("TagsReposicao", "TAbelaRepositor", DataIni, DataFin, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto", false),
+          tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", DataIni, DataFin, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", true)
         ]).then(() => {
-          criarTabelasProdutividade(dataReposicao, "TAbelaRepositor");
-          criarTabelasProdutividade(dataSeparacao, "TAbelaSeparador");
+          criarTabelasProdutividade(dataReposicao, "TAbelaRepositor", false);
+          criarTabelasProdutividade(dataSeparacao, "TAbelaSeparador", true);
           document.getElementById("btnFiltrar").disabled = false;
         }).catch(error => {
           console.error(error);
