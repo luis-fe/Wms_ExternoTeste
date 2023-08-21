@@ -1,8 +1,6 @@
 import pytz
-
 import ConexaoPostgreMPL
 import pandas as pd
-import numpy
 import locale
 import datetime
 import numpy
@@ -124,6 +122,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
         TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['Méd pçs/ped.'].astype(int) + 1
 
 
 
