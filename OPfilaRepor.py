@@ -118,7 +118,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
      return TagReposicao
     else:
 
-        TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde from "Reposicao"."ProducaoSeparadores" '
+        TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde, count(distinct codpedido) as "Qtd Pedido" from "Reposicao"."ProducaoSeparadores" '
                                    'where dataseparacao >= %s and dataseparacao <= %s '
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
@@ -141,6 +141,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                             ' FROM "Reposicao"."ProducaoSeparadores"'
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo <> 500 and ritmo <1001'
                             ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
+        
 
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
