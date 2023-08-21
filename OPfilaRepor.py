@@ -154,6 +154,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         record1 = record["qtde"][0]
         record1 = "{:,.0f}".format(record1)
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
 
         record1 = str(record1)
         record1 = record1.replace(',','.')
