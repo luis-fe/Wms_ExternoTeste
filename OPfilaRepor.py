@@ -123,6 +123,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                                    'group by usuario ', conn, params=(dataInicial,dataFInal,))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
 
 
 
@@ -142,7 +143,6 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo <> 500 and ritmo <1001'
                             ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
         
-        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
 
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
