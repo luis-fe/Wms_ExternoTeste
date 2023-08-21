@@ -142,6 +142,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                             ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo <> 500 and ritmo <1001'
                             ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
         
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
 
         TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
@@ -154,7 +155,6 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         record1 = record["qtde"][0]
         record1 = "{:,.0f}".format(record1)
-        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']
 
         record1 = str(record1)
         record1 = record1.replace(',','.')
