@@ -449,7 +449,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             return pd.DataFrame({'Mensagem': [f'tag  {codbarra} estornado no pedido'],'status': [True]} )
 
     else:
-        return pd.DataFrame({'Mensagem': [f'tag nao encontrada no estoque do endereço']})
+        return pd.DataFrame({'Mensagem': [f'tag nao pertence ao endereco selecionado']})
 
 
 
