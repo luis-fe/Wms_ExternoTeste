@@ -746,7 +746,8 @@ def get_ApontamentoTagPedido():
     codbarras = datas['codbarras']
     dataSeparacao = datas['dataHoraBipágem']
     Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-    print(f' esse pedido: {codpedido}')
+    print(f' usuario {codusuario} esse pedido: {codpedido}')
+
     Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,enderecoApi,
                                                           Estornar)
 
