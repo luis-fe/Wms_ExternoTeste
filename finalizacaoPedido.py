@@ -2,39 +2,48 @@ import pandas as pd
 import ConexaoPostgreMPL
 import datetime
 import pytz
+
+
 def obterHoraAtual():
-    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    fuso_horario = pytz.timezone('America/Sao_Paulo')
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
+
+
 def VerificarExisteApontamento(codpedido, usuario):
     conn = ConexaoPostgreMPL.conexao()
     codpedido = str(codpedido)
     query = pd.read_sql('select codpedido from "Reposicao".tags_separacao '
                         ' where codpedido = %s '
-                        ' ', conn, params=(codpedido))
+                        , conn, params=(codpedido,))
+    conn.close()
+
     if query.empty:
-        #Cadastra o Usuario na tabela, ou substitui
+        conn = ConexaoPostgreMPL.conexao()
         select = pd.read_sql('select * from "Reposicao".finalizacao_pedido fp'
-                         ' where codpedido = %s',conn,params=(codpedido))
+                             ' where codpedido = %s ', conn, params=(codpedido,))
         if select.empty:
-            insert = 'insert into "Reposicao".finalizacao_pedido fp (codpedido, usuario, dataInicio) values (%s, %s, s%)'
+            insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, usuario, dataInicio) values (%s, %s, %s)'
             datahora = obterHoraAtual()
             cursor = conn.cursor()
-            cursor.execute(insert,(codpedido, usuario, datahora))
+            cursor.execute(insert, (codpedido, usuario, datahora))
             conn.commit()
             conn.close()
 
         else:
-            update = 'update "Reposicao".finalizacao_pedido fp' \
+            update = 'update "Reposicao".finalizacao_pedido' \
                      ' set usuario = %s , dataInicio = %s ' \
                      ' where codpedido = %s'
             datahora = obterHoraAtual()
             cursor = conn.cursor()
-            cursor.execute(update,(usuario, datahora, codpedido))
+            cursor.execute(update, (usuario, datahora, codpedido))
             conn.commit()
             conn.close()
 
     else:
         print('ok')
 
+
+# Exemplo de uso
+VerificarExisteApontamento(123, 'usuario123')
