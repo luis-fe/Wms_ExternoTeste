@@ -1,12 +1,14 @@
 import pandas as pd
 import ConexaoPostgreMPL
+import finalizacaoPedido
+
 
 def DetalhaPedido(codPedido):
     # 1- Filtrando o Pedido na tabela de pedidosSku
     conn = ConexaoPostgreMPL.conexao()
 
     skus1 = pd.read_sql('select codigopedido, desc_tiponota  , codcliente ||' + "'-'" + '|| desc_cliente as cliente  '
-                        ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido '
+                        ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido, cod_usuario as usuario '
                     'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                        , conn)
 
@@ -59,6 +61,9 @@ def DetalhaPedido(codPedido):
     DetalhaSku['qtdrealizado'] = DetalhaSku['qtdrealizado'].astype(int)
     DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'].astype(str) +'/'+DetalhaSku['qtdesugerida'].astype(str)
     DetalhaSku = DetalhaSku.drop_duplicates()
+
+    finalizacaoPedido.VerificarExisteApontamento(codPedido, skus['usuario'][0])
+
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',
         '2 - Tiponota': f'{skus["desc_tiponota"][0]} ',
