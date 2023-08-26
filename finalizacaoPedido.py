@@ -44,6 +44,3 @@ def VerificarExisteApontamento(codpedido, usuario):
     else:
         print('ok')
 
-
-# Exemplo de uso
-VerificarExisteApontamento(123, 'usuario123')
