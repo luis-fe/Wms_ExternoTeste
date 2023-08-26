@@ -9,9 +9,9 @@ def obterHoraAtual():
     return hora_str
 def VerificarExisteApontamento(codpedido, usuario):
     conn = ConexaoPostgreMPL.conexao()
-    query = pd.read_sql('select codpedido, count(codpedido) as qtd from "Reposicao".tags_separacao '
+    query = pd.read_sql('select codpedido from "Reposicao".tags_separacao '
                         ' where codpedido = %s '
-                        ' group by codpedido', conn,params=(codpedido))
+                        ' ', conn, params=(codpedido))
     if query.empty:
         #Cadastra o Usuario na tabela, ou substitui
         select = pd.read_sql('select * from "Reposicao".finalizacao_pedido fp'
