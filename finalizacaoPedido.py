@@ -9,6 +9,7 @@ def obterHoraAtual():
     return hora_str
 def VerificarExisteApontamento(codpedido, usuario):
     conn = ConexaoPostgreMPL.conexao()
+    codpedido = str(codpedido)
     query = pd.read_sql('select codpedido from "Reposicao".tags_separacao '
                         ' where codpedido = %s '
                         ' ', conn, params=(codpedido))
