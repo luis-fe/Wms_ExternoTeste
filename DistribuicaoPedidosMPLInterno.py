@@ -47,11 +47,11 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                 if consulta2.empty and not consulta1.empty:
                     datahora = consulta1["datahora"][0]
                     vlrsugestao = consulta1["vlrsugestao"][0]
-                    qtdepçs = consulta3["qtdepçs"][0]
+                    qtdepcs = consulta3["qtdepçs"][0]
                     cursor2 = conn.cursor()
 
                     insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao, vlrsugestao, "qtdepçs") values (%s , %s , %s , %s, %s, %s)'
-                    cursor2.execute(insert, (usuario, pedido_x, datahora, dataatual, vlrsugestao,qtdepçs))
+                    cursor2.execute(insert, (usuario, pedido_x, datahora, dataatual, vlrsugestao,qtdepcs))
                     conn.commit()
 
 
@@ -60,12 +60,12 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                 else:
                     cursor2 = conn.cursor()
                     vlrsugestao = consulta1["vlrsugestao"][0]
-                    qtdepçs = consulta3["qtdepçs"][0]
+                    qtdepcs = consulta3["qtdepçs"][0]
 
                     update = 'update "Reposicao".finalizacao_pedido ' \
                              'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s "qtdepçs"= %s ' \
                              'where codpedido = %s'
-                    cursor2.execute(update, (consulta1['datahora'][0], dataatual,usuario, vlrsugestao,qtdepçs, pedido_x))
+                    cursor2.execute(update, (consulta1['datahora'][0], dataatual,usuario, vlrsugestao,qtdepcs, pedido_x))
                     conn.commit()
 
 
