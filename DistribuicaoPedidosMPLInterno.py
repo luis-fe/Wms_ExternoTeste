@@ -49,7 +49,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
 
 
                 cursor2.close()
-                print('Insert Pedido Finalizacao')
+                print(f'Insert Pedido Finalizacao {usuario}')
             else:
                 cursor2 = conn.cursor()
 
