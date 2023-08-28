@@ -25,7 +25,7 @@ def VerificarExisteApontamento(codpedido, usuario):
                              ' where codpedido = %s ', conn, params=(codpedido,))
         if select.empty:
             print('teste')
-            insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, usuario, "dataInicio") values (%s, %s, %s)'
+            insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, usuario, "dataInicio") values (%s , %s , %s)'
             datahora = obterHoraAtual()
             cursor = conn.cursor()
             cursor.execute(insert, (codpedido, usuario, datahora))
