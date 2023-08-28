@@ -40,6 +40,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
             consulta2 = pd.read_sql('select * from "Reposicao".finalizacao_pedido '
                                    ' where codpedido = %s ', conn, params=(pedido_x,))
             dataatual = obterHoraAtual()
+            codigoPedido = consulta1["datageracao"][0]
             if consulta2.empty:
                 cursor2 = conn.cursor()
 
@@ -49,7 +50,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
 
 
                 cursor2.close()
-                print(f'Insert Pedido Finalizacao {usuario} e {consulta1["datageracao"][0]}')
+                print(f'Insert Pedido Finalizacao {usuario} e {codigoPedido}')
             else:
                 cursor2 = conn.cursor()
 
