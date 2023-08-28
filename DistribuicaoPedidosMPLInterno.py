@@ -49,7 +49,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
 
 
                 cursor2.close()
-                print(f'Insert Pedido Finalizacao {usuario}')
+                print(f'Insert Pedido Finalizacao {usuario} e {consulta1["datageracao"][0]}')
             else:
                 cursor2 = conn.cursor()
 
