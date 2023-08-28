@@ -40,13 +40,14 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
             consulta2 = pd.read_sql('select * from "Reposicao".finalizacao_pedido '
                                    ' where codpedido = %s ', conn, params=(pedido_x,))
             dataatual = obterHoraAtual()
-            datahora = consulta1["datahora"][0]
-            if consulta2.empty:
+
+            if consulta2.empty and not consulta1.empty:
+                datahora = consulta1["datahora"][0]
                 cursor2 = conn.cursor()
 
                 insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao) values (%s , %s , %s , %s)'
-               # cursor2.execute(insert, (usuario, pedido_x, consulta1['datageracao'][0], dataatual))
-               # conn.commit()
+                cursor2.execute(insert, (usuario, pedido_x, consulta1['datageracao'][0], dataatual))
+                conn.commit()
 
 
                 cursor2.close()
