@@ -30,7 +30,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                                    ' where codigopedido = %s', conn, params=(pedido_x,))
 
             consulta2 =  pd.read_sql('select * from "Reposicao".finalizacao_pedido '
-                                   ' where codigopedido = %s', conn, params=(pedido_x,))
+                                   ' where codpedido = %s', conn, params=(pedido_x,))
             if consulta2.empty:
                 cursor2 = conn.cursor()
 
@@ -54,10 +54,6 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
         conn.close()
     else:
         print('sem pedidos')
-
-
-
-
 
     data = {
         '1- Usuario:': usuario,
