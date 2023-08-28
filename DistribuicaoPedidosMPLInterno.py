@@ -64,7 +64,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                     qtdepcs = consulta3["qtdepcs"][0]
 
                     update = 'update "Reposicao".finalizacao_pedido ' \
-                             'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s qtdepçs= %s ' \
+                             'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s, qtdepçs= %s ' \
                              'where codpedido = %s'
                     cursor2.execute(update, (consulta1['datahora'][0], dataatual,usuario, vlrsugestao,qtdepcs, pedido_x))
                     conn.commit()
