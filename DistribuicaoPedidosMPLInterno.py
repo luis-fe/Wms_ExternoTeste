@@ -40,14 +40,14 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
             consulta2 = pd.read_sql('select * from "Reposicao".finalizacao_pedido '
                                    ' where codpedido = %s ', conn, params=(pedido_x,))
 
-            consulta3 = pd.read_sql('select sum(qtdesugerida) as "qtdepçs"  from "Reposicao".pedidossku '
+            consulta3 = pd.read_sql('select sum(qtdesugerida) as qtdepcs  from "Reposicao".pedidossku '
                                    ' where codpedido = %s group by codpedido ', conn, params=(pedido_x,))
             dataatual = obterHoraAtual()
             try:
                 if consulta2.empty and not consulta1.empty:
                     datahora = consulta1["datahora"][0]
                     vlrsugestao = consulta1["vlrsugestao"][0]
-                    qtdepcs = consulta3["qtdepçs"][0]
+                    qtdepcs = consulta3["qtdepcs"][0]
                     cursor2 = conn.cursor()
 
                     insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao, vlrsugestao, "qtdepçs") values (%s , %s , %s , %s, %s, %s)'
@@ -60,7 +60,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                 else:
                     cursor2 = conn.cursor()
                     vlrsugestao = consulta1["vlrsugestao"][0]
-                    qtdepcs = consulta3["qtdepçs"][0]
+                    qtdepcs = consulta3["qtdepcs"][0]
 
                     update = 'update "Reposicao".finalizacao_pedido ' \
                              'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s "qtdepçs"= %s ' \
