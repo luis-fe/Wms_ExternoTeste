@@ -46,7 +46,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                     cursor2 = conn.cursor()
 
                     insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao) values (%s , %s , %s , %s)'
-                    cursor2.execute(insert, (usuario, pedido_x, consulta1['datageracao'][0], dataatual))
+                    cursor2.execute(insert, (usuario, pedido_x, consulta1['datahora'][0], dataatual))
                     conn.commit()
 
 
