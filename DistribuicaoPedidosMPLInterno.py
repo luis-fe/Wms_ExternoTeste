@@ -2,7 +2,15 @@ import ConexaoPostgreMPL
 import pandas as pd
 
 import PediosApontamento
+import datetime
+import pytz
 
+
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
+    return hora_str
 
 def AtribuirPedido(usuario, pedidos, dataAtribuicao):
     tamanho = len(pedidos)
@@ -31,11 +39,12 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
 
             consulta2 =  pd.read_sql('select * from "Reposicao".finalizacao_pedido '
                                    ' where codpedido = %s', conn, params=(pedido_x,))
+            dataatual = obterHoraAtual()
             if consulta2.empty:
                 cursor2 = conn.cursor()
 
                 insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, datageracao, dataatribuicao) values (%s, %s, %s)'
-                cursor2.execute(insert, (pedido_x, consulta1['datageracao'][0],dataAtribuicao))
+                cursor2.execute(insert, (pedido_x, consulta1['datageracao'][0],dataatual))
                 conn.commit()
 
 
@@ -46,7 +55,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                 update = 'update "Reposicao".finalizacao_pedido ' \
                          'set datageracao = %s , dataatribuicao = %s ' \
                          'where codpedido = %s'
-                cursor2.execute(update, (consulta1['datageracao'][0], dataAtribuicao,pedido_x))
+                cursor2.execute(update, (consulta1['datageracao'][0], dataatual,pedido_x))
                 conn.commit()
 
 
