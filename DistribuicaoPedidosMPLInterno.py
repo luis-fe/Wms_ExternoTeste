@@ -50,7 +50,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                     qtdepcs = consulta3["qtdepcs"][0]
                     cursor2 = conn.cursor()
 
-                    insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao, vlrsugestao, "qtdepçs") values (%s , %s , %s , %s, %s, %s)'
+                    insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao, vlrsugestao, qtdepçs) values (%s , %s , %s , %s, %s, %s)'
                     cursor2.execute(insert, (usuario, pedido_x, datahora, dataatual, vlrsugestao,qtdepcs))
                     conn.commit()
 
@@ -58,18 +58,18 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                     cursor2.close()
                     print(f'Insert Pedido Finalizacao {usuario} e {datahora}')
                 else:
-                    '''''
+
                     cursor2 = conn.cursor()
                     vlrsugestao = consulta1["vlrsugestao"][0]
                     qtdepcs = consulta3["qtdepcs"][0]
 
                     update = 'update "Reposicao".finalizacao_pedido ' \
-                             'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s "qtdepçs"= %s ' \
+                             'set datageracao = %s , dataatribuicao = %s , usuario = %s, vlrsugestao = %s qtdepçs= %s ' \
                              'where codpedido = %s'
                     cursor2.execute(update, (consulta1['datahora'][0], dataatual,usuario, vlrsugestao,qtdepcs, pedido_x))
                     conn.commit()
                     cursor2.close()
-                    '''''
+
                     print(f'update {consulta3}')
 
             except:
