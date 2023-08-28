@@ -43,7 +43,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
             if consulta2.empty:
                 cursor2 = conn.cursor()
 
-                insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao) values (%s, %s, %s)'
+                insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao) values (%s, %s, %s, %s)'
                 cursor2.execute(insert, (usuario,pedido_x, consulta1['datageracao'][0],dataatual))
                 conn.commit()
 
