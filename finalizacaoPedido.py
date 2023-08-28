@@ -24,6 +24,7 @@ def VerificarExisteApontamento(codpedido, usuario):
         select = pd.read_sql('select * from "Reposicao".finalizacao_pedido fp'
                              ' where codpedido = %s ', conn, params=(codpedido,))
         if select.empty:
+            print('teste')
             insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, usuario, "dataInicio") values (%s, %s, %s)'
             datahora = obterHoraAtual()
             cursor = conn.cursor()
