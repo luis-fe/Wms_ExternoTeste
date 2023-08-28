@@ -43,8 +43,8 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
             if consulta2.empty:
                 cursor2 = conn.cursor()
 
-                insert = 'insert into "Reposicao".finalizacao_pedido (codpedido, datageracao, dataatribuicao) values (%s, %s, %s)'
-                cursor2.execute(insert, (pedido_x, consulta1['datageracao'][0],dataatual))
+                insert = 'insert into "Reposicao".finalizacao_pedido (usuario, codpedido, datageracao, dataatribuicao) values (%s, %s, %s)'
+                cursor2.execute(insert, (usuario,pedido_x, consulta1['datageracao'][0],dataatual))
                 conn.commit()
 
 
@@ -53,9 +53,9 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                 cursor2 = conn.cursor()
 
                 update = 'update "Reposicao".finalizacao_pedido ' \
-                         'set datageracao = %s , dataatribuicao = %s ' \
+                         'set datageracao = %s , dataatribuicao = %s, usuario = %s ' \
                          'where codpedido = %s'
-                cursor2.execute(update, (consulta1['datageracao'][0], dataatual,pedido_x))
+                cursor2.execute(update, (consulta1['datageracao'][0], dataatual,usuario, pedido_x))
                 conn.commit()
 
 
