@@ -58,6 +58,7 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                     cursor2.close()
                     print(f'Insert Pedido Finalizacao {usuario} e {datahora}')
                 else:
+                    '''''
                     cursor2 = conn.cursor()
                     vlrsugestao = consulta1["vlrsugestao"][0]
                     qtdepcs = consulta3["qtdepcs"][0]
@@ -67,9 +68,10 @@ def AtribuirPedido(usuario, pedidos, dataAtribuicao):
                              'where codpedido = %s'
                     cursor2.execute(update, (consulta1['datahora'][0], dataatual,usuario, vlrsugestao,qtdepcs, pedido_x))
                     conn.commit()
-
-
                     cursor2.close()
+                    '''''
+                    print(f'update {consulta3}')
+
             except:
                 print('segue o baile')
         conn.close()
