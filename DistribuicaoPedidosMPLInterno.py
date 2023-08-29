@@ -120,7 +120,7 @@ def AtribuicaoDiaria():
         'qtdPedidos': 'count'})
 
     def format_with_separator(value):
-        return locale.format('%0.0f', value, grouping=True)
+        return locale.format('%0.2f', value, grouping=True)
 
     query['vlrsugestao'] = query['vlrsugestao'].apply(format_with_separator)
 
@@ -133,7 +133,8 @@ def AtribuicaoDiaria():
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     query = pd.merge(query, Usuarios, on='usuario', how='left')
-    query.rename(columns={'nome': '1- nome', "qtdPedidos": '2- qtdPedidos', "qtdepçs":"3- qtdepçs"}, inplace=True)
+    query.rename(columns={'nome': '1- nome', "qtdPedidos": '2- qtdPedidos', "qtdepçs":"3- qtdepçs", "vlrsugestao": "5- Valor Atribuido",
+                          "Méd. pç/pedido": "4- Méd. pç/pedido"}, inplace=True)
 
     return query
 
