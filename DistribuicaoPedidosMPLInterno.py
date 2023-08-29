@@ -123,7 +123,9 @@ def AtribuicaoDiaria():
     query['Méd. pç/pedido'] = query['qtdepçs']/query['qtdPedidos']
     query['Méd. pç/pedido'] = query['Méd. pç/pedido'].round(2)
     query = query.sort_values(by='qtdPedidos', ascending=False)
-
+    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+    query = pd.merge(query, Usuarios, on='usuario', how='left')
     return query
 
 
