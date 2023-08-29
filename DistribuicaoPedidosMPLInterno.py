@@ -111,15 +111,18 @@ def AtribuicaoDiaria():
     query ['qtdepçs'] = query ['qtdepçs'].astype(float)
     query['qtdepçs'] = query['qtdepçs'].astype(int)
     query['vlrsugestao'] = query['vlrsugestao'].astype(float)
-    query['vlrsugestao'] = query['vlrsugestao'].round(2)
+
 
     query = query.groupby('usuario').agg({
         'qtdepçs': 'sum',
         'vlrsugestao': 'sum',
         'qtdPedidos': 'count'})
+    query['vlrsugestao'] = query['vlrsugestao'].round(2)
     query['vlrsugestao'] = query['vlrsugestao'].astype(str)
     query['vlrsugestao'] = 'R$ ' + query['vlrsugestao']
-
+    query['Méd. pç/pedido'] = query['qtdepçs']/query['qtdPedidos']
+    query['Méd. pç/pedido'] = query['Méd. pç/pedido'].round(2)
+    query = query.sort_values(by='Méd. pç/pedido', ascending=True)
 
     return query
 
