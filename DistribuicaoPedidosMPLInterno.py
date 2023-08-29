@@ -109,7 +109,9 @@ def AtribuicaoDiaria():
                         'WHERE CAST(dataatribuicao AS DATE) = current_date;',conn)
     query['qtdPedidos'] =   query['usuario'].count()
     query ['qtdepçs'] = query ['qtdepçs'].astype(float)
+    query['qtdepçs'] = query['qtdepçs'].astype(int)
     query['vlrsugestao'] = query['vlrsugestao'].astype(float)
+    query['vlrsugestao'] = query['vlrsugestao'].round(2)
 
     query = query.groupby('usuario').agg({
         'qtdepçs': 'sum',
