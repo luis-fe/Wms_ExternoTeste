@@ -381,6 +381,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                  "%s, %s " \
                  'FROM "Reposicao".tagsreposicao_inventario t ' \
                  'WHERE "codbarrastag" = %s;'
+
         cursor = conn.cursor()
         cursor.execute(insert, (codusuario,'Veio Do Inventario',datahora, 'tagSeparado', codpedido, datahora, codbarra))
         conn.commit()
