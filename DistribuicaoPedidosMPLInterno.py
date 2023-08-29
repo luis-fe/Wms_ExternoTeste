@@ -126,6 +126,8 @@ def AtribuicaoDiaria():
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     query = pd.merge(query, Usuarios, on='usuario', how='left')
+    query.rename(columns={'nome': '1- nome', "qtdPedidos": '2- qtdPedidos', "qtdepçs":"3- qtdepçs"}, inplace=True)
+
     return query
 
 
