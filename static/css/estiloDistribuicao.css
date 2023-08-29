@@ -73,7 +73,7 @@
     align-items: start;
     flex-wrap: wrap;
     margin: 0 auto;
-    background-color: rgb(17, 45, 126);;
+    background-color: rgb(17, 45, 126);
     width: 80%;
     margin-top: 10px;
     border: 2px solid rgb(17, 45, 126);
@@ -112,7 +112,8 @@
   margin-top: 8px;
   }
 
-.TabelaContainer {
+.TabelaContainer,
+.TabelaInformacoes {
   border-collapse: collapse;
   border: 2px solid darkgray;
   margin-left: 10%;
@@ -123,34 +124,61 @@
   text-align: center;
   margin-top: 10px;
   overflow: auto;
+  margin-bottom: 50px;
   }
+
+  
         
-.TabelaContainer .TabelaTabelaDistribuicao {
+.TabelaContainer .TabelaTabelaDistribuicao{
   font-size: 15px;
   border-collapse: collapse;
   border: 2px solid darkgray;
   min-width: 2000px;
   overflow: auto;
 }
+
+.TabelaInformacoes .TabelaInformacao {
+  font-size: 15px;
+  border-collapse: collapse;
+  border: 2px solid darkgray;
+  min-width: 100%;
+  overflow: auto;
+  overflow-x: auto;
+}
         
-.TabelaContainer .TabelaTabelaDistribuicao th {
-  background-color: lightgray;
+.TabelaContainer .TabelaTabelaDistribuicao th,
+.TabelaInformacoes .TabelaInformacao th {
+  background-color: rgb(17, 45, 126);;
   max-height: 20px;
 }
         
-.TabelaContainer .TabelaTabelaDistribuicao td {
+.TabelaContainer .TabelaTabelaDistribuicao td,
+.TabelaInformacoes .TabelaInformacao td {
   height: 40px; /* Defina a altura desejada em pixels */
   vertical-align: middle; /* Centraliza o conteúdo verticalmente */
   overflow: hidden; /* Oculta o conteúdo extra que ultrapassar a altura definida */
 }
         
-.TabelaContainer .TabelaTabelaDistribuicao thead {
+
+.TabelaContainer .TabelaTabelaDistribuicao thead{
   position: sticky;
   top: 0;
-  background-color: lightgray;
+  background-color: rgb(17, 45, 126);
   z-index: 1;
-  border: 2px solid darkgray;
+  border: 2px solid rgb(17, 45, 126);
+  color: white;
 }
+
+.TabelaInformacoes .TabelaInformacao thead {
+  position: sticky;
+  top: 0;
+  background-color: rgb(17, 45, 126);
+  z-index: 1;
+  border: 2px solid rgb(17, 45, 126);
+  color: white;
+  height: 4vh;
+}
+
 
 
 #loader {
