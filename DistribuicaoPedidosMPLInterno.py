@@ -124,7 +124,7 @@ def AtribuicaoDiaria():
 
     query['vlrsugestao'] = query['vlrsugestao'].apply(format_with_separator)
 
-    query['vlrsugestao'] = query['vlrsugestao'].round(2)
+
     query['vlrsugestao'] = query['vlrsugestao'].astype(str)
     query['vlrsugestao'] = 'R$ ' + query['vlrsugestao']
     query['Méd. pç/pedido'] = query['qtdepçs']/query['qtdPedidos']
