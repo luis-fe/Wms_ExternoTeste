@@ -457,32 +457,37 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
     conn = ConexaoPostgreMPL.conexao()
 
-    # 1. Verificar se o codigobarra veio da Reposição
+    # 1. Verificar se o codigobarra veio da Reposição ou se veio da Fila/Inventario
     pesquisaTagReposicao = pd.read_sql(
         'SELECT "codbarrastag", "codreduzido", "Endereco" FROM "Reposicao".tagsreposicao f WHERE codbarrastag = %s',
         conn, params=(codbarra,))
 
-    if not pesquisaTagReposicao.empty:
-        # 1.1 Caso o Codbarras esteja OK na Reposicao
+    if not pesquisaTagReposicao.empty: #1.1 Nesse caso o codigo veio normal da Reposicao
+        reduzido = pesquisaTagReposicao['codreduzido'][0]
+
+        #1.2 Inicio fazendo uma consulta para verificar se o produto possue mais de 2 reservas de endereco
         pesquisaPedidoSKU1 = pd.read_sql(
             'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
             'WHERE codpedido = %s AND produto = %s and necessidade > 0',
-            conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
-        tamanhoPesquisa2 = pesquisaPedidoSKU1['codpedido'].size
+            conn, params=(codpedido, reduzido))
+
+        tamanhoPesquisa2 = pesquisaPedidoSKU1['codpedido'].size #1.3 Aqui avalio se existe 1 uma ou mais de 1 uma reserva de enderecos diferentes.
+
 
         if tamanhoPesquisa2 == 1:
             conn.close()
-            return 1, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSKU1['necessidade'][0], pesquisaPedidoSKU1['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
+            return 1, reduzido, pesquisaPedidoSKU1['necessidade'][0], pesquisaPedidoSKU1['valorunitarioliq'][0], pesquisaTagReposicao['Endereco'][0]
+
         elif tamanhoPesquisa2 > 1:
             pesquisaPedidoSKU2 = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
                 'WHERE codpedido = %s AND produto = %s and necessidade > 0 and endereco = %s',
-                conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0], enderecoAPI))
+                conn, params=(codpedido, reduzido, enderecoAPI))
             if not pesquisaPedidoSKU2.empty:
                 conn.close()
-                return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSKU2['necessidade'][0], pesquisaPedidoSKU2['valorunitarioliq'][0], enderecoAPI
+                return 12, reduzido, pesquisaPedidoSKU2['necessidade'][0], pesquisaPedidoSKU2['valorunitarioliq'][0], enderecoAPI
             else:
-                return 12, pesquisaTagReposicao['codreduzido'][0], pesquisaPedidoSKU1['necessidade'][0], pesquisaPedidoSKU1['valorunitarioliq'][0], pesquisaPedidoSKU1['endereco'][0]
+                return 12, reduzido, pesquisaPedidoSKU1['necessidade'][0], pesquisaPedidoSKU1['valorunitarioliq'][0], pesquisaPedidoSKU1['endereco'][0]
         else:
             pesquisaPedidoSKUEstornado = pd.read_sql(
                 'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
@@ -490,7 +495,7 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
                 conn, params=(codpedido, pesquisaTagReposicao['codreduzido'][0]))
 
             print('Pegou o 2 estornar')
-            return 2, pesquisaTagReposicao['codreduzido'][0], 2, 2, pesquisaPedidoSKUEstornado['endereco'][0]  # Se as condicoes nao forem atendidas
+            return 2, reduzido, 2, 2, pesquisaPedidoSKUEstornado['endereco'][0]  # Se as condicoes nao forem atendidas
 
     else:
         # 2 - Else caso a tag NAO seja encontrada na reposicao
