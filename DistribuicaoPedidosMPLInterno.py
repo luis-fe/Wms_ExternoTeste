@@ -108,10 +108,13 @@ def AtribuicaoDiaria():
     query = pd.read_sql('select usuario, qtdepçs, vlrsugestao from "Reposicao".finalizacao_pedido '
                         'WHERE CAST(dataatribuicao AS DATE) = current_date;',conn)
     query['qtdPedidos'] =   query['usuario'].count()
+    query ['qtdepçs'] = query ['qtdepçs'].astype(int)
     query = query.groupby('usuario').agg({
         'qtdepçs': 'sum',
         'vlrsugestao': 'sum',
         'qtdPedidos': 'count'})
+
+
     return query
 
 x = AtribuicaoDiaria()
