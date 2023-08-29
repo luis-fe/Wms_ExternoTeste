@@ -122,12 +122,11 @@ def AtribuicaoDiaria():
     query['vlrsugestao'] = 'R$ ' + query['vlrsugestao']
     query['Méd. pç/pedido'] = query['qtdepçs']/query['qtdPedidos']
     query['Méd. pç/pedido'] = query['Méd. pç/pedido'].round(2)
-    query = query.sort_values(by='Méd. pç/pedido', ascending=True)
+    query = query.sort_values(by='qtdPedidos', ascending=False)
 
     return query
 
-x = AtribuicaoDiaria()
-print(x)
+
 
 
 
