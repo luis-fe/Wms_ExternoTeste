@@ -102,7 +102,20 @@ def ClassificarFila(coluna, tipo):
         fila = fila.sort_values(by=coluna, ascending=True)
         return fila
 
+def AtribuicaoDiaria():
+    conn = ConexaoPostgreMPL.conexao()
 
+    query = pd.read_sql('select usuario, qtdepçs, vlrsugestao from "Reposicao".finalizacao_pedido '
+                        'WHERE CAST(dataatribuicao AS DATE) = current_date;',conn)
+    query['qtdPedidos'] =   query['usuario'].count()
+    query = query.groupby('usuario').agg({
+        'qtdepçs': 'sum',
+        'vlrsugestao': 'sum',
+        'qtdPedidos': 'count'})
+    return query
+
+x = AtribuicaoDiaria()
+print(x)
 
 
 
