@@ -4,6 +4,7 @@ import pandas as pd
 import PediosApontamento
 import datetime
 import pytz
+import locale
 
 
 def obterHoraAtual():
@@ -117,6 +118,12 @@ def AtribuicaoDiaria():
         'qtdepçs': 'sum',
         'vlrsugestao': 'sum',
         'qtdPedidos': 'count'})
+
+    def format_with_separator(value):
+        return locale.format('%0.0f', value, grouping=True)
+
+    query['vlrsugestao'] = query['vlrsugestao'].apply(format_with_separator)
+
     query['vlrsugestao'] = query['vlrsugestao'].round(2)
     query['vlrsugestao'] = query['vlrsugestao'].astype(str)
     query['vlrsugestao'] = 'R$ ' + query['vlrsugestao']
