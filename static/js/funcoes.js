@@ -265,6 +265,7 @@ function CarregarDados() {
     PintarPedidosCompletos();
     marcarLinhasDuplicadas();
     CarregarUsuarios();
+    PassarInformacoes()
     
 
     })
@@ -465,6 +466,7 @@ function AtribuicaoPedidos() {
     })
     .then(data => {
         CarregarDados();
+        PassarInformacoes()
         console.log(data);
         
     })
@@ -561,7 +563,7 @@ function capturarPedidoVerificacao() {
 
 function PecasFaltantes() {
     const PedidosSelecionados = capturarPedidoVerificacao();
-
+    AbrirModalLoading()
     fetch(`http://192.168.0.183:5000/api/DetalharPedido?codPedido=${PedidosSelecionados}`, {
         method: 'GET',
         headers: {
@@ -587,6 +589,7 @@ function PecasFaltantes() {
             const listItem = document.createElement("li");
             listItem.textContent = `${item["referencia"]} / ${item["tamanho"]} / ${item["cor"]} - ${item["reduzido"]}`;
             listaPeçasFaltantes.appendChild(listItem);
+           
         });
 
         const modal = document.getElementById("ModalPeçasFaltantes");
@@ -594,10 +597,12 @@ function PecasFaltantes() {
         const TituloModal = document.getElementById("TituloModal");
         modal.style.display = "block";
         modal2.style.display = "block";
-        TituloModal.textContent = `Peças Faltantes no Pedido: ${PedidosSelecionados}`
+        TituloModal.textContent = `Peças Faltantes no Pedido: ${PedidosSelecionados}`;
+        FecharModalLoading();
     })
     .catch(error => {
         console.error(error);
+        FecharModalLoading();
     });
 }
 
@@ -617,6 +622,90 @@ const BotaoFalta = document.getElementById("VerificarPecasFaltando");
 BotaoFalta.addEventListener('click', () => {
     PecasFaltantes();
 });
+
+function criarTabelaInformacoes(listaInformacoes) {
+    const tabela = document.getElementById('TabelaInformacao');
+    tabela.innerHTML = ''; // Limpa o conteúdo da tabela antes de preenchê-la novamente
+
+    // Cria o cabeçalho da tabela
+    const cabecalho = document.createElement('thead');
+    const cabecalhoRow = document.createElement('tr');
+    const ColunaNome = document.createElement('th');
+    const ColunaQtdPedidos = document.createElement('th');
+    const ColunaQtdPecas = document.createElement('th');
+    const ColunaMediaPecas = document.createElement('th');
+    const ColunaValorSugestao = document.createElement('th');
+    
+
+    ColunaNome.textContent = 'Nome';
+    ColunaQtdPedidos.textContent = 'Qtd. Pedidos';
+    ColunaQtdPecas.textContent = 'Qtd. Pecas';
+    ColunaMediaPecas.textContent = 'Média Peças';
+    ColunaValorSugestao.textContent = 'Valor R$';
+  
+
+    cabecalhoRow.appendChild(ColunaNome);
+    cabecalhoRow.appendChild(ColunaQtdPedidos);
+    cabecalhoRow.appendChild(ColunaQtdPecas);
+    cabecalhoRow.appendChild(ColunaMediaPecas);
+    cabecalhoRow.appendChild(ColunaValorSugestao);
+    cabecalho.appendChild(cabecalhoRow);
+    tabela.appendChild(cabecalho);
+
+    // Preenche a tabela com os dados dos usuários
+    PedidosExibicao = listaInformacoes.slice(indiceExibicao, indiceExibicao + 99999);
+
+    PedidosExibicao.forEach(item => {
+        const row = document.createElement('tr');
+        const ColunaNome = document.createElement('td');
+        const ColunaQtdPedidos = document.createElement('td');
+        const ColunaQtdPecas = document.createElement('td');
+        const ColunaMediaPecas = document.createElement('td');
+        const ColunaValorSugestao = document.createElement('td');
+    
+   
+        ColunaNome.textContent = item["1- nome"];
+        ColunaQtdPedidos.textContent = item["2- qtdPedidos"];
+        ColunaQtdPecas.textContent = item["3- qtdepçs"];
+        ColunaMediaPecas.textContent = item["4- Méd. pç/pedido"];
+        ColunaValorSugestao.textContent = item["5- Valor Atribuido"];
+     
+
+        row.appendChild(ColunaNome);
+        row.appendChild(ColunaQtdPedidos);
+        row.appendChild(ColunaQtdPecas);
+        row.appendChild(ColunaMediaPecas);
+        row.appendChild(ColunaValorSugestao);
+        tabela.appendChild(row);
+        });
+
+    };
+  
+function PassarInformacoes(){
+    fetch('http://192.168.0.183:5000/api/IndicadorDistribuicao', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'a40016aabcx9'
+        },
+     })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro ao obter a lista de usuários');
+        }
+    })
+    .then(data => {
+
+            console.log(data)
+            criarTabelaInformacoes(data)
+    })
+    .catch(error => {
+        console.error(error);
+            FecharModalLoading();
+    });
+}
 
 
 
