@@ -11,6 +11,9 @@ def Conexao():
 )
     return conn
 
-conn = Conexao()
-teste = pd.read_sql('select * from tcp.tamanhos',conn)
-print(teste)
+try:
+    conn = Conexao()
+    teste = pd.read_sql('select * from tcp.tamanhos',conn)
+    print(teste)
+except:
+    print('caiu a conexao')
