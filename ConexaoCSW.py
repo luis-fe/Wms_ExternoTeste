@@ -13,7 +13,7 @@ def Conexao():
 
 try:
     conn = Conexao()
-    teste = pd.read_sql('select * from tcp.tamanhos',conn)
-    print(teste)
+    teste = pd.read_sql('select top 1 * from tcp.tamanhos',conn)
+    print('conectou')
 except:
     print('caiu a conexao')
