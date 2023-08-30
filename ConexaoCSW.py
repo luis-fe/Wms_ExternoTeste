@@ -1,4 +1,7 @@
 import jaydebeapi
+import pandas as pd
+
+
 def Conexao():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
@@ -7,3 +10,7 @@ def Conexao():
     'CacheDB.jar'
 )
     return conn
+
+conn = Conexao()
+teste = pd.read_sql('select * from tcp.tamanhos',conn)
+print(teste)
