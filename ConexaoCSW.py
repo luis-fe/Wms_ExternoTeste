@@ -10,7 +10,6 @@ def Conexao():
     'CacheDB.jar'
 )
     return conn
-
 try:
     conn = Conexao()
     teste = pd.read_sql('select top 1 * from tcp.tamanhos',conn)
