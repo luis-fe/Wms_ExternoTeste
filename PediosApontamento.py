@@ -2,7 +2,7 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 
-import numpy
+import numpy as np
 
 
 def EndereçoTag(codbarra, empresa, natureza):
@@ -92,7 +92,11 @@ def FilaPedidos():
     pedido['19-necessidade'] = pedido['19-necessidade'].fillna(0)
 
     pedido['18-%Reposto'] = pedido['17-Endereco NaoReposto'] + pedido['16-Endereco Reposto']
+
+
     pedido['18-%Reposto'] = pedido['16-Endereco Reposto'] / pedido['18-%Reposto']
+
+
     pedido['20-Separado%'] = 1 - (pedido['19-necessidade'] / pedido['15-qtdesugerida'])
     pedido['18-%Reposto'] = (pedido['18-%Reposto'] * 100).round(2)
     pedido['18-%Reposto'] = pedido['18-%Reposto'].fillna(0)
@@ -103,7 +107,7 @@ def FilaPedidos():
                         'join "Reposicao".tagsreposicao t on t.codreduzido = p.produto '
                         'group by codpedido, t.engenharia ',conn)
     marca['engenharia'] = marca['engenharia'].str.slice(1)
-    marca['21-MARCA'] =numpy.where((marca['engenharia'].str[:3] == '102') | (marca['engenharia'].str[:3] == '202') , 'M.POLLO', 'PACO')
+    marca['21-MARCA'] =np.where((marca['engenharia'].str[:3] == '102') | (marca['engenharia'].str[:3] == '202') , 'M.POLLO', 'PACO')
     marca.drop('engenharia', axis=1, inplace=True)
     marca.drop_duplicates(subset='codpedido', inplace=True)
     marca.rename(columns={'codpedido': '01-CodPedido'}, inplace=True)
@@ -111,8 +115,7 @@ def FilaPedidos():
     pedido['21-MARCA'].fillna('-', inplace=True)
     pedido['22- situacaopedido'].fillna('No Retorna', inplace=True)
     pedido.fillna('-', inplace=True)
-
-
+    pedido.replace([np.inf, -np.inf], np.nan, inplace=True)
 
     return pedido
 
