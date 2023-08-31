@@ -115,7 +115,7 @@ def FilaPedidos():
     pedido['21-MARCA'].fillna('-', inplace=True)
     pedido['22- situacaopedido'].fillna('No Retorna', inplace=True)
     pedido.fillna('-', inplace=True)
-    pedido.replace([np.inf, -np.inf], np.nan, inplace=True)
+    pedido.replace([np.inf, -np.inf], 0, inplace=True)
 
     return pedido
 
