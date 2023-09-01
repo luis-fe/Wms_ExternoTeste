@@ -13,7 +13,6 @@ import PediosApontamento
 import Relatorios
 import Silk_PesquisaNew
 import TratamentoErros
-import UsuariosCad
 import OPfilaRepor
 import Reposicao
 import ReposicaoSku
@@ -60,18 +59,7 @@ def Enderecos():
 
 
 # Rota protegida que requer o token fixo para trazer os Usuarios Cadastrados
-@app.route('/api/Usuarios', methods=['GET'])
-@token_required
-def get_usuarios():
-    usuarios = UsuariosCad.PesquisarUsuarios()
-    # Obtém os nomes das colunas
-    column_names = ['codigo', 'nome', 'funcao', 'situacao']
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    usuarios_data = []
-    for row in usuarios:
-        usuario_dict = dict(zip(column_names, row))
-        usuarios_data.append(usuario_dict)
-    return jsonify(usuarios_data)
+
 
 
 @app.route('/api/UsuarioSenhaRestricao', methods=['GET'])
