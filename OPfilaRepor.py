@@ -144,7 +144,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         ritmo2['ritmo'] =  (15*60)/ritmo2['ritmo']
         ritmo2 = ritmo2.groupby('usuario').agg({
             'ritmo': 'mean'})
-
+        ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
 
 
         TagReposicao = pd.merge(TagReposicao, ritmo2,on='usuario',how='left')
