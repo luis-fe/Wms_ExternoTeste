@@ -143,7 +143,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                              ' WHERE r.dia >= %s and r.dia <= %s ',conn,params=(dataInicial,dataFInal,))
         ritmo2['ritmo'] =  (15*60)/ritmo2['ritmo']
         ritmo2 = ritmo2.groupby('usuario').agg({
-            'ritmo': 'avg'})
+            'ritmo': 'mean'})
 
 
 
