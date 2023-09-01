@@ -137,13 +137,17 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ',conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
-        ritmo = pd.read_sql('SELECT usuario, ROUND(AVG(ritmo)::numeric, 2) as ritmo '
-                            ' FROM "Reposicao"."ProducaoSeparadores"'
-                            ' WHERE dataseparacao >= %s AND dataseparacao <= %s AND ritmo <> 500 and ritmo <1001'
-                            ' GROUP BY usuario ',conn,params=(dataInicial,dataFInal,))
-        
 
-        TagReposicao = pd.merge(TagReposicao, ritmo,on='usuario',how='left')
+
+        ritmo2 = pd.read_sql('select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritmosseparador r '
+                             ' WHERE r.dia >= %s and r.dia <= %s ',conn,params=(dataInicial,dataFInal,))
+        ritmo2['ritmo'] =  (15*60)/ritmo2['ritmo']
+        ritmo2 = ritmo2.groupby('usuario').agg({
+            'ritmo': 'avg'})
+
+
+
+        TagReposicao = pd.merge(TagReposicao, ritmo2,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
         record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde from "Reposicao"."ProducaoSeparadores" '
