@@ -141,7 +141,13 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
 
         ritmo2 = pd.read_sql('select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritmosseparador r '
                              ' WHERE r.dia >= %s and r.dia <= %s ',conn,params=(dataInicial,dataFInal,))
-        ritmo2['ritmo'] =  (15*60)/ritmo2['ritmo']
+        ritmo2['acum'] = ritmo2.groupby(['usuario','dia']).cumcount() + 1
+        ritmo2['acum'] = ritmo2['acum'] * (15*60)
+        ritmo2['ritmo'] = ritmo2.groupby(['usuario','dia'])['ritmo'].cumsum()
+        ritmo2['ritmo'] = ritmo2['acum']/ritmo2['ritmo']
+        ritmo2 = ritmo2.groupby(['usuario','dia']).tail(1)
+
+
         ritmo2 = ritmo2.groupby('usuario').agg({
             'ritmo': 'mean'})
         ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
