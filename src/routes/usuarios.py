@@ -27,7 +27,7 @@ def get_usuarios():
         usuarios_data.append(usuario_dict)
     return jsonify(usuarios_data)
 
-@app.route('/api/UsuarioSenhaRestricao', methods=['GET'])
+@usuarios_routes.route('/api/UsuarioSenhaRestricao', methods=['GET'])
 @token_required
 def get_usuariosRestricao():
     usuarios = usuariosModel.PesquisarSenha()
@@ -42,7 +42,7 @@ def get_usuariosRestricao():
         usuarios_data.append(usuario_dict)
 
     return jsonify(usuarios_data)
-@app.route('/api/Usuarios/<int:codigo>', methods=['POST'])
+@usuarios_routes.route('/api/Usuarios/<int:codigo>', methods=['POST'])
 @token_required
 def update_usuario(codigo):
     # Obtém os dados do corpo da requisição (JSON)
@@ -66,7 +66,7 @@ def update_usuario(codigo):
     return jsonify({'message': f'Dados do Usuário {codigo} - {nome_novo} atualizado com sucesso'})
 
 
-@app.route('/api/Usuarios', methods=['PUT'])
+@usuarios_routes.route('/api/Usuarios', methods=['PUT'])
 @token_required
 def criar_usuario():
     # Obtenha os dados do corpo da requisição
@@ -88,7 +88,7 @@ def criar_usuario():
 
 
 # Rota com parametros para check do Usuario e Senha
-@app.route('/api/UsuarioSenha', methods=['GET'])
+@usuarios_routes.route('/api/UsuarioSenha', methods=['GET'])
 @token_required
 def check_user_password():
     # Obtém o código do usuário e a senha dos parâmetros da URL
