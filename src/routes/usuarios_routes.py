@@ -2,7 +2,7 @@ from src.Service import usuariosCad
 from flask import Blueprint, jsonify, request
 from functools import wraps
 
-usuarios_routes = Blueprint('usuariosroutes', __name__)
+usuarios_routes = Blueprint('usuarios_routes', __name__)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
