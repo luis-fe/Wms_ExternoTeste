@@ -1,9 +1,8 @@
-from flask import Flask, render_template, jsonify, request, blueprints
+from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import os
 from functools import wraps
-
 import DeletarEndereco
 import DetalhaPedido
 import DistribuicaoPedidosMPLInterno
@@ -20,11 +19,15 @@ import cadenderecoMassa
 import caixas
 from src import routes_blueprint
 
-# TESTE
 
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 5000))
+
+
 app.register_blueprint(routes_blueprint)
+#Aqui registo todas as rotas , url's DO PROJETO, para acessar bastar ir na pasta "routes",
+#duvidas o contato (62)99351-42-49 ou acessar a documentacao do projeto em:
+
 CORS(app)
 
 # Decorator para verificar o token fixo
