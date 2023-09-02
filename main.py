@@ -17,8 +17,7 @@ import Reposicao
 import ReposicaoSku
 import cadenderecoMassa
 import caixas
-from src import routes_blueprint
-
+from src.routes import routes_blueprint
 
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 5000))
