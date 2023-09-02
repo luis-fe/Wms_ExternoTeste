@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, blueprints
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -18,11 +18,13 @@ import Reposicao
 import ReposicaoSku
 import cadenderecoMassa
 import caixas
+from src import routes_blueprint
 
 # TESTE
 
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 5000))
+app.register_blueprint(routes_blueprint)
 CORS(app)
 
 # Decorator para verificar o token fixo
