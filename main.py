@@ -3,19 +3,11 @@ from flask_cors import CORS
 import pandas as pd
 import os
 from functools import wraps
-import DeletarEndereco
-import DetalhaPedido
 import DistribuicaoPedidosMPLInterno
-import Incremento
-import InventarioPrateleira
 import PediosApontamento
 import Relatorios
-import Silk_PesquisaNew
-import TratamentoErros
-import OPfilaRepor
 import Reposicao
 import ReposicaoSku
-import cadenderecoMassa
 import caixas
 from src.routes import routes_blueprint
 
@@ -61,62 +53,6 @@ def Produtividade():
 def Enderecos():
     return render_template('TelaEnderecos.html')
 
-
-# Rota protegida que requer o token fixo para trazer os Usuarios Cadastrados
-
-
-
-
-
-
-# Rota para atualizar um usuário pelo código
-
-
-
-@app.route('/api/TagsReposicao/Resumo', methods=['GET'])
-@token_required
-def get_TagsReposicao():
-    # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
-    data_inicial = request.args.get('DataInicial','0')
-    data_final = request.args.get('DataFinal','0')
-    #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = OPfilaRepor.ProdutividadeRepositores(data_inicial,data_final)
-    TagReposicao = pd.DataFrame(TagReposicao)
-
-
-    # Obtém os nomes das colunas
-    column_names = TagReposicao.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    pedidos_data = []
-    for index, row in TagReposicao.iterrows():
-        pedidos_dict = {}
-        for column_name in column_names:
-            pedidos_dict[column_name] = row[column_name]
-        pedidos_data.append(pedidos_dict)
-    return jsonify(pedidos_data)
-
-@app.route('/api/TagsSeparacao/Resumo', methods=['GET'])
-@token_required
-def get_TagsSeparacao():
-    # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
-    data_inicial = request.args.get('DataInicial','0')
-    data_final = request.args.get('DataFinal','0')
-    #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = OPfilaRepor.ProdutividadeSeparadores(data_inicial,data_final)
-    TagReposicao = pd.DataFrame(TagReposicao)
-
-    # Obtém os nomes das colunas
-    column_names = TagReposicao.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    pedidos_data = []
-    for index, row in TagReposicao.iterrows():
-        pedidos_dict = {}
-        for column_name in column_names:
-            pedidos_dict[column_name] = row[column_name]
-        pedidos_data.append(pedidos_dict)
-    return jsonify(pedidos_data)
-
-
 @app.route('/api/ConsultaPedidoViaTag', methods=['GET'])
 @token_required
 def get_ConsultaPedidoViaTag():
@@ -135,265 +71,7 @@ def get_ConsultaPedidoViaTag():
     return jsonify(pedidos_data)
 
 
-@app.route('/api/FilaReposicaoOP', methods=['GET'])
-@token_required
-def get_FilaReposicaoOP():
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
 
-    FilaReposicaoOP = OPfilaRepor.FilaPorOP(natureza, empresa)
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    FilaReposicaoOP_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        FilaReposicaoOP_dict = {}
-        for column_name in column_names:
-            FilaReposicaoOP_dict[column_name] = row[column_name]
-        FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
-    return jsonify(FilaReposicaoOP_data)
-
-@app.route('/api/ObterEmpresasNatureza', methods=['GET'])
-@token_required
-def ObterEmpresasNatureza():
-
-
-    FilaReposicaoOP = OPfilaRepor.ObterNaturezas()
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    FilaReposicaoOP_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        FilaReposicaoOP_dict = {}
-        for column_name in column_names:
-            FilaReposicaoOP_dict[column_name] = row[column_name]
-        FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
-    return jsonify(FilaReposicaoOP_data)
-
-@app.route('/api/ObterTipoPrateleira', methods=['GET'])
-@token_required
-def ObterTipoPrateleira():
-
-
-    FilaReposicaoOP = OPfilaRepor.ObterTipoPrateleira()
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    FilaReposicaoOP_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        FilaReposicaoOP_dict = {}
-        for column_name in column_names:
-            FilaReposicaoOP_dict[column_name] = row[column_name]
-        FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
-    return jsonify(FilaReposicaoOP_data)
-
-
-@app.route('/api/AtribuirOPRepositor', methods=['POST'])
-@token_required
-def get_AtribuirOPRepositor():
-    # Obtenha os dados do corpo da requisição
-    data = request.get_json()
-    OP = data['numeroOP']
-    Usuario = data['codigo']
-    Reatribuir = data.get('reatribuir', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-
-    # Verifica Se existe atribuicao
-    existe = OPfilaRepor.ConsultaSeExisteAtribuicao(OP)
-    if existe == 0:
-        if Reatribuir is True:
-            OPfilaRepor.AtribuiRepositorOP(Usuario, OP)
-            return jsonify({'message': f'OP {OP} reatribuida para o Usuario {Usuario}'})
-        else:
-            # Retorna uma resposta de existencia
-            return jsonify({'message': f'OP já foi Atribuida'})
-    else:
-
-        OPfilaRepor.AtribuiRepositorOP(Usuario, OP)
-        # Retorna uma resposta de sucesso
-        return jsonify({'message': True})
-
-
-@app.route('/api/DetalhaOP', methods=['GET'])
-@token_required
-def get_DetalhaOP():
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-
-    # Obtém o código do usuário e a senha dos parâmetros da URL
-    NumeroOP = request.args.get('numeroOP')
-    op = OPfilaRepor.detalhaOP(NumeroOP,empresa, natureza)
-    # Obtém os nomes das colunas
-    column_names = op.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    OP_data = []
-    for index, row in op.iterrows():
-        op_dict = {}
-        for column_name in column_names:
-            op_dict[column_name] = row[column_name]
-        OP_data.append(op_dict)
-    return jsonify(OP_data)
-
-
-@app.route('/api/DetalhaOPxSKU', methods=['GET'])
-@token_required
-def get_DetalhaOPxSKU():
-    # Obtém o código do usuário e a senha dos parâmetros da URL
-    NumeroOP = request.args.get('numeroOP')
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-
-
-    op = OPfilaRepor.detalhaOPxSKU(NumeroOP,empresa,natureza)
-    # Obtém os nomes das colunas
-    column_names = op.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    OP_data = []
-    for index, row in op.iterrows():
-        op_dict = {}
-        for column_name in column_names:
-            op_dict[column_name] = row[column_name]
-        OP_data.append(op_dict)
-    return jsonify(OP_data)
-
-
-@app.route('/api/DetalhaSKU', methods=['GET'])
-@token_required
-def get_DetalhaSKU():
-    # Obtém o código do usuário e a senha dos parâmetros da URL
-    codreduzido = request.args.get('codreduzido')
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-    op = OPfilaRepor.detalhaSku(codreduzido, empresa, natureza)
-    # Obtém os nomes das colunas
-    column_names = op.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    OP_data = []
-    for index, row in op.iterrows():
-        op_dict = {}
-        for column_name in column_names:
-            op_dict[column_name] = row[column_name]
-        OP_data.append(op_dict)
-    return jsonify(OP_data)
-
-
-@app.route('/api/Enderecos', methods=['GET'])
-@token_required
-def get_enderecos():
-    enderecos = Reposicao.ObeterEnderecos()
-    # Obtém os nomes das colunas
-    column_names = enderecos.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    enderecos_data = []
-    for index, row in enderecos.iterrows():
-        enderecos_dict = {}
-        for column_name in column_names:
-            enderecos_dict[column_name] = row[column_name]
-        enderecos_data.append(enderecos_dict)
-    return jsonify(enderecos_data)
-
-
-@app.route('/api/NovoEndereco', methods=['PUT'])
-@token_required
-def criar_enderco():
-    # Obtenha os dados do corpo da requisição
-    novo_endereco = request.get_json()
-    # Extraia os valores dos campos do novo usuário
-
-    rua = novo_endereco.get('rua')
-    modulo = novo_endereco.get('modulo')
-    posicao = novo_endereco.get('posicao')
-
-    codendereco = Reposicao.CadEndereco(rua, modulo, posicao)
-
-    # inserir o novo usuário no banco de dados
-    return jsonify({'message': f'Novo endereco:{codendereco} criado com sucesso'}), 201
-
-@app.route('/api/EnderecoAtacado', methods=['PUT'])
-@token_required
-def EnderecoAtacado():
-    # Obtenha os dados do corpo da requisição
-    novo_endereco = request.get_json()
-    # Extraia os valores dos campos do novo usuário
-
-    rua = novo_endereco.get('ruaInicial')
-    ruaFinal = novo_endereco.get('ruaFinal')
-    modulo = novo_endereco.get('modulo')
-    moduloFinal = novo_endereco.get('moduloFinal')
-    posicao = novo_endereco.get('posicao')
-    posicaoFinal = novo_endereco.get('posicaoFinal')
-    tipo = novo_endereco.get('tipo','COLECAO')
-    natureza = novo_endereco.get('natureza','5')
-    empresa = novo_endereco.get('empresa','1')
-
-
-    cadenderecoMassa.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
-
-    # inserir o novo usuário no banco de dados
-    return jsonify({'message': f'Novos enderecos criado com sucesso'}), 200
-@app.route('/api/EnderecoAtacado', methods=['DELETE'])
-@token_required
-def EnderecoAtacadoDelatar():
-    # Obtenha os dados do corpo da requisição
-    novo_endereco = request.get_json()
-    # Extraia os valores dos campos do novo usuário
-
-    rua = novo_endereco.get('ruaInicial')
-    ruaFinal = novo_endereco.get('ruaFinal')
-    modulo = novo_endereco.get('modulo')
-    moduloFinal = novo_endereco.get('moduloFinal')
-    posicao = novo_endereco.get('posicao')
-    posicaoFinal = novo_endereco.get('posicaoFinal')
-    tipo = novo_endereco.get('tipo','COLECAO')
-    natureza = novo_endereco.get('natureza','5')
-    empresa = novo_endereco.get('empresa','1')
-
-
-    cadenderecoMassa.ImportEnderecoDeletar(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
-
-    # inserir o novo usuário no banco de dados
-    return jsonify({'message': f' enderecos excluidos com sucesso, exceto o que tem saldo !'}), 200
-
-
-@app.route('/api/DetalhaEndereco', methods=['GET'])
-@token_required
-def get_DetalhaEndereco():
-    # Obtém o código do endereco e a senha dos parâmetros da URL
-    Endereco = request.args.get('Endereco')
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-
-    Endereco_det = Reposicao.SituacaoEndereco(Endereco, empresa, natureza)
-    Endereco_det = pd.DataFrame(Endereco_det)
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
-
-
-@app.route('/api/DetalhaTag', methods=['GET'])
-@token_required
-def get_DetalhaTag():
-    # Obtém o código do usuário e a senha dos parâmetros da URL
-    codbarra = request.args.get('codbarra')
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-    codbarra, codbarra1 = PediosApontamento.EndereçoTag(codbarra,empresa,natureza)
-    # Obtém os nomes das colunas
-    column_names = codbarra1.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    OP_data = []
-    for index, row in codbarra1.iterrows():
-        op_dict = {}
-        for column_name in column_names:
-            op_dict[column_name] = row[column_name]
-        OP_data.append(op_dict)
-    return jsonify(OP_data)
 
 
 @app.route('/api/ApontamentoReposicao', methods=['POST'])
@@ -435,143 +113,11 @@ def get_ApontaReposicao():
         return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500
 
 
-# ETAPA 2:  Api para acesso do Quadro de Estamparia - Projeto WMS das Telas de  Silk:
-
-@app.route('/api/Silk/PesquisaEndereco', methods=['GET'])
-@token_required
-def get_PesquisaEndereco():
-    Coluna = request.args.get('Coluna')
-    Operador = request.args.get('Operador')
-    Nome = request.args.get('Nome')
-
-    resultados = Silk_PesquisaNew.PesquisaEnderecos(Coluna, Operador, Nome)
-
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    filaeposicao_data = []
-    for row in resultados:
-        filaeposicao_dict = {}
-        for i, value in enumerate(row):
-            filaeposicao_dict[
-                f'col{i + 1}'] = value  # Substitua 'col{i+1}' pelo nome da coluna correspondente, se disponível
-        filaeposicao_data.append(filaeposicao_dict)
-
-    return jsonify(filaeposicao_data)
 
 
-@app.route('/api/Silk/deleteTelas', methods=['DELETE'])
-@token_required
-def delete_endpoint():
-    endereco = request.args.get('endereco')
-    produto = request.args.get('produto')
-
-    # Chama a função Funcao_Deletar para realizar a exclusão
-    resultado = Silk_PesquisaNew.Funcao_Deletar(endereco, produto)
-
-    if resultado == True:
-        return f'endereco: {endereco}, produto {produto}  EXCLUIDOS NO CADASTRO DE SILK', 200
-    else:
-        return 'Falha ao deletar', 500
-
-
-@app.route('/api/Silk/IserirTelas', methods=['PUT'])
-@token_required
-def insert_endpoint():
-    produto = request.args.get('produto')
-    endereco = request.args.get('endereco')
-
-    # Chama a função Funcao_Inserir para realizar a inserção
-    resultado = Silk_PesquisaNew.Funcao_Inserir(produto, endereco)
-
-    if resultado == True:
-        return f'produto{produto} endereço{endereco}, Inserção realizada com sucesso', 200
-    else:
-        return 'Falha ao inserir', 500
-
-
-# Api para o processo de inventario
-@app.route('/api/RegistrarInventario', methods=['POST'])
-@token_required
-def get_ProtocolarInventario():
-    # Obtém os dados do corpo da requisição (JSON)
-    datas = request.get_json()
-    codUsuario = datas['codUsuario']
-    data = datas['data']
-    endereco = datas['endereço']
-
-    Endereco_det = InventarioPrateleira.SituacaoEndereco(endereco, codUsuario, data)
-    Endereco_det = pd.DataFrame(Endereco_det)
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
-
-
-@app.route('/api/ApontarTagInventario', methods=['POST'])
-@token_required
-def get_ApontarTagInventario():
-    # Obtém os dados do corpo da requisição (JSON)
-    datas = request.get_json()
-    codbarras = datas['codbarras']
-    codusuario = datas['codUsuario']
-    endereco = datas.get('endereço','-')
-    Prosseguir = datas.get('Prosseguir', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-
-    Endereco_det = InventarioPrateleira.ApontarTagInventario(codbarras, endereco, codusuario, Prosseguir)
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
-
-@app.route('/api/FinalizarInventario', methods=['POST'])
-@token_required
-def get_FinalizarInventario():
-    # Obtém os dados do corpo da requisição (JSON)
-    datas = request.get_json()
-    endereco = datas['endereço']
-
-    Endereco_det = InventarioPrateleira.SalvarInventario(endereco)
-    Endereco_det = pd.DataFrame(Endereco_det)
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 # Aqui comeca as API's referente aos pedidos
-@app.route('/api/FilaPedidos', methods=['GET'])
-@token_required
-def get_FilaPedidos():
 
-    Pedidos = PediosApontamento.FilaPedidos()
-    # Obtém os nomes das colunas
-    column_names = Pedidos.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    pedidos_data = []
-    for index, row in Pedidos.iterrows():
-        pedidos_dict = {}
-        for column_name in column_names:
-            pedidos_dict[column_name] = row[column_name]
-        pedidos_data.append(pedidos_dict)
-    return jsonify(pedidos_data)
 
 @app.route('/api/FilaPedidosClassificacao', methods=['GET'])
 @token_required
@@ -592,43 +138,6 @@ def get_FilaPedidosClassificacao():
     return jsonify(pedidos_data)
 
 
-
-@app.route('/api/FilaPedidosUsuario', methods=['GET'])
-@token_required
-def get_FilaPedidosUsuario():
-    codUsuario = request.args.get('codUsuario')
-    Pedidos = PediosApontamento.FilaAtribuidaUsuario(codUsuario)
-    # Obtém os nomes das colunas
-    column_names = Pedidos.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    pedidos_data = []
-    for index, row in Pedidos.iterrows():
-        pedidos_dict = {}
-        for column_name in column_names:
-            pedidos_dict[column_name] = row[column_name]
-        pedidos_data.append(pedidos_dict)
-    return jsonify(pedidos_data)
-
-
-@app.route('/api/DetalharPedido', methods=['GET'])
-@token_required
-def get_DetalharPedido():
-    # Obtém os dados do corpo da requisição (JSON)
-    codPedido = request.args.get('codPedido')
-
-    Endereco_det = DetalhaPedido.DetalhaPedido(codPedido)
-    Endereco_det = pd.DataFrame(Endereco_det)
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 @app.route('/api/IndicadorDistribuicao', methods=['GET'])
 @token_required
@@ -756,24 +265,7 @@ def get_RelatorioFila():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-@app.route('/api/RelatorioSeparadores', methods=['GET'])
-def get_RelatorioSeparadores():
-    # Obtém os dados do corpo da requisição (JSON)
-    pagina = request.args.get('pagina',1)
-    itens = request.args.get('itens',50)
 
-    Endereco_det = Relatorios.RelatorioSeparadores(int(itens),int(pagina))
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 @app.route('/api/RelatorioTotalFila', methods=['GET'])
 @token_required
@@ -793,43 +285,10 @@ def get_RelatorioTotalFila():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-@app.route('/api/DisponibilidadeEnderecos', methods=['GET'])
-@token_required
-def get_DisponibilidadeEnderecos():
-    # Obtém os dados do corpo da requisição (JSON)
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-    Endereco_det = Relatorios.EnderecosDisponiveis(natureza, empresa)
-    Endereco_det = pd.DataFrame(Endereco_det)
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 
 
-@app.route('/api/ListagemErros', methods=['GET'])
-def get_ListagemErros():
-    # Obtém os dados do corpo da requisição (JSON)
 
-    Endereco_det = TratamentoErros.ListaErros()
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 
 @app.route('/api/AtribuirPedidos', methods=['POST'])
@@ -862,32 +321,7 @@ def get_AtribuirPedidos():
         return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500
 
 
-@app.route('/api/AtualizaEnderecoPedidoss', methods=['POST'])
-@token_required
-def get_AtualizaEnderecoPedidoss():
-    try:
-        # Obtém os dados do corpo da requisição (JSON)
-        datas = request.get_json()
-        iteracoes = datas['iteracoes']
 
-        Endereco_det = Incremento.testeAtualizacao(iteracoes)
-        Endereco_det = pd.DataFrame(Endereco_det)
-
-        # Obtém os nomes das colunas
-        column_names = Endereco_det.columns
-        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-        end_data = []
-        for index, row in Endereco_det.iterrows():
-            end_dict = {}
-            for column_name in column_names:
-                end_dict[column_name] = row[column_name]
-            end_data.append(end_dict)
-        return jsonify(end_data)
-    except KeyError as e:
-        return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
-
-    except Exception as e:
-        return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500
 
 
 @app.route('/api/NecessidadeReposicao', methods=['GET'])
@@ -907,23 +341,7 @@ def get_RelatorioNecessidadeReposicao():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-@app.route('/api/endereco/<string:codigoEndereco>', methods=['DELETE'])
-@token_required
-def delet_Endereco(codigoEndereco):
-    # Obtém os dados do corpo da requisição (JSON)
-    data = request.get_json()
-    # Verifica se a coluna "funcao" está presente nos dados recebidos
-    dados = DeletarEndereco.Deletar_Endereco(codigoEndereco)
-    # Obtém os nomes das colunas
-    column_names = dados.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in dados.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
+
 
 
 if __name__ == '__main__':

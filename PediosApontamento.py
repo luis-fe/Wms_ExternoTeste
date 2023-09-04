@@ -5,37 +5,6 @@ import pandas as pd
 import numpy as np
 
 
-def EndereçoTag(codbarra, empresa, natureza):
-    conn = ConexaoPostgreMPL.conexao()
-    pesquisa = pd.read_sql(
-        ' select t."Endereco"  from "Reposicao".tagsreposicao t  '
-        'where codbarrastag = ' + "'" + codbarra + "' and natureza = '"+natureza+"'", conn)
-
-    pesquisa['Situacao'] = 'Reposto'
-    pesquisa2 = pd.read_sql(
-        " select '-' as Endereco  from " + '"Reposicao".filareposicaoportag f   '
-                                           'where codbarrastag = ' + "'" + codbarra + "' and codnaturezaatual = '"+natureza+"'", conn)
-
-    pesquisa2['Situacao'] = 'na fila'
-    pesquisa3 = pd.read_sql(
-        ' select distinct f."Endereco"  from "Reposicao".tagsreposicao_inventario f   '
-        'where codbarrastag = ' + "'" + codbarra + "'", conn)
-
-    pesquisa3['Situacao'] = f'em inventario'
-    conn.close()
-
-    if not pesquisa2.empty:
-        return 'Na fila ', pesquisa2
-
-    if not pesquisa3.empty:
-        return 'em inventario ', pesquisa3
-    if not pesquisa.empty:
-
-        return pesquisa['Endereco'][0], pesquisa
-    else:
-        return False, pd.DataFrame({'Mensagem': [f'tag nao encontrada na natureza {natureza}']})
-
-
 def FilaPedidos():
     conn = ConexaoPostgreMPL.conexao()
     pedido = pd.read_sql(
@@ -586,4 +555,33 @@ def pesquisarSKUxPedido(codpedido, reduzido):
         'where codpedido = ' + "'" + codpedido + "' and produto = " + "'" + reduzido + "'", conn)
     conn.close()
     return pesquisa2
+def EndereçoTag(codbarra, empresa, natureza):
+    conn = ConexaoPostgreMPL.conexao()
+    pesquisa = pd.read_sql(
+        ' select t."Endereco"  from "Reposicao".tagsreposicao t  '
+        'where codbarrastag = ' + "'" + codbarra + "' and natureza = '"+natureza+"'", conn)
+
+    pesquisa['Situacao'] = 'Reposto'
+    pesquisa2 = pd.read_sql(
+        " select '-' as Endereco  from " + '"Reposicao".filareposicaoportag f   '
+                                           'where codbarrastag = ' + "'" + codbarra + "' and codnaturezaatual = '"+natureza+"'", conn)
+
+    pesquisa2['Situacao'] = 'na fila'
+    pesquisa3 = pd.read_sql(
+        ' select distinct f."Endereco"  from "Reposicao".tagsreposicao_inventario f   '
+        'where codbarrastag = ' + "'" + codbarra + "'", conn)
+
+    pesquisa3['Situacao'] = f'em inventario'
+    conn.close()
+
+    if not pesquisa2.empty:
+        return 'Na fila ', pesquisa2
+
+    if not pesquisa3.empty:
+        return 'em inventario ', pesquisa3
+    if not pesquisa.empty:
+
+        return pesquisa['Endereco'][0], pesquisa
+    else:
+        return False, pd.DataFrame({'Mensagem': [f'tag nao encontrada na natureza {natureza}']})
 
