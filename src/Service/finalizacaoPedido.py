@@ -44,4 +44,9 @@ def VerificarExisteApontamento(codpedido, usuario):
 
     else:
         print('ok')
+def Buscar_Caixas():
+    conn = ConexaoPostgreMPL.conexao()
+    query = pd.read_sql('select * from "Reposicao".caixas',conn)
+    conn.close()
 
+    return query

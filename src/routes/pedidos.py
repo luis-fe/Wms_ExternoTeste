@@ -65,3 +65,69 @@ def get_DetalharPedido():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+@pedidos_routes.route('/api/FilaPedidosClassificacao', methods=['GET'])
+@token_required
+def get_FilaPedidosClassificacao():
+    coluna = request.args.get('coluna','01-CodPedido')
+    tipo = request.args.get('tipo','desc')
+
+    Pedidos = pedidosModel.ClassificarFila(coluna, tipo)
+    # Obtém os nomes das colunas
+    column_names = Pedidos.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in Pedidos.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
+
+@pedidos_routes.route('/api/AtribuirPedidos', methods=['POST'])
+@token_required
+def get_AtribuirPedidos():
+    try:
+        # Obtém os dados do corpo da requisição (JSON)
+        datas = request.get_json()
+        codUsuario = datas['codUsuario']
+        data = datas['data']
+        pedidos = datas['pedidos']
+
+        Endereco_det = pedidosModel.AtribuirPedido(codUsuario, pedidos, data)
+        Endereco_det = pd.DataFrame(Endereco_det)
+
+        # Obtém os nomes das colunas
+        column_names = Endereco_det.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        end_data = []
+        for index, row in Endereco_det.iterrows():
+            end_dict = {}
+            for column_name in column_names:
+                end_dict[column_name] = row[column_name]
+            end_data.append(end_dict)
+        return jsonify(end_data)
+    except KeyError as e:
+        return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
+
+    except Exception as e:
+        return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500
+
+
+@pedidos_routes.route('/api/IndicadorDistribuicao', methods=['GET'])
+@token_required
+def IndicadorDistribuicao():
+
+
+    Endereco_det = pedidosModel.AtribuicaoDiaria()
+
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
