@@ -37,7 +37,7 @@ def get_TagsReposicao():
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
 
-@app.route('/api/TagsSeparacao/Resumo', methods=['GET'])
+@produtividade_routes.route('/api/TagsSeparacao/Resumo', methods=['GET'])
 @token_required
 def get_TagsSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
