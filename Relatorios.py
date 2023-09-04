@@ -94,17 +94,7 @@ def RelatorioNecessidadeReposicao():
                 '1- Detalhamento das Necessidades ':relatorioEndereço.to_dict(orient='records')
             }
     return [data]
-def InformacaoPedidoViaTag(codbarras):
-    conn = ConexaoPostgreMPL.conexao()
 
-    Informa = pd.read_sql('Select codpedido, usuario, dataseparacao  from "Reposicao".tags_separacao '
-                          'where codbarrastag = '+"'"+codbarras+"'",conn)
-
-    Informa2 = pd.read_sql('select codigopedido as codpedido, codcliente, desc_cliente, desc_tiponota  from "Reposicao".filaseparacaopedidos',conn)
-
-    Informa = pd.merge(Informa,Informa2,on='codpedido',how='left')
-
-    return Informa
 
 
 def EnderecosDisponiveis(natureza, empresa):

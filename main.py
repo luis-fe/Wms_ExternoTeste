@@ -32,29 +32,6 @@ def token_required(f):
     return decorated_function
 
 
-
-
-@app.route('/api/ConsultaPedidoViaTag', methods=['GET'])
-@token_required
-def get_ConsultaPedidoViaTag():
-    codBarras = request.args.get('codBarras')
-    TagReposicao = Relatorios.InformacaoPedidoViaTag(codBarras)
-
-    # Obtém os nomes das colunas
-    column_names = TagReposicao.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    pedidos_data = []
-    for index, row in TagReposicao.iterrows():
-        pedidos_dict = {}
-        for column_name in column_names:
-            pedidos_dict[column_name] = row[column_name]
-        pedidos_data.append(pedidos_dict)
-    return jsonify(pedidos_data)
-
-
-
-
-
 @app.route('/api/ApontamentoReposicao', methods=['POST'])
 @token_required
 def get_ApontaReposicao():
@@ -242,8 +219,5 @@ def get_RelatorioNecessidadeReposicao():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
-
