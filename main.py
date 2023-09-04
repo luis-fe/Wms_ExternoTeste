@@ -33,25 +33,7 @@ def token_required(f):
     return decorated_function
 
 
-# Rota pagina inicial
-@app.route('/')
-def login():
-    return render_template('Login.html')
-@app.route('/home')
-def home():
-    return render_template('index.html')
 
-@app.route('/Usuarios')
-def Usuarios():
-    return render_template('Usuarios.html')
-
-@app.route('/Produtividade')
-def Produtividade():
-    return render_template('Produtividade.html')
-
-@app.route('/Enderecos')
-def Enderecos():
-    return render_template('TelaEnderecos.html')
 
 @app.route('/api/ConsultaPedidoViaTag', methods=['GET'])
 @token_required
