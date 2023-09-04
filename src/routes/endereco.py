@@ -31,7 +31,7 @@ def get_enderecos():
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
 
-@app.route('/api/NovoEndereco', methods=['PUT'])
+@endereco_routes.route('/api/NovoEndereco', methods=['PUT'])
 @token_required
 def criar_enderco():
     # Obtenha os dados do corpo da requisição
