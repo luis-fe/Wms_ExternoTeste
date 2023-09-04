@@ -7,8 +7,8 @@ def FilaPorOP(natureza, codempresa):
 
     df_OP1 = pd.read_sql \
         (' select "numeroop", "totalop" as qtdpeçs_total, "usuario" as codusuario_atribuido, count("numeroop") as qtdpeçs_arepor  from "Reposicao"."filareposicaoportag" frt '
-                         ' where "codnaturezaatual" = %s and empresa = %s '
-                         ' group by "numeroop", "usuario", "totalop"  ' ,conn ,params=(natureza,codempresa,))
+                         ' where "codnaturezaatual" = %s  '
+                         ' group by "numeroop", "usuario", "totalop"  ' ,conn ,params=(natureza,))
 
     df_OP_Iniciada =pd.read_sql(
         ' select "numeroop", count("numeroop") as qtdpeçs_reposto  from "Reposicao"."tagsreposicao" frt '
