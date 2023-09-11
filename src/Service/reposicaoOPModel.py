@@ -12,7 +12,7 @@ def FilaPorOP(natureza, codempresa):
 
     df_OP_Iniciada =pd.read_sql(
         ' select "numeroop", count("numeroop") as qtdpeçs_reposto  from "Reposicao"."tagsreposicao" frt '
-        ' where empresa = %s '
+        ' where codempresa = %s '
         ' group by "numeroop" ', conn, params = (codempresa,))
     df_OP1 = pd.merge(df_OP1, df_OP_Iniciada, on='numeroop', how='left')
 
