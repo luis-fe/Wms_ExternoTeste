@@ -22,7 +22,7 @@ def FilaPorOP(natureza, codempresa):
         'select codigo as codusuario_atribuido , nome as nomeusuario_atribuido  from "Reposicao".cadusuarios c ', conn)
     usuarios['codusuario_atribuido'] = usuarios['codusuario_atribuido'].astype(str)
     df_OP1 = pd.merge(df_OP1, usuarios, on='codusuario_atribuido', how='left')
-    df_OP1['qtdpeçs_reposto'] = df_OP1['qtdpeçs_reposto'].replace('', numpy.nan).fillna(0)
+    df_OP1['qtdpeçs_reposto'] = df_OP1['qtdpeçs_reposto'].replace('', numpy.nan).fillna('0')
     df_OP1['qtdpeçs_total'] = df_OP1['qtdpeçs_total'].replace('', numpy.nan).fillna('0')
     df_OP1['qtdpeçs_arepor'] = df_OP1['qtdpeçs_arepor'].replace('', numpy.nan).fillna('0')
     df_OP1['qtdpeçs_total'] = df_OP1['qtdpeçs_total'].astype(int)
