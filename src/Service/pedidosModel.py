@@ -317,7 +317,8 @@ def InformacaoPedidoViaTag(codbarras):
 def InformacaoImpresao(pedido):
     conn = ConexaoPostgreMPL.conexao()
 
-    pedido = pd.read_sql('select desc_cliente as cliente, codcliente, cod_usuario as separador, cidade from "Reposicao".filaseparacaopedidos f ')
+    pedido = pd.read_sql('select desc_cliente as cliente, codcliente, cod_usuario as separador, cidade from "Reposicao".filaseparacaopedidos f '
+                         'where codigopedido = %s',conn,params=(pedido,))
     try:
         conn2 = ConexaoCSW.Conexao()
         transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
