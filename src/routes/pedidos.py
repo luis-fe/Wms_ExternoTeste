@@ -1,4 +1,4 @@
-from src.Service import pedidosModel
+from src.Service import pedidosModel, imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -136,6 +136,30 @@ def IndicadorDistribuicao():
 def get_ConsultaPedidoViaTag():
     codBarras = request.args.get('codBarras')
     TagReposicao = pedidosModel.InformacaoPedidoViaTag(codBarras)
+
+    # Obtém os nomes das colunas
+    column_names = TagReposicao.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in TagReposicao.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
+
+@pedidos_routes.route('/api/imprimirEtiqueta', methods=['POST'])
+@token_required
+def imprimirEtiqueta():
+    # Obtém os dados do corpo da requisição (JSON)
+    datas = request.get_json()
+    pedido = datas['pedido']
+
+    codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao()
+
+
+    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora)
+    imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns

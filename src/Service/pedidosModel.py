@@ -313,3 +313,21 @@ def InformacaoPedidoViaTag(codbarras):
     Informa = pd.merge(Informa,Informa2,on='codpedido',how='left')
 
     return Informa
+
+def InformacaoImpresao(pedido):
+    conn = ConexaoPostgreMPL.conexao()
+
+    pedido = pd.read_sql('select desc_cliente as cliente, codcliente, cod_usuario as separador, cidade from "Reposicao".filaseparacaopedidos f ')
+    try:
+        conn2 = ConexaoCSW.Conexao()
+        transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
+                                 ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
+                                 ' WHERE t.Empresa = 1 ',conn2)
+        conn2.close()
+        pedido = pd.merge(pedido, transporta, on=["cidade", "estado"], how='left')
+    except:
+
+        pedido['transportadora'] = 'Perdeu Conexao Csw'
+
+    return pedido['codcliente'][0],pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
+
