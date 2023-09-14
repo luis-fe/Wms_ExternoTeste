@@ -155,7 +155,7 @@ def imprimirEtiqueta():
     datas = request.get_json()
     pedido = datas['pedido']
 
-    codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao()
+    codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
 
 
     TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora)
