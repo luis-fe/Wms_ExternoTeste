@@ -161,6 +161,4 @@ def imprimirEtiqueta():
     TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora)
     imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
-
-
-    return jsonify(f"imprimido pedido {pedido}")
+    return jsonify({'message': f'Imprimido o pedido {pedido} com sucesso', 'status':True})
