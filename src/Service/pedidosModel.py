@@ -319,6 +319,7 @@ def InformacaoImpresao(pedido):
 
     pedido = pd.read_sql('select desc_cliente as cliente, codcliente, cod_usuario, cidade, estado from "Reposicao".filaseparacaopedidos f '
                          'where codigopedido = %s',conn,params=(pedido,))
+    '''''
     usuarios = pd.read_sql(
         'select codigo as cod_usuario , nome as separador  from "Reposicao".cadusuarios c ', conn)
     usuarios['cod_usuario'] = usuarios['cod_usuario'].astype(str)
@@ -335,6 +336,6 @@ def InformacaoImpresao(pedido):
     except:
 
         pedido['transportadora'] = 'Perdeu Conexao Csw'
-
+    '''''
     return pedido['codcliente'][0],True,True,True
 #pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
