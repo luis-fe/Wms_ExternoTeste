@@ -154,6 +154,7 @@ def imprimirEtiqueta():
     # Obtém os dados do corpo da requisição (JSON)
     datas = request.get_json()
     pedido = datas['pedido']
+    pedido = pedido.strip()
     print(pedido)
     codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
 
