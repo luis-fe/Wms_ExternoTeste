@@ -336,5 +336,5 @@ def InformacaoImpresao(pedido):
 
         pedido['transportadora'] = 'Perdeu Conexao Csw'
 
-    return pedido['codcliente'][0],pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
-
+    return pedido['codcliente'][0],True,True,True
+#pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
