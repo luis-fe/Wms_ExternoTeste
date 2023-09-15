@@ -154,11 +154,11 @@ def imprimirEtiqueta():
     # Obtém os dados do corpo da requisição (JSON)
     datas = request.get_json()
     pedido = datas['pedido']
+    print(pedido)
+    #codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
 
-    codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
 
-
-    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador)
-    imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
+    #TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador)
+    #imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
     return jsonify({'message': f'Imprimido o pedido {pedido} com sucesso', 'status':True})
