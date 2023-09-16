@@ -21,8 +21,7 @@ def obter_notaCsw():
 
 
 def Faturamento(empresa, dataInicio, dataFim):
-    def format_with_separator(value):
-        return locale.format('%0.0f', value, grouping=True)
+
 
 
     tipo_nota = ObterTipoNota(empresa)
@@ -34,11 +33,12 @@ def Faturamento(empresa, dataInicio, dataFim):
     conn.close()
     dataframe['tiponota'] = dataframe['tiponota'].astype(str)
     dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
-    dataframe['faturado'] = dataframe['faturado'].apply(format_with_separator)
+
     faturado = dataframe['faturado'].sum()
-    faturado = "{:,.2f}".format(faturado)
     faturado = 'R$ '+str(faturado)
+    faturado = faturado.replace('.', ";")
     faturado = faturado.replace(',',".")
+    faturado = faturado.replace(';', ",")
     return pd.DataFrame({'Total Faturado':[faturado]})
 
 
