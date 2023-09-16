@@ -157,7 +157,7 @@ def imprimirEtiqueta():
     pedido = pedido.strip()
     print(pedido)
     codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
-    print(codcliente.dtype)
+    print(codcliente.type)
 
     codcliente = str(codcliente)
 
