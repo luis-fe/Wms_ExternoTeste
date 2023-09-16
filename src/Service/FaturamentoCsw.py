@@ -37,6 +37,7 @@ def Faturamento(empresa, dataInicio, dataFim):
     faturado = dataframe['faturado'].sum()
     faturado = "{:,.0f}".format(faturado)
     faturado = 'R$ '+str(faturado)
+    faturado = faturado.replace(',',".")
     return pd.DataFrame({'Total Faturado':[faturado]})
 
 
