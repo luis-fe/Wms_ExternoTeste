@@ -16,7 +16,7 @@ from .silk_WMS import silkWMS_routes
 from .pedidos import pedidos_routes
 from .portalWms import portal_routes
 from .faturamento import faturamento_routes
-
+from .finalizacaoPedido import finalizacaoPedido_route
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
@@ -31,3 +31,4 @@ routes_blueprint.register_blueprint(silkWMS_routes)
 routes_blueprint.register_blueprint(pedidos_routes)
 routes_blueprint.register_blueprint(portal_routes)
 routes_blueprint.register_blueprint(faturamento_routes)
+routes_blueprint.register_blueprint(finalizacaoPedido_route)

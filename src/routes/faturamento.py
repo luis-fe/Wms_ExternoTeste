@@ -1,4 +1,4 @@
-from src.Service import produtividadeModel, FaturamentoCsw
+from src.Service import FaturamentoCswModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -23,7 +23,7 @@ def get_Faturamento():
     dataInicio = request.args.get('dataInicio')
     dataFim = request.args.get('dataFim')
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = FaturamentoCsw.Faturamento(empresa, dataInicio, dataFim)
+    TagReposicao = FaturamentoCswModel.Faturamento(empresa, dataInicio, dataFim)
 
 
     # Obtém os nomes das colunas

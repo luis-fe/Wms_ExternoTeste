@@ -7,7 +7,6 @@ import PediosApontamento
 import Relatorios
 import Reposicao
 import ReposicaoSku
-import caixas
 from src.routes import routes_blueprint
 
 app = Flask(__name__)
@@ -147,22 +146,7 @@ def get_RelatorioEndereços():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-@app.route('/api/caixas', methods=['GET'])
-def get_Caixas():
-    # Obtém os dados do corpo da requisição (JSON)
 
-    Endereco_det = caixas.Buscar_Caixas()
-
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
 
 @app.route('/api/RelatorioFila', methods=['GET'])
 def get_RelatorioFila():
