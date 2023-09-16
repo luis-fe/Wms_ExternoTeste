@@ -30,7 +30,7 @@ def Faturamento(empresa, dataInicio, dataFim):
     dataframe['tiponota'] = dataframe['tiponota'].astype(str)
     dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
     faturado = dataframe['faturado'].sum()
-    return faturado
+    return pd.DataFrame({'Total Faturado':f"{faturado}"})
 
 
 
