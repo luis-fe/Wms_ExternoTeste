@@ -160,7 +160,7 @@ def imprimirEtiqueta():
 
     print(type(codcliente))  # Correção aqui
 
-    codcliente = str(codcliente)
+    codcliente = codcliente.replace('.0','')
 
     TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador)
     imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
