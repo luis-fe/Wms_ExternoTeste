@@ -27,6 +27,7 @@ def Faturamento(empresa, dataInicio, dataFim):
                             'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                             'group by n.dataEmissao , n.codTipoDeNota ',conn)
     conn.close()
+    dataframe['tiponota'] = dataframe['tiponota'].astype(str)
     dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
     faturado = dataframe['faturado'].sum()
     return faturado
