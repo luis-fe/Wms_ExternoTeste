@@ -1,6 +1,7 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
+import locale
 
 def ObterTipoNota(empresa):
     conn = ConexaoPostgreMPL.conexao()
@@ -20,6 +21,10 @@ def obter_notaCsw():
 
 
 def Faturamento(empresa, dataInicio, dataFim):
+    def format_with_separator(value):
+        return locale.format('%0.0f', value, grouping=True)
+
+
     tipo_nota = ObterTipoNota(empresa)
     conn = ConexaoCSW.Conexao()
     dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado  FROM Fat.NotaFiscal n '
@@ -30,6 +35,7 @@ def Faturamento(empresa, dataInicio, dataFim):
     dataframe['tiponota'] = dataframe['tiponota'].astype(str)
     dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
     faturado = dataframe['faturado'].sum()
+    faturado = "{:,.0f}".format(faturado)
     faturado = 'R$ '+str(faturado)
     return pd.DataFrame({'Total Faturado':[faturado]})
 
