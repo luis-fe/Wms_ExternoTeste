@@ -26,7 +26,7 @@ def Faturamento(empresa, dataInicio, dataFim):
                             'where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+dataInicio+' and n.dataEmissao <= '+dataFim+'and situacao = 2 '
                             'group by n.dataEmissao , n.codTipoDeNota ',conn)
     conn.close()
-    dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
+    #dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
     return dataframe
 
 
