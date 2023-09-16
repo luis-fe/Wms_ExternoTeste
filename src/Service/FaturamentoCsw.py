@@ -36,6 +36,7 @@ def Faturamento(empresa, dataInicio, dataFim):
     dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
     faturado = dataframe['faturado'].sum()
     faturado = "{:,.2f}".format(faturado)
+    faturado = format_with_separator(faturado)
     faturado = 'R$ '+str(faturado)
     faturado = faturado.replace(',',".")
     return pd.DataFrame({'Total Faturado':[faturado]})
