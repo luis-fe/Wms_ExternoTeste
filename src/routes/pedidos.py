@@ -157,7 +157,7 @@ def imprimirEtiqueta():
     pedido = pedido.strip()
     print(pedido)
     codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
-    codcliente = codcliente.round(0)
+    codcliente = int(codcliente)
     codcliente = str(codcliente)
 
     TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador)
