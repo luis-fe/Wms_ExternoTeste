@@ -1,0 +1,655 @@
+{
+	"info": {
+		"_postman_id": "6ac5a67a-d1cb-411e-87b6-370af3f089ce",
+		"name": "WMS_BaseInternaMPL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27457186"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Usuarios",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post_Usuario",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"codigo\":\"30\"\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/Usuarios/30",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UsuarioSenha",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/UsuarioSenha?codigo=1414&senha=123@4",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"UsuarioSenha"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "1414"
+								},
+								{
+									"key": "senha",
+									"value": "123@4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UsuarioSenhaRestricao",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/UsuarioSenhaRestricao",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"UsuarioSenhaRestricao"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ReposicaoOP",
+			"item": [
+				{
+					"name": "FilaReposicaoOP",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"FilaReposicaoOP"
+							],
+							"query": [
+								{
+									"key": "empresa",
+									"value": "1"
+								},
+								{
+									"key": "natureza",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ReposicaoSku",
+			"item": []
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "post_imprimirEtiqueta",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pedido\":\"307992-1\"\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/imprimirEtiqueta",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"imprimirEtiqueta"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtividade",
+			"item": [
+				{
+					"name": "Repositores",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/TagsReposicao/Resumo",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"TagsReposicao",
+								"Resumo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventario",
+			"item": [
+				{
+					"name": "RegistarInventario",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"data\":\"xxxx\",\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/RegistrarInventario",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"RegistrarInventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ApontarTagInventario_Estornando",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\",\r\n\"Prosseguir\":true\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ApontarTagInventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ApontarTagInventario Copy",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ApontarTagInventario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FinalizarInventario",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/FinalizarInventario",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"FinalizarInventario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "faturamento",
+			"item": [
+				{
+					"name": "Faturamento",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-15&dataFim=2023-09-15",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Faturamento"
+							],
+							"query": [
+								{
+									"key": "empresa",
+									"value": "1"
+								},
+								{
+									"key": "dataInicio",
+									"value": "2023-09-15"
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
