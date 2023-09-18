@@ -46,7 +46,29 @@ def VerificarExisteApontamento(codpedido, usuario):
         print('ok')
 def Buscar_Caixas():
     conn = ConexaoPostgreMPL.conexao()
-    query = pd.read_sql('select * from "Reposicao".caixas',conn)
+    query = pd.read_sql('select tamanhocaixa as TamCaixa from "Reposicao".caixas',conn)
     conn.close()
 
     return query
+def finalizarPedido(pedido, TamCaixa, quantidade ):
+    conn = ConexaoPostgreMPL.conexao()
+    datafinalizacao = obterHoraAtual()
+    TamCaixa1 = TamCaixa[0]
+    quantidade1 = quantidade[0]
+    TamCaixa2 = TamCaixa[1]
+    quantidade2 = quantidade[1]
+
+    query = 'update  "Reposicao".finalizacao_pedido '\
+                        'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,'\
+                        ' "tamCaixa2" = %s, qtdcaixa2= %s, '\
+                        'where codpedido = %s'
+
+    cursor = conn.cursor()
+    cursor.execute(query, (TamCaixa1,quantidade1,datafinalizacao,TamCaixa2,quantidade2,pedido,))
+    conn.commit()
+    conn.close()
+
+    conn.close()
+
+
+
