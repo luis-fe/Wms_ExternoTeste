@@ -50,7 +50,7 @@ def Buscar_Caixas():
     conn.close()
 
     # Selecione a coluna 'coluna b' e converta em uma lista
-    query = query['TamCaixa'].tolist()
+    query = query['tamcaixa'].tolist()
 
     return query
 def finalizarPedido(pedido, TamCaixa, quantidade ):
