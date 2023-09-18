@@ -71,7 +71,14 @@ def finalizarPedido(pedido, TamCaixa, quantidade ):
     conn.commit()
     conn.close()
 
-    conn.close()
+    data = {
+        'Status':
+            True,
+        'Mensagem': f'Pedido {pedido} finalizado com sucesso!',
+
+    }
+
+    return [data]
 
 
 
