@@ -11,13 +11,8 @@ def get_Caixas():
 
     Endereco_det = finalizacaoPedidoModel.Buscar_Caixas()
 
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
+    # Converte o DataFrame em um dicionário
+    end_data = Endereco_det.to_dict(orient='records')
+
+    # Retorna o dicionário como JSON
     return jsonify(end_data)
