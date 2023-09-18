@@ -58,8 +58,14 @@ def finalizarPedido(pedido, TamCaixa, quantidade ):
     datafinalizacao = obterHoraAtual()
     TamCaixa1 = TamCaixa[0]
     quantidade1 = quantidade[0]
-    TamCaixa2 = TamCaixa[1]
-    quantidade2 = quantidade[1]
+    tamanhoVetor = len(TamCaixa)
+
+    if tamanhoVetor == 1:
+        TamCaixa2 = '0'
+        quantidade2 = 0
+    else:
+        TamCaixa2 = TamCaixa[1]
+        quantidade2 = quantidade[1]
 
     query = 'update  "Reposicao".finalizacao_pedido '\
                         'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,'\
