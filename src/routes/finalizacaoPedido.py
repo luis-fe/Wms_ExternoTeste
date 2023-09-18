@@ -30,6 +30,7 @@ def FinalizarPedido():
     caixas = novo_endereco.get('Modelo de caixa')
     consumos = novo_endereco.get('consumos')
 
+
     Endereco_det = finalizacaoPedidoModel.finalizarPedido(pedido, caixas, consumos)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
