@@ -10,7 +10,11 @@ def get_Caixas():
     # Obtém os dados do corpo da requisição (JSON)
 
     Endereco_det = finalizacaoPedidoModel.Buscar_Caixas()
+    # Crie um dicionário com a chave desejada (por exemplo, "nome_do_vetor")
+    response_data = {
+        "Opçoes de Caixa": Endereco_det
+    }
 
 
     # Retorna o dicionário como JSON
-    return jsonify(Endereco_det)
+    return jsonify(response_data)
