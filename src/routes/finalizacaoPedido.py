@@ -11,8 +11,6 @@ def get_Caixas():
 
     Endereco_det = finalizacaoPedidoModel.Buscar_Caixas()
 
-    # Converte o DataFrame em um dicionário
-    end_data = Endereco_det.to_dict(orient='records')
 
     # Retorna o dicionário como JSON
-    return jsonify(end_data)
+    return jsonify(Endereco_det)
