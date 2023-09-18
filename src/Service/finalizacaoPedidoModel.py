@@ -63,7 +63,7 @@ def finalizarPedido(pedido, TamCaixa, quantidade ):
 
     query = 'update  "Reposicao".finalizacao_pedido '\
                         'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,'\
-                        ' "tamCaixa2" = %s, qtdcaixa2= %s '\
+                        ' "tamcaixa2" = %s, qtdcaixa2= %s '\
                         'where codpedido = %s'
 
     cursor = conn.cursor()
