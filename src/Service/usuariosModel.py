@@ -27,6 +27,7 @@ def PesquisarSenha():
 def PesquisarUsuariosCodigo(codigo):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
+    codigo = int(codigo)
     cursor.execute('select codigo, nome, funcao, situacao, empresa from "Reposicao"."cadusuarios" c'
                    ' where codigo = %s',(codigo,))
     usuarios = cursor.fetchall()
