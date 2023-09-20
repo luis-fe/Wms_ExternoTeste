@@ -83,7 +83,7 @@ def criar_usuario():
     if c != 0:
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} ja existe'}), 201
     else:
-        usuariosModel.InserirUsuario(codigo, funcao, nome, senha, situacao)
+        usuariosModel.InserirUsuario(codigo, funcao, nome, senha, situacao, empresa)
         # Retorne uma resposta indicando o sucesso da operação
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} criado com sucesso'}), 201
 
