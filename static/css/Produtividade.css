@@ -142,11 +142,20 @@ body {
         border: 2px solid var(--cor1);
     }
 
-    #TAbelaRepositor,
+    #TAbelaRepositor {
+
+        width: 100%;
+        font-size: 30px;
+        border-collapse: collapse;
+        border: 2px solid var(--cor1);
+
+    }
+
+    
     #TAbelaSeparador {
 
         width: 100%;
-        font-size: 15px;
+        font-size: 30px;
         border-collapse: collapse;
         border: 2px solid var(--cor1);
 
@@ -407,11 +416,5 @@ body {
     #LabelTotalSeparado {
         font-weight: bold;
     }
-
-}
-
-.imagempromocional img{
-height: 0vh;
-
 
 }
