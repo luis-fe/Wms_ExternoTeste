@@ -48,7 +48,7 @@ def update_usuario(codigo):
     # Obtém os dados do corpo da requisição (JSON)
     data = request.get_json()
     # Verifica se a coluna "funcao" está presente nos dados recebidos
-    nome_ant, funcao_ant, situacao_ant = usuariosModel.PesquisarUsuariosCodigo(codigo)
+    nome_ant, funcao_ant, situacao_ant , empresa_ant = usuariosModel.PesquisarUsuariosCodigo(codigo)
     if 'funcao' in data:
         nova_funcao = data['funcao']
     else:
