@@ -11,6 +11,8 @@ def relatorioEndereços ():
     relatorioEndereço = pd.read_sql('select "Endereco","codreduzido" ,"engenharia" , count(codbarrastag) as saldo, "descricao", cor , tamanho, natureza     from "Reposicao".tagsreposicao t   '
                                     'group by "Endereco", "codreduzido" , "engenharia" ,"descricao", cor , tamanho, natureza   ',conn)
     conn.close()
+    relatorioEndereço.fillna('5', inplace=True)
+
     return relatorioEndereço
 
 def relatorioFila ():
