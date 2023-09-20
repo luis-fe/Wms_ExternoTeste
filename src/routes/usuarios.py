@@ -77,6 +77,7 @@ def criar_usuario():
     nome = novo_usuario.get('nome')
     senha = novo_usuario.get('senha')
     situacao = novo_usuario.get('situacao')
+    empresa = novo_usuario.get('empresa','1')
     # inserir o novo usuário no banco de dados
     c, n, f = usuariosModel.PesquisarUsuariosCodigo(codigo)
     if c != 0:

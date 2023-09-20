@@ -46,11 +46,11 @@ def AtualizarInformacoes(novo_nome, nova_funcao, nova_situacao,  codigo):
     conn.close()
     return novo_nome
 
-def InserirUsuario(codigo, funcao, nome, senha, situacao):
+def InserirUsuario(codigo, funcao, nome, senha, situacao, empresa):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO "Reposicao"."cadusuarios" (codigo, funcao, nome, senha, situacao) '
-                   'VALUES (%s, %s, %s, %s, %s)',(codigo, funcao, nome, senha, situacao))
+    cursor.execute('INSERT INTO "Reposicao"."cadusuarios" (codigo, funcao, nome, senha, situacao, empresa) '
+                   'VALUES (%s, %s, %s, %s, %s, %s)',(codigo, funcao, nome, senha, situacao, empresa))
     conn.commit()
     cursor.close()
     conn.close()
