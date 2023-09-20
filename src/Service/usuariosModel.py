@@ -51,6 +51,7 @@ def InserirUsuario(codigo, funcao, nome, senha, situacao, empresa):
     cursor = conn.cursor()
     cursor.execute('INSERT INTO "Reposicao"."cadusuarios" (codigo, funcao, nome, senha, situacao, empresa) '
                    'VALUES (%s, %s, %s, %s, %s, %s)',(codigo, funcao, nome, senha, situacao, empresa))
+
     conn.commit()
     cursor.close()
     conn.close()
