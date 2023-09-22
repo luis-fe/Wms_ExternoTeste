@@ -7,7 +7,7 @@ import PediosApontamento
 import Relatorios
 import Reposicao
 import ReposicaoSku
-from routes import routes_blueprint
+from src.routes import routes_blueprint
 
 app = Flask(__name__)
 port = int(os.environ.get('PORT', 5000))
