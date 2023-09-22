@@ -1,4 +1,4 @@
-from src.WMS_Producao import ConexaoPostgreMPL
+import ConexaoPostgreMPL
 
 
 def PesquisaEnderecos (Coluna,Operador,Nome):

@@ -1,5 +1,7 @@
-from src.WMS_Producao import ConexaoPostgreMPL
 import datetime
+
+import ConexaoPostgreMPL
+
 
 def obterHoraAtual():
     agora = datetime.datetime.now()

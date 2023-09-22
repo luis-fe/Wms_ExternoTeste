@@ -1,4 +1,4 @@
-from src.WMS_Producao import ConexaoPostgreMPL, ConexaoCSW
+import ConexaoPostgreMPL, ConexaoCSW
 import pandas as pd
 import numpy as np
 import datetime

@@ -1,6 +1,6 @@
 import pytz
 
-from src.WMS_Producao import ConexaoPostgreMPL
+import ConexaoPostgreMPL
 import pandas as pd
 import datetime
 

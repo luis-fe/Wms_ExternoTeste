@@ -1,5 +1,5 @@
 import pandas as pd
-from src.WMS_Producao import ConexaoPostgreMPL
+import ConexaoPostgreMPL
 
 
 def RelatorioNecessidadeReposicao():
