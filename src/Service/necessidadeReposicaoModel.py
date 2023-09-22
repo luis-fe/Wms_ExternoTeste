@@ -1,5 +1,6 @@
 import pandas as pd
 import ConexaoPostgreMPL
+
 def RelatorioNecessidadeReposicao():
     conn = ConexaoPostgreMPL.conexao()
     relatorioEndereço = pd.read_sql(
