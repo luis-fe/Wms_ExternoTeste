@@ -1,4 +1,4 @@
-from src import estoqueEnderecoModel
+from src.Service import estoqueEnderecoModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd

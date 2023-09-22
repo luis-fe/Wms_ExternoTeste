@@ -1,4 +1,4 @@
-from src import finalizacaoPedidoModel
+from src.Service import finalizacaoPedidoModel
 from flask import Blueprint, jsonify, request
 import pandas as pd
 

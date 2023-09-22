@@ -1,4 +1,4 @@
-from src import produtividadeModel
+from src.Service import produtividadeModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd

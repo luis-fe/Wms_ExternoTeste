@@ -1,4 +1,4 @@
-from src import empresa_natureza_CadModel
+from src.Service import empresa_natureza_CadModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 

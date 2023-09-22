@@ -1,4 +1,4 @@
-from src import endereoModel
+from src.Service import endereoModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
