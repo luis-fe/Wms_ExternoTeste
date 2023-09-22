@@ -1,7 +1,6 @@
-import ConexaoCSW
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL, ConexaoCSW
 import pandas as pd
-import locale
+
 
 def ObterTipoNota(empresa):
     conn = ConexaoPostgreMPL.conexao()

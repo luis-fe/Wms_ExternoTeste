@@ -1,5 +1,5 @@
-import psycopg2
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL
+
 
 def PesquisaEnderecos (Coluna,Operador,Nome):
     conn = ConexaoPostgreMPL.conexao()

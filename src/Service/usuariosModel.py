@@ -1,4 +1,4 @@
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL
 import datetime
 
 def obterHoraAtual():

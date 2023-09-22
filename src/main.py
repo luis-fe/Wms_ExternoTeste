@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -52,7 +52,7 @@ def get_ApontaReposicao():
 
         if Apontamento == 'Reposto':
             if estornar:
-                Reposicao.EstornoApontamento(codbarra,empresa,natureza)
+                Reposicao.EstornoApontamento(codbarra, empresa, natureza)
                 return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
 
             ender, ender2 = PediosApontamento.EndereçoTag(codbarra)
@@ -86,7 +86,7 @@ def get_ApontamentoTagPedido():
     Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
     print(f' usuario {codusuario} esse pedido: {codpedido}')
 
-    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao,enderecoApi,
+    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao, enderecoApi,
                                                           Estornar)
 
     # Obtém os nomes das colunasok
@@ -172,7 +172,7 @@ def get_RelatorioTotalFila():
     # Obtém os dados do corpo da requisição (JSON)
     empresa = request.args.get('empresa','1')
     natureza = request.args.get('natureza','5')
-    Endereco_det = Relatorios.relatorioTotalFila(empresa,natureza)
+    Endereco_det = Relatorios.relatorioTotalFila(empresa, natureza)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns

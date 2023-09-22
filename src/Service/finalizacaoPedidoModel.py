@@ -1,5 +1,5 @@
 import pandas as pd
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL
 import datetime
 import pytz
 

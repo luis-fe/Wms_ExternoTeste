@@ -1,8 +1,6 @@
 from datetime import datetime
 import pandas as pd
 import ConexaoPostgreMPL
-import numpy
-import time
 import datetime
 import pytz
 def obterHoraAtual():

@@ -1,5 +1,6 @@
 import pandas as pd
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL
+
 
 def RelatorioNecessidadeReposicao():
     conn = ConexaoPostgreMPL.conexao()

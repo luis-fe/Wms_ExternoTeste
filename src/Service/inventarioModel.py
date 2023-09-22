@@ -1,9 +1,9 @@
 import pytz
 
-import ConexaoPostgreMPL
+from src import ConexaoPostgreMPL
 import pandas as pd
 import datetime
-import numpy
+
 
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
