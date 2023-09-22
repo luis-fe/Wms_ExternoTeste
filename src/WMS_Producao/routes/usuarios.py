@@ -1,4 +1,4 @@
-from src import usuariosModel
+from src.WMS_Producao.Service import usuariosModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 
