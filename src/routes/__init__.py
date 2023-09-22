@@ -17,6 +17,8 @@ from .pedidos import pedidos_routes
 from .portalWms import portal_routes
 from .faturamento import faturamento_routes
 from .finalizacaoPedido import finalizacaoPedido_route
+from .necessidadeReposicao import necessidadeRepos_routes
+
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
@@ -32,3 +34,4 @@ routes_blueprint.register_blueprint(pedidos_routes)
 routes_blueprint.register_blueprint(portal_routes)
 routes_blueprint.register_blueprint(faturamento_routes)
 routes_blueprint.register_blueprint(finalizacaoPedido_route)
+routes_blueprint.register_blueprint(necessidadeRepos_routes)
