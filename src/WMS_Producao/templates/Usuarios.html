@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="/static/css/estiloDistribuicao.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
+
+</head>
+<body>
+    <div class="Titulo">
+        <a href="/Usuarios">
+        <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+        </a>
+        <h1>WMS GERENCIAL</h1>
+    </div>
+
+    <div class="Opcoes">
+        <nav>
+            <select id="Configuracoes" onchange="if (this.value !== 'Menu') { window.location.href = this.value; this.value = 'Menu'; }">
+                <option disabled selected>Menu</option>
+                <option value="/Usuarios">Gerenciar Usuários</option>
+                <option value="/home">Atribuição de Pedidos</option>
+                <option value=" /Enderecos">Manutenção de Endereços</option>
+            </select>
+        </nav>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Gerenciamento de Usuários</h2></div>
+
+        <div class="BuscaUsuario">
+            <input id="InputBuscaUsuario" type="search" class="InputBuscaUsuario" placeholder="Digite aqui sua busca!">
+            <i id="AdicionarUsuario" title="Adicionar Usuário" class="bi bi-person-plus-fill"></i>
+            <i id="RemoverUsuario" title="Remover Usuário" class="bi bi-person-dash-fill"></i>
+            <i id="EditarUsuario" title="Editar Usuário" class="bi bi-pencil-square"></i>
+        </div>
+
+
+    <div class="TabelaUsuarios">
+        <table border="2" class="TabelaUsuarios1" id="TabelaUsuarios1">
+
+        </table>
+        </div>
+
+        <div id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="/static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+        <div id="ModalNovoUsuario" class="ModalNovoUsuario">
+          <div class="ModalNovoUsuario-content">
+              <span id="FecharModalNovoUsuario" class="fechar">&times;</span>
+              <h3>Novo Usuário</h3>
+              <label for="Usuario" id="NovoUsuario" class="NovoUsuario">Cód. Usuário:</label>
+              <input type="text" id="InputNovoUsuario" class="InputNovoUsuario" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+              <label for="Usuario" id="NomeNovoUsuario" class="NomeNovoUsuario">Nome Usuário:</label>
+              <input type="text" id="InputNomeNovoUsuario" class="InputNomeNovoUsuario" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+              <label for="SenhaNovoUsuario" id="SenhaNovoUsuario" class="SenhaNovoUsuario">Senha:</label>
+              <input type="password" id="InputSenhaNovoUsuario" class="InputSenhaNovoUsuario" onkeydown="checkEnterModal(event, 'InputConfirmarSenha')">
+              <label for="Usuario" id="LabelSituacaoNovoUsuario" class="LabelSituacaoNovoUsuario">Situação do Usuário</label>
+              <select id="SituacaoNovoUsuario">
+                <option value="">Situação</option>
+                <option value="ATIVO">ATIVO</option>
+                <option value="INATIVO">INATIVO</option>
+              </select>
+              <label for="Usuario" id="LabelFuncaoUsuario" class="LabelFuncaoUsuario">Função do Usuário</label>
+              <select id="FuncaoNovoUsuario">
+                <option value="">Função</option>
+                <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+                <option value="SEPARADOR">SEPARADOR</option>
+                <option value="REPOSITOR">REPOSITOR</option>
+              </select>
+              <button type="button" id="salvarNovoUsuario">Salvar</button>
+          </div>
+      </div>
+
+      <div id="ModaoEditarUsuarios" class="ModaoEditarUsuarios">
+        <div class="ModaoEditarUsuarios-content">
+            <span id="FecharModalEditarUsuario" class="fechar">&times;</span>
+            <h3>Editar Usuário</h3>
+            <label for="Usuario" id="EdicaoUsuario" class="EdicaoUsuario">Cód. Usuário:</label>
+            <input type="text" id="InputEdicaoUsuario" class="InputEdicaoUsuario" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+            <label for="Usuario" id="NomeEdicaoUsuario" class="NomeEdicaoUsuario">Nome Usuário:</label>
+            <input type="text" id="InputNomeEdicaoUsuario" class="InputNomeEdicaoUsuario" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+            <label for="Usuario" id="LabelSituacaoEdicaoUsuario" class="LabelSituacaoEdicaoUsuario">Situação do Usuário:</label>
+            <select id="SituacaoEdicaoUsuario">
+              <option value="">Situação</option>
+              <option value="ATIVO">ATIVO</option>
+              <option value="INATIVO">INATIVO</option>
+            </select>
+            <label for="Usuario" id="LabelFuncaoEdicaoUsuario" class="LabelFuncaoEdicaoUsuario">Função do Usuário:</label>
+            <select id="FuncaoEdicaoUsuario">
+              <option value="">Função</option>
+              <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+              <option value="SEPARADOR">SEPARADOR</option>
+              <option value="REPOSITOR">REPOSITOR</option>
+            </select>
+            <button type="button" id="salvarEdicaoUsuario">Salvar</button>
+        </div>
+    </div>
+
+    <footer class="Rodape">
+        <p>Grupo Mpl</p>
+    </footer>
+
+    
+
+    <script src="/static/js/funcoesUsuarios.js"></script>
+    
+
+</body>
+</html>
