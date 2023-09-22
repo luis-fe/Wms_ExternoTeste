@@ -1,4 +1,4 @@
-from src import inventarioModel
+from src.Service import inventarioModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
