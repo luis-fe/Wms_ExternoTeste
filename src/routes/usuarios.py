@@ -2,7 +2,7 @@
 from flask import Blueprint, jsonify, request
 from functools import wraps
 
-from src.WMS_Producao.Service import usuariosModel
+from src.Service import usuariosModel
 
 usuarios_routes = Blueprint('usuarios', __name__)
 
