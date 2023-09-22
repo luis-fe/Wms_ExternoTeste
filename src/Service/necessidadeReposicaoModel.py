@@ -14,7 +14,7 @@ def RelatorioNecessidadeReposicao():
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     # Clasificando o Dataframe para analise
-    relatorioEndereço = relatorioEndereço.sort_values(by='necessidade_pedidos', ascending=False,
+    relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
 
     conn.close()
