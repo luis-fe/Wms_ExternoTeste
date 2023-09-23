@@ -13,16 +13,16 @@ def RelatorioNecessidadeReposicao():
         'where epc is not null and engenharia is not null '
         'group by codreduzido, engenharia', conn)
 
-    OP = pd.read_sql('select f.codreduzido, numeroop as op, count(codreduzido) as qtde '
+    OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
 
     OP = OP.sort_values(by='qtde', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
 
     # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
-    OP['op'] =  OP['op'].astype(str)
+    OP['ops'] =  OP['ops'].astype(str)
     OP['qtde'] = OP['qtde'].astype(str)
-    OP['op'] = OP['op'] + ':' + OP['qtde']
+    OP['ops'] = OP['ops'] + ':' + OP['qtde']+' Pçs'
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
     OP_ag = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
