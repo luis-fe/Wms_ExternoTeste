@@ -22,10 +22,10 @@ def RelatorioNecessidadeReposicao():
     OP['op'] = OP['op'] + '-' + OP['qtde']
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
-    OP['op'] = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
+    OP_ag = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
-    relatorioEndereço = pd.merge(relatorioEndereço, OP, on='codreduzido', how='left')
+    relatorioEndereço = pd.merge(relatorioEndereço, OP_ag, on='codreduzido', how='left')
 
     # Clasificando o Dataframe para analise
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
