@@ -11,8 +11,21 @@ def Conexao():
 )
     return conn
 
+def Conexao2():
+    conn = jaydebeapi.connect(
+    'com.intersys.jdbc.CacheDriver',
+    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+    {'user': 'root', 'password': 'ccscache'},
+    'CacheDB.jar'
+)
+    return conn
+
 def obter_notaCsw():
-    conn = Conexao()
+    try:
+        conn = Conexao()
+    except:
+        conn = Conexao2()
+
     data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
     conn.close()
 
