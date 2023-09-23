@@ -1,4 +1,4 @@
-from src.Service import reposicaoSKUModel
+from Service import reposicaoSKUModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 

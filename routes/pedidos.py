@@ -1,4 +1,4 @@
-from src.Service import pedidosModel, imprimirEtiquetaModel
+from Service import pedidosModel, imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
