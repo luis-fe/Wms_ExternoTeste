@@ -164,28 +164,5 @@ def get_RelatorioFila():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-
-
-@app.route('/api/RelatorioTotalFila', methods=['GET'])
-@token_required
-def get_RelatorioTotalFila():
-    # Obtém os dados do corpo da requisição (JSON)
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-    Endereco_det = Relatorios.relatorioTotalFila(empresa, natureza)
-    Endereco_det = pd.DataFrame(Endereco_det)
-    # Obtém os nomes das colunas
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
-
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
