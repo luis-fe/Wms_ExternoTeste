@@ -16,10 +16,13 @@ def RelatorioNecessidadeReposicao():
     OP = pd.read_sql('select f.codreduzido, numeroop as op, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
 
+    OP = OP.sort_values(by='qtde', ascending=False,
+                                                      ignore_index=True)  # escolher como deseja classificar
+
     # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
     OP['op'] =  OP['op'].astype(str)
     OP['qtde'] = OP['qtde'].astype(str)
-    OP['op'] = OP['op'] + '-' + OP['qtde']
+    OP['op'] = OP['op'] + ':' + OP['qtde']
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
     OP_ag = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
