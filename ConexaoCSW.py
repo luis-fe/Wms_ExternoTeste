@@ -20,8 +20,7 @@ def obter_notaCsw():
 
 
 try:
-    conn = Conexao()
-    teste = pd.read_sql('select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ',conn)
+    teste = obter_notaCsw()
     print(f'{teste}')
 except:
     print('caiu a conexao')
