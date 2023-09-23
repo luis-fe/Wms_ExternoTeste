@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WMS GERENCIAL</title>
     <link rel="stylesheet" href="/static/css/estiloDistribuicao.css">
+    <link rel="stylesheet" href="/static/css/TelaPrincipal.css">
+
 
 
 
@@ -17,16 +19,27 @@
         <h1>WMS GERENCIAL</h1>
     </div>
 
-    <div class="Opcoes">
-        <nav>
-            <select id="Configuracoes" onchange="if (this.value !== 'Menu') { window.location.href = this.value; this.value = 'Menu'; }">
-                <option disabled selected>Menu</option>
-                <option value="/Usuarios">Gerenciar Usuários</option>
-                <option value="/home">Atribuição de Pedidos</option>
-                <option value="/Enderecos">Manutenção de Endereços</option>
-            </select>
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="/Usuarios">Gerenciamento de Usuários</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="/Reposicao">Fila de Reposição</a></li>
+                        <li><a href="/Distribuicao">Distribuição de Pedidos</a></li>
+                        <li><a href="/Enderecos">Cadastro de Endereços</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            
         </nav>
-    </div>
+    </div>  
 
     <div class="TituloPrograma">
         <h2>Distribuição de Pedidos</h2></div>
@@ -43,7 +56,7 @@
             <button id="VerificarPecasFaltando">Peças Faltantes</button>
         </div>
 
-
+    
     <div class="TabelaContainer">
         <table border="2" class="TabelaTabelaDistribuicao" id="TabelaTabelaDistribuicao">
 
@@ -64,14 +77,11 @@
             </div>
         </div>
 
-    <div class="TabelaInformacoes">
+        <div class="TabelaInformacoes">
             <table border="2" class="TabelaInformacao" id="TabelaInformacao">
             </table>
         </div>
 
-    <footer class="Rodape">
-        <p>Grupo Mpl</p>
-    </footer>
 
     
     <script src="/static/js/funcoes.js"></script>
