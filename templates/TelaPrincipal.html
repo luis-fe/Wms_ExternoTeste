@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTAL PCP</title>
+    <link rel="stylesheet" href="./static/css/TelaPrincipal.css"/>
+</head>
+<body>
+    <div class="Titulo">
+        <a href="TelaPrincipal.html">
+        <img src="static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+        </a>
+        <h1>WMS GERENCIAL</h1>
+    </div>
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul>
+                <li><a href="TelaPrincipal.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="Usuarios.html">Gerenciamento de Usuários</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="TelaFilaReposicao.html">Fila de Reposição</a></li>
+                        <li><a href="index.html">Distribuição de Pedidos</a></li>
+                        <li><a href="TelaEnderecos.html">Cadastro de Endereços</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            
+        </nav>
+    </div>  
+
+
+    <script>
+        const nomeUsuario = localStorage.getItem('nomeUsuario');
+       document.getElementById("NomeUsuario").textContent = nomeUsuario
+    </script>
+    
+    
+</body>
+<script src="./assets/js/FuncoesUsuarios.js"></script>
+</html>
