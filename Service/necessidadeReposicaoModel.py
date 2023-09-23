@@ -14,7 +14,7 @@ def RelatorioNecessidadeReposicao():
         'group by codreduzido, engenharia', conn)
 
     OP = pd.read_sql('select f.codreduzido, numeroop as OP, count(codreduzido) as qtde '
-                     ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop')
+                     ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
 
     # Agrupar os valores da coluna 'qtde' com base na coluna 'OP'
     OP = OP.groupby('OP')['qtde'].apply(lambda x: ', '.join(map(str, x))).reset_index()
