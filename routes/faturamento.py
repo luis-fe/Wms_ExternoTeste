@@ -41,7 +41,7 @@ def get_Faturamento():
 def ObterNotasCsw():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     empresa = request.args.get('empresa', '1')
-    TagReposicao = FaturamentoCswModel.ObterTipoNota(empresa)
+    TagReposicao = FaturamentoCswModel.obter_notaCsw()
 
 
     # Obtém os nomes das colunas
