@@ -29,7 +29,7 @@ def RelatorioNecessidadeReposicao():
     OP['ops'] = OP['ops'] + ': ' + OP['qtde']+'Pç'
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
-    OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: '/ '.join(x)).reset_index()
+    OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: ' / '.join(x)).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP_ag, on='codreduzido', how='left')
