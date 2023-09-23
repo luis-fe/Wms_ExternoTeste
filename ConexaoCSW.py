@@ -39,9 +39,18 @@ def VerificarConexao():
     try:
         conn = Conexao()
         teste = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
-        data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal'}])
+        data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal com o servidor 192.168.0.25:1972 root ','teste':'csw'}])
     except:
-        data = pd.DataFrame([{'Mensagem': 'falha na conexao'}])
+        data = pd.DataFrame([{'Mensagem': 'falha na conexao com o servidor 192.168.0.25:1972 root ','teste':'csw'}])
+
+    try:
+        conn2 = Conexao2()
+        teste2 = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn2)
+        data2 = pd.DataFrame([{'Mensagem2':'Conexao com CSW normal com o servidor 192.168.0.25:1972 _system','teste':'csw'}])
+    except:
+        data2 = pd.DataFrame([{'Mensagem2': 'falha na conexao com o servidor 192.168.0.25:1972 _system','teste':'csw'}])
+
+    data = pd.merge(data,data2,on='teste')
 
 
     return data
