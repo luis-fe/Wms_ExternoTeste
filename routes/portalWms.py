@@ -18,8 +18,8 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @portal_routes.route('/')
 def login():
     return render_template('Login.html')
-@portal_routes.route('/home')
-def home():
+@portal_routes.route('/Distribuicao')
+def Distribuicao():
     return render_template('index.html')
 
 @portal_routes.route('/Usuarios')
@@ -33,3 +33,9 @@ def Produtividade():
 @portal_routes.route('/Enderecos')
 def Enderecos():
     return render_template('TelaEnderecos.html')
+@portal_routes.route('/home')
+def home():
+    return render_template('TelaPrincipal.html')
+@portal_routes.route('/Reposicao')
+def Reposicao():
+    return render_template('TelaFilaReposicao.html')
