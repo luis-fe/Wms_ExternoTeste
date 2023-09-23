@@ -13,7 +13,18 @@ def RelatorioNecessidadeReposicao():
         'where epc is not null and engenharia is not null '
         'group by codreduzido, engenharia', conn)
 
+    OP = pd.read_sql('select f.codreduzido, numeroop as OP, count(codreduzido) as qtde '
+                     ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop')
+
+    # Agrupar os valores da coluna 'qtde' com base na coluna 'OP'
+    OP = OP.groupby('OP')['qtde'].apply(lambda x: ', '.join(map(str, x))).reset_index()
+
+    # Renomear a coluna resultante
+    OP.columns = ['OP', 'OPs']
+
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
+    relatorioEndereço = pd.merge(relatorioEndereço, OP, on='codreduzido', how='left')
+
     # Clasificando o Dataframe para analise
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
