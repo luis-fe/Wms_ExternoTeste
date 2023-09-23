@@ -9,7 +9,7 @@ def RelatorioNecessidadeReposicao():
         "where necessidade > 0 and endereco = 'Não Reposto' "
         " group by produto ", conn)
     relatorioEndereçoEpc = pd.read_sql(
-        'select codreduzido , max(epc) as epc_Referencial, engenharia from "Reposicao".filareposicaoportag f '
+        'select codreduzido , max(epc) as epc_Referencial, engenharia, count(codreduzido) as saldoFila from "Reposicao".filareposicaoportag f '
         'where epc is not null and engenharia is not null '
         'group by codreduzido, engenharia', conn)
 
@@ -18,6 +18,7 @@ def RelatorioNecessidadeReposicao():
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
     relatorioEndereço.fillna('-', inplace=True)
+    relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
 
     conn.close()
     data = {
