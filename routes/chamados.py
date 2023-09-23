@@ -32,3 +32,25 @@ def get_chamados():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+@chamados_routes.route('/api/NovoChamados', methods=['POST'])
+@token_required
+def post_novochamado():
+    # Obtenha os dados do corpo da requisição
+    data = request.get_json()
+    solicitante = data['solicitante']
+    data_chamado = data['data_chamado']
+    tipo_chamado = data['tipo_chamado']
+    atribuido_para = data['atribuido_para']
+    descricao_chamado = data['descricao_chamado']
+    status_chamado = data['status_chamado']
+    data_finalizacao_chamado = data['data_finalizacao_chamado']
+
+
+    # Verifica Se existe atribuicao
+    existe = chamadosModel.novo_chamados(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado )
+    if existe ==True:
+        # Retorna uma resposta de sucesso
+        return jsonify({'status': True, 'mensagem':'novo chamado criado !'})
+    else:
+        return jsonify({'status': False, 'mensagem':'erro ao criar chamado'})
