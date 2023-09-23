@@ -16,11 +16,11 @@ def RelatorioNecessidadeReposicao():
     OP = pd.read_sql('select f.codreduzido, numeroop as op, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
 
-    # Agrupar os valores da coluna 'qtde' com base na coluna 'OP'
-    OP = OP.groupby('op')['qtde'].apply(lambda x: ', '.join(map(str, x))).reset_index()
+    # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
+    OP['op'] = OP['op'] + '-' + OP['qtde'].astype(str)
 
-    # Renomear a coluna resultante
-    OP.columns = ['op', 'OPs']
+    # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
+    OP = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP, on='codreduzido', how='left')
