@@ -17,10 +17,10 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 # Rota pagina inicial
 @portal_routes.route('/')
 def login():
-    return render_template('/templates/Login.html')
+    return render_template('Login.html')
 @portal_routes.route('/home')
 def home():
-    return render_template('/templates/index.html')
+    return render_template('index.html')
 
 @portal_routes.route('/Usuarios')
 def Usuarios():
