@@ -17,6 +17,7 @@ def RelatorioNecessidadeReposicao():
     # Clasificando o Dataframe para analise
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
+    relatorioEndereço.fillna('-', inplace=True)
 
     conn.close()
     data = {
