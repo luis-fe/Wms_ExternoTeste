@@ -6,12 +6,12 @@ def RelatorioNecessidadeReposicao():
     conn = ConexaoPostgreMPL.conexao()
     relatorioEndereço = pd.read_sql(
         'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
-        "where necessidade > 0 and endereco = 'Não Reposto' "
+        "where necessidade > 0 and endereco = 'Não Reposto' and natureza = 5 "
         " group by produto ", conn)
     relatorioEndereçoEpc = pd.read_sql(
         'select codreduzido , max(epc) as epc_Referencial, engenharia, count(codreduzido) as saldoFila from "Reposicao".filareposicaoportag f '
-        'where epc is not null and engenharia is not null '
-        'group by codreduzido, engenharia', conn)
+        'where engenharia is not null and natureza = 5 '
+        'group by codreduzido, engenharia ', conn)
 
     OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
