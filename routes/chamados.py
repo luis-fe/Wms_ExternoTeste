@@ -33,7 +33,7 @@ def get_chamados():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-@chamados_routes.route('/api/NovoChamados', methods=['POST'])
+@chamados_routes.route('/api/NovoChamado', methods=['POST'])
 @token_required
 def post_novochamado():
     # Obtenha os dados do corpo da requisição
