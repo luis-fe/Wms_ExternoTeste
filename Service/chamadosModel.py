@@ -32,7 +32,7 @@ def encerrarchamado(id_chamado, data_finalizacao_chamado):
     try:
         cursor = conn.cursor()
         cursor.execute('UPDATE "Reposicao"."chamados" '
-                       'SET data_finalizacao_chamado = %s'
+                       "SET data_finalizacao_chamado = %s, status_chamado = 'finalizado' "
                        ' WHERE id_chamado = %s',( data_finalizacao_chamado,id_chamado,))
         conn.commit()
         cursor.close()
