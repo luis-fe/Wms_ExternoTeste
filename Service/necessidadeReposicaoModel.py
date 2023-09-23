@@ -17,10 +17,12 @@ def RelatorioNecessidadeReposicao():
                      ' from "Reposicao".filareposicaoportag f group by codreduzido, numeroop',conn)
 
     # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
-    OP['op'] = OP['op'] + '-' + OP['qtde'].astype(str)
+    OP['op'] =  OP['op'].astype(str)
+    OP['qtde'] = OP['qtde'].astype(str)
+    OP['op'] = OP['op'] + '-' + OP['qtde']
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
-    OP = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
+    OP['op'] = OP.groupby('codreduzido')['op'].apply(lambda x: ', '.join(x)).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP, on='codreduzido', how='left')
