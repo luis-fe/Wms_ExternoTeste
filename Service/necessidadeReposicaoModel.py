@@ -23,8 +23,10 @@ def RelatorioNecessidadeReposicao():
 
     # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
     OP['ops'] =  OP['ops'].astype(str)
+    OP['ops'] = OP['ops'].str.replace('-001', '')
+
     OP['qtde'] = OP['qtde'].astype(str)
-    OP['ops'] = OP['ops'] + ':' + OP['qtde']+' Pçs'
+    OP['ops'] = OP['ops'] + '/' + OP['qtde']+'Pç'
 
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
     OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: ', '.join(x)).reset_index()
