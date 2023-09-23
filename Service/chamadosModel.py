@@ -14,23 +14,29 @@ def Obter_chamados():
 
 def novo_chamados(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO "Reposicao"."chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
-                   'descricao_chamado, status_chamado, data_finalizacao_chamado) '
-                   'VALUES (%s, %s, %s, %s, %s, %s, %s)',(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado))
+    try:
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO "Reposicao"."chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
+                       'descricao_chamado, status_chamado, data_finalizacao_chamado) '
+                       'VALUES (%s, %s, %s, %s, %s, %s, %s)',(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado))
 
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return True
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except:
+        return False
 
 def encerrarchamado(id_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
-    cursor = conn.cursor()
-    cursor.execute('UPDATE "Reposicao"."chamados" '
-                   'SET data_finalizacao_chamado = %s'
-                   ' WHERE id_chamado = %s')
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return True
+    try:
+        cursor = conn.cursor()
+        cursor.execute('UPDATE "Reposicao"."chamados" '
+                       'SET data_finalizacao_chamado = %s'
+                       ' WHERE id_chamado = %s',(id_chamado, data_finalizacao_chamado,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return True
+    except:
+        return False

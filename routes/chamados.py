@@ -54,3 +54,20 @@ def post_novochamado():
         return jsonify({'status': True, 'mensagem':'novo chamado criado !'})
     else:
         return jsonify({'status': False, 'mensagem':'erro ao criar chamado'})
+
+@chamados_routes.route('/api/EncerrarChamado', methods=['PUT'])
+@token_required
+def EncerrarChamado():
+    # Obtenha os dados do corpo da requisição
+    data = request.get_json()
+    id_chamado = data['id_chamado']
+    data_finalizacao_chamado = data['data_finalizacao_chamado']
+
+
+    # Verifica Se existe atribuicao
+    existe = chamadosModel.encerrarchamado(id_chamado, data_finalizacao_chamado )
+    if existe ==True:
+        # Retorna uma resposta de sucesso
+        return jsonify({'status': True, 'mensagem':'Chamado Finalizado'})
+    else:
+        return jsonify({'status': False, 'mensagem':'Chamado nao encontrado'})
