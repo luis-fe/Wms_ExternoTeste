@@ -29,14 +29,23 @@ def ConexaoExterna2():
     return conn
 
 def obter_notaCsw():
-
     conn = Conexao()
-
-
     data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
     conn.close()
 
     return data
+
+def VerificarConexao():
+    try:
+        conn = Conexao()
+        teste = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
+        data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal'}])
+    except:
+        data = pd.DataFrame([{'Mensagem': 'falha na conexao'}])
+
+
+    return data
+
 
 
 try:
