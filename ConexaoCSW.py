@@ -29,15 +29,8 @@ def ConexaoExterna2():
     return conn
 
 def obter_notaCsw():
-    try:
-        conn = Conexao()
-    except:
-        try:
-            conn = Conexao2()
-            print('usado a conexao 2 root')
-        except:
-            conn = ConexaoExterna2()
-            print('usado a conexao EXTERNA root')
+
+    conn = Conexao()
 
 
     data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
