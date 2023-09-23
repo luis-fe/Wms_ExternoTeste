@@ -20,7 +20,7 @@ def login():
     return render_template('Login.html')
 @portal_routes.route('/home')
 def home():
-    return render_template('src/templates/index.html')
+    return render_template('/src/templates/index.html')
 
 @portal_routes.route('/Usuarios')
 def Usuarios():
