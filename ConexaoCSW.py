@@ -10,6 +10,15 @@ def Conexao():
     'CacheDB.jar'
 )
     return conn
+
+def obter_notaCsw():
+    conn = Conexao()
+    data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
+    conn.close()
+
+    return data
+
+
 try:
     conn = Conexao()
     teste = pd.read_sql('select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ',conn)

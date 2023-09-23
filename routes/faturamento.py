@@ -1,6 +1,7 @@
 from Service import FaturamentoCswModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
+import ConexaoCSW
 
 faturamento_routes = Blueprint('faturamento', __name__)
 
@@ -41,7 +42,7 @@ def get_Faturamento():
 def ObterNotasCsw():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     empresa = request.args.get('empresa', '1')
-    TagReposicao = FaturamentoCswModel.obter_notaCsw()
+    TagReposicao = ConexaoCSW.obter_notaCsw()
 
 
     # Obtém os nomes das colunas
