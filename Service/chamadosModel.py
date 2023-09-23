@@ -29,14 +29,14 @@ def novo_chamados(solicitante, data_chamado, tipo_chamado, atribuido_para, descr
 
 def encerrarchamado(id_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
-    try:
-        cursor = conn.cursor()
-        cursor.execute('UPDATE "Reposicao"."chamados" '
+    #try:
+    cursor = conn.cursor()
+    cursor.execute('UPDATE "Reposicao"."chamados" '
                        'SET data_finalizacao_chamado = %s'
                        ' WHERE id_chamado = %s',(id_chamado, data_finalizacao_chamado,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return True
-    except:
-        return False
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return True
+    #except:
+     #   return False
