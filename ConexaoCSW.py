@@ -12,7 +12,7 @@ def Conexao():
     return conn
 try:
     conn = Conexao()
-    teste = pd.read_sql('select top 1 * from tcp.tamanhos',conn)
+    teste = pd.read_sql('select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ',conn)
     print(f'{teste}')
 except:
     print('caiu a conexao')
