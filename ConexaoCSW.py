@@ -25,6 +25,7 @@ def obter_notaCsw():
         conn = Conexao()
     except:
         conn = Conexao2()
+        print('usado a conexao 2 root')
 
     data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
     conn.close()
