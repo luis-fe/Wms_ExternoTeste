@@ -27,7 +27,6 @@ def RelatorioNecessidadeReposicao():
 
     OP['qtde'] = OP['qtde'].astype(str)
     OP['ops'] = OP['ops'] + ': ' + OP['qtde']+'Pç'
-
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
     OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: ' / '.join(x)).reset_index()
 
