@@ -351,7 +351,7 @@ def PrioridadePedido(pedidos):
             pedido_x = '%'+ pedido +'%'
             query = 'update "Reposicao".filaseparacaopedidos ' \
                     'set prioridade = %s ' \
-                    'where agrupamento like %s'
+                    'where agrupamentopedido like %s'
             cursor = conn.cursor()
             cursor.execute(query, ('URGENTE',pedido_x,))
             conn.commit()
