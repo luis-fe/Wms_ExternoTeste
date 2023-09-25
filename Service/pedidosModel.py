@@ -347,10 +347,11 @@ def PrioridadePedido(pedidos):
     if tamanho >= 0:
         conn = ConexaoPostgreMPL.conexao()
         for i in range(tamanho):
-            pedido_x = str(pedidos[i])
+            pedido = str(pedidos[i])
+            pedido_x = '%'+ pedido +'%'
             query = 'update "Reposicao".filaseparacaopedidos ' \
                     'set prioridade = %s ' \
-                    'where codigopedido = %s'
+                    'where agrupamento like %s'
             cursor = conn.cursor()
             cursor.execute(query, ('URGENTE',pedido_x,))
             conn.commit()
