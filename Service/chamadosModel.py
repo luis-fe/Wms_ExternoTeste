@@ -1,21 +1,23 @@
 import pandas as pd
 import ConexaoPostgreMPL
 
-def Obter_chamados(status_chamado):
+def Obter_chamados(status_chamado, solicitante):
     conn = ConexaoPostgreMPL.conexao()
-    if status_chamado == '':
+    if status_chamado != '':
+        solicitante = '%'+solicitante+'%'
         query = pd.read_sql('select id_chamado, solicitante, data_chamado, '
                             ' tipo_chamado, atribuido_para, descricao_chamado, status_chamado, '
-                            'data_finalizacao_chamado from "Reposicao".chamados '
-                            'order by data_chamado', conn)
+                            'data_finalizacao_chamado from "Reposicao".chamados where status_chamado = %s and solicitante like %s '
+                            'order by data_chamado', conn, params=(status_chamado,solicitante,))
         query.fillna('-', inplace=True)
 
         conn.close()
     else:
         query = pd.read_sql('select id_chamado, solicitante, data_chamado, '
                             ' tipo_chamado, atribuido_para, descricao_chamado, status_chamado, '
-                            'data_finalizacao_chamado from "Reposicao".chamados where status_chamado = %s '
-                            'order by data_chamado', conn, params=(status_chamado,))
+                            'data_finalizacao_chamado from "Reposicao".chamados '
+                            'order by data_chamado', conn)
+
         query.fillna('-', inplace=True)
 
         conn.close()

@@ -20,8 +20,9 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 def get_chamados():
     # Obtém os dados do corpo da requisição (JSON)
     status = request.args.get('status','')
+    solicitante = request.args.get('solicitante', '')
 
-    Endereco_det = chamadosModel.Obter_chamados(status)
+    Endereco_det = chamadosModel.Obter_chamados(status,solicitante)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
