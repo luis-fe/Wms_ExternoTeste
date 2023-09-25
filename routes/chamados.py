@@ -22,8 +22,9 @@ def get_chamados():
     status = request.args.get('status','')
     solicitante = request.args.get('solicitante', '')
     atribuido_para = request.args.get('atribuido_para', '')
+    tipo_chamado = request.args.get('tipo_chamado', '')
 
-    Endereco_det = chamadosModel.Obter_chamados(status,solicitante, atribuido_para)
+    Endereco_det = chamadosModel.Obter_chamados(status,solicitante, atribuido_para,tipo_chamado)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
