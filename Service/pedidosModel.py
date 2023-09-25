@@ -17,7 +17,7 @@ def FilaPedidos():
     conn = ConexaoPostgreMPL.conexao()
     pedido = pd.read_sql(
         ' select f.codigopedido , f.vlrsugestao, f.codcliente , f.desc_cliente, f.cod_usuario, f.cidade, f.estado, '
-        'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido, situacaopedido  '
+        'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido, situacaopedido, prioridade  '
         '  from "Reposicao".filaseparacaopedidos f '
          , conn)
     pedidosku = pd.read_sql('select codpedido, sum(qtdesugerida) as qtdesugerida, sum(necessidade) as necessidade   from "Reposicao".pedidossku p  '
