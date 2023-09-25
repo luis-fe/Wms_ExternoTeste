@@ -8,7 +8,7 @@ def Obter_chamados(status_chamado, solicitante, atribuido_para):
         atribuido_para = '%' + solicitante + '%'
         query = pd.read_sql('select id_chamado, solicitante, data_chamado, '
                             ' tipo_chamado, atribuido_para, descricao_chamado, status_chamado, '
-                            'data_finalizacao_chamado from "Reposicao".chamados where status_chamado = %s and solicitante like %s and atribuido_para = %s '
+                            'data_finalizacao_chamado from "Reposicao".chamados where status_chamado = %s and solicitante like %s and atribuido_para like %s '
                             'order by data_chamado', conn, params=(status_chamado,solicitante,atribuido_para))
         query.fillna('-', inplace=True)
 
