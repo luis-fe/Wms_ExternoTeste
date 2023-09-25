@@ -343,12 +343,11 @@ def InformacaoImpresao(pedido):
 def PrioridadePedido(pedidos):
 
     tamanho = len(pedidos)
-    pedidosNovo = []
 
     if tamanho >= 0:
         conn = ConexaoPostgreMPL.conexao()
         for i in range(tamanho):
-            pedido_x = str(pedidosNovo[i])
+            pedido_x = str(pedidos[i])
             query = 'update "Reposicao".filaseparacaopedidos ' \
                     'set prioridade = %s ' \
                     'where codigopedido = %s'
