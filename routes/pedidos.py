@@ -166,3 +166,29 @@ def imprimirEtiqueta():
     imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
     return jsonify({'message': f'Imprimido o pedido {pedido} com sucesso', 'status':True})
+
+@pedidos_routes.route('/api/Prioriza', methods=['PUT'])
+@token_required
+def Prioriza():
+    try:
+        # Obtém os dados do corpo da requisição (JSON)
+        datas = request.get_json()
+        pedidos = datas['pedidos']
+
+        Endereco_det = pedidosModel.PrioridadePedido(pedidos)
+
+        # Obtém os nomes das colunas
+        column_names = Endereco_det.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        end_data = []
+        for index, row in Endereco_det.iterrows():
+            end_dict = {}
+            for column_name in column_names:
+                end_dict[column_name] = row[column_name]
+            end_data.append(end_dict)
+        return jsonify(end_data)
+    except KeyError as e:
+        return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
+
+    except Exception as e:
+        return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500

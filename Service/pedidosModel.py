@@ -340,3 +340,23 @@ def InformacaoImpresao(pedido):
 
     return codigoCliente, pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
 #
+def PrioridadePedido(pedidos):
+
+    tamanho = len(pedidos)
+    pedidosNovo = []
+
+    if tamanho >= 0:
+        conn = ConexaoPostgreMPL.conexao()
+        for i in range(tamanho):
+            pedido_x = str(pedidosNovo[i])
+            query = 'update "Reposicao".filaseparacaopedidos ' \
+                    'set prioridade = %s ' \
+                    'where codigopedido = %s'
+            cursor = conn.cursor()
+            cursor.execute(query, ('URGENTE',pedido_x,))
+            conn.commit()
+            cursor.close()
+        conn.close()
+        return pd.DataFrame([{'status':True, 'mensagem':'pedidos priorizados'}])
+    else:
+        return pd.DataFrame([{'status':True,'mensagem':'pedidos nao encontrados !'}])
