@@ -357,6 +357,6 @@ def PrioridadePedido(pedidos):
             conn.commit()
             cursor.close()
         conn.close()
-        return pd.DataFrame([{'status':True, 'mensagem':'pedidos priorizados'}])
+        return True
     else:
-        return pd.DataFrame([{'status':True,'mensagem':'pedidos nao encontrados !'}])
+        return False

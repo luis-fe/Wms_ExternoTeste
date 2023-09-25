@@ -176,17 +176,12 @@ def Prioriza():
         pedidos = datas['pedidos']
 
         Endereco_det = pedidosModel.PrioridadePedido(pedidos)
+        if Endereco_det == True:
+            return jsonify({'message': f'pedidos priorizados com sucesso', 'status': True}), 200
+        else:
+            return jsonify({'message': f'pedidos nao encontrados', 'status': False}), 200
 
-        # Obtém os nomes das colunas
-        column_names = Endereco_det.columns
-        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-        end_data = []
-        for index, row in Endereco_det.iterrows():
-            end_dict = {}
-            for column_name in column_names:
-                end_dict[column_name] = row[column_name]
-            end_data.append(end_dict)
-        return jsonify(end_data)
+
     except KeyError as e:
         return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
 
