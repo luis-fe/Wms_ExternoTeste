@@ -433,52 +433,209 @@
 			"name": "Pedidos",
 			"item": [
 				{
-					"name": "post_imprimirEtiqueta",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "FilaSeparacao",
+					"item": [
+						{
+							"name": "FilaPedidos",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/FilaPedidos",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaPedidos"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pedido\":\"307992-1\"\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/imprimirEtiqueta",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"imprimirEtiqueta"
-							]
+						{
+							"name": "FilaPedidosUsuario",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/FilaPedidosUsuario?codUsuario=2485",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaPedidosUsuario"
+									],
+									"query": [
+										{
+											"key": "codUsuario",
+											"value": "2485"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "ImprimirPedido",
+					"item": [
+						{
+							"name": "post_imprimirEtiqueta Copy",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"pedido\":\"307992-1\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/imprimirEtiqueta",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"imprimirEtiqueta"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PriorizarPedido",
+					"item": [
+						{
+							"name": "Definir Prioridade",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"pedidos\":[\"310143-1\"]\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/Prioriza",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Prioriza"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -512,7 +669,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://192.168.0.183:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-18&DataFinal=2023-09-18",
+							"raw": "http://192.168.0.183:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-25&DataFinal=2023-09-25",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -529,11 +686,11 @@
 							"query": [
 								{
 									"key": "DataInicial",
-									"value": "2023-09-18"
+									"value": "2023-09-25"
 								},
 								{
 									"key": "DataFinal",
-									"value": "2023-09-18"
+									"value": "2023-09-25"
 								}
 							]
 						}
@@ -541,7 +698,7 @@
 					"response": []
 				},
 				{
-					"name": "Repositores Copy",
+					"name": "Repositores",
 					"request": {
 						"auth": {
 							"type": "apikey",
@@ -1167,6 +1324,186 @@
 									"key": "dataInicio",
 									"value": "2023-09-20",
 									"disabled": true
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chamados",
+			"item": [
+				{
+					"name": "NovoChamados",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"solicitante\":\"string\",\r\n\"data_chamado\":\"string\",\r\n\"tipo_chamado\":\"string\",\r\n\"atribuido_para\":\"string\",\r\n\"descricao_chamado\":\"string\",\r\n\"status_chamado\":\"string\",\r\n\"data_finalizacao_chamado\":\"string\"\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/NovoChamado",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"NovoChamado"
+							],
+							"query": [
+								{
+									"key": "dataInicio",
+									"value": "2023-09-20",
+									"disabled": true
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EncerrarChamado",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id_chamado\":2,\r\n\"data_finalizacao_chamado\":\"2023-09-23\"\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/EncerrarChamado",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"EncerrarChamado"
+							],
+							"query": [
+								{
+									"key": "dataInicio",
+									"value": "2023-09-20",
+									"disabled": true
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista Chamados",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/chamados?status=finalizado",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chamados"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "finalizado"
 								},
 								{
 									"key": "dataFim",
