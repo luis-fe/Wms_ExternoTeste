@@ -7,6 +7,8 @@ from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
+app.debug = True  # Ativa o modo de depuração
+
 
 chamados_routes = Blueprint('chamados', __name__)
 
