@@ -39,3 +39,6 @@ def home():
 @portal_routes.route('/Reposicao')
 def Reposicao():
     return render_template('TelaFilaReposicao.html')
+@portal_routes.route('/Chamados')
+def Chamados():
+    return render_template('TelaChamados.html')
