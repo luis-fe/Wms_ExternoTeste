@@ -63,8 +63,10 @@ def post_novochamado():
     # Verifica Se existe atribuicao
     existe = chamadosModel.novo_chamados(solicitante, data_chamado, tipo_chamado, responsavel, descricao_chamado, 'nao iniciado', '-' )
     if existe ==True:
+        idchamado = chamadosModel.ultimoId()
+        idchamado = str(idchamado)
         # Retorna uma resposta de sucesso
-        return jsonify({'status': True, 'mensagem':'novo chamado criado !'})
+        return jsonify({'status': True, 'mensagem':'novo chamado criado !','id_chamado':{idchamado}})
     else:
         return jsonify({'status': False, 'mensagem':'erro ao criar chamado'})
 
