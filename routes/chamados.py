@@ -8,8 +8,8 @@ from werkzeug.utils import secure_filename
 chamados_routes = Blueprint('chamados', __name__)
 
 # Defina o diretório onde as imagens serão armazenadas
-UPLOAD_FOLDER = 'imagens_chamado'
-chamados_routes.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#UPLOAD_FOLDER = 'imagens_chamado'
+#chamados_routes.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
