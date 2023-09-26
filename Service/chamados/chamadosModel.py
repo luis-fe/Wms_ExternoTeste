@@ -57,3 +57,10 @@ def encerrarchamado(id_chamado, data_finalizacao_chamado):
         return True
     except:
         return False
+
+def ultimoId():
+    conn = ConexaoPostgreMPL.conexao()
+    queue = pd.read_sql('select max(id_chamado) as id from "chamado"."registro_chamados" ',conn)
+    id_chamado = queue['id_chamado'][0]
+    conn.close()
+    return id_chamado
