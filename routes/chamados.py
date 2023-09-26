@@ -1,6 +1,7 @@
 from Service.chamados import areaModel, chamadosModel
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
+from flask_cors import CORS
 import pandas as pd
 import os
 from werkzeug.utils import secure_filename
@@ -15,6 +16,7 @@ chamados_routes = Blueprint('chamados', __name__)
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+CORS(app)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
