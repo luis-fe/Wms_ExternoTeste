@@ -4,12 +4,15 @@ import pandas as pd
 
 
 def ObterTipoNota(empresa):
-    conn = ConexaoPostgreMPL.conexao()
-    query = pd.read_sql('select tiponota, desc_tipo_nota from "Reposicao".conftiponotacsw '
-                        ' where empresa = %s ',conn, params=(empresa,))
+    try:
+        conn = ConexaoPostgreMPL.conexao()
+        query = pd.read_sql('select tiponota, desc_tipo_nota from "Reposicao".conftiponotacsw '
+                            ' where empresa = %s ',conn, params=(empresa,))
 
-    conn.close()
-    return query
+        conn.close()
+        return query
+    except
+        return pd.DataFrame({'Total Faturado':f'Conexao CSW perdida'})
 
 
 def obter_notaCsw():
