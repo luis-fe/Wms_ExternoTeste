@@ -47,14 +47,13 @@ def post_novochamado():
     data_chamado = data['data_chamado']
     tipo_chamado = data['tipo_chamado']
     descricao_chamado = data['descricao_chamado']
-    data_finalizacao_chamado = data['data_finalizacao_chamado','-']
     empresa = data['empresa','1']
     area = data['area']
 
     # Busca o responsavel pela area
     responsavel = areaModel.Atribuir_por_Area(empresa,area)
     # Verifica Se existe atribuicao
-    existe = chamadosModel.novo_chamados(solicitante, data_chamado, tipo_chamado, responsavel, descricao_chamado, 'nao iniciado', data_finalizacao_chamado )
+    existe = chamadosModel.novo_chamados(solicitante, data_chamado, tipo_chamado, responsavel, descricao_chamado, 'nao iniciado', '-' )
     if existe ==True:
         # Retorna uma resposta de sucesso
         return jsonify({'status': True, 'mensagem':'novo chamado criado !'})
