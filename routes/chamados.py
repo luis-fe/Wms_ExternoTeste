@@ -142,7 +142,7 @@ def upload_image(idchamado):
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
 
 
-@app.route('/api/get_image/<string:idchamado>', methods=['GET'])
+@chamados_routes.route('/api/imagemChamado/<string:idchamado>', methods=['GET'])
 @token_required
 def get2_image(idchamado):
     filename = idchamado
