@@ -167,7 +167,7 @@ def get_RelatorioFila():
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-@app.route('new/api/get_image/<string:idchamado>', methods=['GET'])
+@app.route('/new/api/get_image/<string:idchamado>', methods=['GET'])
 @token_required
 def get_image(idchamado):
     filename = idchamado
