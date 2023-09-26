@@ -144,11 +144,10 @@ def upload_image(idchamado):
 @chamados_routes.route('/api/imagemChamado/<string:idchamado>', methods=['GET'])
 @token_required
 def get2_image(idchamado):
-    # Obtém os dados do corpo da requisição (JSON)
-    empresa = request.args.get('empresa','1')
 
 
-    Endereco_det = areaModel.get_Areas(empresa)
+
+    Endereco_det = idchamado
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
