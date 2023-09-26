@@ -1,9 +1,9 @@
 from Service.chamados import areaModel, chamadosModel
-from flask import Blueprint, jsonify, request, send_from_directory
+from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
 import os
-from werkzeug.utils import secure_filename
+
 
 chamados_routes = Blueprint('chamados', __name__)
 
