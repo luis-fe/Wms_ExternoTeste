@@ -167,7 +167,7 @@ def get_RelatorioFila():
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-@app.route('/pcp/api/get_image/<string:idchamado>', methods=['GET'])
+@app.route('/api/get_image/<string:idchamado>', methods=['GET'])
 def get_image(idchamado):
     filename = idchamado
     return send_from_directory(f'imagens_chamado/{idchamado}', filename)
