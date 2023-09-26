@@ -43,12 +43,12 @@ def get_chamados():
 def post_novochamado():
     # Obtenha os dados do corpo da requisição
     data = request.get_json()
-    solicitante = data['solicitante']
-    data_chamado = data['data_chamado']
-    tipo_chamado = data['tipo_chamado']
-    descricao_chamado = data['descricao_chamado']
-    empresa = data('empresa','1')
-    area = data('area')
+    solicitante = data.get('solicitante')
+    data_chamado = data.get('data_chamado')
+    tipo_chamado = data.get('tipo_chamado')
+    descricao_chamado = data.get('descricao_chamado')
+    empresa = data.get('empresa', '1')
+    area = data.get('area')
 
     # Busca o responsavel pela area
     responsavel = areaModel.Atribuir_por_Area(empresa,area)
