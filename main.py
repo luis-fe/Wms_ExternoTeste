@@ -167,10 +167,27 @@ def get_RelatorioFila():
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 @app.route('/api/get_image/<string:idchamado>', methods=['GET'])
 def get_image(idchamado):
-    filename = idchamado
-    return send_from_directory(f'imagens_chamado/{idchamado}', filename)
+    directory = f'imagens_chamado/{idchamado}'
+
+    # Verifique se o diretório existe
+    if os.path.exists(directory):
+        # Listar os arquivos dentro do diretório
+        files = os.listdir(directory)
+
+        # Verificar se há arquivos no diretório
+        if files:
+            # Escolher o primeiro arquivo da lista (você pode ajustar a lógica de escolha conforme necessário)
+            filename = files[0]
+
+            # Servir o arquivo escolhido
+            return send_from_directory(directory, filename)
+
+    # Se o diretório não existe ou não contém arquivos, retornar uma resposta adequada
+    return "Arquivo não encontrado", 404
 
 
 if __name__ == '__main__':
