@@ -66,7 +66,7 @@ def post_novochamado():
         idchamado = chamadosModel.ultimoId()
         idchamado = str(idchamado)
         # Retorna uma resposta de sucesso
-        return jsonify({'status': True, 'mensagem':'novo chamado criado !','id_chamado':{idchamado}})
+        return jsonify({'status': True, 'mensagem':'novo chamado criado !','id_chamado':f'{idchamado}'})
     else:
         return jsonify({'status': False, 'mensagem':'erro ao criar chamado'})
 
