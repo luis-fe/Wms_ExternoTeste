@@ -63,10 +63,8 @@ def post_novochamado():
     # Verifica Se existe atribuicao
     existe = chamadosModel.novo_chamados(solicitante, data_chamado, tipo_chamado, responsavel, descricao_chamado, 'nao iniciado', '-' )
     if existe ==True:
-        id_chamado = chamadosModel.ultimoId()
-        id_chamado = str(id_chamado)
         # Retorna uma resposta de sucesso
-        return jsonify({'status': True, 'mensagem':'novo chamado criado !','id_chamado':f'{id_chamado}'})
+        return jsonify({'status': True, 'mensagem':'novo chamado criado !'})
     else:
         return jsonify({'status': False, 'mensagem':'erro ao criar chamado'})
 
@@ -137,3 +135,8 @@ def upload_image(idchamado):
     file.save(os.path.join(upload_directory, filename))
 
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
+
+@chamados_routes.route('/pcp/api/get_image/<string:idchamado>', methods=['GET'])
+def get_image(idchamado):
+    filename = id
+    return send_from_directory(f'uploads/{idchamado}', filename)
