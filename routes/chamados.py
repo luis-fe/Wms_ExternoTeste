@@ -103,7 +103,7 @@ def get_areas():
     return jsonify(end_data)
 
 
-
+'''''
 # Rota para enviar a imagem
 @chamados_routes.route('/api/upload_chamado/<string:idchamado>', methods=['POST'])
 def upload_image(idchamado):
@@ -135,4 +135,4 @@ def upload_image(idchamado):
     file.save(os.path.join(upload_directory, filename))
 
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
-
+'''''
