@@ -431,7 +431,7 @@ function capturarItensSelecionados() {
         
         if (checkbox.checked) {
             const colunas = linha.getElementsByTagName('td');
-            const Pedidos = colunas[9].textContent.trim(); // Substitua o índice (9) pela coluna desejada
+            const Pedidos = colunas[11].textContent.trim(); // Substitua o índice (9) pela coluna desejada
             
             // Verifica se há mais de um pedido na string e separa-os em uma lista
             const pedidosSeparados = Pedidos.split(',').map(pedido => pedido.trim());
