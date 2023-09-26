@@ -20,7 +20,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoProduto.id = 'ButtonProduto';
     botaoProduto.classList.add('botaoProduto');
     const imagemBotao = document.createElement('img');
-    imagemBotao.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao.src = '/static/imagens/IconeOrdenacao.png';
     botaoProduto.appendChild(imagemBotao);
     botaoProduto.addEventListener('click', () => OrdenarTabela("01-CodPedido"));
 
@@ -29,7 +29,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoUsuario.id = 'ButtonUsuario';
     botaoUsuario.classList.add('botaoUsuario');
     const imagemBotao1 = document.createElement('img');
-    imagemBotao1.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao1.src = '/static/imagens/IconeOrdenacao.png';
     botaoUsuario.appendChild(imagemBotao1);
     botaoUsuario.addEventListener('click', () => OrdenarTabela("11-NomeUsuarioAtribuido"));
 
@@ -38,7 +38,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoNota.id = 'ButtonNota';
     botaoNota.classList.add('botaoNota');
     const imagemBotao2 = document.createElement('img');
-    imagemBotao2.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao2.src = '/static/imagens/IconeOrdenacao.png';
     botaoNota.appendChild(imagemBotao2);
     botaoNota.addEventListener('click', () => OrdenarTabela("03-TipoNota"));
 
@@ -47,7 +47,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoData.id = 'ButtonData';
     botaoData.classList.add('botaoData');
     const imagemBotao3 = document.createElement('img');
-    imagemBotao3.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao3.src = '/static/imagens/IconeOrdenacao.png';
     botaoData.appendChild(imagemBotao3);
     botaoData.addEventListener('click', () => OrdenarTabela("02- Data Sugestao"));
 
@@ -56,7 +56,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoQuantidade.id = 'ButtonQuantidade';
     botaoQuantidade.classList.add('botaoQuantidade');
     const imagemBotao4 = document.createElement('img');
-    imagemBotao4.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao4.src = '/static/imagens/IconeOrdenacao.png';
     botaoQuantidade.appendChild(imagemBotao4);
     botaoQuantidade.addEventListener('click', () => OrdenarTabela("15-qtdesugerida"));
 
@@ -65,7 +65,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoReposto.id = 'ButtonReposto';
     botaoReposto.classList.add('botaoQuantidade');
     const imagemBotao5 = document.createElement('img');
-    imagemBotao5.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao5.src = '/static/imagens/IconeOrdenacao.png';
     botaoReposto.appendChild(imagemBotao5);
     botaoReposto.addEventListener('click', () => OrdenarTabela("18-%Reposto"));
 
@@ -74,7 +74,7 @@ function criarTabelaDistribuicao(listaPedidos) {
     botaoSeparado.id = 'ButtonSeparado';
     botaoSeparado.classList.add('botaoQuantidade');
     const imagemBotao6 = document.createElement('img');
-    imagemBotao6.src = '//static/imagens/IconeOrdenacao.png';
+    imagemBotao6.src = '/static/imagens/IconeOrdenacao.png';
     botaoSeparado.appendChild(imagemBotao6);
     botaoSeparado.addEventListener('click', () => OrdenarTabela("20-Separado%"));
 
@@ -91,36 +91,26 @@ function criarTabelaDistribuicao(listaPedidos) {
     const ColunaEstado = document.createElement('th');
     const ColunaSituacaoPedido = document.createElement('th');
     const ColunaMarca = document.createElement('th');
+    const ColunaPrioridade = document.createElement('th');
     const ColunaTransportadora = document.createElement('th');
 
     colunaCheckbox.textContent = '';
     ColunaPedido.textContent = 'Pedido';
-    ColunaPedido.setAttribute('data-orderable', 'true');
-    ColunaNomeUsuario.textContent = 'Usuário Atribuído';
-    ColunaNomeUsuario.setAttribute('data-orderable', 'true');
-    ColunaTipoDeNota.textContent = 'Tipo de Nota';
-    ColunaTipoDeNota.setAttribute('data-orderable', 'true');
-    ColunaDataSugestao.textContent = 'Data Sugestão';
-    ColunaDataSugestao.setAttribute('data-orderable', 'true');
-    ColunaQuantidadePeças.textContent = 'Quantidade Peças';
-    ColunaQuantidadePeças.setAttribute('data-orderable', 'true');
-    ColunaTotalReposto.textContent = '% Reposto';
-    ColunaTotalReposto.setAttribute('data-orderable', 'true');
-    ColunaTotalSeparado.textContent = '% Separado';
-    ColunaTotalSeparado.setAttribute('data-orderable', 'true');
-    ColunaValorPedido.textContent = 'Valor R$';
-    ColunaValorPedido.setAttribute('data-orderable', 'true');
-    ColunaPedidosAgrupados.textContent = 'Pedidos Agrupados';
-    ColunaPedidosAgrupados.setAttribute('data-orderable', 'true');
-    ColunaEstado.textContent = 'Estado';
-    ColunaEstado.setAttribute('data-orderable', 'true');
-    ColunaSituacaoPedido.textContent = 'Situacao Pedido';
-    ColunaSituacaoPedido.setAttribute('data-orderable', 'true');
-    ColunaMarca.textContent = 'Marca';
-    ColunaMarca.setAttribute('data-orderable', 'true');
-    ColunaTransportadora.textContent = 'Transportadora';
-    ColunaTransportadora.setAttribute('data-orderable', 'true');
 
+    ColunaNomeUsuario.textContent = 'Usuário Atribuído';
+    ColunaTipoDeNota.textContent = 'Tipo de Nota';
+    ColunaDataSugestao.textContent = 'Data Sugestão';
+    ColunaQuantidadePeças.textContent = 'Quantidade Peças';
+    ColunaTotalReposto.textContent = '% Reposto';
+    ColunaTotalSeparado.textContent = '% Separado';
+    ColunaValorPedido.textContent = 'Valor R$';
+    ColunaPedidosAgrupados.textContent = 'Pedidos Agrupados';
+    ColunaEstado.textContent = 'Estado';
+    ColunaSituacaoPedido.textContent = 'Situacao Pedido';
+    ColunaMarca.textContent = 'Marca';
+    ColunaPrioridade.textContent = 'Prioridade';
+    ColunaTransportadora.textContent = 'Transportadora';
+    
     colunaCheckbox.style.width = '30px';
     ColunaPedido.style.width = '100px'
     ColunaNomeUsuario.style.width = '250px'
@@ -153,8 +143,9 @@ function criarTabelaDistribuicao(listaPedidos) {
     cabecalhoRow.appendChild(ColunaTotalReposto);
     cabecalhoRow.appendChild(ColunaTotalSeparado);
     cabecalhoRow.appendChild(ColunaValorPedido);
-    cabecalhoRow.appendChild(ColunaPedidosAgrupados);
     cabecalhoRow.appendChild(ColunaMarca);
+    cabecalhoRow.appendChild(ColunaPrioridade);
+    cabecalhoRow.appendChild(ColunaPedidosAgrupados);
     cabecalhoRow.appendChild(ColunaEstado);
     cabecalhoRow.appendChild(ColunaSituacaoPedido);
     cabecalhoRow.appendChild(ColunaTransportadora)
@@ -180,6 +171,7 @@ function criarTabelaDistribuicao(listaPedidos) {
         const ColunaSituacaoPedido = document.createElement('td');
         const ColunaMarca = document.createElement('td');
         const ColunaTransportadora = document.createElement('td');
+        const ColunaPrioridade = document.createElement('td');
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox'; // Alterado de 'radio' para 'checkbox'
@@ -199,6 +191,7 @@ function criarTabelaDistribuicao(listaPedidos) {
         ColunaSituacaoPedido.textContent = item["22- situacaopedido"];
         ColunaMarca.textContent = item["21-MARCA"];
         ColunaTransportadora.textContent = item["23-transportadora"];
+        ColunaPrioridade.textContent = item["prioridade"];
         row.appendChild(colunaCheckbox);
         row.appendChild(ColunaPedido);
         row.appendChild(ColunaNomeUsuario);
@@ -208,8 +201,9 @@ function criarTabelaDistribuicao(listaPedidos) {
         row.appendChild(ColunaTotalReposto);
         row.appendChild(ColunaTotalSeparado);
         row.appendChild(ColunaValorPedido);
-        row.appendChild(ColunaPedidosAgrupados);
         row.appendChild(ColunaMarca);
+        row.appendChild(ColunaPrioridade);
+        row.appendChild(ColunaPedidosAgrupados);
         row.appendChild(ColunaEstado);
         row.appendChild(ColunaSituacaoPedido);
         row.appendChild(ColunaTransportadora);
@@ -264,6 +258,7 @@ function CarregarDados() {
     criarTabelaDistribuicao(TipoNotaFiltrado);
     PintarPedidosCompletos();
     marcarLinhasDuplicadas();
+    PintarPedidosUrgentes();
     CarregarUsuarios();
     PassarInformacoes()
     
@@ -350,6 +345,7 @@ InputBusca.addEventListener('keyup', () => {
         }
             PintarPedidosCompletos();
             marcarLinhasDuplicadas();
+            PintarPedidosUrgentes();
         }
     });
 
@@ -371,12 +367,30 @@ InputBusca.addEventListener('keyup', () => {
             }
         }
     }
+
+    function PintarPedidosUrgentes() {
+        const colunaDesejada = 10; // Índice da coluna com base em 0 (coluna 7 na contagem padrão)
+        const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
+    
+        // Pinta a coluna de verde se o valor for igual a "100.00"
+        for (let i = 1; i < linhasTabela.length; i++) {
+            const linha = linhasTabela[i];
+            const colunaValor = linha.querySelector(`td:nth-child(${colunaDesejada + 1})`);
+            const valor = colunaValor.textContent.trim();
+    
+            if (valor === "URGENTE") {
+                colunaValor.style.backgroundColor = 'Red'; // Pinta a célula da coluna de verde
+            } else {
+                colunaValor.style.backgroundColor = ''; // Remove a cor de fundo da célula caso não seja igual a "100.00"
+            }
+        }
+    }
     
 
 
 function marcarLinhasDuplicadas() {
     const valoresContados = {};
-    const colunaDesejada = 9; // Índice da coluna "Usuário Atribuído" na tabela (lembrando que a contagem começa em 0)
+    const colunaDesejada = 11; // Índice da coluna "Usuário Atribuído" na tabela (lembrando que a contagem começa em 0)
         
     const linhasTabela = TabelaPedidos.getElementsByTagName('tr');
         
@@ -476,6 +490,42 @@ function AtribuicaoPedidos() {
     
 }}
 
+function DefinirPrioridade() {
+    const PedidosSelecionados = capturarItensSelecionados();
+
+    if (PedidosSelecionados.length === 0) {
+        alert('Nenhum pedido selecionado');
+        CarregarUsuarios();
+    } else {
+
+    let Atribuicao = {
+        pedidos: PedidosSelecionados,
+    };
+
+    fetch("http://192.168.0.183:5000/api/Prioriza", {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'a40016aabcx9'
+        },
+        body: JSON.stringify(Atribuicao),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Erro ao atribuir pedidos');
+        }
+    })
+    .then(data => {
+        console.log(data);
+        
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    }}
+
 const comboboxUsuarios = document.getElementById('Usuarios');
 
 comboboxUsuarios.addEventListener('change', () => {
@@ -524,6 +574,7 @@ function OrdenarTabela(Coluna) {
         criarTabelaDistribuicao(TipoNotaFiltrado1);
         PintarPedidosCompletos();
         marcarLinhasDuplicadas();
+        PintarPedidosUrgentes();
         CarregarUsuarios();
         
         })
