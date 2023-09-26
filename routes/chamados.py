@@ -108,6 +108,7 @@ def get_areas():
     return jsonify(end_data)
 
 @chamados_routes.route('/api/upload/<string:idchamado>', methods=['POST'])
+@token_required
 def upload_image(idchamado):
     # Verifique se a solicitação possui um arquivo anexado
     if 'file' not in request.files:
@@ -139,6 +140,7 @@ def upload_image(idchamado):
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
 
 @chamados_routes.route('/api/get_image/<string:idchamado>', methods=['GET'])
+@token_required
 def get_image(idchamado):
     filename = idchamado
     return send_from_directory(f'imagens_chamado/{idchamado}', filename)
