@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="Titulo">
-        <a href="/home">
+        <a href="TelaPrincipal.html">
         <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
         </a>
         <h1>WMS GERENCIAL</h1>
@@ -22,18 +22,17 @@
     <div class="Corpo">
         <nav class="Menu">
             <ul>
-                <li><a href="/home">Home</a></li>
+                <li><a href="TelaPrincipal.html">Home</a></li>
                 <li><a href="#">Configurações</a>
                     <ul>
-                        <li><a href="/Usuarios">Gerenciamento de Usuários</a></li>
-                        <li><a href="/Chamados">Gerenciamento de Chamados</a></li>
+                        <li><a href="Usuarios.html">Gerenciamento de Usuários</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Relatórios</a>
                     <ul>
-                        <li><a href="/Reposicao">Fila de Reposição</a></li>
-                        <li><a href="/Distribuicao">Distribuição de Pedidos</a></li>
-                        <li><a href="/Enderecos">Cadastro de Endereços</a></li>
+                        <li><a href="TelaFilaReposicao.html">Fila de Reposição</a></li>
+                        <li><a href="index.html">Distribuição de Pedidos</a></li>
+                        <li><a href="TelaEnderecos.html">Cadastro de Endereços</a></li>
                     </ul>
                 </li>
 
@@ -55,6 +54,7 @@
                 <option disabled selected>Selecione um usuário para Atribuição!</option>
             </select>
             <button id="VerificarPecasFaltando">Peças Faltantes</button>
+            <button id="Priorizacao" onclick="DefinirPrioridade()">Priorizar Pedido</button>
         </div>
 
     
