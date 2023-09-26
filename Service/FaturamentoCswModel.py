@@ -12,7 +12,7 @@ def ObterTipoNota(empresa):
         conn.close()
         return query
     except:
-        return pd.DataFrame({'Total Faturado':f'Conexao CSW perdida'})
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
 
 def obter_notaCsw():
@@ -43,9 +43,9 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame({'Total Faturado':[faturado]})
+        return pd.DataFrame([{'Total Faturado':[faturado]}])
     except:
-        return pd.DataFrame({'Total Faturado':f'Conexao CSW perdida'})
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
 
 
