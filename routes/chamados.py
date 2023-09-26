@@ -137,8 +137,3 @@ def upload_image(idchamado):
     file.save(os.path.join(upload_directory, filename))
 
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
-
-@app.route('api/get_image/<string:idchamado>', methods=['GET'])
-def get_image(idchamado):
-    filename = id
-    return send_from_directory(f'uploads/{idchamado}', filename)
