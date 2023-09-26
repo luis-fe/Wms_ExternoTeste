@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import pandas as pd
 import os
@@ -163,6 +163,14 @@ def get_RelatorioFila():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+# Defina o diretório onde as imagens serão armazenadas
+UPLOAD_FOLDER = 'imagens_chamado'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+@app.route('/pcp/api/get_image/<string:idchamado>', methods=['GET'])
+def get_image(idchamado):
+    filename = idchamado
+    return send_from_directory(f'imagens_chamado/{idchamado}', filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
