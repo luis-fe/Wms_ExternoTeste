@@ -156,7 +156,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao, ritmo2,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
-        record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde from "Reposicao"."ProducaoSeparadores" '
+        record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde from "Reposicao"."ProducaoSeparadores"'
+                             ' where tempo > 17:31:00 '
                              ' group by usuario, dataseparacao', conn)
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
