@@ -47,8 +47,8 @@ def post_novochamado():
     data_chamado = data['data_chamado']
     tipo_chamado = data['tipo_chamado']
     descricao_chamado = data['descricao_chamado']
-    empresa = data['empresa','1']
-    area = data['area']
+    empresa = data('empresa','1')
+    area = data('area')
 
     # Busca o responsavel pela area
     responsavel = areaModel.Atribuir_por_Area(empresa,area)
