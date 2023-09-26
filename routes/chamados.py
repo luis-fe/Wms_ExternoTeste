@@ -1,4 +1,5 @@
 from Service import chamadosModel
+from Service.chamados import areaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -75,3 +76,23 @@ def EncerrarChamado():
         return jsonify({'status': True, 'mensagem':'Chamado Finalizado'})
     else:
         return jsonify({'status': False, 'mensagem':'Chamado nao encontrado'})
+
+@chamados_routes.route('/api/area', methods=['GET'])
+@token_required
+def get_areas():
+    # Obtém os dados do corpo da requisição (JSON)
+    empresa = request.args.get('empresa','1')
+
+
+    Endereco_det = areaModel.get_Areas(empresa)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
