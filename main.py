@@ -167,11 +167,11 @@ def get_RelatorioFila():
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-@app.route('/new/api/get_image/<string:idchamado>', methods=['GET'])
-@token_required
+@app.route('/api/get_image/<string:idchamado>', methods=['GET'])
 def get_image(idchamado):
     filename = idchamado
-    return send_from_directory(f'imagens_chamado/{idchamado}', filename)
+    return send_from_directory(f'imagens_chamados/{idchamado}', filename)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
