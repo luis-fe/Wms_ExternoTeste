@@ -20,7 +20,6 @@ from .finalizacaoPedido import finalizacaoPedido_route
 from .necessidadeReposicao import necessidadeRepos_routes
 from .dashboard import dashboard_routes
 from .chamados import chamados_routes
-from configuracoes.configuracoes import configuracoes_routes
 
 
 # Registre as rotas nos blueprints
@@ -40,4 +39,3 @@ routes_blueprint.register_blueprint(finalizacaoPedido_route)
 routes_blueprint.register_blueprint(necessidadeRepos_routes)
 routes_blueprint.register_blueprint(dashboard_routes)
 routes_blueprint.register_blueprint(chamados_routes)
-routes_blueprint.register_blueprint(configuracoes_routes)
