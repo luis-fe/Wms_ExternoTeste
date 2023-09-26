@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
 
-configuracoes_routes = Blueprint('configuracoes', __name__)
+escalaTrabalho_routes = Blueprint('escalaTrabalho', __name__)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
@@ -15,7 +15,7 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 
     return decorated_function
 
-@configuracoes_routes.route('/api/escalaTrabalho', methods=['GET'])
+@escalaTrabalho_routes.route('/api/escalaTrabalho', methods=['GET'])
 @token_required
 def escalaTrabalho():
     # Obtém os dados do corpo da requisição (JSON)
