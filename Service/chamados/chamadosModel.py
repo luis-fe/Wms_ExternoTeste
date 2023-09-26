@@ -10,7 +10,7 @@ def Obter_chamados(status_chamado, solicitante, atribuido_para, tipo_chamado):
 
         query = pd.read_sql('select id_chamado, solicitante, data_chamado, '
                             ' tipo_chamado, atribuido_para, descricao_chamado, status_chamado, '
-                            'data_finalizacao_chamado from "Reposicao".chamados where status_chamado = %s and solicitante like %s and atribuido_para like %s'
+                            'data_finalizacao_chamado from "chamado"."registro_chamados" where status_chamado = %s and solicitante like %s and atribuido_para like %s'
                             ' and tipo_chamado like %s '
                             'order by data_chamado', conn, params=(status_chamado,solicitante,atribuido_para, tipo_chamado))
         query.fillna('-', inplace=True)
@@ -19,7 +19,7 @@ def Obter_chamados(status_chamado, solicitante, atribuido_para, tipo_chamado):
     else:
         query = pd.read_sql('select id_chamado, solicitante, data_chamado, '
                             ' tipo_chamado, atribuido_para, descricao_chamado, status_chamado, '
-                            'data_finalizacao_chamado from "Reposicao".chamados '
+                            'data_finalizacao_chamado from "chamado"."registro_chamados" '
                             'order by data_chamado', conn)
 
         query.fillna('-', inplace=True)
@@ -33,7 +33,7 @@ def novo_chamados(solicitante, data_chamado, tipo_chamado, atribuido_para, descr
     conn = ConexaoPostgreMPL.conexao()
     try:
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO "Reposicao"."chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
+        cursor.execute('INSERT INTO "chamado"."registro_chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
                        'descricao_chamado, status_chamado, data_finalizacao_chamado) '
                        'VALUES (%s, %s, %s, %s, %s, %s, %s)',(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado))
 
@@ -48,7 +48,7 @@ def encerrarchamado(id_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
     try:
         cursor = conn.cursor()
-        cursor.execute('UPDATE "Reposicao"."chamados" '
+        cursor.execute('UPDATE "chamado"."registro_chamados" '
                        "SET data_finalizacao_chamado = %s, status_chamado = 'finalizado' "
                        ' WHERE id_chamado = %s',( data_finalizacao_chamado,id_chamado,))
         conn.commit()
