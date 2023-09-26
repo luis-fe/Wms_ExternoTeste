@@ -6,7 +6,11 @@ import os
 from werkzeug.utils import secure_filename
 
 chamados_routes = Blueprint('chamados', __name__)
-
+'''''
+# Defina o diretório onde as imagens serão armazenadas
+UPLOAD_FOLDER = 'imagens_chamado'
+chamados_routes.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+'''''
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -98,9 +102,7 @@ def get_areas():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-# Defina o diretório onde as imagens serão armazenadas
-UPLOAD_FOLDER = 'imagens_chamado'
-chamados_routes.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 # Rota para enviar a imagem
 @chamados_routes.route('/api/upload_chamado/<string:idchamado>', methods=['POST'])
