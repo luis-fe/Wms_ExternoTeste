@@ -46,10 +46,9 @@ def post_novochamado():
     solicitante = data['solicitante']
     data_chamado = data['data_chamado']
     tipo_chamado = data['tipo_chamado']
-    atribuido_para = data['atribuido_para']
     descricao_chamado = data['descricao_chamado']
-    status_chamado = data['status_chamado']
-    data_finalizacao_chamado = data['data_finalizacao_chamado']
+    status_chamado = data['status_chamado','nao iniciado']
+    data_finalizacao_chamado = data['data_finalizacao_chamado','-']
     empresa = data['empresa','1']
     area = data['area']
 
