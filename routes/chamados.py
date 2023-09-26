@@ -145,4 +145,4 @@ def upload_image(idchamado):
 @token_required
 def get2_image(idchamado):
 
-    return send_from_directory(f'imagens/{idchamado}', idchamado)
+    return send_from_directory(f'imagens_chamado/{idchamado}', idchamado)
