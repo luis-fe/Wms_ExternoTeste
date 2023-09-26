@@ -145,9 +145,4 @@ def upload_image(idchamado):
 @token_required
 def get2_image(idchamado):
 
-
-
-    Endereco_det = idchamado
-
-
-    return jsonify([{'Mensagem':idchamado}])
+    return send_from_directory(f'imagens/{idchamado}', idchamado)
