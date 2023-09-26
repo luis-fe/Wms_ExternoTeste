@@ -1,7 +1,9 @@
 from Service.chamados import areaModel, chamadosModel
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_from_directory
 from functools import wraps
 import pandas as pd
+import os
+from werkzeug.utils import secure_filename
 
 chamados_routes = Blueprint('chamados', __name__)
 
@@ -95,3 +97,39 @@ def get_areas():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+# Defina o diretório onde as imagens serão armazenadas
+UPLOAD_FOLDER = 'imagens_chamado'
+chamados_routes.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Rota para enviar a imagem
+@chamados_routes.route('/api/upload_chamado/<string:idchamado>', methods=['POST'])
+def upload_image(idchamado):
+    # Verifique se a solicitação possui um arquivo anexado
+    if 'file' not in request.files:
+        return jsonify({'message': 'chamado sem anexo'}), 200
+
+    file = request.files['file']
+
+    # Verifique se o nome do arquivo é vazio
+    if file.filename == '':
+        return jsonify({'message': 'chamado sem anexo'}), 200
+
+    # Verifique se a extensão do arquivo é permitida (opcional)
+    allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+    if not file.filename.rsplit('.', 1)[1].lower() in allowed_extensions:
+        return jsonify({'message': 'Extensão de arquivo não permitida'}), 400
+
+    # Renomeie o arquivo com o ID do chamado e a extensão original
+    filename = secure_filename(f'{idchamado}.{file.filename.rsplit(".", 1)[1]}')
+
+    # Salve o arquivo na pasta de uploads usando idchamado como diretório
+    upload_directory = os.path.join(chamados_routes.config['UPLOAD_FOLDER'], idchamado)
+
+    # Verifique se o diretório existe e crie-o se não existir
+    os.makedirs(upload_directory, exist_ok=True)
+
+    # Salve o arquivo com o novo nome
+    file.save(os.path.join(upload_directory, filename))
+
+    return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
