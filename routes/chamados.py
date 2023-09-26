@@ -1,5 +1,5 @@
 from Service.chamados import areaModel, chamadosModel
-from flask import Blueprint, jsonify, request, Flask
+from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 import pandas as pd
 import os
@@ -137,3 +137,8 @@ def upload_image(idchamado):
     file.save(os.path.join(upload_directory, filename))
 
     return jsonify({'message': 'Arquivo enviado com sucesso'}), 201
+
+@app.route('api/get_image/<string:idchamado>', methods=['GET'])
+def get_image(idchamado):
+    filename = id
+    return send_from_directory(f'uploads/{idchamado}', filename)
