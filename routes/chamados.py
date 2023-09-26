@@ -138,5 +138,5 @@ def upload_image(idchamado):
 
 @chamados_routes.route('/api/get_image/<string:idchamado>', methods=['GET'])
 def get_image(idchamado):
-    filename = id
+    filename = idchamado
     return send_from_directory(f'imagens_chamado/{idchamado}', filename)
