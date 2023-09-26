@@ -139,4 +139,4 @@ def upload_image(idchamado):
 @chamados_routes.route('/api/get_image_chamado/<string:idchamado>', methods=['GET'])
 def get_chamado_image(idchamado):
     filename = idchamado
-    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], idchamado), filename)
+    return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], idchamado), filename),401
