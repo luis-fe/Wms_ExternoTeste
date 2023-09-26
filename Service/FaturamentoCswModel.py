@@ -11,7 +11,7 @@ def ObterTipoNota(empresa):
 
         conn.close()
         return query
-    except
+    except:
         return pd.DataFrame({'Total Faturado':f'Conexao CSW perdida'})
 
 
