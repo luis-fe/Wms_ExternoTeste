@@ -144,5 +144,19 @@ def upload_image(idchamado):
 @chamados_routes.route('/api/imagemChamado/<string:idchamado>', methods=['GET'])
 @token_required
 def get2_image(idchamado):
-    filename = idchamado
-    return send_from_directory(f'imagens_chamado/{idchamado}', filename)
+    # Obtém os dados do corpo da requisição (JSON)
+    empresa = request.args.get('empresa','1')
+
+
+    Endereco_det = areaModel.get_Areas(empresa)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
