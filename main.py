@@ -186,8 +186,8 @@ def get_image(idchamado):
             # Servir o arquivo escolhido
             return send_from_directory(directory, filename)
 
-    # Se o diretório não existe ou não contém arquivos, retornar uma resposta adequada
-    return "Arquivo não encontrado", 404
+    # Se o diretório não existe ou não contém arequivos, retornar uma resposta adequada
+    return jsonify({"Mensagem":"Arquivo não encontrado"}), 404
 
 
 if __name__ == '__main__':
