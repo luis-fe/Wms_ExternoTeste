@@ -63,7 +63,7 @@ def pesquisaTagCSW(codbarras):
         data = pd.read_sql(" select codBarrasTag , codNaturezaAtual , situacao  FROM Tcr.TagBarrasProduto p"
                            " WHERE p.codBarrasTag = "+ codbarras , conn)
         conn.close()
-
+        data['stauts conexao'] = True
         return data
     except:
         return pd.DataFrame([{'stauts conexao': False}])
