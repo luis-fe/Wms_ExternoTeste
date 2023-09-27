@@ -254,174 +254,229 @@
 			"name": "ReposicaoOP",
 			"item": [
 				{
-					"name": "FilaReposicaoOP",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "consultas",
+					"item": [
+						{
+							"name": "DetalhaCodBarras",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaCodBarras?codbarras=01000066521501000063",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaCodBarras"
+									],
+									"query": [
+										{
+											"key": "codbarras",
+											"value": "01000066521501000063"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"FilaReposicaoOP"
-							],
-							"query": [
-								{
-									"key": "empresa",
-									"value": "1"
+						{
+							"name": "FilaReposicaoOP",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "natureza",
-									"value": "5"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaReposicaoOP"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DetalhaOP",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/DetalhaOP?empresa=1&natureza=5&numeroOP=124903-001",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"DetalhaOP"
-							],
-							"query": [
-								{
-									"key": "empresa",
-									"value": "1"
+						{
+							"name": "DetalhaOP",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "natureza",
-									"value": "5"
-								},
-								{
-									"key": "numeroOP",
-									"value": "124903-001"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaOP?empresa=1&natureza=5&numeroOP=124903-001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaOP"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										},
+										{
+											"key": "numeroOP",
+											"value": "124903-001"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DetalhaOPxSKU",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/DetalhaOPxSKU?empresa=1&natureza=5&numeroOP=124903-001",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"DetalhaOPxSKU"
-							],
-							"query": [
-								{
-									"key": "empresa",
-									"value": "1"
+						{
+							"name": "DetalhaOPxSKU",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "natureza",
-									"value": "5"
-								},
-								{
-									"key": "numeroOP",
-									"value": "124903-001"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaOPxSKU?empresa=1&natureza=5&numeroOP=124903-001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaOPxSKU"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										},
+										{
+											"key": "numeroOP",
+											"value": "124903-001"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -1727,17 +1782,16 @@
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/C:/Users/Lgonçalves/Desktop/icone.png"
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/imagemChamado/1",
+									"raw": "http://192.168.0.183:5000/api/get_image/50",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -1748,8 +1802,8 @@
 									"port": "5000",
 									"path": [
 										"api",
-										"imagemChamado",
-										"1"
+										"get_image",
+										"50"
 									],
 									"query": [
 										{
