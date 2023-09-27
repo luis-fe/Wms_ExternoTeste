@@ -22,13 +22,13 @@ def DetalhaTag(codbarras):
 
     if not consulta1.empety:
         return consulta1
-    elif consulta1.empety:
+    elif consulta1.empty:
         consulta2 = pd.read_sql("Select  codbarrastag, codreduzido, descricao, codnaturezaatual  as natureza, 'na fila' as situacao "
                                 ' from "Reposicao".filareposicaoportag'
                                 'where codbarrastag = %s ', conn, params=(codbarras,))
-        if not consulta2.empety:
+        if not consulta2.empty:
             return consulta2
-        elif consulta2.empety:
+        elif consulta2.empty:
             consulta3 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
                                     " 'reposto' as situacao "
                                     'from "Reposicao".tagsreposicao_inventario  '
