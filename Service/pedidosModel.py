@@ -103,6 +103,8 @@ def FilaAtribuidaUsuario(codUsuario):
     x = FilaPedidos()
     codUsuario = str(codUsuario)
     x = x[x['10-codUsuarioAtribuido'] == codUsuario]
+    x = x.sort_values(by=['prioridade',"04-codcliente"], ascending=False)
+
     return x
 
 def DetalhaPedido(codPedido):
