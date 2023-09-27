@@ -75,11 +75,15 @@ def Pedidos_fecha100():
     query['percentual'] = query['totalpc']/query['totalpc100']
 
     Fecha100 = query[query['percentual'] == 1]
+    Fecha_ate95 = query[query['percentual'] >= 0.95]
+    Fecha_ate90 = query[query['percentual'] >= 0.90]
+
     totalPedidos100 = Fecha100['codigopedido'].count()
 
     data = {
         '1. Total de Pedidos no Retorna':f'{totalPedidos}',
-        '2. Total de Pedidos fecham 100%': f'{totalPedidos100}'
-
+        '2. Total de Pedidos fecham 100%': f'{totalPedidos100}',
+        '2.1 Total de Pedidos fecham acima 95%': f'{Fecha_ate95}',
+        '2.2 Total de Pedidos fecham acima 90%': f'{Fecha_ate90}'
     }
     return [data]

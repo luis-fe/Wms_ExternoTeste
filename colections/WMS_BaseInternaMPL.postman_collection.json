@@ -1499,6 +1499,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "statuspedidos",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/statuspedidos",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"statuspedidos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
