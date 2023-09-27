@@ -42,9 +42,11 @@ def DetalhaTag(codbarras):
             else:
                 consulta4 = ConexaoCSW.pesquisaTagCSW(codbarras)
                 if not consulta4.empty and consulta4['situacao'][0] == 3:
-                    return pd.DataFrame([{'Mensagem':'a tag se encontra normal no csw'}])
-                elif consulta4.empty:
                     return consulta4
+                elif consulta4['status'][0] == False:
+                    return pd.DataFrame([{'Mensagem1':'Nao foi possivel encontrar a tag no WMS',
+                                          'Mensagem2':'No CSW a Conexao foi perida, nao foi possivel apurar onde ta a tag'}])
+
                 else:
 
                     return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])

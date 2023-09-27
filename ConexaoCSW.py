@@ -66,7 +66,7 @@ def pesquisaTagCSW(codbarras):
 
         return data
     except:
-        return pd.DataFrame([{}])
+        return pd.DataFrame([{'stauts conexao': False}])
 
 try:
     teste = obter_notaCsw()
