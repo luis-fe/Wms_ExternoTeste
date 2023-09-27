@@ -11,3 +11,28 @@ def detalhaSku(codreduzido, empresa,natureza):
         return pd.DataFrame({'Mensagem':[f'O reduzido {codreduzido} ainda nao foi reposto ou esta com as prateleiras vazias ']})
     else:
         return df_op2
+
+def DetalhaTag(codbarras):
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta1 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
+                            " 'reposto', situacao "
+                            'from "Reposicao".tagsreposicao_inventario  '
+                            'where codbarrastag = %s ', conn, params=(codbarras,))
+
+    if not consulta1.empety:
+        return consulta1
+    elif consulta1.empety:
+        consulta2 = pd.read_sql("Select  codbarrastag, codreduzido, descricao, codnaturezaatual  as natureza, 'na fila' as situacao "
+                                ' from "Reposicao".filareposicaoportag'
+                                'where codbarrastag = %s ', conn, params=(codbarras,))
+        if not consulta2.empety:
+            return consulta2
+        elif consulta2.empety:
+            consulta3 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
+                                    " 'reposto' as situacao "
+                                    'from "Reposicao".tagsreposicao_inventario  '
+                                    'where codbarrastag = %s ', conn, params=(codbarras,))
+            return consulta3
+        else:
+            return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])
