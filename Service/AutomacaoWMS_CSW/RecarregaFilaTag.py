@@ -1,8 +1,15 @@
 import ConexaoCSW
 import pandas as pd
 import numpy
+import datetime
+import pytz
 
 
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%d/%m/%Y %H:%M')
+    return hora_str
 def RecarregarTagFila(codbarras):
     valor = ConexaoCSW.pesquisaTagCSW(codbarras)
 
@@ -29,7 +36,27 @@ def RecarregarTagFila(codbarras):
         df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
         df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)
         df_tags['totalop'] = df_tags['totalop'].astype(int)
+        epc = LerEPC(codbarras)
+        df_tags = pd.merge(df_tags, epc, on='codbarrastag', how='left')
+        df_tags.rename(columns={'codbarrastag': 'codbarrastag', 'codEngenharia': 'engenharia'
+            , 'numeroop': 'numeroop'}, inplace=True)
+        df_tags['epc'] = df_tags['epc'].str.extract('\|\|(.*)').squeeze()
+        dataHora = obterHoraAtual()
+        df_tags['DataHora'] = dataHora
 
         return df_tags
     else:
         return pd.DataFrame([{'mensagem':False}])
+
+
+
+def LerEPC(codbarras):
+    conn = ConexaoCSW.Conexao()
+    codbarras = "'" + codbarras + "'"
+
+    consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
+                           'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
+                           'WHERE codBarrasTag = '+ codbarras ,conn)
+    conn.close()
+
+    return consulta
