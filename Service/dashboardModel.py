@@ -74,7 +74,7 @@ def Pedidos_fecha100():
     totalPedidos = query['codigopedido'].count()
     query['percentual'] = query['totalpc']/query['totalpc100']
 
-    Fecha100 = totalPedido[totalPedido['percentual'] == 1]
+    Fecha100 = query[query['percentual'] == 1]
     totalPedidos100 = Fecha100['codigopedido'].count()
 
     data = {
