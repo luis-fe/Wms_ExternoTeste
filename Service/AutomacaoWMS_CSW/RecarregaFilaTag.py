@@ -52,7 +52,7 @@ def RecarregarTagFila(codbarras):
 
 def LerEPC(codbarras):
     conn = ConexaoCSW.Conexao()
-    codbarras = "'" + codbarras + "'"
+    codbarras = codbarras
 
     consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
                            'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
