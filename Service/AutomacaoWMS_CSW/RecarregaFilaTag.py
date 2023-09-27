@@ -32,4 +32,4 @@ def RecarregarTagFila(codbarras):
 
         return df_tags
     else:
-        return
+        return pd.DataFrame([{}])
