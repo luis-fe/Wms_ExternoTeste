@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6ac5a67a-d1cb-411e-87b6-370af3f089ce",
+		"_postman_id": "f3dd4f11-a198-436f-adf7-9df6781f42dd",
 		"name": "WMS_BaseInternaMPL",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27457186"
@@ -427,7 +427,63 @@
 		},
 		{
 			"name": "ReposicaoSku",
-			"item": []
+			"item": [
+				{
+					"name": "consultas",
+					"item": [
+						{
+							"name": "DetalhaCodBarras",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaCodBarras?codbarras=01000066521501000063",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaCodBarras"
+									],
+									"query": [
+										{
+											"key": "codbarras",
+											"value": "01000066521501000063"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		},
 		{
 			"name": "Pedidos",
@@ -615,7 +671,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"pedidos\":[\"310143-1\"]\r\n}"
+									"raw": "{\"pedidos\":[\"311797-1\"]\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/Prioriza",
@@ -1341,179 +1397,377 @@
 			"name": "Chamados",
 			"item": [
 				{
-					"name": "NovoChamados",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "Area",
+					"item": [
+						{
+							"name": "get_AreaChamados",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/area",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"area"
+									],
+									"query": [
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
 								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"solicitante\":\"string\",\r\n\"data_chamado\":\"string\",\r\n\"tipo_chamado\":\"string\",\r\n\"atribuido_para\":\"string\",\r\n\"descricao_chamado\":\"string\",\r\n\"status_chamado\":\"string\",\r\n\"data_finalizacao_chamado\":\"string\"\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/NovoChamado",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"NovoChamado"
-							],
-							"query": [
-								{
-									"key": "dataInicio",
-									"value": "2023-09-20",
-									"disabled": true
-								},
-								{
-									"key": "dataFim",
-									"value": "2023-09-20",
-									"disabled": true
-								}
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "EncerrarChamado",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "RegistroChamados",
+					"item": [
+						{
+							"name": "Lista Chamados",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/chamados?status=finalizado",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"chamados"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "finalizado"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"id_chamado\":2,\r\n\"data_finalizacao_chamado\":\"2023-09-23\"\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/EncerrarChamado",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"EncerrarChamado"
-							],
-							"query": [
-								{
-									"key": "dataInicio",
-									"value": "2023-09-20",
-									"disabled": true
+						{
+							"name": "NovoChamados",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "dataFim",
-									"value": "2023-09-20",
-									"disabled": true
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"solicitante\":\"string\",\r\n\"data_chamado\":\"string\",\r\n\"tipo_chamado\":\"string\",\r\n\"area\":\"Portal\",\r\n\"descricao_chamado\":\"teste \"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/NovoChamado",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"NovoChamado"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20",
+											"disabled": true
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "EncerrarChamado",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"id_chamado\":2,\r\n\"data_finalizacao_chamado\":\"2023-09-23\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/EncerrarChamado",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"EncerrarChamado"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20",
+											"disabled": true
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ImageChamado",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Lgonçalves/Desktop/icone.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/upload/1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"upload",
+										"1"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20",
+											"disabled": true
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ImageChamado",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Lgonçalves/Desktop/icone.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/imagemChamado/1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"imagemChamado",
+										"1"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20",
+											"disabled": true
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Lista Chamados",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/chamados?status=finalizado",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"chamados"
-							],
-							"query": [
-								{
-									"key": "status",
-									"value": "finalizado"
-								},
-								{
-									"key": "dataFim",
-									"value": "2023-09-20",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
