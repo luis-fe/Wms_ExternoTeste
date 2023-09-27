@@ -65,14 +65,21 @@ def Pedidos_fecha100():
                                  " where reservado = 'sim' "
                               ' group by codpedido'
                         ,conn)
-
+    totalPedido = pd.merge(totalPedido, totalPedido100, on='codigopedido', how='left')
     query = pd.merge(query,totalPedido,on='codigopedido')
-    query = pd.merge(query, totalPedido100, on='codigopedido')
+
 
     conn.close()
 
     totalPedidos = query['codigopedido'].count()
+    query['percentual'] = query['totalpc']/query['totalpc100']
+
+    Fecha100 = totalPedido[totalPedido['percentual'] == 1]
+    totalPedidos100 = Fecha100['codigopedido'].count()
+
     data = {
-        '1. Total de Pedidos no Retorna':f'{totalPedidos}'
+        '1. Total de Pedidos no Retorna':f'{totalPedidos}',
+        '2. Total de Pedidos fecham 100%': f'{totalPedidos100}'
+
     }
     return [data]
