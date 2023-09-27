@@ -1,3 +1,4 @@
+import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 
@@ -39,4 +40,9 @@ def DetalhaTag(codbarras):
                 return consulta3
 
             else:
-                return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])
+                consulta4 = ConexaoCSW.pesquisaTagCSW(codbarras)
+                if not consulta4.empty and consulta4['situacao'] == 3:
+                    return consulta4
+                else:
+
+                    return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])

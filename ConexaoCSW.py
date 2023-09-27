@@ -56,7 +56,14 @@ def VerificarConexao():
 
     return data
 
+def pesquisaTagCSW(codbarras):
+    codbarras = "'"+codbarras+"'"
+    conn = Conexao()
+    data = pd.read_sql(" select codBarrasTag , codNaturezaAtual , situacao  FROM Tcr.TagBarrasProduto p"
+                       " WHERE p.codBarrasTag = "+ codbarras , conn)
+    conn.close()
 
+    return data
 
 try:
     teste = obter_notaCsw()
