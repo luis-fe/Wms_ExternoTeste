@@ -58,11 +58,12 @@ def Pedidos_fecha100():
                         "where situacaopedido = 'No Retorna'",conn)
 
     totalPedido = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc from "Reposicao".pedidossku '
+                              ' where necessidade >0 '
                               'group by codpedido'
                         ,conn)
 
     totalPedido100 = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc100 from "Reposicao".pedidossku '
-                                 " where reservado = 'sim' "
+                                 " where reservado = 'sim' and necessidade >0"
                               ' group by codpedido'
                         ,conn)
     totalPedido = pd.merge(totalPedido, totalPedido100, on='codigopedido', how='left')
@@ -80,6 +81,7 @@ def Pedidos_fecha100():
     totalPedidos100 = Fecha100['codigopedido'].count()
 
     data = {
+        '0. Mensagem':'Essa analise só considera pecas ainda nao separadas',
         '1. Total de Pedidos no Retorna':f'{totalPedidos}',
         '2. Total de Pedidos fecham 100%': f'{totalPedidos100}'
     }
