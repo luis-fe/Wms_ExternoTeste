@@ -6,7 +6,7 @@ import numpy
 def RecarregarTagFila(codbarras):
     valor = ConexaoCSW.pesquisaTagCSW(codbarras)
 
-    if valor == valor['stauts conexao'][0]==True:
+    if valor['stauts conexao'][0]==True:
         conn = ConexaoCSW.Conexao2()
         codbarras = "'" + codbarras + "'"
 
