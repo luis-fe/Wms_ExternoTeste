@@ -16,7 +16,7 @@ def DetalhaTag(codbarras):
     conn = ConexaoPostgreMPL.conexao()
 
     consulta1 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
-                            " 'reposto', situacao "
+                            " 'reposto' as situacao "
                             'from "Reposicao".tagsreposicao_inventario  '
                             'where codbarrastag = %s ', conn, params=(codbarras,))
 
