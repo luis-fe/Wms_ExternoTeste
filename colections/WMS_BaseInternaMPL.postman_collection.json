@@ -1445,6 +1445,60 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DisponibilidadeEndereco",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/DisponibilidadeEnderecos?empresa=1&natureza=5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"DisponibilidadeEnderecos"
+							],
+							"query": [
+								{
+									"key": "empresa",
+									"value": "1"
+								},
+								{
+									"key": "natureza",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
