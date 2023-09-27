@@ -33,3 +33,21 @@ def get_RelatorioTotalFila():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+@dashboard_routes.route('/api/statuspedidos', methods=['GET'])
+@token_required
+def get_statuspedidos():
+    # Obtém os dados do corpo da requisição (JSON)
+
+    Endereco_det = dashboardModel.Pedidos_fecha100()
+    Endereco_det = pd.DataFrame(Endereco_det)
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)

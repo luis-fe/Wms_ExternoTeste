@@ -51,3 +51,28 @@ def relatorioTotalFila(empresa, natureza):
         '2.4- Percentual Reposto':f'{Percentual}%'
     }
     return [data]
+
+def Pedidos_fecha100():
+    conn = ConexaoPostgreMPL.conexao()
+    query = pd.read_sql('SELECT codigopedido from "Reposicao".filaseparacaopedidos '
+                        "where situacaopedido = 'No Retorna'",conn)
+
+    totalPedido = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc from "Reposicao".pedidossku '
+                              'group by codpedido'
+                        ,conn)
+
+    totalPedido100 = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc100 from "Reposicao".pedidossku '
+                                 " where reservado = 'sim' "
+                              ' group by codpedido'
+                        ,conn)
+
+    query = pd.merge(query,totalPedido,on='codigopedido')
+    query = pd.merge(query, totalPedido100, on='codigopedido')
+
+    conn.close()
+
+    totalPedidos = query['codigopedido'].count()
+    data = {
+        '1. Total de Pedidos no Retorna':f'{totalPedidos}'
+    }
+    return [data]
