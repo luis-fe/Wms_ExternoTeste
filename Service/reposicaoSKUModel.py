@@ -22,17 +22,21 @@ def DetalhaTag(codbarras):
 
     if not consulta1.empty:
         return consulta1
-    elif consulta1.empty:
+
+    else:
         consulta2 = pd.read_sql("Select  codbarrastag, codreduzido, descricao, codnaturezaatual  as natureza, 'na fila' as situacao "
                                 ' from "Reposicao".filareposicaoportag '
                                 'where codbarrastag = %s ', conn, params=(codbarras,))
         if not consulta2.empty:
             return consulta2
-        elif consulta2.empty:
+
+        else:
             consulta3 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
                                     " 'reposto' as situacao "
                                     'from "Reposicao".tagsreposicao_inventario  '
                                     ' where codbarrastag = %s ', conn, params=(codbarras,))
-            return consulta3
-        else:
-            return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])
+            if not consulta3.empty:
+                return consulta3
+
+            else:
+                return pd.DataFrame([{'Mensagem':'Tag nao encontrada em nenhum local'}])
