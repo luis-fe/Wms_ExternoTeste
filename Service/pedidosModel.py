@@ -347,16 +347,36 @@ def PrioridadePedido(pedidos):
     if tamanho >= 0:
         conn = ConexaoPostgreMPL.conexao()
         for i in range(tamanho):
+
             pedido = str(pedidos[i])
+            prioridade = ConsultaPrioridade(pedido)
+
+            if prioridade == 'URGENTE':
+                prioridade = '-'
+            else:
+                prioridade = 'URGENTE'
+
             pedido_x = '%'+ pedido +'%'
+
             query = 'update "Reposicao".filaseparacaopedidos ' \
                     'set prioridade = %s ' \
                     'where agrupamentopedido like %s'
             cursor = conn.cursor()
-            cursor.execute(query, ('URGENTE',pedido_x,))
+            cursor.execute(query, (prioridade,pedido_x,))
             conn.commit()
             cursor.close()
         conn.close()
         return True
     else:
         return False
+
+def ConsultaPrioridade(pedido):
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select prioridade from "Reposicao".filaseparacaopedidos '
+                           'where agrupamentopedido like %s', conn,params=(pedido,))
+    conn.close()
+
+    prioridade = consulta['prioridade'][0]
+    return prioridade
+
