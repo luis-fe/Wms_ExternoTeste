@@ -81,7 +81,7 @@ def criar_usuario():
     situacao = novo_usuario.get('situacao')
     empresa = novo_usuario.get('empresa','1')
     # inserir o novo usuário no banco de dados
-    c, n, f = usuariosModel.PesquisarUsuariosCodigo(codigo)
+    c, n, f, g = usuariosModel.PesquisarUsuariosCodigo(codigo)
     if c != 0:
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} ja existe'}), 201
     else:
