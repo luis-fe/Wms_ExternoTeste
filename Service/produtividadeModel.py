@@ -170,7 +170,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         record1 = record["qtde"][0]
         record1 = "{:,.0f}".format(record1)
-
+        pecasPedido = int(record["mediaPedidos2"][0])
+        pecasPedido = round(pecasPedido, 0)
         record1 = str(record1)
         record1 = record1.replace(',','.')
 
@@ -182,7 +183,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
             '1.1- Record qtd': f'{record1}',
             '1.2- Record data': f'{record["dataseparacao"][0]}',
             '1.3 MediaPedidos': f'{record["mediapedidos"][0]}',
-            '1.4 Media Pçs Pedido': f'{record["mediaPedidos2"][0]}\n',
+            '1.4 Media Pçs Pedido': f'{pecasPedido}',
             '2 Total Periodo': f'{total}',
             '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
