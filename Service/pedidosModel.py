@@ -379,7 +379,7 @@ def ConsultaPrioridade(pedido):
     pedido_x = '%' + pedido + '%'
 
     consulta = pd.read_sql('select prioridade from "Reposicao".filaseparacaopedidos '
-                           'where agrupamentopedido like %s', conn,params=(pedido,))
+                           'where agrupamentopedido like %s', conn,params=(pedido_x,))
     conn.close()
 
     prioridade = consulta['prioridade'][0]
