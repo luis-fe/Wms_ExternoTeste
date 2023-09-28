@@ -83,6 +83,7 @@ def Pedidos_fecha100():
     data = {
         '0. Mensagem':'Essa analise só considera pecas ainda nao separadas',
         '1. Total de Pedidos no Retorna':f'{totalPedidos}',
-        '2. Total de Pedidos fecham 100%': f'{totalPedidos100}'
+        '2. Total de Pedidos fecham 100%': f'{totalPedidos100}',
+        '2.1 lista de Pedidos': query.to_dict(orient='records')
     }
     return [data]
