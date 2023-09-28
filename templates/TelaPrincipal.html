@@ -5,43 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PORTAL PCP</title>
     <link rel="stylesheet" href="/static/css/TelaPrincipal.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.0.0/dist/progressbar.min.js"></script>
 </head>
 <body>
     <div class="Titulo">
         <a href="TelaPrincipal.html">
-        <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
+            <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
         </a>
         <h1>WMS GERENCIAL</h1>
     </div>
     <div class="Corpo">
         <nav class="Menu">
             <ul>
-                <li><a href="/home">Home</a></li>
+                <li><a href="TelaPrincipal.html">Home</a></li>
                 <li><a href="#">Configurações</a>
                     <ul>
-                        <li><a href="/Usuarios">Gerenciamento de Usuários</a></li>
-                        <li><a href="/Chamados">Gerenciamento de Chamados</a></li>
+                        <li><a href="Usuarios.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="TelaChamados.html">Gerenciamento de Chamados</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Relatórios</a>
                     <ul>
-                        <li><a href="/Reposicao">Fila de Reposição</a></li>
-                        <li><a href="/Distribuicao">Distribuição de Pedidos</a></li>
-                        <li><a href="/Enderecos">Cadastro de Endereços</a></li>
+                        <li><a href="TelaFilaReposicao.html">Fila de Reposição</a></li>
+                        <li><a href="index.html">Distribuição de Pedidos</a></li>
+                        <li><a href="TelaEnderecos.html">Cadastro de Endereços</a></li>
                     </ul>
                 </li>
-
             </ul>
-            
         </nav>
-    </div>  
+    </div> 
 
+    <div class="TituloProgramaPrincipal">
+        <h2>Indicadores</h2>
+    </div>
 
-    <script>
-        const nomeUsuario = localStorage.getItem('nomeUsuario');
-       document.getElementById("NomeUsuario").textContent = nomeUsuario
-    </script>
+    <div class="Gerenciamento" style="display: none;">
+        <div class="Indicador">
+            <h3>Taxa de Peças Repostas</h3>
+            <div id="medidorReposicao"></div>
+
+            <div class="Legenda">
+                <div class="MetaReposicao">
+                    <button style="background-color: rgb(93, 140, 233);"></button>
+                    <label for="text">Peças Natureza:</label>
+                    <label id="PecasReposicaoTotal" for="text"></label>
+                </div>
+                <div class="PecasRepostas">
+                    <button style="background-color: rgb(17, 45, 126);"></button>
+                    <label for="text">Peças Repostas:</label>
+                    <label id="FilaReposta" for="text"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="Indicador">
+            <h3>Taxa de Peças disponíveis para Separação</h3>
+            <div id="medidorSeparacao"></div>
+            <div class="Legenda">
+                <div class="MetaPecas">
+                    <button style="background-color: rgb(93, 140, 233);"></button>
+                    <label for="text">Peças No Retorna:</label>
+                    <label id="PecasRetorna" for="text"></label>
+                </div>
+                <div class="PecasRealizadas">
+                    <button style="background-color: rgb(17, 45, 126);"></button>
+                    <label for="text">Peças Repostas:</label>
+                    <label id="PecasRepostas" for="text"></label>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    
+    <div class="Gerenciamento" style="display: none;">
+        <div class="Indicador">
+            <h3>Taxa de Ocupação de Endereços</h3>
+            <div id="medidorEnderecos"></div>
+            <div class="Legenda">
+                <div class="MetaEnderecos">
+                    <button style="background-color: rgb(93, 140, 233);"></button>
+                    <label for="text">Endereços Cadastrados:</label>
+                    <label id="EnderecosCadastrados" for="text"></label>
+                </div>
+                <div class="EnderecosRealizados">
+                    <button style="background-color: rgb(17, 45, 126);"></button>
+                    <label for="text">Endereços Utilizados:</label>
+                    <label id="EnderecosUtilizados" for="text"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="Indicador">
+            <h3>Taxa de Pedidos 100%</h3>
+            <div id="medidorPedidos"></div>
+            <div class="Legenda">
+                <div class="TotalPedidosRetorna">
+                    <button style="background-color: rgb(93, 140, 233);"></button>
+                    <label for="text">Total de Pedidos:</label>
+                    <label id="PedidosRetorna" for="text"></label>
+                </div>
+                <div class="PedidosCompleto">
+                    <button style="background-color: rgb(17, 45, 126);"></button>
+                    <label for="text">Pedidos 100%:</label>
+                    <label id="TotalPedidosCompletos" for="text"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/TelaPrincipal.js"></script>
 </body>
 </html>
