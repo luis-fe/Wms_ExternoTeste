@@ -182,8 +182,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
             '1- Record Repositor': f'{record["nome"][0]}',
             '1.1- Record qtd': f'{record1}',
             '1.2- Record data': f'{record["dataseparacao"][0]}',
-            '1.3 MediaPedidos': f'{record["mediapedidos"][0]}',
-            '1.4 Media Pçs Pedido': f'{pecasPedido}',
+            '1.3 Media Pçs Pedido': f'{pecasPedido}',
             '2 Total Periodo': f'{total}',
             '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
