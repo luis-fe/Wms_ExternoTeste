@@ -375,7 +375,8 @@ def PrioridadePedido(pedidos):
 def ConsultaPrioridade(pedido):
     conn = ConexaoPostgreMPL.conexao()
 
-    pedido = "'%"+pedido+"%'"
+
+    pedido_x = '%' + pedido + '%'
 
     consulta = pd.read_sql('select prioridade from "Reposicao".filaseparacaopedidos '
                            'where agrupamentopedido like %s', conn,params=(pedido,))
