@@ -1,32 +1,32 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
 @media screen and (min-width: 1px) and (max-width: 870px) {
-    
     .Titulo h1 {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        }
+    }
 
+    .Corpo {
+        margin-top: 5%;
+    }
 }
 
-:root{
-    --cor1 : rgb(255, 255, 255);
-    --cor2 : rgb(17, 45, 126);
-    --cor3 : rgb(93, 140, 233);
-    --cor4 : #fff
+:root {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
 }
 
-body{
+body {
     background-color: var(--cor1);
     font-family: Arial, Helvetica, sans-serif;
-    
 }
 
-    
 .Titulo {
     display: flex;
     justify-content: center;
@@ -35,22 +35,26 @@ body{
     margin: 0 auto;
     padding: 20px;
     color: rgb(17, 45, 126);
-    }
-    
-    .Titulo img {
-    margin-right: 50PX;
-    background-size: 10%;
-    }
+}
 
-.Titulo h1{
+.Titulo img {
+    margin-right: 50px;
+    background-size: 10%;
+}
+
+.Titulo h1 {
     margin-top: 25px;
 }
 
-.Menu ul{
+.Corpo {
+    margin-bottom: 1%;
+}
+
+.Menu ul {
     font-size: 15px;
 }
 
-.Menu ul{
+.Menu ul {
     background-color: var(--cor2);
     margin-top: 0;
 }
@@ -60,52 +64,226 @@ body{
     position: relative;
 }
 
-.Menu ul li a{
+.Menu ul li a {
     color: var(--cor4);
     text-decoration: none;
     padding: 10px;
     display: inline-block;
 }
 
-.Menu ul li a:hover{
+.Menu ul li a:hover {
     background-color: var(--cor3);
-}   
+}
 
-
-
-/* SUB MENU*/
-
+/* SUB MENU */
 .Menu ul ul {
     display: none;
     left: 0;
     position: absolute;
     background-color: var(--cor3);
-    z-index: 1000; /* Defina um valor alto aqui */
+    z-index: 1000;
 }
 
 .Menu ul li:hover ul {
     display: block;
     background-color: var(--cor2);
-    
 }
 
 .Menu ul ul {
     width: 250px;
-    
 }
-
 
 .Menu ul ul li a {
     display: flex;
     color: var(--cor4);
     justify-content: left;
-   
 }
 
 .Rodape {
     width: 100%;
-    background-color: var(--cor1); /* Cor de fundo do footer, ajuste conforme necessário */
+    background-color: var(--cor1);
     text-align: center;
-  }
+}
 
+.Gerenciamento {
+    display: flex;
+    justify-content: space-between;
+    
+}
 
+.Indicador {
+    width: 50%;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 5px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.Legenda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Estilo para os títulos acima dos indicadores */
+.TituloIndicador {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(17, 45, 126);
+}
+
+/* Estilo para as divs Reposicao e Separacao */
+.Reposicao,
+.Separacao,
+.Enderecos,
+.PedidosCompletos {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    margin-top: 20px;
+}
+
+/* Estilo para os medidores dentro de Reposicao e Separacao */
+#medidorReposicao,
+#medidorSeparacao,
+#medidorEnderecos,
+#medidorPedidos {
+    width: 35%;
+    position: relative;
+    max-width: 35%;
+    margin-left: 32%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para as etiquetas (labels) dos indicadores */
+.Reposicao label,
+.Separacao label,
+.Enderecos label,
+.PedidosCompletos label {
+    font-size: 2vh;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Estilo para as informações de legenda */
+.MetaReposicao,
+.PecasRepostas,
+.MetaPecas,
+.PecasRealizadas,
+.MetaEnderecos,
+.EnderecosRealizados,
+.TotalPedidosRetorna,
+.PedidosCompleto {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para os botões de cor nas informações de legenda */
+.MetaReposicao button,
+.PecasRepostas button,
+.MetaPecas button,
+.PecasRealizadas button,
+.MetaEnderecos button,
+.EnderecosRealizados button,
+.TotalPedidosRetorna button,
+.PedidosCompleto button {
+    background-size: 10%;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Estilo para as etiquetas (labels) nas informações de legenda */
+.MetaReposicao label,
+.PecasRepostas label,
+.MetaPecas label,
+.PecasRealizadas label,
+.MetaEnderecos label,
+.EnderecosRealizados label,
+.TotalPedidosRetorna label,
+.PedidosCompleto label {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Outros estilos permanecem os mesmos */
+
+.TituloProgramaPrincipal {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    background-color: rgb(17, 45, 126);
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 2px solid rgb(17, 45, 126);
+    border-radius: 10px;
+    max-height: 45px;
+}
+
+h2 {
+    margin-top: 5px;
+    color: white;
+    font-size: 25px;
+    font-family: Cambria;
+}
+
+/* Media query para tamanho de fonte máximo */
+@media screen and (max-width: 870px) {
+    .Gerenciamento {
+        display: inline-block;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Estilo para as divs Reposicao e Separacao */
+    .Reposicao,
+    .Separacao,
+    .Enderecos,
+    .PedidosCompletos {
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        text-align: center;
+        height: auto;
+        width: 100%;
+    }
+
+    /* Estilo para os medidores dentro de Reposicao e Separacao */
+    #medidorReposicao,
+    #medidorSeparacao,
+    #medidorPedidos {
+        width: 35%;
+        position: relative;
+        max-width: 35%;
+    }
+
+    #medidorEnderecos {
+        width: 45%;
+        position: relative;
+        max-width: 45%;
+    }
+
+    .Reposicao label,
+    .Separacao label,
+    .Enderecos label,
+    .PedidosCompletos label {
+        font-size: 2vh;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+}
