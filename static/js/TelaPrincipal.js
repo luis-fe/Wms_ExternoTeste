@@ -46,10 +46,10 @@ async function ChamadaApi(api, callback) {
             PecasFila = data[0]["1.2-Saldo na Fila"];
             PecasFila = PecasFila.replace(/\./, '');
             PecasFila = PecasFila.replace(/\ pçs/, '');
-            PecasRetorna.textContent = MetaApi;
-            PecasRepostas.textContent = RealizadoApi;
-            PecasFase1.textContent = PecasFase;
-            PecasRepostas1.textContent = PecasRepostasApi;
+            PecasRetorna.textContent = parseInt(MetaApi).toLocaleString('pt-BR');
+            PecasRepostas.textContent = parseInt(RealizadoApi).toLocaleString('pt-BR');
+            PecasFase1.textContent = parseInt(PecasFase).toLocaleString('pt-BR');
+            PecasRepostas1.textContent = parseInt(PecasRepostasApi).toLocaleString('pt-BR');
             console.log(MetaApi)
             console.log(RealizadoApi)
 
@@ -87,8 +87,8 @@ async function ChamadaApiEnderecos(api,Empresa, Natureza) {
             EnderecosUtilizados = data[0]["2- Total de Enderecos Disponiveis"];
             EnderecosUtilizados = EnderecosUtilizados.replace(/\./, '');
             EnderecosUtilizados = EnderecosTotais - EnderecosUtilizados;
-            EnderecosTotal.textContent = EnderecosTotais;
-            EnderecosUtilizado.textContent = EnderecosUtilizados;
+            EnderecosTotal.textContent = parseInt(EnderecosTotais).toLocaleString('pt-BR');
+            EnderecosUtilizado.textContent = parseInt(EnderecosUtilizados).toLocaleString('pt-BR');
             console.log(MetaApi)
             console.log(RealizadoApi)
         } else {
@@ -115,8 +115,8 @@ async function ChamadaApiPedidos(api) {
             PedidosRetorna = PedidosRetorna.replace(/\./, '');
             PedidosCompletos = data[0]["2. Total de Pedidos fecham 100%"];
             PedidosCompletos = PedidosCompletos.replace(/\./, '');
-            PedidoCompleto.textContent = PedidosCompletos;
-            PedidoRetorna.textContent = PedidosRetorna;
+            PedidoCompleto.textContent = parseInt(PedidosCompletos).toLocaleString('pt-BR');
+            PedidoRetorna.textContent = parseInt(PedidosRetorna).toLocaleString('pt-BR');
         } else {
             throw new Error('Erro No Retorno');
         }
