@@ -162,8 +162,10 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
                              " where tempo < '17:31:00'"
                              ' group by usuario, dataseparacao', conn)
 
+
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
+        record['mediaPedidos2'] = record["qtde"]/record["mediapedidos"]
         TagReposicao['qtde'] = TagReposicao['qtde'].astype(str)
         TagReposicao['qtde'] = TagReposicao['qtde'].str.replace(',', '.')
         record1 = record["qtde"][0]
@@ -180,6 +182,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
             '1.1- Record qtd': f'{record1}',
             '1.2- Record data': f'{record["dataseparacao"][0]}',
             '1.3 MediaPedidos': f'{record["mediapedidos"][0]}',
+            '1.4 Media Pçs Pedido': f'{record["mediaPedidos2"][0]}\n',
             '2 Total Periodo': f'{total}',
             '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
