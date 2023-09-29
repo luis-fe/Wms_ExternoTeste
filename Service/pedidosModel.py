@@ -165,6 +165,8 @@ def DetalhaPedido(codPedido):
     DetalhaSku['qtdrealizado'] = DetalhaSku['qtdrealizado'].astype(int)
     DetalhaSku['concluido_X_total'] = DetalhaSku['qtdrealizado'].astype(str) +'/'+DetalhaSku['qtdesugerida'].astype(str)
     DetalhaSku = DetalhaSku.drop_duplicates()
+    DetalhaSku.fillna('nao localizado', inplace=True)
+
 
     finalizacaoPedidoModel.VerificarExisteApontamento(codPedido, skus['usuario'][0])
 
