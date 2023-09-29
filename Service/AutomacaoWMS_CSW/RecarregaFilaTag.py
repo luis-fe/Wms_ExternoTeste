@@ -60,3 +60,31 @@ def LerEPC(codbarras):
     conn.close()
 
     return consulta
+
+
+def InserirTagAvulsa(codbarras, codnaturezaatual, engenharia, codreduzido, descricao,
+                     numeroop, cor , tamanho, epc, DataHora, totalop, codempresa):
+    conn = ConexaoCSW.Conexao()
+
+    insert = 'insert into "Reposicao".filareposicaoportag f ' \
+             '(codbarras, codnaturezaatual, engenharia, codreduzido, descricao, numeroop, cor , tamanho, epc, DataHora, totalop, codempresa) ' \
+             'values ' \
+             '(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
+
+    cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+    cursor.execute(insert, (
+    codbarras, codnaturezaatual, engenharia, codreduzido, descricao, numeroop, cor, tamanho, epc, DataHora, totalop,
+    codempresa))
+    conn.commit()  # Faça o commit da transação
+    cursor.close()  # Feche o cursor
+
+    conn.close()  # Feche a conexão com o banco de dados
+
+
+
+
+    conn.close()
+    return pd.DataFrame([{'Mensagem': 'A Tag Foi inserida no WMS'}])
+
+
+
