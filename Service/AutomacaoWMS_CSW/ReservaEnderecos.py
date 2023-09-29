@@ -54,7 +54,7 @@ def LimparReservaPedido(pedido):
                         " where codpedido = %s")
 
     cursor = conn.cursor()
-    cursor.execute(queue,(pedido))
+    cursor.execute(queue,(pedido,))
     conn.commit()
 
     conn.close()
