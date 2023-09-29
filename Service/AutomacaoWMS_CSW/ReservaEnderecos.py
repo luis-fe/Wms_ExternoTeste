@@ -62,7 +62,7 @@ def AtribuirReserva(pedido, natureza):
                         "where necessidade > 0 and codpedido = %s ",conn,params=(pedido,))
 
     enderecosSku = pd.read_sql(
-        ' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
+        ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
         ' where  natureza = %s  order by "SaldoLiquid" asc', conn, params=(natureza,))
 
     enderecosSku = pd.merge(enderecosSku,queue, on= 'produto')
