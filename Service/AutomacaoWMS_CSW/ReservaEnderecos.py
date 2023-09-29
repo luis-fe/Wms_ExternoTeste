@@ -51,7 +51,7 @@ def LimparReservaPedido(pedido):
     # Acessando os pedidos com enderecos reservados
     queue = pd.read_sql('update "Reposicao".pedidossku '
                         " set reservado = 'nao', endereco = 'Não Reposto' "
-                        " where codpedido = %s",conn, params=(pedido))
+                        " where codpedido = %s")
 
     cursor = conn.cursor()
     cursor.execute(queue,(pedido))
