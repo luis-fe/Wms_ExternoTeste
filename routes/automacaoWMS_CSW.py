@@ -36,7 +36,7 @@ def RecarregarCodBarras():
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
 
-@AutomacaoWMS_CSW_routes.route('/api/EstornarReservasEnderecos', methods=['GET'])
+@AutomacaoWMS_CSW_routes.route('/api/EstornarReservasEnderecos', methods=['PUT'])
 @token_required
 def EstornarReservasEnderecos():
 
@@ -55,3 +55,25 @@ def EstornarReservasEnderecos():
             pedidos_dict[column_name] = row[column_name]
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
+
+@AutomacaoWMS_CSW_routes.route('/api/AtribuirReservaPedido', methods=['GET'])
+@token_required
+def AtribuirReservaPedido():
+    codpedido = request.args.get('codpedido')
+    natureza = request.args.get('natureza')
+
+    TagReposicao = ReservaEnderecos.AtribuirReserva(codpedido, natureza)
+
+
+
+    # Obtém os nomes das colunas
+    column_names = TagReposicao.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in TagReposicao.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
+

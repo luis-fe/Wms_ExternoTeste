@@ -2,7 +2,7 @@ import pandas as pd
 import ConexaoPostgreMPL
 from psycopg2 import sql
 
-# Passo 1 : Criei uma View no banco de dados para mostrar o saldo reservado no nivel: sku, endereço
+
 
 
 def EstornarReservasNaoAtribuidas():
@@ -25,7 +25,7 @@ def EstornarReservasNaoAtribuidas():
     # Construir a consulta DELETE usando a cláusula WHERE com os valores do DataFrame
 
     query = sql.SQL('UPDATE  "Reposicao"."pedidossku" '
-                    "SET reservado = 'nao' "
+                    "set reservado = 'nao', endereco = 'Não Reposto' "
                     'WHERE codpedido IN ({})').format(
         sql.SQL(',').join(map(sql.Literal, lista))
     )
@@ -40,3 +40,38 @@ def EstornarReservasNaoAtribuidas():
     conn.close()
 
     return pd.DataFrame([{'Mensagem': f'foram estornado a reserva de {tamanho} endereços'}])
+def LimparReservaPedido(pedido):
+    conn = ConexaoPostgreMPL.conexao()
+    # Acessando os pedidos com enderecos reservados
+    queue = pd.read_sql('update "Reposicao".pedidossku '
+                        " set reservado = 'nao', endereco = 'Não Reposto' "
+                        " where codpedido = %s",conn, params=(pedido))
+
+    cursor = conn.cursor()
+    cursor.execute(queue,(pedido))
+    conn.commit()
+
+    conn.close()
+    return pd.DataFrame([{'Mensagem': f'As reservas para o pedido {pedido} foram limpadas'}])
+
+def AtribuirReserva(pedido, natureza):
+    conn = ConexaoPostgreMPL.conexao()
+    # Passo 1 :  obter os skus do pedido
+
+    queue = pd.read_sql('select produto from "Reposicao".pedidossku '
+                        "where necessidade > 0 and codpedido = %s ",conn,params=(pedido,))
+
+    enderecosSku = pd.read_sql(
+        ' select  codreduzido, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
+        ' where  natureza = %s  order by "SaldoLiquid" asc', conn, params=(natureza,))
+
+    enderecosSku = pd.merge(enderecosSku,queue, on= 'produto')
+
+
+
+    conn.close()
+    return enderecosSku
+
+
+
+
