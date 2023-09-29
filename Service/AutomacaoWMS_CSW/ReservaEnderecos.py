@@ -49,9 +49,9 @@ def EstornarReservasNaoAtribuidas():
 def LimparReservaPedido(pedido):
     conn = ConexaoPostgreMPL.conexao()
     # Acessando os pedidos com enderecos reservados
-    queue = pd.read_sql('update "Reposicao".pedidossku '
-                        " set reservado = 'nao', endereco = 'Não Reposto' "
-                        " where codpedido = %s")
+    queue = 'update "Reposicao".pedidossku '\
+                        " set reservado = 'nao', endereco = 'Não Reposto' "\
+                        " where codpedido = %s"
 
     cursor = conn.cursor()
     cursor.execute(queue,(pedido,))
