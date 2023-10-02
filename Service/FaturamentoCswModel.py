@@ -40,11 +40,11 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna.sum()
-        retorna = "{:,.2f}".format(retorna)
-        retorna = 'R$ ' + str(retorna)
-        retorna = retorna.replace('.', ";")
-        retorna = retorna.replace(',',".")
-        retorna = retorna.replace(';', ",")
+      #  retorna = "{:,.2f}".format(retorna)
+       # retorna = 'R$ ' + str(retorna)
+        #retorna = retorna.replace('.', ";")
+        #retorna = retorna.replace(',',".")
+        #retorna = retorna.replace(';', ",")
 
         conn.close()
         dataframe['tiponota'] = dataframe['tiponota'].astype(str)
