@@ -80,7 +80,7 @@ def AtribuirReserva(pedido, natureza):
     # Calculando a necessidade de cada endereco
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
-    for i in range(0):
+    for i in range(3):
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
 
         tamanho = pedidoskuIteracao['produto'].size
@@ -164,7 +164,6 @@ def AtribuirReserva(pedido, natureza):
             else:
                 encerra = i
     datahora = obterHoraAtual()
-    print(f'{total} atualizacoes realizadas, as {datahora}')
     return pd.DataFrame([{'Mensagem': f'foram reservados  {total} pçs e incrementado {inseridosDuplos}'}])
 
 
