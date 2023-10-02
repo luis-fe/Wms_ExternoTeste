@@ -28,7 +28,8 @@ def Faturamento(empresa, dataInicio, dataFim):
     try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
-        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado  FROM Fat.NotaFiscal n '
+        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado,'
+                                'sum(i.qtdeSugerida) as pcs   FROM Fat.NotaFiscal n '
                                 'where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+"'"+dataInicio+"'"+' '
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
@@ -41,6 +42,7 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna['vlrSugestao'].sum()
+        pçs = retorna['pcs'].sum()
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
         retorna = retorna.replace('.', ";")
@@ -58,7 +60,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}'}])
+        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pçs}'}])
     except:
         return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
