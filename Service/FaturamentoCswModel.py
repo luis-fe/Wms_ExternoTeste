@@ -40,7 +40,7 @@ def Faturamento(empresa, dataInicio, dataFim):
                             " group by i.codPedido, e.vlrSugestao ", conn )
 
         retorna = retorna[retorna['conf']==0]
-        retorna = retorna.sum()
+        retorna = retorna['vlrSugestao'].sum()
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
         retorna = retorna.replace('.', ";")
