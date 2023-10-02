@@ -32,6 +32,20 @@ def Faturamento(empresa, dataInicio, dataFim):
                                 'where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+"'"+dataInicio+"'"+' '
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
+
+        retorna = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf  FROM ped.SugestaoPed e"
+" inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
+' WHERE e.codEmpresa '+empresa+ "  and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
+" group by i.codPedido, e.vlrSugestao ", conn )
+
+        retorna = retorna[retorna['conf']==0]
+        retorna = retorna.sum()
+        retorna = "{:,.2f}".format(retorna)
+        retorna = 'R$ ' + str(retorna)
+        retorna = retorna.replace('.', ";")
+        retorna = retorna.replace(',',".")
+        retorna = retorna.replace(';', ",")
+
         conn.close()
         dataframe['tiponota'] = dataframe['tiponota'].astype(str)
         dataframe = pd.merge(dataframe,tipo_nota,on="tiponota")
@@ -43,7 +57,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':[faturado]}])
+        return pd.DataFrame([{'Total Faturado':[faturado],'No Retorna':[retorna]}])
     except:
         return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
