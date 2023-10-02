@@ -42,7 +42,7 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna['vlrSugestao'].sum()
-        pecas = retorna['pcs'].sum()
+        #pecas = retorna['pcs'].sum()
 
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
