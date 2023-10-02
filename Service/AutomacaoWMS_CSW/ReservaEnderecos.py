@@ -68,7 +68,7 @@ def AtribuirReserva(pedido, natureza):
     # Passo 1 :  obter os skus do pedido
     LimparReservaPedido(pedido)
 
-    queue = pd.read_sql('select produto, necessidade from "Reposicao".pedidossku '
+    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
                         "where necessidade > 0 and codpedido = %s ",conn,params=(pedido,))
 
     enderecosSku = pd.read_sql(
