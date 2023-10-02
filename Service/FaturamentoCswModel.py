@@ -34,10 +34,10 @@ def Faturamento(empresa, dataInicio, dataFim):
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
 
         retorna = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf  FROM ped.SugestaoPed e"
-" inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
-' WHERE e.codEmpresa '+"'"+empresa+"'"
+                                " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
+                                ' WHERE e.codEmpresa '+"'"+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
-" group by i.codPedido, e.vlrSugestao ", conn )
+                            " group by i.codPedido, e.vlrSugestao ", conn )
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna.sum()
