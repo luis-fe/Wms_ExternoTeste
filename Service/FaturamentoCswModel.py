@@ -58,7 +58,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':[faturado],'No Retorna':[retorna]}])
+        return pd.DataFrame([{'Total Faturado':faturado,'No Retorna':retorna}])
     except:
         return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
