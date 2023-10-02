@@ -45,6 +45,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         pecas = retornaCsw['qtde'].sum()
 
         pecas = "{:,.0f}".format(pecas)
+        pecas = pecas.replace(',', ".")
 
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
@@ -63,7 +64,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas}'}])
+        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
    # except:
     #    return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
