@@ -65,7 +65,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
         if detalhar == False:
-         return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
+            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
         else:
             return retornaCsw
     except:
