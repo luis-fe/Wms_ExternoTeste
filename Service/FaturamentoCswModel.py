@@ -25,7 +25,7 @@ def obter_notaCsw():
 
 def Faturamento(empresa, dataInicio, dataFim):
 
-    #try:
+    try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
         dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
@@ -34,7 +34,7 @@ def Faturamento(empresa, dataInicio, dataFim):
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
 
-        retorna = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as pcs  FROM ped.SugestaoPed e "
+        retorna = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde  FROM ped.SugestaoPed e "
                                 " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
                                 ' WHERE e.codEmpresa ='+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
@@ -42,7 +42,7 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna['vlrSugestao'].sum()
-        pecas = retorna['pcs'].sum()
+        pecas = retorna['qtde'].sum()
 
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
@@ -62,8 +62,8 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
         return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas}'}])
-   # except:
-    #    return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
+    except:
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
 
 
