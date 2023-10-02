@@ -23,9 +23,9 @@ def obter_notaCsw():
     return data
 
 
-def Faturamento(empresa, dataInicio, dataFim):
+def Faturamento(empresa, dataInicio, dataFim, detalhar = False):
 
-   # try:
+    try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
         dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
@@ -34,15 +34,15 @@ def Faturamento(empresa, dataInicio, dataFim):
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
 
-        retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) - sum(i.qtdePecasConf) as qtde  FROM ped.SugestaoPed e "
+        retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde  FROM ped.SugestaoPed e "
                                 " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
                                 ' WHERE e.codEmpresa ='+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
                             " group by i.codPedido, e.vlrSugestao ", conn )
 
-        retornaCsw = retornaCsw[retornaCsw['conf']==0]
-        retorna = retornaCsw['vlrSugestao'].sum()
-        pecas = retornaCsw['qtde'].sum()
+        retornaCsw2 = retornaCsw[retornaCsw['conf']==0]
+        retorna = retornaCsw2['vlrSugestao'].sum()
+        pecas = retornaCsw2['qtde'].sum()
 
         pecas = "{:,.0f}".format(pecas)
         pecas = pecas.replace(',', ".")
@@ -64,9 +64,12 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
-   # except:
-    #    return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
+        if detalhar == False:
+         return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
+        else:
+            return retornaCsw
+    except:
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
 
 
