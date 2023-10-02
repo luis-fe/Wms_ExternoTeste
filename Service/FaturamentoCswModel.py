@@ -35,7 +35,7 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf  FROM ped.SugestaoPed e"
                                 " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
-                                ' WHERE e.codEmpresa '+"'"+empresa+
+                                ' WHERE e.codEmpresa '+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
                             " group by i.codPedido, e.vlrSugestao ", conn )
 
