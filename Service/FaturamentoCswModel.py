@@ -42,8 +42,8 @@ def Faturamento(empresa, dataInicio, dataFim):
 
         retorna = retorna[retorna['conf']==0]
         retorna = retorna['vlrSugestao'].sum()
-        pçs = retorna['pcs'].sum()
-        pçs = "{:,.2f}".format(pçs)
+        pecas = retorna['pcs'].sum()
+        pecas = "{:,.2f}".format(pecas)
 
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
@@ -62,7 +62,7 @@ def Faturamento(empresa, dataInicio, dataFim):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
-        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pçs}'}])
+        return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas}'}])
     except:
         return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
