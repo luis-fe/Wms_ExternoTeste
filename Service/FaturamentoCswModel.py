@@ -44,6 +44,8 @@ def Faturamento(empresa, dataInicio, dataFim):
         retorna = retornaCsw['vlrSugestao'].sum()
         pecas = retornaCsw['qtde'].sum()
 
+        pecas = "{:,.0f}".format(pecas)
+
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
         retorna = retorna.replace('.', ";")
