@@ -77,6 +77,8 @@ def Pedidos_fecha100():
 
     Fecha100 = query[query['percentual'] == 1]
     query.drop_duplicates(subset='codigopedido', inplace=True)
+    query.fillna('-', inplace=True)
+
 
     totalPedidos100 = Fecha100['codigopedido'].count()
 
