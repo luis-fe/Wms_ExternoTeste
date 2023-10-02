@@ -23,7 +23,7 @@ def obter_notaCsw():
     return data
 
 
-def Faturamento(empresa, dataInicio, dataFim, detalhar = False):
+def Faturamento(empresa, dataInicio, dataFim, detalhar):
 
     try:
         tipo_nota = ObterTipoNota(empresa)
