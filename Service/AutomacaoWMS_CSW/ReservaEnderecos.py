@@ -147,7 +147,7 @@ def AtribuirReserva(pedido, natureza):
 
                     # Filtrar e atualizar os valores "a" para "aa"
                     pedidoskuIteracao.loc[(pedidoskuIteracao['codendereco2'] == endereco) &
-                                          (pedidoskuIteracao['codreduzido'] == produto), 'SaldoLiquid'] = 0
+                                          (pedidoskuIteracao['produto'] == produto), 'SaldoLiquid'] = 0
                     cursor = conn.cursor()
 
                     # Executar a atualização na tabela "Reposicao.pedidossku"
