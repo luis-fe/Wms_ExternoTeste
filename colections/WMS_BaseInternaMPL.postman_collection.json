@@ -726,7 +726,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"pedidos\":[\"311797-1\"]\r\n}"
+									"raw": "{\"pedidos\":[\"307816-2\"]\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/Prioriza",
@@ -741,6 +741,65 @@
 									"path": [
 										"api",
 										"Prioriza"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DistribuicaoPedidos",
+					"item": []
+				},
+				{
+					"name": "Consultas",
+					"item": [
+						{
+							"name": "DetalharPedido",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalharPedido?codPedido=312607-1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalharPedido"
+									],
+									"query": [
+										{
+											"key": "codPedido",
+											"value": "312607-1"
+										}
 									]
 								}
 							},
@@ -780,7 +839,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://192.168.0.183:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-25&DataFinal=2023-09-25",
+							"raw": "http://192.168.0.183:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-29&DataFinal=2023-09-29",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -797,11 +856,11 @@
 							"query": [
 								{
 									"key": "DataInicial",
-									"value": "2023-09-25"
+									"value": "2023-09-29"
 								},
 								{
 									"key": "DataFinal",
-									"value": "2023-09-25"
+									"value": "2023-09-29"
 								}
 							]
 						}
@@ -1209,185 +1268,6 @@
 			]
 		},
 		{
-			"name": "ConexaoCSW",
-			"item": [
-				{
-					"name": "faturamento",
-					"item": [
-						{
-							"name": "Faturamento",
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "a40016aabcx9",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-20&dataFim=2023-09-20",
-									"protocol": "http",
-									"host": [
-										"192",
-										"168",
-										"0",
-										"183"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"Faturamento"
-									],
-									"query": [
-										{
-											"key": "empresa",
-											"value": "1"
-										},
-										{
-											"key": "dataInicio",
-											"value": "2023-09-20"
-										},
-										{
-											"key": "dataFim",
-											"value": "2023-09-20"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "ObterNotasCsw",
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "a40016aabcx9",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://192.168.0.183:5000/api/ObterNotasCsw?empresa=1",
-									"protocol": "http",
-									"host": [
-										"192",
-										"168",
-										"0",
-										"183"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"ObterNotasCsw"
-									],
-									"query": [
-										{
-											"key": "empresa",
-											"value": "1"
-										},
-										{
-											"key": "dataFim",
-											"value": "2023-09-20",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "TesteConectividade",
-					"item": [
-						{
-							"name": "TesteConexao",
-							"request": {
-								"auth": {
-									"type": "apikey",
-									"apikey": [
-										{
-											"key": "value",
-											"value": "a40016aabcx9",
-											"type": "string"
-										},
-										{
-											"key": "key",
-											"value": "Authorization",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://192.168.0.183:5000/api/TesteConexao",
-									"protocol": "http",
-									"host": [
-										"192",
-										"168",
-										"0",
-										"183"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"TesteConexao"
-									],
-									"query": [
-										{
-											"key": "dataFim",
-											"value": "2023-09-20",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "dashboard",
 			"item": [
 				{
@@ -1539,6 +1419,64 @@
 							"path": [
 								"api",
 								"statuspedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Faturamento",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-01&dataFim=2023-09-29",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Faturamento"
+							],
+							"query": [
+								{
+									"key": "empresa",
+									"value": "1"
+								},
+								{
+									"key": "dataInicio",
+									"value": "2023-09-01"
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-29"
+								}
 							]
 						}
 					},
@@ -1920,6 +1858,510 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "ConexaoCSW_WMS",
+			"item": [
+				{
+					"name": "TesteConectividade",
+					"item": [
+						{
+							"name": "TesteConexao",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/TesteConexao",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"TesteConexao"
+									],
+									"query": [
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "faturamento",
+					"item": [
+						{
+							"name": "Faturamento",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-20&dataFim=2023-09-20",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Faturamento"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Faturamento c/retorna detalhado",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-20&dataFim=2023-09-20&detalhar=True",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Faturamento"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20"
+										},
+										{
+											"key": "detalhar",
+											"value": "True"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObterNotasCsw",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ObterNotasCsw?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ObterNotasCsw"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RecarregarTagFila",
+					"item": [
+						{
+							"name": "RecarregarCodBarras",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RecarregarCodBarras?codBarrasTag=01000066521501000063",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RecarregarCodBarras"
+									],
+									"query": [
+										{
+											"key": "codBarrasTag",
+											"value": "01000066521501000063"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RegarregarPedidos",
+					"item": [
+						{
+							"name": "RecarregarPedidos",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RecarregarPedidos?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RecarregarPedidos"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ExclusaoPedidosFat",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ExclusaoPedidosFat?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ExclusaoPedidosFat"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ReservarEnderecos",
+			"item": [
+				{
+					"name": "AtribuirReservaPedido",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/AtribuirReservaPedido?codpedido=308576-1&natureza=5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"AtribuirReservaPedido"
+							],
+							"query": [
+								{
+									"key": "codpedido",
+									"value": "308576-1"
+								},
+								{
+									"key": "natureza",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EstornarReservasEnderecos",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/EstornarReservasEnderecos",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"EstornarReservasEnderecos"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

@@ -5,6 +5,7 @@ import pytz
 import datetime
 from psycopg2 import sql
 
+
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -138,3 +139,44 @@ def ExcuindoPedidosNaoEncontrados(empresa):
 
 
     return tamanho
+
+def Verificando_RetornaxConferido(empresa):
+    conn = ConexaoCSW.Conexao()
+
+    retornaCsw = pd.read_sql(
+        "SELECT  i.codPedido, sum(i.qtdePecasConf) as conf , i.codSequencia,  "
+        " from ped.SugestaoPedItem i  "
+        ' WHERE i.codEmpresa =' + empresa+
+        ' group by i.codPedido, i.codSequencia', conn)
+
+    retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
+    retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
+
+    # Transformando a coluna 'codPedido' em uma lista separada por vírgulas
+    codPedido_lista = retornaCsw['codPedido'].str.cat(sep=',')
+
+    conn.close()
+
+    # Conectar ao banco de dados PostgreSQL
+    conn_pg = ConexaoPostgreMPL.conexao()
+
+    # Construir a consulta SQL parametrizada com psycopg2.sql
+    table = sql.Identifier("Reposicao.filaseparacaopedidos")
+    column = sql.Identifier("codpedido")
+    values = sql.SQL(',').join(map(sql.Literal, codPedido_lista.split(',')))
+    query = sql.SQL("UPDATE {} SET situacaopedido = 'No Retorna' WHERE {} IN ({})").format(table, column, values)
+
+    # Executar a consulta SQL
+    cursor = conn_pg.cursor()
+    cursor.execute(query)
+    conn_pg.commit()
+    cursor.close()
+    conn_pg.close()
+
+    return pd.DataFrame([{'Mensagem':True}])
+
+
+
+
+
+
