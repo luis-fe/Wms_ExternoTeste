@@ -92,11 +92,11 @@ def RecarregarPedidos(empresa):
 
 def ExcuindoPedidosNaoEncontrados(empresa):
 
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoCSW.Conexao()
 
     retornaCsw = pd.read_sql(
         "SELECT  e.codPedido as codigopedido,  "
-        " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota,"
+        " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota, "
         "'ok' as valida "
         " FROM ped.SugestaoPed e "
         ' WHERE e.codEmpresa =' + empresa +
