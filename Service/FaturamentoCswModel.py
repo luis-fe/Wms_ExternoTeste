@@ -43,6 +43,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
                             " group by i.codPedido, e.vlrSugestao,  i.codSequencia ", conn )
 
         tipoNota = obter_notaCsw()
+        tipoNota['codigo'] = tipoNota['codigo'].astype(str)
         retornaCsw = pd.merge(retornaCsw,tipoNota, on='codigo' )
 
 
