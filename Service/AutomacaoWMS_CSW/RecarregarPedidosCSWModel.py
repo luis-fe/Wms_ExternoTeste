@@ -116,6 +116,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
     validacao = validacao.reset_index()
     tamanho = validacao['codigopedido'].size
 
+    '''
     for i in range(tamanho):
 
         pedido = validacao['codigopedido'][i]
@@ -131,6 +132,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         conn2.commit()
 
     conn2.close()
+    '''
 
 
-    return tamanho
+    return validacao
