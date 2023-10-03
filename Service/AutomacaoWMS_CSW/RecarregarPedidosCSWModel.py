@@ -66,18 +66,6 @@ def RecarregarPedidos(empresa):
         SugestoesAbertos2 = SugestoesAbertos2.loc[SugestoesAbertos2['validador'].isnull()]
         SugestoesAbertos2.drop('validador', axis=1, inplace=True)
 
-        # Pedidos para excluir
-        SugestoesAbertosExcluir = pd.merge(validacao, SugestoesAbertos, on='codigopedido', how='left')
-        SugestoesAbertosExcluir.fillna('-', inplace=True)
-        SugestoesAbertosExcluir = SugestoesAbertosExcluir[SugestoesAbertosExcluir['vlrsugestao']=='-' ]
-        SugestoesAbertosExcluir.drop('validador', axis=1, inplace=True)
-        tamanhoExclusao = SugestoesAbertosExcluir['codigopedido'].size
-
-        #for i in range(1):
-           # pedido = SugestoesAbertosExcluir['codigopedido'][i]
-           # ExcuindoPedidosNaoEncontrados(pedido)
-
-
 
         tamanho = SugestoesAbertos2['codigopedido'].size
         dataHora = obterHoraAtual()
@@ -91,7 +79,7 @@ def RecarregarPedidos(empresa):
         SugestoesAbertos2['agrupamentopedido'] = SugestoesAbertos2.groupby('codcliente')['codigopedido'].transform(
             criar_agrupamentos)
         SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
-
+        tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
         if tamanho >= 1:
             ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
             return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
@@ -101,16 +89,47 @@ def RecarregarPedidos(empresa):
         return pd.DataFrame([{'Mensagem:': 'perdeu conexao com csw'}])
 
 
-def ExcuindoPedidosNaoEncontrados(pedido):
+def ExcuindoPedidosNaoEncontrados(empresa):
 
     conn = ConexaoPostgreMPL.conexao()
-    # Acessando os pedidos com enderecos reservados
-    queue = 'Deletre from "Reposicao".filaseparacaopedidos '\
-                        " where codigopedido = %s"
 
-    cursor = conn.cursor()
-    cursor.execute(queue,(pedido,))
-    conn.commit()
+    retornaCsw = pd.read_sql(
+        "SELECT  e.codPedido as codigopedido,  "
+        " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota,"
+        "'ok' as valida "
+        " FROM ped.SugestaoPed e "
+        ' WHERE e.codEmpresa =' + empresa +
+        " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2", conn)
 
     conn.close()
-    return pd.DataFrame([{'Mensagem': f' o pedido {pedido} foi limpado'}])
+
+    conn2 = ConexaoPostgreMPL.conexao()
+    validacao = pd.read_sql(
+        "select codigopedido, codtiponota " 
+                                              ' from "Reposicao".filaseparacaopedidos f ', conn2)
+
+    validacao = pd.merge(validacao, retornaCsw, on=['codigopedido','codtiponota'], how='left')
+    validacao.fillna('-', inplace=True)
+
+    validacao = validacao[validacao['valida'] == '-']
+    validacao = validacao.reset_index()
+    tamanho = validacao['codigopedido'].size
+
+    for i in range[tamanho]:
+
+        pedido = validacao['codigopedido'][i]
+        tiponota = validacao['codtiponota'][i]
+
+
+        # Acessando os pedidos com enderecos reservados
+        queue = 'Delete from "Reposicao".filaseparacaopedidos '\
+                            " where codigopedido = %s and codtiponota = %s"
+
+        cursor = conn2.cursor()
+        cursor.execute(queue,(pedido,tiponota))
+        conn2.commit()
+
+        conn2.close()
+
+
+    return tamanho
