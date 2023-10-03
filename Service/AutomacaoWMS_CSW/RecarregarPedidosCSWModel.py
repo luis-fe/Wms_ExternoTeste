@@ -76,11 +76,8 @@ def RecarregarPedidos(empresa):
         criar_agrupamentos)
     SugestoesAbertos.drop('codPedido2', axis=1, inplace=True)
 
-    # try:
-    ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'filaseparacaopedidos', 'append')
-    # except:
-
-    return tamanho, dataHora
-
-
-    return SugestoesAbertos
+    if tamanho >= 1:
+        ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'filaseparacaopedidos', 'append')
+        return SugestoesAbertos
+    else:
+        return SugestoesAbertos
