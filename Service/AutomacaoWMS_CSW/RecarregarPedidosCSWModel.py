@@ -63,6 +63,24 @@ def RecarregarPedidos(empresa):
     SugestoesAbertos = SugestoesAbertos.loc[SugestoesAbertos['validador'].isnull()]
     # Excluir a coluna 'B' inplace
     SugestoesAbertos.drop('validador', axis=1, inplace=True)
+    tamanho = SugestoesAbertos['codigopedido'].size
+    dataHora = obterHoraAtual()
+    SugestoesAbertos['datahora'] = dataHora
+    # Contar o número de ocorrências de cada valor na coluna 'coluna'
+    contagem = SugestoesAbertos['codcliente'].value_counts()
+
+    # Criar uma nova coluna 'contagem' no DataFrame com os valores contados
+    SugestoesAbertos['contagem'] = SugestoesAbertos['codcliente'].map(contagem)
+    # Aplicar a função de agrupamento usando o método groupby
+    SugestoesAbertos['agrupamentopedido'] = SugestoesAbertos.groupby('codcliente')['codigopedido'].transform(
+        criar_agrupamentos)
+    SugestoesAbertos.drop('codPedido2', axis=1, inplace=True)
+
+    # try:
+    ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'filaseparacaopedidos', 'append')
+    # except:
+
+    return tamanho, dataHora
 
 
     return SugestoesAbertos
