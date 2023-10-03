@@ -25,7 +25,7 @@ def obter_notaCsw():
 
 def Faturamento(empresa, dataInicio, dataFim, detalhar):
 
-   # try:
+   try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
         dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
@@ -48,18 +48,35 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
 
 
         retornaCsw["codPedido"]=retornaCsw["codPedido"]+'-'+retornaCsw["codSequencia"]
-        retornaCsw2 = retornaCsw[retornaCsw['conf']==0]
-        retorna = retornaCsw2['vlrSugestao'].sum()
-        pecas = retornaCsw2['qtde'].sum()
 
-        pecas = "{:,.0f}".format(pecas)
-        pecas = pecas.replace(',', ".")
+        # Retirando as bonificacoes
+        retornaCswSB = retornaCsw[retornaCsw['codigo'] != 39]
+        retornaCswMPLUS = retornaCsw[retornaCsw['codigo'] == 39]
+
+
+
+        retornaCswSB = retornaCswSB[retornaCswSB['conf']==0]
+        retornaCswMPLUS = retornaCswMPLUS[retornaCswMPLUS['conf']==0]
+
+        retorna = retornaCswSB['vlrSugestao'].sum()
+        ValorRetornaMplus = retornaCswMPLUS['vlrSugestao'].sum()
+
+        pecasSB = retornaCswSB['qtde'].sum()
+
+        pecasSB = "{:,.0f}".format(pecasSB)
+        pecasSB = pecasSB.replace(',', ".")
 
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
         retorna = retorna.replace('.', ";")
         retorna = retorna.replace(',',".")
         retorna = retorna.replace(';', ",")
+
+        ValorRetornaMplus = "{:,.2f}".format(ValorRetornaMplus)
+        ValorRetornaMplus = 'R$ ' + str(ValorRetornaMplus)
+        ValorRetornaMplus = ValorRetornaMplus.replace('.', ";")
+        ValorRetornaMplus = ValorRetornaMplus.replace(',',".")
+        ValorRetornaMplus = ValorRetornaMplus.replace(';', ",")
 
         conn.close()
         dataframe['tiponota'] = dataframe['tiponota'].astype(str)
@@ -73,11 +90,11 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
         if detalhar == False:
-            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecas} pçs'}])
+            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}'}])
         else:
             return retornaCsw
-    #except:
-     #   return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
+   except:
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida'}])
 
 
 
