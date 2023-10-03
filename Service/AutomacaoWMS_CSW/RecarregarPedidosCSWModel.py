@@ -106,7 +106,7 @@ def ExcuindoPedidosNaoEncontrados(pedido):
     conn = ConexaoPostgreMPL.conexao()
     # Acessando os pedidos com enderecos reservados
     queue = 'Deletre from "Reposicao".filaseparacaopedidos '\
-                        " where codpedido = %s"
+                        " where codigopedido = %s"
 
     cursor = conn.cursor()
     cursor.execute(queue,(pedido,))
