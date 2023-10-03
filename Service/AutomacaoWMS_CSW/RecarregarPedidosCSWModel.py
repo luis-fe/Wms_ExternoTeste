@@ -30,7 +30,7 @@ def RecarregarPedidos(empresa):
                                        'WHERE codEmpresa ='+empresa+
                                        ' and situacaoSugestao =2',conn)
 
-        PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codPedido , 'No Retorna' as situacaopedido  FROM ped.SugestaoPedItem p "
+        PedidosSituacao = pd.read_sql("select DISTINCT p.codPedido||'-'||p.codSequencia as codPedido , 'Em Conferencia' as situacaopedido  FROM ped.SugestaoPedItem p "
                                       'join ped.SugestaoPed s on s.codEmpresa = p.codEmpresa and s.codPedido = p.codPedido '
                                       'WHERE p.codEmpresa ='+empresa+
                                       ' and s.situacaoSugestao = 2', conn)
