@@ -223,51 +223,72 @@ function FecharModalLoading() {
 }
 
 
-function CarregarDados() {
+async function CarregarDados() {
+    AbrirModalLoading();
 
-    AbrirModalLoading()
-
-    fetch(ApiDistribuicao, {
+    try {
+        const response = await fetch(ApiDistribuicao, {
             method: 'GET',
             headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'a40016aabcx9'
-                    },
-            })
-    .then(response => {
+                'Content-Type': 'application/json',
+                'Authorization': 'a40016aabcx9'
+            },
+        });
+
         if (response.ok) {
-            return response.json();
+            const data = await response.json();
+            console.log(data);
+
+            const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS");
+
+            TipoNotaFiltrado.forEach(item => {
+                item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
+                item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2);
+                item["18-%Reposto"] += "%";
+                item["20-Separado%"] = parseFloat(item["20-Separado%"]);
+                item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2);
+                item["20-Separado%"] += "%";
+                item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/', ',');
+            });
+
+            FecharModalLoading();
+            criarTabelaDistribuicao(TipoNotaFiltrado);
+            PintarPedidosCompletos();
+            marcarLinhasDuplicadas();
+            PintarPedidosUrgentes();
+            CarregarUsuarios();
+            PassarInformacoes();
         } else {
             throw new Error('Erro ao obter a lista de usuários');
         }
-        })
-    .then(data => {
-        console.log(data)
-        const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS" )
-        TipoNotaFiltrado.forEach(item => {
-            item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
-            item["18-%Reposto"] = (item["18-%Reposto"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["18-%Reposto"] += "%";
-            item["20-Separado%"] = parseFloat(item["20-Separado%"]);
-            item["20-Separado%"] = (item["20-Separado%"] * 1).toFixed(2); // Multiplica por 100 e formata com 2 casas decimais
-            item["20-Separado%"] += "%";
-            item["14-AgrupamentosPedido"] = item["14-AgrupamentosPedido"].replaceAll('/',',');
-            
-                });
-    FecharModalLoading();
-    criarTabelaDistribuicao(TipoNotaFiltrado);
-    PintarPedidosCompletos();
-    marcarLinhasDuplicadas();
-    PintarPedidosUrgentes();
-    CarregarUsuarios();
-    PassarInformacoes()
-    
-
-    })
-    .catch(error => {
+    } catch (error) {
         console.error(error);
         FecharModalLoading();
+    }
+}
+
+async function AtualizarDados() {
+    AbrirModalLoading();
+    try {
+        const response = await fetch('http://192.168.0.183:5000/api/RecarregarPedidos?empresa=1', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'a40016aabcx9'
+            },
         });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            criarTabelaInformacoes(data);
+        } else {
+            throw new Error('Erro ao obter os dados da API');
+        }
+    } catch (error) {
+        console.error(error);
+        FecharModalLoading();
+    }
 }
 
 
@@ -314,7 +335,7 @@ function CarregarUsuarios() {
     });
 }
         
-window.addEventListener('load', () => {CarregarDados();});
+window.addEventListener('load', async() => {await AtualizarDados(), CarregarDados()});
 
 
 const InputBusca = document.getElementById('InputBusca');
@@ -756,7 +777,15 @@ function PassarInformacoes(){
         console.error(error);
             FecharModalLoading();
     });
+
 }
+const botaoatualizar = document.getElementById("Atualizar");
+
+botaoatualizar.addEventListener('click', async() => {
+    await AtualizarDados();
+    CarregarDados()
+});
+
 
 
 
