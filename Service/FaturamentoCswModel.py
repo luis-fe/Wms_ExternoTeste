@@ -66,6 +66,11 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         pecasSB = "{:,.0f}".format(pecasSB)
         pecasSB = pecasSB.replace(',', ".")
 
+        pecasMplus = retornaCswMPLUS['qtde'].sum()
+
+        pecasMplus = "{:,.0f}".format(pecasMplus)
+        pecasMplus = pecasMplus.replace(',', ".")
+
         retorna = "{:,.2f}".format(retorna)
         retorna = 'R$ ' + str(retorna)
         retorna = retorna.replace('.', ";")
@@ -90,7 +95,8 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
         if detalhar == False:
-            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}'}])
+            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
+                                  'Pcs Retorna Mplus':f'{pecasMplus} pçs'}])
         else:
             return retornaCsw
    except:
