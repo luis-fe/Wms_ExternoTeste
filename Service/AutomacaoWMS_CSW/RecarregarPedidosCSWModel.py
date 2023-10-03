@@ -163,7 +163,7 @@ def Verificando_RetornaxConferido(empresa):
     conn_pg = ConexaoPostgreMPL.conexao()
 
     # Construir a consulta SQL parametrizada com psycopg2.sql
-    table = sql.Identifier('"Reposicao".filaseparacaopedidos')
+    table = sql.Identifier('Reposicao.filaseparacaopedidos')
     column = sql.Identifier("codigopedido")
     values = sql.SQL(',').join(map(sql.Literal, codPedido_lista.split(',')))
     query = sql.SQL("UPDATE {} SET situacaopedido = 'No Retorna' WHERE {} IN ({})").format(table, column, values)
