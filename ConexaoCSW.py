@@ -24,7 +24,7 @@ def ConexaoExterna2():
     'com.intersys.jdbc.CacheDriver',
     'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
     {'user': 'root', 'password': 'ccscache'},
-    'CacheDB.jar'
+    'CacheDB_root.jar'
 )
     return conn
 
