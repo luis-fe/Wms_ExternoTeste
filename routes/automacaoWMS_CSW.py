@@ -105,6 +105,7 @@ def ExclusaoPedidosFat():
 
 
     TagReposicao = RecarregarPedidosCSWModel.ExcuindoPedidosNaoEncontrados(empresa)
+    TagReposicao = pd.DataFrame([{'Mensagem':f'{TagReposicao} pedidos foram deletados pois foram faturados'}])
 
 
 
@@ -117,5 +118,6 @@ def ExclusaoPedidosFat():
         for column_name in column_names:
             pedidos_dict[column_name] = row[column_name]
         pedidos_data.append(pedidos_dict)
+
     return jsonify(pedidos_data)
 
