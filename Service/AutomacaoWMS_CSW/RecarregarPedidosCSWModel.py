@@ -95,7 +95,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
     conn = ConexaoCSW.Conexao()
 
     retornaCsw = pd.read_sql(
-        "SELECT  e.codPedido as codigopedido,  "
+        "SELECT  codPedido||'-'||codsequencia as codigopedido,  "
         " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota, "
         "'ok' as valida "
         " FROM ped.SugestaoPed e "
