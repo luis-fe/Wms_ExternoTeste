@@ -167,7 +167,7 @@ def Verificando_RetornaxConferido(empresa):
     column = sql.Identifier("codigopedido")
     values = sql.SQL(',').join(map(sql.Literal, codPedido_lista.split(',')))
     query = sql.SQL('UPDATE "Reposicao".filaseparacaopedidos SET situacaopedido = '
-                    "'No Retorna' WHERE {} IN ({})").format(table, column, values)
+                    "'No Retorna' WHERE codigopedido IN ({})").format(table, column, values)
 
     # Executar a consulta SQL
     cursor = conn_pg.cursor()
