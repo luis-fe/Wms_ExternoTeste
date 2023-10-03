@@ -54,4 +54,7 @@ def RecarregarPedidos(empresa):
     condicaopgto = pd.read_sql("SELECT v.codEmpresa||'||'||codigo as condvenda, descricao as  condicaopgto FROM cad.CondicaoDeVenda v",conn)
     SugestoesAbertos = pd.merge(SugestoesAbertos, condicaopgto, on='condvenda', how='left')
 
+    SugestoesAbertos.fillna('-', inplace=True)
+
+
     return SugestoesAbertos
