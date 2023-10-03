@@ -98,7 +98,7 @@ def RecarregarPedidos():
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
 
-@AutomacaoWMS_CSW_routes.route('/api/ExclusaoPedidosFat', methods=['GET'])
+@AutomacaoWMS_CSW_routes.route('/api/ExclusaoPedidosFat', methods=['DELETE'])
 @token_required
 def ExclusaoPedidosFat():
     empresa = request.args.get('empresa','1')
