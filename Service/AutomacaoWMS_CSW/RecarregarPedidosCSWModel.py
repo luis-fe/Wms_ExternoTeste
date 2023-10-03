@@ -56,5 +56,13 @@ def RecarregarPedidos(empresa):
 
     SugestoesAbertos.fillna('-', inplace=True)
 
+    conn2 = ConexaoPostgreMPL.conexao()
+    validacao = pd.read_sql('select codigopedido, '+"'ok'"+' as "validador"  from "Reposicao".filaseparacaopedidos f ', conn2)
+
+    SugestoesAbertos = pd.merge(SugestoesAbertos, validacao, on='codigopedido', how='left')
+    SugestoesAbertos = SugestoesAbertos.loc[SugestoesAbertos['validador'].isnull()]
+    # Excluir a coluna 'B' inplace
+    SugestoesAbertos.drop('validador', axis=1, inplace=True)
+
 
     return SugestoesAbertos
