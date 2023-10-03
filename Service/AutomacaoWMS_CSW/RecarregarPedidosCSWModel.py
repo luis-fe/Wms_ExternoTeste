@@ -49,7 +49,9 @@ def RecarregarPedidos(empresa):
         'codCliente':'codcliente', 'codRepresentante':'codrepresentante','codTipoNota':'codtiponota'}, inplace=True)
     tiponota = obter_notaCsw()
     tiponota['codigo'] = tiponota['codigo'].astype(str)
-    tiponota.rename(columns={'codigo': 'codtiponota'}, inplace=True)
+    tiponota.rename(columns={'codigo': 'codtiponota','descricao':'desc_tiponota'}, inplace=True)
     SugestoesAbertos = pd.merge(SugestoesAbertos, tiponota, on='codtiponota', how='left')
+    condicaopgto = pd.read_sql("SELECT v.codEmpresa||'||'||codigo as condvenda, descricao as  condicaopgto FROM cad.CondicaoDeVenda v",conn)
+    SugestoesAbertos = pd.merge(SugestoesAbertos, condicaopgto, on='condvenda', how='left')
 
     return SugestoesAbertos
