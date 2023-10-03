@@ -75,7 +75,7 @@ def RecarregarPedidos(empresa):
 
         for i in range(1):
             pedido = SugestoesAbertosExcluir['codigopedido'][i]
-            ExcuindoPedidosNaoEncontrados(pedido)
+           # ExcuindoPedidosNaoEncontrados(pedido)
 
 
 
