@@ -78,6 +78,6 @@ def RecarregarPedidos(empresa):
 
     if tamanho >= 1:
         ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'filaseparacaopedidos', 'append')
-        return SugestoesAbertos
+        return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!'}])
     else:
         return SugestoesAbertos
