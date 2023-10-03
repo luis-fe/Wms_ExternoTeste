@@ -130,7 +130,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         cursor.execute(queue,(pedido,tiponota))
         conn2.commit()
 
-        conn2.close()
+    conn2.close()
 
 
     return tamanho
