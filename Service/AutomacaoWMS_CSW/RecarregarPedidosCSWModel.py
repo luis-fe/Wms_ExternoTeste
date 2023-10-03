@@ -23,8 +23,9 @@ def obter_notaCsw():
     return data
 
 def RecarregarPedidos(empresa):
-    tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
+
     try:
+        tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
         conn = ConexaoCSW.Conexao()
         SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  "
                                        "priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  "
@@ -84,11 +85,16 @@ def RecarregarPedidos(empresa):
             criar_agrupamentos)
         SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
 
+
         if tamanho >= 1:
             ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
-            return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
+            status = Verificando_RetornaxConferido(empresa)
+            return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
+                                  'Pedidos Atualizados para Retorna':f'{status}'}])
         else:
-            return pd.DataFrame([{'Mensagem:':f'nenhum pedido atualizado','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
+            status = Verificando_RetornaxConferido(empresa)
+            return pd.DataFrame([{'Mensagem:':f'nenhum pedido atualizado','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
+                                  'Pedidos Atualizados para Retorna':f'{status}'}])
     except:
         return pd.DataFrame([{'Mensagem:': 'perdeu conexao com csw'}])
 
@@ -153,7 +159,7 @@ def Verificando_RetornaxConferido(empresa):
 
     retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
     retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
-
+    tamanho = retornaCsw['codPedido'].size
     # Transformando a coluna 'codPedido' em uma lista separada por vírgulas
     codPedido_lista = retornaCsw['codPedido'].str.cat(sep=',')
 
@@ -175,7 +181,7 @@ def Verificando_RetornaxConferido(empresa):
     cursor.close()
     conn_pg.close()
 
-    return pd.DataFrame([{'Mensagem':'True'}])
+    return tamanho
 
 
 

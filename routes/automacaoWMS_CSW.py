@@ -129,6 +129,7 @@ def atualizaStatusRetorna():
 
     TagReposicao = RecarregarPedidosCSWModel.Verificando_RetornaxConferido(empresa)
 
+    TagReposicao = pd.DataFrame([{'Mensagem':f'{TagReposicao} foram atualizados para status NO RETORNA'}])
 
 
 
