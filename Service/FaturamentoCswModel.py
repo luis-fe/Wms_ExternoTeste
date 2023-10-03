@@ -34,11 +34,17 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
 
-        retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde,  i.codSequencia  FROM ped.SugestaoPed e "
+        retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde,  i.codSequencia,  "
+                                 " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = i.codEmpresa and p.codpedido = i.codPedido) as codigo "
+                                 " FROM ped.SugestaoPed e "
                                 " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
                                 ' WHERE e.codEmpresa ='+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
                             " group by i.codPedido, e.vlrSugestao,  i.codSequencia ", conn )
+
+        tipoNota = obter_notaCsw()
+        retornaCsw = pd.merge(retornaCsw,tipoNota, on='codigo' )
+
 
         retornaCsw["codPedido"]=retornaCsw["codPedido"]+'-'+retornaCsw["codSequencia"]
         retornaCsw2 = retornaCsw[retornaCsw['conf']==0]
