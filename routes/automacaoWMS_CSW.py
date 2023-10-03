@@ -80,7 +80,7 @@ def AtribuirReservaPedido():
 @AutomacaoWMS_CSW_routes.route('/api/RecarregarPedidos', methods=['GET'])
 @token_required
 def RecarregarPedidos():
-    empresa = request.args.get('empresa','5')
+    empresa = request.args.get('empresa','1')
 
 
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
