@@ -159,7 +159,7 @@ def Verificando_RetornaxConferido(empresa):
 
     retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
     retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
-    tamanho = retornaCsw['codPedido'].size
+
     # Transformando a coluna 'codPedido' em uma lista separada por vírgulas
     codPedido_lista = retornaCsw['codPedido'].str.cat(sep=',')
 
@@ -172,16 +172,19 @@ def Verificando_RetornaxConferido(empresa):
 
     values = sql.SQL(',').join(map(sql.Literal, codPedido_lista.split(',')))
     query = sql.SQL('UPDATE "Reposicao".filaseparacaopedidos SET situacaopedido = '
-                    "'No Retorna' WHERE codigopedido IN ({})").format( values)
+                    "'No Retorna' WHERE situacaopedido <> 'No Retorna' and codigopedido IN ({})").format( values)
 
     # Executar a consulta SQL
     cursor = conn_pg.cursor()
+    # Obter o número de linhas afetadas
+    num_linhas_afetadas = cursor.rowcount
+    
     cursor.execute(query)
     conn_pg.commit()
     cursor.close()
     conn_pg.close()
 
-    return tamanho
+    return num_linhas_afetadas
 
 
 
