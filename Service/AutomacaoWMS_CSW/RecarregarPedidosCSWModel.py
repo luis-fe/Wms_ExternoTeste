@@ -22,6 +22,7 @@ def obter_notaCsw():
     return data
 
 def RecarregarPedidos(empresa):
+    tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
     try:
         conn = ConexaoCSW.Conexao()
         SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  "
@@ -79,7 +80,7 @@ def RecarregarPedidos(empresa):
         SugestoesAbertos2['agrupamentopedido'] = SugestoesAbertos2.groupby('codcliente')['codigopedido'].transform(
             criar_agrupamentos)
         SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
-        tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
+
         if tamanho >= 1:
             ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
             return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
