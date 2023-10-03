@@ -176,10 +176,11 @@ def Verificando_RetornaxConferido(empresa):
 
     # Executar a consulta SQL
     cursor = conn_pg.cursor()
-    # Obter o número de linhas afetadas
-    num_linhas_afetadas = cursor.rowcount
+
     
     cursor.execute(query)
+    # Obter o número de linhas afetadas
+    num_linhas_afetadas = cursor.rowcount
     conn_pg.commit()
     cursor.close()
     conn_pg.close()
