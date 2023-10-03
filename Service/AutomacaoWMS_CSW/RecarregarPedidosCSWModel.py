@@ -57,30 +57,56 @@ def RecarregarPedidos(empresa):
 
         SugestoesAbertos.fillna('-', inplace=True)
 
+        # Procurando somente pedidos novos a incrementar
         conn2 = ConexaoPostgreMPL.conexao()
         validacao = pd.read_sql('select codigopedido, '+"'ok'"+' as "validador"  from "Reposicao".filaseparacaopedidos f ', conn2)
 
-        SugestoesAbertos = pd.merge(SugestoesAbertos, validacao, on='codigopedido', how='left')
-        SugestoesAbertos = SugestoesAbertos.loc[SugestoesAbertos['validador'].isnull()]
-        # Excluir a coluna 'B' inplace
-        SugestoesAbertos.drop('validador', axis=1, inplace=True)
-        tamanho = SugestoesAbertos['codigopedido'].size
+        SugestoesAbertos2 = pd.merge(SugestoesAbertos, validacao, on='codigopedido', how='left')
+
+        SugestoesAbertos2 = SugestoesAbertos2.loc[SugestoesAbertos2['validador'].isnull()]
+        SugestoesAbertos2.drop('validador', axis=1, inplace=True)
+
+        # Pedidos para excluir
+        SugestoesAbertosExcluir = pd.merge(validacao, SugestoesAbertos, on='codigopedido', how='left')
+        SugestoesAbertosExcluir.fillna('-', inplace=True)
+        SugestoesAbertosExcluir = SugestoesAbertosExcluir[SugestoesAbertosExcluir['vlrsugestao']=='-' ]
+        SugestoesAbertosExcluir.drop('validador', axis=1, inplace=True)
+        tamanhoExclusao = SugestoesAbertosExcluir['codigopedido'].size
+
+
+
+        tamanho = SugestoesAbertos2['codigopedido'].size
         dataHora = obterHoraAtual()
-        SugestoesAbertos['datahora'] = dataHora
+        SugestoesAbertos2['datahora'] = dataHora
         # Contar o número de ocorrências de cada valor na coluna 'coluna'
-        contagem = SugestoesAbertos['codcliente'].value_counts()
+        contagem = SugestoesAbertos2['codcliente'].value_counts()
 
         # Criar uma nova coluna 'contagem' no DataFrame com os valores contados
-        SugestoesAbertos['contagem'] = SugestoesAbertos['codcliente'].map(contagem)
+        SugestoesAbertos2['contagem'] = SugestoesAbertos2['codcliente'].map(contagem)
         # Aplicar a função de agrupamento usando o método groupby
-        SugestoesAbertos['agrupamentopedido'] = SugestoesAbertos.groupby('codcliente')['codigopedido'].transform(
+        SugestoesAbertos2['agrupamentopedido'] = SugestoesAbertos2.groupby('codcliente')['codigopedido'].transform(
             criar_agrupamentos)
-        SugestoesAbertos.drop('codPedido2', axis=1, inplace=True)
+        SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
 
         if tamanho >= 1:
-            ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos, tamanho, 'filaseparacaopedidos', 'append')
-            return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!'}])
+            ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
+            return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
         else:
-            return pd.DataFrame([{'Mensagem:':f'nenhum pedido atualizado'}])
+            return pd.DataFrame([{'Mensagem:':f'nenhum pedido atualizado','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados '}])
     except:
         return pd.DataFrame([{'Mensagem:': 'perdeu conexao com csw'}])
+
+
+def ExcuindoPedidosNaoEncontrados(pedido):
+
+    conn = ConexaoPostgreMPL.conexao()
+    # Acessando os pedidos com enderecos reservados
+    queue = 'Deletre from "Reposicao".filaseparacaopedidos '\
+                        " where codpedido = %s"
+
+    cursor = conn.cursor()
+    cursor.execute(queue,(pedido,))
+    conn.commit()
+
+    conn.close()
+    return pd.DataFrame([{'Mensagem': f' o pedido {pedido} foi limpado'}])
