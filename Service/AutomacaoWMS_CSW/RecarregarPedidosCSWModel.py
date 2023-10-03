@@ -116,7 +116,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
     validacao = validacao.reset_index()
     tamanho = validacao['codigopedido'].size
 
-    for i in range[tamanho]:
+    for i in range(tamanho):
 
         pedido = validacao['codigopedido'][i]
         tiponota = validacao['codtiponota'][i]
