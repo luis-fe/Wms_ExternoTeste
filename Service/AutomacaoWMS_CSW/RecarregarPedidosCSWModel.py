@@ -144,10 +144,12 @@ def Verificando_RetornaxConferido(empresa):
     conn = ConexaoCSW.Conexao()
 
     retornaCsw = pd.read_sql(
-        "SELECT  i.codPedido, sum(i.qtdePecasConf) as conf , i.codSequencia,  "
+        "SELECT  i.codPedido, sum(i.qtdePecasConf) as conf , i.codSequencia  "
         " from ped.SugestaoPedItem i  "
         ' WHERE i.codEmpresa =' + empresa+
         ' group by i.codPedido, i.codSequencia', conn)
+
+
 
     retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
     retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
