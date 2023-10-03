@@ -73,8 +73,8 @@ def RecarregarPedidos(empresa):
         SugestoesAbertosExcluir.drop('validador', axis=1, inplace=True)
         tamanhoExclusao = SugestoesAbertosExcluir['codigopedido'].size
 
-        for i in range(1):
-            pedido = SugestoesAbertosExcluir['codigopedido'][i]
+        #for i in range(1):
+           # pedido = SugestoesAbertosExcluir['codigopedido'][i]
            # ExcuindoPedidosNaoEncontrados(pedido)
 
 
