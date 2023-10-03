@@ -1,7 +1,5 @@
-let qtdSugerida = 0;
-let valorSugerido = 0;
-let qtdSugerida1 = 0;
-let valorSugerido1 = 0;
+
+const ApiDistribuicao = 'http://192.168.0.183:5000/api/FilaPedidos';
 
 async function criarTabelasProdutividade(listaDados, tabela, exibirColunas = false) {
     const tabelaProdutividade = document.getElementById(tabela);
@@ -16,11 +14,11 @@ async function criarTabelasProdutividade(listaDados, tabela, exibirColunas = fal
     const ColunaMediaPedidos = document.createElement('th');
     const ColunaRitmo = document.createElement('th');
 
-    ColunaRanking.textContent = 'Ranking';
+    ColunaRanking.textContent = 'Rank';
     ColunaColaborador.textContent = 'Colaborador';
-    ColunaQuantidade.textContent = 'Quantidade';
-    ColunaQuantidadePedidos.textContent = 'Quantidade Pedidos';
-    ColunaMediaPedidos.textContent = 'Média de Pçs';
+    ColunaQuantidade.textContent = 'Qtd';
+    ColunaQuantidadePedidos.textContent = 'Qtd. Ped.';
+    ColunaMediaPedidos.textContent = 'Méd. Pçs';
     ColunaRitmo.textContent = 'Ritmo';
 
     cabecalhoRow.appendChild(ColunaRanking);
@@ -71,50 +69,8 @@ function formatarMoeda(valor) {
     return valor.toLocaleString("pt-BR", formatoMoeda);
 }
 
-const ApiDistribuicao = 'http://192.168.0.183:5000/api/FilaPedidos';
 
-async function DadosRetorna() {
-    try {
-        const response = await fetch(ApiDistribuicao, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'a40016aabcx9'
-            },
-        });
 
-        if (response.ok) {
-            const data = await response.json();
-            const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS");
-            const Filtro2 = TipoNotaFiltrado.filter(item => item["22- situacaopedido"] !== "Em Conferencia");
-            Filtro2.forEach(item => {
-                item["12-vlrsugestao"] = item["12-vlrsugestao"].replace("R$", "");
-                item["12-vlrsugestao"] = parseFloat(item["12-vlrsugestao"]).toFixed(2);
-                qtdSugerida += item["15-qtdesugerida"];
-                valorSugerido += parseFloat(item["12-vlrsugestao"]);
-            });
-
-            const TipoNotaFiltrado1 = data.filter(item2 => item2["03-TipoNota"] === "39 - BN MPLUS");
-            TipoNotaFiltrado1.forEach(item2 => {
-                item2["12-vlrsugestao"] = item2["12-vlrsugestao"].replace("R$", "");
-                item2["12-vlrsugestao"] = parseFloat(item2["12-vlrsugestao"]).toFixed(2);
-                qtdSugerida1 += item2["15-qtdesugerida"];
-                valorSugerido1 += parseFloat(item2["12-vlrsugestao"]);
-            });
-
-            document.getElementById("RetornaPcs").textContent = qtdSugerida;
-            document.getElementById("RetornaValor").textContent = formatarMoeda(valorSugerido);
-            document.getElementById("RetornaMplus").textContent = qtdSugerida1;
-            document.getElementById("RetornaMplusR$").textContent = formatarMoeda(valorSugerido1);
-            qtdSugerida = 0;
-            valorSugerido = 0;
-            qtdSugerida1 = 0;
-            valorSugerido1 = 0;
-        }} catch (error) {
-            console.error(error);
-            alert("Erro na Atualização, Recarregue a página!\nSe o problema persistir, contate o Administrador!");
-        }
-    }
 
 
 async function DadosFaturamento(dataInicio, dataFim) {
@@ -129,8 +85,16 @@ async function DadosFaturamento(dataInicio, dataFim) {
 
         if (response.ok) {
             const data = await response.json();
-            const TipoNotaFiltrado = data[0]['Total Faturado'];
-            document.getElementById("FaturadoR$").textContent = TipoNotaFiltrado;
+            const Faturado = data[0]['Total Faturado'];
+            const RetornaPecas = data[0]['Pcs Retorna'];
+            const Retorna = data[0]['No Retorna'];
+            const RetornaMplus = data[0]['No Retorna MPlus'];
+            const RetornaMplusPcs = data[0]['Pcs Retorna Mplus'];
+            document.getElementById("FaturadoR$").textContent = Faturado;
+            document.getElementById("RetornaPcs").textContent = RetornaPecas;
+            document.getElementById("RetornaValor").textContent = formatarMoeda(Retorna);
+            document.getElementById("RetornaMplus").textContent = RetornaMplusPcs;
+            document.getElementById("RetornaMplusR$").textContent = formatarMoeda(RetornaMplus);
         } else {
             throw new Error("Erro na Atualização, Recarregue a página!\nSe o problema persistir, contate o Administrador!");
         }
@@ -188,7 +152,6 @@ window.addEventListener('load', () => {
 
     tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto", false);
     tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", true);
-    DadosRetorna();
     DadosFaturamento(formattedDate, formattedDate);
 
     document.getElementById("DataInicial").value = formattedDate
@@ -213,7 +176,6 @@ async function atualizarTabelas() {
         document.getElementById("btnFiltrar").disabled = false;
     }
 
-    DadosRetorna();
     DadosFaturamento(DataIni,DataFin);
     setTimeout(atualizarTabelas, 60000);
 }
