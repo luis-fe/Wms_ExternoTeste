@@ -175,7 +175,7 @@ def Verificando_RetornaxConferido(empresa):
     cursor.close()
     conn_pg.close()
 
-    return pd.DataFrame([{'Mensagem':True}])
+    return pd.DataFrame([{'Mensagem':'True'}])
 
 
 
