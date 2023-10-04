@@ -83,18 +83,16 @@ def RecarregarPedidos(empresa):
         # Aplicar a função de agrupamento usando o método groupby
         SugestoesAbertos2['agrupamentopedido'] = SugestoesAbertos2.groupby('codcliente')['codigopedido'].transform(
             criar_agrupamentos)
-        SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
-
 
         if tamanho >= 1:
-            ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
+
 
             for i in range(tamanho):
-                pedidox = SugestoesAbertos2['codigopedido'][i]
-                pedidox = pedidox.split('-')[0]
+                pedidox = SugestoesAbertos2['codPedido2'][i]
                 DetalhandoPedidoSku(empresa, pedidox)
 
-
+            SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
+            ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
             status = Verificando_RetornaxConferido(empresa)
             return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
                                   'Pedidos Atualizados para Retorna':f'{status}'}])
