@@ -78,7 +78,8 @@ def finalizarPedido(pedido, TamCaixa, quantidade):
             'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,' \
             ' "tamcaixa2" = %s, qtdcaixa2= %s,' \
             '"tamcaixa3" = %s, qtdcaixa3= %s, ' \
-            '"tamcaixa4" = %s, qtdcaixa4= %s ' \
+            '"tamcaixa4" = %s, qtdcaixa4= %s,' \
+            "baixacsw = 'nao' " \
             'where codpedido = %s'
 
     cursor = conn.cursor()
