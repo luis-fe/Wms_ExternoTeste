@@ -320,8 +320,10 @@ def InformacaoPedidoViaTag(codbarras):
 def InformacaoImpresao(pedido):
     conn = ConexaoPostgreMPL.conexao()
 
-    pedido = pd.read_sql('select desc_cliente as cliente, codcliente, cod_usuario, cidade, estado from "Reposicao".filaseparacaopedidos f '
+    pedido = pd.read_sql('select codigopedido, desc_cliente as cliente, codcliente, cod_usuario, cidade, estado, agrupamentopedido from "Reposicao".filaseparacaopedidos f '
                          'where codigopedido = %s',conn,params=(pedido,))
+
+    pedido['agrupamentopedido'] = pedido.apply(lambda row: '-' if row['codigopedido'] == row['agrupamentopedido'] else row['agrupamentopedido'], axis=1)
 
     usuarios = pd.read_sql(
         'select codigo as cod_usuario , nome as separador  from "Reposicao".cadusuarios c ', conn)
@@ -342,7 +344,7 @@ def InformacaoImpresao(pedido):
     codigoCliente = pedido['codcliente'][0]
 
 
-    return codigoCliente, pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0]
+    return codigoCliente, pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0],pedido['agrupamentopedido'][0]
 #
 def PrioridadePedido(pedidos):
 

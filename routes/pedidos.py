@@ -156,13 +156,13 @@ def imprimirEtiqueta():
     pedido = datas['pedido']
     pedido = pedido.strip()
     print(pedido)
-    codcliente, cliente, separador, transportadora = pedidosModel.InformacaoImpresao(pedido)
+    codcliente, cliente, separador, transportadora, agrupamento = pedidosModel.InformacaoImpresao(pedido)
 
     print(type(codcliente))  # Correção aqui
 
     codcliente = codcliente.replace('.0','')
 
-    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador)
+    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador,agrupamento)
     imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
     return jsonify({'message': f'Imprimido o pedido {pedido} com sucesso', 'status':True})

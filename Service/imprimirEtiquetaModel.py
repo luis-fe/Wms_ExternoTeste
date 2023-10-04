@@ -8,7 +8,7 @@ from reportlab.graphics import barcode
 import qrcode
 
 
-def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador):
+def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agrupamento):
     # Configurações das etiquetas e colunas
     label_width = 7.5 * cm
     label_height = 1.8 * cm
@@ -47,6 +47,7 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador):
 
         c.setFont("Helvetica-Bold", 8)
         c.drawString(0.3 * cm, 0.1 * cm, separador)
+        c.drawString(2.1 * cm, 0.1 * cm, agrupamento)
 
         c.drawString(2.0 * cm, 1.1 * cm, cliente)
         c.drawString(2.0 * cm, 0.8 * cm, pedido)
