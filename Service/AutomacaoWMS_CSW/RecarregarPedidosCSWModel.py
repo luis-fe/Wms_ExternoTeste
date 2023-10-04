@@ -91,6 +91,7 @@ def RecarregarPedidos(empresa):
 
             for i in range(tamanho):
                 pedidox = SugestoesAbertos2['codigopedido'][i]
+                pedidox = pedidox.split('-')[0]
                 DetalhandoPedidoSku(empresa, pedidox)
 
 
