@@ -120,6 +120,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     result = result[result['tamcaixa'] != '-']
 
     result = result.groupby('tamcaixa').agg({
+        'tamcaixa':'first',
         'quantidade': 'sum'
     })
 
