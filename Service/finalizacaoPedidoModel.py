@@ -104,7 +104,13 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     query2 = pd.read_sql('select datafinalizacao, tamCaixa2 as tamcaixa , qtdcaixa2 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
-    result = pd.concat([query1, query2])
+    query3 = pd.read_sql('select datafinalizacao, tamCaixa3 as tamcaixa , qtdcaixa3 as quantidade  from "Reposicao".relatorio_caixas '
+                        'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
+
+    query4 = pd.read_sql('select datafinalizacao, tamCaixa4 as tamcaixa , qtdcaixa4 as quantidade  from "Reposicao".relatorio_caixas '
+                        'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
+
+    result = pd.concat([query1, query2,query3,query4])
 
     conn.close()
 
