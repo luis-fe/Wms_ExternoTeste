@@ -140,6 +140,10 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         cursor.execute(queue,(pedido,tiponota))
         conn2.commit()
 
+
+        pedidox = retornaCsw['codigopedido'][i]
+        DetalhandoPedidoSku(empresa, pedidox)
+
     conn2.close()
 
 
@@ -160,10 +164,7 @@ def Verificando_RetornaxConferido(empresa):
     retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
     retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
 
-    for i in range(retornaCsw['codPedido'].size):
 
-        pedidox = retornaCsw['codPedido'][i]
-        DetalhandoPedidoSku(empresa,pedidox)
 
 
     # Transformando a coluna 'codPedido' em uma lista separada por vírgulas
@@ -235,5 +236,6 @@ def DetalhandoPedidoSku(empresa, pedido):
         conn_pg.commit()
 
     cursor.close()
+    conn_pg.close()
 
     return SugestoesAbertos
