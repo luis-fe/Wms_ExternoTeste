@@ -95,5 +95,17 @@ def finalizarPedido(pedido, TamCaixa, quantidade):
     return [data]
 
 
+def RelatorioConsumoCaixa(dataInico, DataFim):
+    conn = ConexaoPostgreMPL.conexao()
+
+    qurey = pd.read_sql('select * from "Reposicao".relatorio_caixas '
+                        'where datafinalizacao => %s and datafinalizacao =< %s ',conn,params=(dataInico,DataFim))
+
+    conn.close()
+
+    return qurey
+
+
+
 
 
