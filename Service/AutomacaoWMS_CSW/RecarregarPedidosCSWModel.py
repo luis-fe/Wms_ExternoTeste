@@ -183,6 +183,15 @@ def Verificando_RetornaxConferido(empresa):
     num_linhas_afetadas = cursor.rowcount
     conn_pg.commit()
     cursor.close()
+    query2 = sql.SQL('UPDATE "Reposicao".filaseparacaopedidos SET situacaopedido = '
+                    "'Em Conferencia' WHERE  codigopedido not IN ({})").format(values)
+    cursor2 = conn_pg.cursor()
+
+    cursor2.execute(query2)
+
+    conn_pg.commit()
+    cursor2.close()
+
     conn_pg.close()
 
     return num_linhas_afetadas
