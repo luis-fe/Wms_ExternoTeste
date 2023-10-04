@@ -160,6 +160,12 @@ def Verificando_RetornaxConferido(empresa):
     retornaCsw['codPedido'] = retornaCsw['codPedido'] +'-'+retornaCsw['codSequencia']
     retornaCsw = retornaCsw[retornaCsw['conf'] == 0]
 
+    for i in range(retornaCsw['codPedido'].size):
+
+        pedidox = retornaCsw['codPedido'][i]
+        DetalhandoPedidoSku(empresa,pedidox)
+
+
     # Transformando a coluna 'codPedido' em uma lista separada por vírgulas
     codPedido_lista = retornaCsw['codPedido'].str.cat(sep=',')
 
