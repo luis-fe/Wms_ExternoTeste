@@ -118,7 +118,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
 
     result.fillna('-', inplace=True)
 
-    result = result[result['tamcaixa'] != '!']
+    result = result[result['tamcaixa'] != '-']
 
 
     conn.close()
