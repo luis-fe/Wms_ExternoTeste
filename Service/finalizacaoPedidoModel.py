@@ -98,16 +98,20 @@ def finalizarPedido(pedido, TamCaixa, quantidade):
 def RelatorioConsumoCaixa(dataInico, DataFim):
     conn = ConexaoPostgreMPL.conexao()
 
-    query1 = pd.read_sql('select datafinalizacao, "tamCaixa" as tamcaixa, qtdcaixa1 as quantidade  from "Reposicao".relatorio_caixas '
+    query1 = pd.read_sql("select TO_CHAR(datafinalizacao, 'YYYY-MM-DD') as data ,"
+                                                                     ' "tamCaixa" as tamcaixa, qtdcaixa1 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
-    query2 = pd.read_sql('select datafinalizacao, tamcaixa2 as tamcaixa , qtdcaixa2 as quantidade  from "Reposicao".relatorio_caixas '
+    query2 = pd.read_sql("select TO_CHAR(datafinalizacao, 'YYYY-MM-DD') as data ,"
+                         ' tamcaixa2 as tamcaixa , qtdcaixa2 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
-    query3 = pd.read_sql('select datafinalizacao, tamcaixa3 as tamcaixa , qtdcaixa3 as quantidade  from "Reposicao".relatorio_caixas '
+    query3 = pd.read_sql("select TO_CHAR(datafinalizacao, 'YYYY-MM-DD') as data ,"
+                         ' tamcaixa3 as tamcaixa , qtdcaixa3 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
-    query4 = pd.read_sql('select datafinalizacao, tamcaixa4 as tamcaixa , qtdcaixa4 as quantidade  from "Reposicao".relatorio_caixas '
+    query4 = pd.read_sql("select TO_CHAR(datafinalizacao, 'YYYY-MM-DD') as data ,"
+                         ' tamcaixa4 as tamcaixa , qtdcaixa4 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
     result = pd.concat([query1, query2,query3,query4])
