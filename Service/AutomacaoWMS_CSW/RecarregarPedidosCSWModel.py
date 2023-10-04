@@ -213,12 +213,25 @@ def DetalhandoPedidoSku(empresa, pedido):
     SugestoesAbertos.drop('codSequencia', axis=1, inplace=True)
     SugestoesAbertos['endereco'] = 'Não Reposto'
 
+    pedido = SugestoesAbertos['codpedido'][0]
+    produto = SugestoesAbertos['produto'][0]
+    qtdesugerida = SugestoesAbertos['qtdesugerida'][0]
+    qtdepecasconf = SugestoesAbertos['qtdepecasconf'][0]
+    endereco = SugestoesAbertos['endereco'][0]
+    necessidade = SugestoesAbertos['necessidade'][0]
+    datahora = SugestoesAbertos['datahora'][0]
+    reservado = SugestoesAbertos['reservado'][0]
 
+    query =  'Insert into "Reposicao".pedidossku (codpedido, produto, qtdesugerida, qtdepecasconf, endereco,' \
+             ' necessidade, datahora, reservado ) values (%s, %s, %s, %s, %s, %s, %s, %s )'
+
+    conn_pg = ConexaoPostgreMPL.conexao()
+
+    cursor = conn_pg.cursor()
+
+    cursor.execute(query,(pedido,produto,qtdesugerida,qtdepecasconf ,endereco,necessidade,datahora,reservado) )
+    conn_pg.commit()
+    cursor.close()
 
 
     return SugestoesAbertos
-
-
-
-
-
