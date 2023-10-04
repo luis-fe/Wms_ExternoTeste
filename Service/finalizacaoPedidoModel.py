@@ -117,8 +117,11 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     result = pd.concat([query1, query2,query3,query4])
 
     result.fillna('-', inplace=True)
-
     result = result[result['tamcaixa'] != '-']
+
+    result = result.groupby('tamcaixa').agg({
+        'quantidade': 'sum'
+    })
 
 
     conn.close()
