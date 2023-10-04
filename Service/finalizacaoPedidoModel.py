@@ -53,9 +53,18 @@ def Buscar_Caixas():
     query = query['tamcaixa'].tolist()
 
     return query
-def finalizarPedido(pedido, TamCaixa, quantidade ):
+def finalizarPedido(pedido, TamCaixa, quantidade):
     conn = ConexaoPostgreMPL.conexao()
     datafinalizacao = obterHoraAtual()
+
+    # Certifique-se de que TamCaixa e quantidade tenham pelo menos 4 elementos
+    while len(TamCaixa) < 4:
+        TamCaixa.append(0)
+
+    while len(quantidade) < 4:
+        quantidade.append(0)
+
+    # Atribua os valores de TamCaixa e quantidade às variáveis correspondentes
     TamCaixa1 = TamCaixa[0]
     quantidade1 = quantidade[0]
     TamCaixa2 = TamCaixa[1]
@@ -65,28 +74,26 @@ def finalizarPedido(pedido, TamCaixa, quantidade ):
     TamCaixa4 = TamCaixa[3]
     quantidade4 = quantidade[3]
 
-
-
-    query = 'update  "Reposicao".finalizacao_pedido '\
-                        'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,'\
-                        ' "tamcaixa2" = %s, qtdcaixa2= %s,' \
+    query = 'update "Reposicao".finalizacao_pedido ' \
+            'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,' \
+            ' "tamcaixa2" = %s, qtdcaixa2= %s,' \
             '"tamcaixa3" = %s, qtdcaixa3= %s, ' \
-            '"tamcaixa4" = %s, qtdcaixa4= %s '\
-                        'where codpedido = %s'
+            '"tamcaixa4" = %s, qtdcaixa4= %s ' \
+            'where codpedido = %s'
 
     cursor = conn.cursor()
-    cursor.execute(query, (TamCaixa1,quantidade1,datafinalizacao,TamCaixa2,quantidade2,TamCaixa3,quantidade3,TamCaixa4,quantidade4,pedido,))
+    cursor.execute(query, (TamCaixa1, quantidade1, datafinalizacao, TamCaixa2, quantidade2, TamCaixa3, quantidade3, TamCaixa4, quantidade4, pedido,))
     conn.commit()
     conn.close()
 
     data = {
         'Status':
-            True,
+        True,
         'Mensagem': f'Pedido {pedido} finalizado com sucesso!',
-
     }
 
     return [data]
+
 
 
 
