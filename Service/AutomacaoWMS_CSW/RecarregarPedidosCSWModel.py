@@ -88,6 +88,12 @@ def RecarregarPedidos(empresa):
 
         if tamanho >= 1:
             ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
+
+            for i in range(tamanho):
+                pedidox = SugestoesAbertos2['codigopedido'][i]
+                DetalhandoPedidoSku(empresa, pedidox)
+
+
             status = Verificando_RetornaxConferido(empresa)
             return pd.DataFrame([{'Mensagem:':f'foram inseridos {tamanho} pedidos!','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
                                   'Pedidos Atualizados para Retorna':f'{status}'}])
@@ -141,8 +147,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         conn2.commit()
 
 
-        pedidox = retornaCsw['codigopedido'][i]
-        DetalhandoPedidoSku(empresa, pedidox)
+
 
     conn2.close()
 
@@ -204,13 +209,15 @@ def Verificando_RetornaxConferido(empresa):
     return num_linhas_afetadas
 
 def DetalhandoPedidoSku(empresa, pedido):
-    conn = ConexaoCSW.Conexao()
+    conncsw = ConexaoCSW.Conexao()
 
     SugestoesAbertos = pd.read_sql(
         'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
         'from ped.SugestaoPedItem s  '
         'WHERE s.codEmpresa =' + empresa+
-        ' and s.codPedido = '"'"+pedido+"'", conn)
+        ' and s.codPedido = '"'"+pedido+"'", conncsw)
+
+    conncsw.close()
 
     SugestoesAbertos['necessidade'] = SugestoesAbertos['qtdesugerida'] - SugestoesAbertos['qtdepecasconf']
     SugestoesAbertos['codpedido'] = SugestoesAbertos['codpedido'] + '-' + SugestoesAbertos['codSequencia']
