@@ -220,26 +220,14 @@ def DetalhandoPedidoSku(empresa, pedido):
 
     conn_pg = ConexaoPostgreMPL.conexao()
     cursor = conn_pg.cursor()
-    for i in SugestoesAbertos:
 
-        pedido = SugestoesAbertos['codpedido'][i]
-        produto = SugestoesAbertos['produto'][i]
-        qtdesugerida = SugestoesAbertos['qtdesugerida'][i]
-        qtdepecasconf = SugestoesAbertos['qtdepecasconf'][i]
-        endereco = SugestoesAbertos['endereco'][i]
-        necessidade = SugestoesAbertos['necessidade'][i]
-        datahora = SugestoesAbertos['datahora'][i]
-        reservado = SugestoesAbertos['reservado'][i]
-
-
-
-
-
-        cursor.execute(query,(pedido,produto,qtdesugerida,qtdepecasconf ,endereco,necessidade,datahora,reservado) )
-
+    for _, row in SugestoesAbertos.iterrows():
+        cursor.execute(query, (
+            row['codpedido'], row['produto'], row['qtdesugerida'], row['qtdepecasconf'],
+            row['endereco'], row['necessidade'], row['datahora'], row['reservado']
+        ))
         conn_pg.commit()
 
     cursor.close()
-
 
     return SugestoesAbertos
