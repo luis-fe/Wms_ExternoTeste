@@ -125,6 +125,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
         'quantidade': 'sum'
     })
 
+    result = result['quantidade'].astype(int)
 
     conn.close()
 
