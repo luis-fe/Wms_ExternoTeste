@@ -99,7 +99,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     conn = ConexaoPostgreMPL.conexao()
 
     qurey = pd.read_sql('select * from "Reposicao".relatorio_caixas '
-                        'where datafinalizacao => %s and datafinalizacao =< %s ',conn,params=(dataInico,DataFim))
+                        'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
     conn.close()
 
