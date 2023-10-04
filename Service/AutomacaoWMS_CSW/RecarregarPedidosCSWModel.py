@@ -196,6 +196,21 @@ def Verificando_RetornaxConferido(empresa):
 
     return num_linhas_afetadas
 
+def DetalhandoPedidoSku(empresa, pedido):
+    conn = ConexaoCSW.Conexao()
+
+    SugestoesAbertos = pd.read_sql(
+        'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
+        'from ped.SugestaoPedItem s  '
+        'WHERE s.codEmpresa =' + empresa+
+        ' and s.codPedido = '"'"+pedido+"'", conn)
+
+    SugestoesAbertos['necessidade'] = SugestoesAbertos['qtdesugerida'] - SugestoesAbertos['qtdepecasconf']
+
+
+
+
+    return SugestoesAbertos
 
 
 
