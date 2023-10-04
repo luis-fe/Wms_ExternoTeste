@@ -98,7 +98,7 @@ def finalizarPedido(pedido, TamCaixa, quantidade):
 def RelatorioConsumoCaixa(dataInico, DataFim):
     conn = ConexaoPostgreMPL.conexao()
 
-    query1 = pd.read_sql('select datafinalizacao, "tamCaixa", qtdcaixa1 as quantidade  from "Reposicao".relatorio_caixas '
+    query1 = pd.read_sql('select datafinalizacao, "tamCaixa" as tamcaixa, qtdcaixa1 as quantidade  from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
     query2 = pd.read_sql('select datafinalizacao, tamcaixa2 as tamcaixa , qtdcaixa2 as quantidade  from "Reposicao".relatorio_caixas '
