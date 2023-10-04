@@ -24,7 +24,7 @@ def obter_notaCsw():
 
 def RecarregarPedidos(empresa):
 
-    try:
+    #try:
         tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
         conn = ConexaoCSW.Conexao()
         SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  "
@@ -95,8 +95,8 @@ def RecarregarPedidos(empresa):
             status = Verificando_RetornaxConferido(empresa)
             return pd.DataFrame([{'Mensagem:':f'nenhum pedido atualizado','Excluido':f'{tamanhoExclusao} pedidos removidos pois ja foram faturados ',
                                   'Pedidos Atualizados para Retorna':f'{status}'}])
-    except:
-        return pd.DataFrame([{'Mensagem:': 'perdeu conexao com csw'}])
+   # except:
+    #    return pd.DataFrame([{'Mensagem:': 'perdeu conexao com csw'}])
 
 
 def ExcuindoPedidosNaoEncontrados(empresa):
