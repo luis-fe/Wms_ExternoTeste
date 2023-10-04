@@ -86,10 +86,11 @@ def RecarregarPedidos(empresa):
         SugestoesAbertos2.drop('codPedido2', axis=1, inplace=True)
 
 
-        SugestoesAbertos2 = SugestoesAbertos2.reset_index()
+
         if tamanho >= 1:
             ConexaoPostgreMPL.Funcao_Inserir(SugestoesAbertos2, tamanho, 'filaseparacaopedidos', 'append')
 
+            SugestoesAbertos2 = SugestoesAbertos2.reset_index()
             for i in range(tamanho):
                 pedidox = SugestoesAbertos2['codigopedido'][i]
                 DetalhandoPedidoSku(empresa, pedidox)
