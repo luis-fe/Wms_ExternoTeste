@@ -58,22 +58,24 @@ def finalizarPedido(pedido, TamCaixa, quantidade ):
     datafinalizacao = obterHoraAtual()
     TamCaixa1 = TamCaixa[0]
     quantidade1 = quantidade[0]
-    tamanhoVetor = len(TamCaixa)
+    TamCaixa2 = TamCaixa[1]
+    quantidade2 = quantidade[1]
+    TamCaixa3 = TamCaixa[2]
+    quantidade3 = quantidade[2]
+    TamCaixa4 = TamCaixa[3]
+    quantidade4 = quantidade[3]
 
-    if tamanhoVetor == 1:
-        TamCaixa2 = '0'
-        quantidade2 = 0
-    else:
-        TamCaixa2 = TamCaixa[1]
-        quantidade2 = quantidade[1]
+
 
     query = 'update  "Reposicao".finalizacao_pedido '\
                         'set "tamCaixa" = %s, qtdcaixa= %s, datafinalizacao= %s,'\
-                        ' "tamcaixa2" = %s, qtdcaixa2= %s '\
+                        ' "tamcaixa2" = %s, qtdcaixa2= %s,' \
+            '"tamcaixa3" = %s, qtdcaixa3= %s, ' \
+            '"tamcaixa4" = %s, qtdcaixa4= %s '\
                         'where codpedido = %s'
 
     cursor = conn.cursor()
-    cursor.execute(query, (TamCaixa1,quantidade1,datafinalizacao,TamCaixa2,quantidade2,pedido,))
+    cursor.execute(query, (TamCaixa1,quantidade1,datafinalizacao,TamCaixa2,quantidade2,TamCaixa3,quantidade3,TamCaixa4,quantidade4,pedido,))
     conn.commit()
     conn.close()
 
