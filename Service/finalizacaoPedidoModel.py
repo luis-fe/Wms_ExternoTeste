@@ -118,6 +118,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
 
     result.fillna('-', inplace=True)
     result = result[result['tamcaixa'] != '-']
+    result = result[result['tamcaixa'] != '0']
 
     result = result.groupby('tamcaixa').agg({
         'tamcaixa':'first',
