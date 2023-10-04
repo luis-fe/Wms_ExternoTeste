@@ -206,7 +206,7 @@ def DetalhandoPedidoSku(empresa, pedido):
         ' and s.codPedido = '"'"+pedido+"'", conn)
 
     SugestoesAbertos['necessidade'] = SugestoesAbertos['qtdesugerida'] - SugestoesAbertos['qtdepecasconf']
-    SugestoesAbertos['codPedido'] = SugestoesAbertos['codPedido'] + '-' + SugestoesAbertos['codSequencia']
+    SugestoesAbertos['codpedido'] = SugestoesAbertos['codpedido'] + '-' + SugestoesAbertos['codSequencia']
     dataHora = obterHoraAtual()
     SugestoesAbertos['datahora'] = dataHora
     SugestoesAbertos['reservado'] = 'nao'
