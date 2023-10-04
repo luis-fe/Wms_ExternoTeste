@@ -57,12 +57,12 @@ def Pedidos_fecha100():
     query = pd.read_sql('SELECT codigopedido from "Reposicao".filaseparacaopedidos '
                         "where situacaopedido = 'No Retorna'",conn)
 
-    totalPedido = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc from "Reposicao".pedidossku '
+    totalPedido = pd.read_sql('SELECT codpedido as codigopedido, count (necessidade) totalpc from "Reposicao".pedidossku '
                               ' where necessidade >0 '
                               'group by codpedido'
                         ,conn)
 
-    totalPedido100 = pd.read_sql('SELECT codpedido as codigopedido, count (reservado) totalpc100 from "Reposicao".pedidossku '
+    totalPedido100 = pd.read_sql('SELECT codpedido as codigopedido, count (necessidade) totalpc100 from "Reposicao".pedidossku '
                                  " where reservado = 'sim' and necessidade >0"
                               ' group by codpedido'
                         ,conn)
