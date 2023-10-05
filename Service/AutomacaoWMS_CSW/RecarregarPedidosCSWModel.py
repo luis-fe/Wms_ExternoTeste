@@ -212,13 +212,13 @@ def Verificando_RetornaxConferido(empresa):
 
 def DetalhandoPedidoSku(empresa, pedido):
     conncsw = ConexaoCSW.Conexao()
-    pedido = pedido.split('-')[0]
+    pedido2 = pedido.split('-')[0]
 
     SugestoesAbertos = pd.read_sql(
         'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
         'from ped.SugestaoPedItem s  '
-        'WHERE s.codEmpresa =' + empresa+
-        ' and s.codPedido = '"'"+pedido+"'", conncsw)
+        'WHERE s.codEmpresa =' + empresa +
+        ' and s.codPedido = '"'" + pedido2 + "'", conncsw)
 
     conncsw.close()
 
@@ -241,9 +241,8 @@ def DetalhandoPedidoSku(empresa, pedido):
 
     # Pesquisar se em pedidossku ja existe o item
 
-    pedido = SugestoesAbertos['codpedido'][0]
     consulta = pd.read_sql('select * from "Reposicao".pedidossku '
-                           'where codpedido = %s ', conn_pg,params=(pedido,))
+                           'where codpedido = %s ', conn_pg, params=(pedido,))
 
 
     if consulta.empty:
