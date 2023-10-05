@@ -241,7 +241,6 @@ def DetalhandoPedidoSku(empresa, pedido):
 
     # Pesquisar se em pedidossku ja existe o item
 
-    pedido = SugestoesAbertos['codpedido'][0]
 
     consulta = pd.read_sql('select * from "Reposicao".pedidossku '
                            'where codpedido = %s', conn_pg,params=(pedido))
