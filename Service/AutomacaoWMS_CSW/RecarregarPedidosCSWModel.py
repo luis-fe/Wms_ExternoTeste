@@ -260,6 +260,6 @@ def DetalhandoPedidoSku(empresa, pedido):
         cursor.close()
         conn_pg.close()
     else:
-        print('ja existe')
+        SugestoesAbertos = pd.DataFrame([{'mensagem':'Ja existe na tabela pedidossku'}])
 
     return SugestoesAbertos
