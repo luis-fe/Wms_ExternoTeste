@@ -144,8 +144,21 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         queue = 'Delete from "Reposicao".filaseparacaopedidos '\
                             " where codigopedido = %s and codtiponota = %s"
 
+
         cursor = conn2.cursor()
         cursor.execute(queue,(pedido,tiponota))
+        conn2.commit()
+
+    for i in range(tamanho):
+        pedido = validacao['codigopedido'][i]
+        tiponota = validacao['codtiponota'][i]
+
+        # Acessando os pedidos com enderecos reservados
+        queue = 'Delete from "Reposicao".pedidossku ' \
+                " where codpedido = %s "
+
+        cursor = conn2.cursor()
+        cursor.execute(queue, (pedido,))
         conn2.commit()
 
 
@@ -261,3 +274,5 @@ def DetalhandoPedidoSku(empresa, pedido):
         SugestoesAbertos = pd.DataFrame([{'mensagem':'Ja existe na tabela pedidossku'}])
 
     return SugestoesAbertos
+
+
