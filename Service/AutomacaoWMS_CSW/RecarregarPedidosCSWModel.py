@@ -232,20 +232,34 @@ def DetalhandoPedidoSku(empresa, pedido):
 
 
 
+
+
     query =  'Insert into "Reposicao".pedidossku (codpedido, produto, qtdesugerida, qtdepecasconf, endereco,' \
              ' necessidade, datahora, reservado ) values (%s, %s, %s, %s, %s, %s, %s, %s )'
 
     conn_pg = ConexaoPostgreMPL.conexao()
-    cursor = conn_pg.cursor()
 
-    for _, row in SugestoesAbertos.iterrows():
-        cursor.execute(query, (
-            row['codpedido'], row['produto'], row['qtdesugerida'], row['qtdepecasconf'],
-            row['endereco'], row['necessidade'], row['datahora'], row['reservado']
-        ))
-        conn_pg.commit()
+    # Pesquisar se em pedidossku ja existe o item
 
-    cursor.close()
-    conn_pg.close()
+    pedido = SugestoesAbertos['codpedido'][0]
+
+    consulta = pd.read_sql('select * from "Reposicao".pedidossku '
+                           'where codpedido = %s', conn_pg,params=(pedido))
+
+
+    if consulta.empty:
+        cursor = conn_pg.cursor()
+
+        for _, row in SugestoesAbertos.iterrows():
+            cursor.execute(query, (
+                row['codpedido'], row['produto'], row['qtdesugerida'], row['qtdepecasconf'],
+                row['endereco'], row['necessidade'], row['datahora'], row['reservado']
+            ))
+            conn_pg.commit()
+
+        cursor.close()
+        conn_pg.close()
+    else:
+        print('ja existe')
 
     return SugestoesAbertos
