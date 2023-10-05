@@ -243,7 +243,7 @@ def DetalhandoPedidoSku(empresa, pedido):
 
 
     consulta = pd.read_sql('select * from "Reposicao".pedidossku '
-                           'where codpedido = %s', conn_pg,params=(pedido))
+                           'where codpedido = %s ', conn_pg,params=(pedido,))
 
 
     if consulta.empty:
