@@ -126,12 +126,24 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         "select codigopedido, codtiponota " 
                                               ' from "Reposicao".filaseparacaopedidos f ', conn2)
 
+    validacaoPedidossku = pd.read_sql(
+        "select codpedido as codigopedido " 
+                                              ' from "Reposicao".pedidossku f ', conn2)
+
     validacao = pd.merge(validacao, retornaCsw, on=['codigopedido','codtiponota'], how='left')
     validacao.fillna('-', inplace=True)
 
     validacao = validacao[validacao['valida'] == '-']
     validacao = validacao.reset_index()
     tamanho = validacao['codigopedido'].size
+
+
+    validacao2 = pd.merge(validacaoPedidossku, retornaCsw, on=['codigopedido'], how='left')
+    validacao2.fillna('-', inplace=True)
+
+    validacao2 = validacao2[validacao2['valida'] == '-']
+    validacao2 = validacao2.reset_index()
+    tamanho2 = validacao2['codigopedido'].size
 
 
     for i in range(tamanho):
@@ -149,9 +161,8 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         cursor.execute(queue,(pedido,tiponota))
         conn2.commit()
 
-    for i in range(tamanho):
-        pedido = validacao['codigopedido'][i]
-        tiponota = validacao['codtiponota'][i]
+    for i in range(tamanho2):
+        pedido = validacao2['codigopedido'][i]
 
         # Acessando os pedidos com enderecos reservados
         queue = 'Delete from "Reposicao".pedidossku ' \
