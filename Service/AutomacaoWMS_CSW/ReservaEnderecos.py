@@ -208,13 +208,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
         pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
 
 
-        for i in range(tamanho):
-
-            necessidade = queue['necessidade'][i]
-            saldoliq = enderecosSku['SaldoLiquid'][i]
-            endereco = enderecosSku['codendereco2'][i]
-            produto = queue['produto'][i]
-            pedido = queue['codpedido'][i]
 
     return pd.DataFrame([{'status':'ok'}])
 
