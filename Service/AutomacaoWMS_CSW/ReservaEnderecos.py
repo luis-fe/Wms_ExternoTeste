@@ -181,7 +181,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     enderecosSku = pd.read_sql(
         ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-        ' where  natureza = %s  order by "SaldoLiquid" asc', conn, params=(natureza,))
+        ' where  natureza = %s and "SaldoLiquid" > 0 and order by "SaldoLiquid" asc', conn, params=(natureza,))
 
     enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
 
