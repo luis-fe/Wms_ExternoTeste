@@ -77,6 +77,28 @@ def AtribuirReservaPedido():
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
 
+@AutomacaoWMS_CSW_routes.route('/api/ReservaEndenrecos', methods=['GET'])
+@token_required
+def ReservaEndenrecos():
+    empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+    consideraSobra = request.args.get('consideraSobra',False)
+
+    TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra)
+
+
+
+    # Obtém os nomes das colunas
+    column_names = TagReposicao.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in TagReposicao.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
+
 @AutomacaoWMS_CSW_routes.route('/api/RecarregarPedidos', methods=['GET'])
 @token_required
 def RecarregarPedidos():

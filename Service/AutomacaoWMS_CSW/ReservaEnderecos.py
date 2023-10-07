@@ -167,6 +167,60 @@ def AtribuirReserva(pedido, natureza):
     return pd.DataFrame([{'Mensagem': f'foram reservados  {total} pçs e incrementado {inseridosDuplos}'}])
 
 
+def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
+
+    conn = ConexaoPostgreMPL.conexao()
+
+
+
+    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
+                        "where necessidade > 0 and reservado = 'nao' ",conn)
+
+    queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
+                        "where necessidade > 0 and reservado = 'nao' ",conn)
+
+    enderecosSku = pd.read_sql(
+        ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
+        ' where  natureza = %s  order by "SaldoLiquid" asc', conn, params=(natureza,))
+
+    enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
+
+    # Verificando se o endereco é normal ou de sobra
+    enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
+
+    if consideraSobra == False:
+        enderecosSku = enderecosSku[enderecosSku['repeticoesEndereco'] == 1]
+    else:
+        print('segue o baile')
+
+    # Calculando a necessidade de cada endereco
+
+    enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
+
+
+    for i in range(1):
+        pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
+        pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
+        pedidoskuIteracao.to_csv('avaliacao.csv')
+
+
+        tamanho = pedidoskuIteracao['codpedido'].size
+        pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
+
+
+        for i in range(tamanho):
+
+            necessidade = queue['necessidade'][i]
+            saldoliq = enderecosSku['SaldoLiquid'][i]
+            endereco = enderecosSku['codendereco2'][i]
+            produto = queue['produto'][i]
+            pedido = queue['codpedido'][i]
+
+    return pd.DataFrame([{'status':'ok'}])
+
+
+
+
 
 
 
