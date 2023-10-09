@@ -170,7 +170,8 @@ def AtribuirReserva(pedido, natureza):
 def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     conn = ConexaoPostgreMPL.conexao()
-    # Filtra oa reserva de sku somente para os skus em pedidos:
+# ----------------------------------------------------------------------------------------------------------------------------------
+    # 1 Filtra oa reserva de sku somente para os skus em pedidos:
     queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
                         "where necessidade > 0 and reservado = 'nao' ",conn)
 
@@ -180,11 +181,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
 
-
-    #2 - optem a tabela dos sku que quero reserva
-    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
-                        "where necessidade > 0 and reservado = 'nao' ",conn)
-
     # Verificando se o endereco é normal ou de sobra
     enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
 
@@ -193,28 +189,20 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
     else:
         print('segue o baile')
 
+# ----------------------------------------------------------------------------------------------------------------------------------
+    #2 - Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
+
+    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
+                        "where necessidade > 0 and reservado = 'nao' ",conn)
+# ----------------------------------------------------------------------------------------------------------------------------------
     # Calculando a necessidade de cada endereco
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
-
-
     pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (0 + 1)]
-
-
-
-
     pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
     pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
-       # pedidoskuIteracao = pedidoskuIteracao[pedidoskuIteracao['reptproduto'] == (0 + 1)]
-
-
-
-
     pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
-
-
     pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
-
     pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
     pedidoskuIteracao2 = pedidoskuIteracao2.loc[0:10]
 
