@@ -143,7 +143,7 @@ def GetCaixas():
 def InserirNovaCaixa(codcaixa, nomecaixa, tamanhocaixa):
     conn = ConexaoPostgreMPL.conexao()
     # SQL statement para inserir os dados
-    insert = 'INSERT INTO Reposicao.caixas (codcaixa, nomecaixa, tamanhocaixa) VALUES (%s, %s, %s)'
+    insert = 'INSERT INTO "Reposicao".caixas (codcaixa, nomecaixa, tamanhocaixa) VALUES (%s, %s, %s)'
 
     cursor = conn.cursor()
     # Execute o comando SQL
