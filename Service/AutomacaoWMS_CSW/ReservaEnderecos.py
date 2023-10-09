@@ -198,44 +198,46 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
     # Calculando a necessidade de cada endereco
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
-    pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (0 + 1)]
-    pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
-    pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
-    pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
-    pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
-    pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
+
+    for i in range(2):
+        pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
+        pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
+        pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
+        pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
+        pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
+        pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
 
 
-    tamanho = pedidoskuIteracao2['codpedido'].size
+        tamanho = pedidoskuIteracao2['codpedido'].size
 
-    pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=True)
+        pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=True)
 
-    cursor = conn.cursor()
+        cursor = conn.cursor()
 
-    for n in range(tamanho):
-            endereco = pedidoskuIteracao2['codendereco2'][n]
-            produto =pedidoskuIteracao2['produto'][n]
-            codpedido =pedidoskuIteracao2['codpedido'][n]
-            reservado = 'sim'
+        for n in range(tamanho):
+                endereco = pedidoskuIteracao2['codendereco2'][n]
+                produto =pedidoskuIteracao2['produto'][n]
+                codpedido =pedidoskuIteracao2['codpedido'][n]
+                reservado = 'sim'
 
-            update = 'update "Reposicao".pedidossku ' \
-                     'set reservado= %s , endereco = %s ' \
-                     'where codpedido = %s and produto = %s '
-
-
-            # Executar a atualização na tabela "Reposicao.pedidossku"
-            cursor.execute(update,
-                           (reservado, endereco, codpedido, produto)
-                           )
-
-            # Confirmar as alterações
-            conn.commit()
+                update = 'update "Reposicao".pedidossku ' \
+                         'set reservado= %s , endereco = %s ' \
+                         'where codpedido = %s and produto = %s '
 
 
-    cursor.close()
-    conn.close()
+                # Executar a atualização na tabela "Reposicao.pedidossku"
+                cursor.execute(update,
+                               (reservado, endereco, codpedido, produto)
+                               )
 
-    return pedidoskuIteracao2
+                # Confirmar as alterações
+                conn.commit()
+
+
+        cursor.close()
+        conn.close()
+
+        return pedidoskuIteracao2
 
 
 
