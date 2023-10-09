@@ -159,3 +159,89 @@ def InserirNovaCaixa(codcaixa, nomecaixa, tamanhocaixa):
     # Retorne uma mensagem de sucesso
     return pd.DataFrame([{'Mensagem': 'Inserido com sucesso!'}])
 
+def AtualizarCaixa(codcaixa, nomecaixa, tamanhocaixa):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = GetCaixas()
+
+    if codcaixa != '0':
+        consulta = consulta[consulta['codcaixa'] == codcaixa]
+
+        codcaixaNew = codcaixa
+        nomecaixaNew = consulta['nomecaixa'][0]
+        tamanhocaixa = consulta['tamanhocaixa'][0]
+
+        update = 'update "Reposicao".caixas ' \
+                 'set nomecaixa = %s, tamanhocaixa = %s ' \
+                 'where codcaixa = %s '
+
+        cursor = conn.cursor()
+        # Execute o comando SQL
+        cursor.execute(update, (nomecaixaNew, tamanhocaixa, codcaixaNew))
+
+        # Confirme as alterações no banco de dados
+        conn.commit()
+
+        # Feche o cursor e a conexão
+        cursor.close()
+        conn.close()
+
+        # Retorne uma mensagem de sucesso
+        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
+
+    elif nomecaixa != '0':
+        consulta = consulta[consulta['nomecaixa'] == nomecaixa]
+
+        codcaixaNew = consulta['codcaixa'][0]
+        nomecaixaNew = nomecaixa
+        tamanhocaixa = consulta['tamanhocaixa'][0]
+
+        update = 'update "Reposicao".caixas ' \
+                 'set codcaixa = %s, tamanhocaixa = %s ' \
+                 'where nomecaixa = %s '
+
+        cursor = conn.cursor()
+        # Execute o comando SQL
+        cursor.execute(update, (codcaixaNew, tamanhocaixa, nomecaixaNew))
+
+        # Confirme as alterações no banco de dados
+        conn.commit()
+
+        # Feche o cursor e a conexão
+        cursor.close()
+        conn.close()
+        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
+
+
+
+    elif tamanhocaixa != '0':
+        consulta = consulta[consulta['tamanhocaixa'] == tamanhocaixa]
+
+        codcaixaNew = consulta['codcaixa'][0]
+        nomecaixaNew = consulta['nomecaixa'][0]
+        tamanhocaixa = tamanhocaixa
+
+        update = 'update "Reposicao".caixas ' \
+                 'set codcaixa = %s, nomecaixa = %s ' \
+                 'where tamanhocaixa = %s '
+
+        cursor = conn.cursor()
+        # Execute o comando SQL
+        cursor.execute(update, (codcaixaNew, nomecaixaNew, tamanhocaixa))
+
+        # Confirme as alterações no banco de dados
+        conn.commit()
+
+        # Feche o cursor e a conexão
+        cursor.close()
+        conn.close()
+        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
+
+
+
+
+
+
+
+
+
+
