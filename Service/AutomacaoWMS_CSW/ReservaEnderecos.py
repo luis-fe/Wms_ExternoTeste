@@ -170,12 +170,7 @@ def AtribuirReserva(pedido, natureza):
 def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     conn = ConexaoPostgreMPL.conexao()
-
-
-
-    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
-                        "where necessidade > 0 and reservado = 'nao' ",conn)
-
+    # Filtra oa reserva de sku somente para os skus em pedidos:
     queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
                         "where necessidade > 0 and reservado = 'nao' ",conn)
 
@@ -184,6 +179,11 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
         ' where  natureza = %s and "SaldoLiquid" > 0 order by "SaldoLiquid" asc', conn, params=(natureza,))
 
     enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
+
+
+    #2 - optem a tabela dos sku que quero reserva
+    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
+                        "where necessidade > 0 and reservado = 'nao' ",conn)
 
     # Verificando se o endereco é normal ou de sobra
     enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
@@ -197,13 +197,15 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
 
+
     pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (0 + 1)]
+
 
     for i in range(1):
 
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = enderecosSku.groupby('produto').cumcount() + 1
-        pedidoskuIteracao = pedidoskuIteracao[pedidoskuIteracao['reptproduto'] == (0 + 1)]
+       # pedidoskuIteracao = pedidoskuIteracao[pedidoskuIteracao['reptproduto'] == (0 + 1)]
         pedidoskuIteracao.to_csv('avaliacao.csv')
 
 
