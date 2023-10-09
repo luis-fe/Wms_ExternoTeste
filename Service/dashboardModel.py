@@ -2,6 +2,11 @@ import ConexaoPostgreMPL
 import pandas as pd
 def relatorioTotalFila(empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
+
+    noRetorna = pd.read_sql('SELECT codigopedido as codpedido from "Reposicao".filaseparacaopedidos '
+                        "where situacaopedido = 'No Retorna'",conn)
+
+
     query = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS Saldo '
         'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s ' 
         ' GROUP BY "numeroop" ',conn,params=(natureza,))
@@ -9,10 +14,12 @@ def relatorioTotalFila(empresa, natureza):
 
     # obtendo os skus nao repostos
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where reservado = 'nao'and qtdepecasconf = 0",conn)
+                        " where reservado = 'nao' ",conn)
+    query2 = pd.merge(query2, noRetorna, on='codpedido' )
 
     query3 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where reservado = 'sim'  and qtdepecasconf = 0",conn)
+                        " where reservado = 'sim' ",conn)
+    query3 = pd.merge(query3, noRetorna, on='codpedido')
 
     Inventario = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao_inventario ti' ,conn)
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
