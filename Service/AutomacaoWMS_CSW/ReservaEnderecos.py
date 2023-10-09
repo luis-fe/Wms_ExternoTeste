@@ -207,6 +207,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
         pedidoskuIteracao.to_csv('avaliacao.csv')
 
 
+
         tamanho = pedidoskuIteracao['codpedido'].size
         pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
 
