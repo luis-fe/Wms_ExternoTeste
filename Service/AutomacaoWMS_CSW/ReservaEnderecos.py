@@ -206,7 +206,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = enderecosSku.groupby('produto').cumcount() + 1
        # pedidoskuIteracao = pedidoskuIteracao[pedidoskuIteracao['reptproduto'] == (0 + 1)]
-        pedidoskuIteracao.to_csv('avaliacao.csv')
 
 
 
@@ -215,7 +214,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
 
 
-    return pd.DataFrame([{'status':'ok'}])
+    return pedidoskuIteracao
 
 
 
