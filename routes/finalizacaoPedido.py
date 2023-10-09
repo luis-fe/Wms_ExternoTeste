@@ -63,9 +63,9 @@ def AtualizarCaixa(codcaixa):
     # Obtém os dados do corpo da requisição (JSON)
     # Obtenha os dados do corpo da requisição
     novo_endereco = request.get_json()
-    codcaixa2 = novo_endereco.get('codcaixa')
-    nomecaixa2 = novo_endereco.get('nomecaixa')
-    tamanhocaixa2 = novo_endereco.get('tamanhocaixa')
+    codcaixa2 = novo_endereco.get('codcaixa','0')
+    nomecaixa2 = novo_endereco.get('nomecaixa','0')
+    tamanhocaixa2 = novo_endereco.get('tamanhocaixa','0')
 
     Endereco_det = finalizacaoPedidoModel.AtualizarCaixa(codcaixa,codcaixa2, nomecaixa2,tamanhocaixa2)
 
