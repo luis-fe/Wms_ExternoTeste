@@ -214,47 +214,40 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
 
     pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
+
     pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
     tamanho = pedidoskuIteracao2['codpedido'].size
-    pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=False)
+    pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=True)
+
     cursor = conn.cursor()
-    '''''
-        for n in range(tamanho):
+
+    for n in range(tamanho):
             endereco = pedidoskuIteracao['codendereco2'][n]
             produto =pedidoskuIteracao['produto'][n]
             codpedido =pedidoskuIteracao['codpedido'][n]
             reservado = 'sim'
-    
-            update = 'update "Reposicao".pedidossku ' 
-                     'set reservado= %s , endereco = %s ' 
+
+            update = 'update "Reposicao".pedidossku ' \
+                     'set reservado= %s , endereco = %s ' \
                      'where codpedido = %s and codpedido = %s '
-    
-    
+
+
             # Executar a atualização na tabela "Reposicao.pedidossku"
             cursor.execute(update,
                            (reservado, endereco, codpedido, produto)
                            )
-    
+
             # Confirmar as alterações
             conn.commit()
-    
-    
-        cursor.close()
-        conn.close()
-    '''''
+
+
+    cursor.close()
+    conn.close()
+
 
 
 
     return pedidoskuIteracao2
-
-
-
-
-
-
-
-
-
 
 
 
