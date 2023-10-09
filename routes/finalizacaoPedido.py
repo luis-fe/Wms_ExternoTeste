@@ -58,6 +58,29 @@ def CadastrarCaixa():
         end_data.append(end_dict)
     return jsonify(end_data)
 
+@finalizacaoPedido_route.route('/api/AtualizarCaixa/<string:codcaixa>', methods=['PUT'])
+def AtualizarCaixa(codcaixa):
+    # Obtém os dados do corpo da requisição (JSON)
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    codcaixa2 = novo_endereco.get('codcaixa')
+    nomecaixa2 = novo_endereco.get('nomecaixa')
+    tamanhocaixa2 = novo_endereco.get('tamanhocaixa')
+
+    Endereco_det = finalizacaoPedidoModel.AtualizarCaixa(codcaixa,codcaixa2, nomecaixa2,tamanhocaixa2)
+
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
 @finalizacaoPedido_route.route('/api/FinalizarPedido', methods=['POST'])
 def FinalizarPedido():
     # Obtenha os dados do corpo da requisição

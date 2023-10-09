@@ -159,82 +159,41 @@ def InserirNovaCaixa(codcaixa, nomecaixa, tamanhocaixa):
     # Retorne uma mensagem de sucesso
     return pd.DataFrame([{'Mensagem': 'Inserido com sucesso!'}])
 
-def AtualizarCaixa(codcaixa, nomecaixa, tamanhocaixa):
+def AtualizarCaixa(codcaixa, codcaixa2, nomecaixa2, tamanhocaixa2):
     conn = ConexaoPostgreMPL.conexao()
     consulta = GetCaixas()
 
-    if codcaixa != '0':
-        consulta = consulta[consulta['codcaixa'] == codcaixa]
 
-        codcaixaNew = codcaixa
-        nomecaixaNew = consulta['nomecaixa'][0]
-        tamanhocaixa = consulta['tamanhocaixa'][0]
+    consulta = consulta[consulta['codcaixa'] == codcaixa]
 
-        update = 'update "Reposicao".caixas ' \
-                 'set nomecaixa = %s, tamanhocaixa = %s ' \
+
+    if codcaixa2 == '0':
+        codcaixa2 = codcaixa
+
+    if nomecaixa2== '0':
+        nomecaixa2 = consulta['nomecaixa'][0]
+
+    if tamanhocaixa2== '0':
+        tamanhocaixa2 = consulta['tamanhocaixa'][0]
+
+
+    update = 'update "Reposicao".caixas ' \
+                 'set codcaixa = %s, nomecaixa = %s, tamanhocaixa = %s ' \
                  'where codcaixa = %s '
 
-        cursor = conn.cursor()
-        # Execute o comando SQL
-        cursor.execute(update, (nomecaixaNew, tamanhocaixa, codcaixaNew))
+    cursor = conn.cursor()
+    # Execute o comando SQL
+    cursor.execute(update, (codcaixa2, nomecaixa2, tamanhocaixa2, codcaixa))
 
-        # Confirme as alterações no banco de dados
-        conn.commit()
+    # Confirme as alterações no banco de dados
+    conn.commit()
 
-        # Feche o cursor e a conexão
-        cursor.close()
-        conn.close()
+    # Feche o cursor e a conexão
+    cursor.close()
+    conn.close()
 
-        # Retorne uma mensagem de sucesso
-        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
-
-    elif nomecaixa != '0':
-        consulta = consulta[consulta['nomecaixa'] == nomecaixa]
-
-        codcaixaNew = consulta['codcaixa'][0]
-        nomecaixaNew = nomecaixa
-        tamanhocaixa = consulta['tamanhocaixa'][0]
-
-        update = 'update "Reposicao".caixas ' \
-                 'set codcaixa = %s, tamanhocaixa = %s ' \
-                 'where nomecaixa = %s '
-
-        cursor = conn.cursor()
-        # Execute o comando SQL
-        cursor.execute(update, (codcaixaNew, tamanhocaixa, nomecaixaNew))
-
-        # Confirme as alterações no banco de dados
-        conn.commit()
-
-        # Feche o cursor e a conexão
-        cursor.close()
-        conn.close()
-        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
-
-
-
-    elif tamanhocaixa != '0':
-        consulta = consulta[consulta['tamanhocaixa'] == tamanhocaixa]
-
-        codcaixaNew = consulta['codcaixa'][0]
-        nomecaixaNew = consulta['nomecaixa'][0]
-        tamanhocaixa = tamanhocaixa
-
-        update = 'update "Reposicao".caixas ' \
-                 'set codcaixa = %s, nomecaixa = %s ' \
-                 'where tamanhocaixa = %s '
-
-        cursor = conn.cursor()
-        # Execute o comando SQL
-        cursor.execute(update, (codcaixaNew, nomecaixaNew, tamanhocaixa))
-
-        # Confirme as alterações no banco de dados
-        conn.commit()
-
-        # Feche o cursor e a conexão
-        cursor.close()
-        conn.close()
-        return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
+    # Retorne uma mensagem de sucesso
+    return pd.DataFrame([{'Mensagem': 'Atualizado com sucesso!'}])
 
 
 
