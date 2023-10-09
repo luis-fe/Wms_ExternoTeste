@@ -210,7 +210,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
 
     tamanho = pedidoskuIteracao['codpedido'].size
-    pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['Necessidade'].cumsum()
+    pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
 
     pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
 
