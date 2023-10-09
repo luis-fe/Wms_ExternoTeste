@@ -142,14 +142,20 @@ def GetCaixas():
 
 def InserirNovaCaixa(codcaixa, nomecaixa, tamanhocaixa):
     conn = ConexaoPostgreMPL.conexao()
-    insert = 'insert into Reposicao".caixas (codcaixa, nomecaixa, tamanhocaixa) ' \
-             ' values (%s, %s, %s, %s )'
+    # SQL statement para inserir os dados
+    insert = 'INSERT INTO Reposicao.caixas (codcaixa, nomecaixa, tamanhocaixa) VALUES (%s, %s, %s)'
 
     cursor = conn.cursor()
-    cursor.execute(insert,(codcaixa, nomecaixa, tamanhocaixa))
+    # Execute o comando SQL
+    cursor.execute(insert, (codcaixa, nomecaixa, tamanhocaixa))
+
+    # Confirme as alterações no banco de dados
     conn.commit()
+
+    # Feche o cursor e a conexão
     cursor.close()
     conn.close()
 
-    return pd.DataFrame([{'Mensagem':'Inserido com sucesso !'}])
+    # Retorne uma mensagem de sucesso
+    return pd.DataFrame([{'Mensagem': 'Inserido com sucesso!'}])
 
