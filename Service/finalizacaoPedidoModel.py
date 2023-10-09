@@ -140,5 +140,16 @@ def GetCaixas():
 
     return query
 
+def InserirNovaCaixa(codcaixa, nomecaixa, tamanhocaixa):
+    conn = ConexaoPostgreMPL.conexao()
+    insert = 'insert into Reposicao".caixas (codcaixa, nomecaixa, tamanhocaixa) ' \
+             ' values (%s, %s, %s, %s )'
 
+    cursor = conn.cursor()
+    cursor.execute(insert,(codcaixa, nomecaixa, tamanhocaixa))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return pd.DataFrame([{'Mensagem':'Inserido com sucesso !'}])
 

@@ -35,6 +35,29 @@ def CaixasCadastradas():
         end_data.append(end_dict)
     return jsonify(end_data)
 
+@finalizacaoPedido_route.route('/api/CadastrarCaixa', methods=['POST'])
+def CadastrarCaixa():
+    # Obtém os dados do corpo da requisição (JSON)
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    codcaixa = novo_endereco.get('codcaixa')
+    nomecaixa = novo_endereco.get('nomecaixa')
+    tamanhocaixa = novo_endereco.get('tamanhocaixa')
+
+    Endereco_det = finalizacaoPedidoModel.InserirNovaCaixa(codcaixa,nomecaixa,tamanhocaixa)
+
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
 @finalizacaoPedido_route.route('/api/FinalizarPedido', methods=['POST'])
 def FinalizarPedido():
     # Obtenha os dados do corpo da requisição
