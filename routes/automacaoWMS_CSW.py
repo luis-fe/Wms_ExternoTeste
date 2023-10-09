@@ -106,10 +106,9 @@ def RecarregarPedidos():
     natureza = request.args.get('natureza','5')
     consideraSobra = request.args.get('consideraSobra',False)
 
-
-
-    TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra)
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
+    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra)
+
 
 
 
