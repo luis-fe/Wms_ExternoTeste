@@ -221,7 +221,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     cursor = conn.cursor()
 
-    for n in range(tamanho):
+    for n in range(3):
             endereco = pedidoskuIteracao['codendereco2'][n]
             produto =pedidoskuIteracao['produto'][n]
             codpedido =pedidoskuIteracao['codpedido'][n]
