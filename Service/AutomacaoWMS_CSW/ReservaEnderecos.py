@@ -229,7 +229,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
             update = 'update "Reposicao".pedidossku ' \
                      'set reservado= %s , endereco = %s ' \
-                     'where codpedido = %s and codpedido = %s '
+                     'where codpedido = %s and produto = %s '
 
 
             # Executar a atualização na tabela "Reposicao.pedidossku"
