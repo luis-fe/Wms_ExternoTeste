@@ -204,7 +204,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
     pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
     pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
     pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
-    pedidoskuIteracao2 = pedidoskuIteracao2.loc[0:100]
+
 
     tamanho = pedidoskuIteracao2['codpedido'].size
 
@@ -234,11 +234,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     cursor.close()
     conn.close()
-
-
-
-
-    return pedidoskuIteracao2
 
 
 

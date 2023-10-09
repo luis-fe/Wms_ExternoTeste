@@ -103,9 +103,14 @@ def ReservaEndenrecos():
 @token_required
 def RecarregarPedidos():
     empresa = request.args.get('empresa','1')
+    natureza = request.args.get('natureza','5')
+    consideraSobra = request.args.get('consideraSobra',False)
 
 
+
+    TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra)
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
+
 
 
 
