@@ -12,7 +12,7 @@ def relatorioTotalFila(empresa, natureza):
                         " where endereco = 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
 
     query3 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where endereco <> 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
+                        " where endereco <> 'Não Reposto'  and qtdepecasconf = 0",conn)
 
     Inventario = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao_inventario ti' ,conn)
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
