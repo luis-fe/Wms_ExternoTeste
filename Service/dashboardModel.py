@@ -9,7 +9,7 @@ def relatorioTotalFila(empresa, natureza):
 
     # obtendo os skus nao repostos
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
-                        " where endereco = 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
+                        " where reservado = 'nao'and qtdepecasconf = 0",conn)
 
     query3 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
                         " where reservado = 'sim'  and qtdepecasconf = 0",conn)
