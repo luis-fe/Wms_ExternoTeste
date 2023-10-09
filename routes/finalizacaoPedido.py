@@ -18,6 +18,23 @@ def get_Caixas():
     # Retorna o dicionário como JSON
     return jsonify(response_data)
 
+@finalizacaoPedido_route.route('/api/CaixasCadastradas', methods=['GET'])
+def CaixasCadastradas():
+    # Obtém os dados do corpo da requisição (JSON)
+
+    Endereco_det = finalizacaoPedidoModel.GetCaixas()
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
 @finalizacaoPedido_route.route('/api/FinalizarPedido', methods=['POST'])
 def FinalizarPedido():
     # Obtenha os dados do corpo da requisição

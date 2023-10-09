@@ -132,7 +132,13 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
 
     return result
 
+def GetCaixas():
+    conn = ConexaoPostgreMPL.conexao()
+    query = pd.read_sql('select * from "Reposicao".caixas',conn)
+    conn.close()
 
+
+    return query
 
 
 
