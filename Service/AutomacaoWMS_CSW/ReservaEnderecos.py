@@ -213,9 +213,9 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
     cursor = conn.cursor()
 
     for n in range(tamanho):
-            endereco = pedidoskuIteracao['codendereco2'][n]
-            produto =pedidoskuIteracao['produto'][n]
-            codpedido =pedidoskuIteracao['codpedido'][n]
+            endereco = pedidoskuIteracao2['codendereco2'][n]
+            produto =pedidoskuIteracao2['produto'][n]
+            codpedido =pedidoskuIteracao2['codpedido'][n]
             reservado = 'sim'
 
             update = 'update "Reposicao".pedidossku ' \
