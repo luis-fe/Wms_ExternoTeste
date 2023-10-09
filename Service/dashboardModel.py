@@ -6,6 +6,8 @@ def relatorioTotalFila(empresa, natureza):
         'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s ' 
         ' GROUP BY "numeroop" ',conn,params=(natureza,))
 
+
+    # obtendo os skus nao repostos
     query2 = pd.read_sql('select *, 1 as contagem from "Reposicao".pedidossku p'
                         " where endereco = 'Não Reposto' and necessidade > 0 and qtdepecasconf = 0",conn)
 
@@ -16,8 +18,8 @@ def relatorioTotalFila(empresa, natureza):
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
     query['saldo'] = query['saldo'].sum()
-    query2['contagem'] = query2['contagem'].sum()
-    query3['contagem'] = query3['contagem'].sum()
+    query2['contagem'] = query2['qtdesugerida'].sum()
+    query3['contagem'] = query3['qtdesugerida'].sum()
     Inventario['codreduzido'] = Inventario['codreduzido'].count()
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
     total =  query3['contagem'][0] +  query2['contagem'][0]
