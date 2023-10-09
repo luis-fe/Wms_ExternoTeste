@@ -215,7 +215,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
     pedidoskuIteracao = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
-    pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=False)
+    pedidoskuIteracao = pedidoskuIteracao.reset_index(drop=True)
     cursor = conn.cursor()
     '''''
         for n in range(tamanho):
