@@ -167,7 +167,7 @@ def AtribuirReserva(pedido, natureza):
     return pd.DataFrame([{'Mensagem': f'foram reservados  {total} pçs e incrementado {inseridosDuplos}'}])
 
 
-def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem):
+def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao):
 
     conn = ConexaoPostgreMPL.conexao()
 # ----------------------------------------------------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem):
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
 
-    for i in range(12):
+    for i in range(repeticao):
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
