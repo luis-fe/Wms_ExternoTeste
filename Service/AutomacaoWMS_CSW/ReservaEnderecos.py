@@ -202,13 +202,14 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
     # Calculando a necessidade de cada endereco
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
-
+    cursor = conn.cursor()
     for i in range(repeticao):
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
         pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
         pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
+
         pedidoskuIteracao2 = pedidoskuIteracao[pedidoskuIteracao['reserva'] >= 0]
 
 
@@ -216,7 +217,8 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=True)
 
-        cursor = conn.cursor()
+
+        pedidoskuIteracao = enderecosSku
 
         for n in range(tamanho):
                 endereco = pedidoskuIteracao2['codendereco2'][n]
