@@ -199,7 +199,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
 
-    for i in range(10):
+    for i in range(12):
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
