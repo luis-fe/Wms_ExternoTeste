@@ -85,7 +85,7 @@ def ReservaEndenrecos():
     consideraSobra = request.args.get('consideraSobra',False)
     ordem = request.args.get('ordem', 'asc')
     TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra, ordem)
-    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,ordem)
+    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra,ordem)
 
 
 
