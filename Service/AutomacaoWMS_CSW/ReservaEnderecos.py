@@ -179,15 +179,19 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
         ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
         ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc', conn, params=(natureza,))
 
-    enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
-
-    # Verificando se o endereco é normal ou de sobra
     enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
 
     if consideraSobra == False:
         enderecosSku = enderecosSku[enderecosSku['repeticoesEndereco'] == 1]
     else:
         print('segue o baile')
+
+    enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
+
+    # Verificando se o endereco é normal ou de sobra
+
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------------------
     #2 - Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
