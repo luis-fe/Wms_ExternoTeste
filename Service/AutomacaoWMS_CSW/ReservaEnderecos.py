@@ -167,7 +167,7 @@ def AtribuirReserva(pedido, natureza):
     return pd.DataFrame([{'Mensagem': f'foram reservados  {total} pçs e incrementado {inseridosDuplos}'}])
 
 
-def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
+def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem):
 
     conn = ConexaoPostgreMPL.conexao()
 # ----------------------------------------------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra):
 
     enderecosSku = pd.read_sql(
         ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-        ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc', conn, params=(natureza,))
+        ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" '+ ordem , conn, params=(natureza,))
 
     enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
 
