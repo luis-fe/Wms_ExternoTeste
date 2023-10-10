@@ -343,6 +343,8 @@ def InformacaoImpresao(pedido):
         pedido['transportadora'] = 'Perdeu Conexao Csw'
     codigoCliente = pedido['codcliente'][0]
 
+    pedido.fillna(' - ', inplace=True)
+
 
     return codigoCliente, pedido['cliente'][0],pedido['separador'][0],pedido['transportadora'][0],pedido['agrupamentopedido'][0]
 #
