@@ -240,7 +240,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
 
         cursor.close()
-        conn.close()
+    conn.close()
 
     return pedidoskuIteracao2
 
