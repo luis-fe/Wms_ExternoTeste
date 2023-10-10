@@ -170,40 +170,41 @@ def AtribuirReserva(pedido, natureza):
 def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao):
 
     conn = ConexaoPostgreMPL.conexao()
-# ----------------------------------------------------------------------------------------------------------------------------------
-    # 1 Filtra oa reserva de sku somente para os skus em pedidos:
-    queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
-                        "where necessidade > 0 and reservado = 'nao' ",conn)
-
-    enderecosSku = pd.read_sql(
-        ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-        ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" '+ ordem , conn, params=(natureza,))
-
-    enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
-
-    if consideraSobra == False:
-        enderecosSku = enderecosSku[enderecosSku['repeticoesEndereco'] == 1]
-    else:
-        print('segue o baile')
-
-    enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
-
-    # Verificando se o endereco é normal ou de sobra
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------------------------------
-    #2 - Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
-
-    queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
-                        "where necessidade > 0 and reservado = 'nao' ",conn)
-# ----------------------------------------------------------------------------------------------------------------------------------
-    # Calculando a necessidade de cada endereco
-
-    enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
-    cursor = conn.cursor()
     for i in range(repeticao):
+    # ----------------------------------------------------------------------------------------------------------------------------------
+        # 1 Filtra oa reserva de sku somente para os skus em pedidos:
+        queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
+                            "where necessidade > 0 and reservado = 'nao' ",conn)
+
+        enderecosSku = pd.read_sql(
+            ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
+            ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" '+ ordem , conn, params=(natureza,))
+
+        enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
+
+        if consideraSobra == False:
+            enderecosSku = enderecosSku[enderecosSku['repeticoesEndereco'] == 1]
+        else:
+            print('segue o baile')
+
+        enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
+
+        # Verificando se o endereco é normal ou de sobra
+
+
+
+
+    # ----------------------------------------------------------------------------------------------------------------------------------
+        #2 - Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
+
+        queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
+                            "where necessidade > 0 and reservado = 'nao' ",conn)
+    # ----------------------------------------------------------------------------------------------------------------------------------
+        # Calculando a necessidade de cada endereco
+
+        enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
+
+
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i + 1)]
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
         pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
@@ -217,33 +218,31 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         pedidoskuIteracao2 = pedidoskuIteracao2.reset_index(drop=True)
 
-
-        pedidoskuIteracao = enderecosSku
-
+        cursor = conn.cursor()
         for n in range(tamanho):
-                endereco = pedidoskuIteracao2['codendereco2'][n]
-                produto =pedidoskuIteracao2['produto'][n]
-                codpedido =pedidoskuIteracao2['codpedido'][n]
-                reservado = 'sim'
+                    endereco = pedidoskuIteracao2['codendereco2'][n]
+                    produto =pedidoskuIteracao2['produto'][n]
+                    codpedido =pedidoskuIteracao2['codpedido'][n]
+                    reservado = 'sim'
 
-                update = 'update "Reposicao".pedidossku ' \
-                         'set reservado= %s , endereco = %s ' \
-                         'where codpedido = %s and produto = %s '
+                    update = 'update "Reposicao".pedidossku ' \
+                             'set reservado= %s , endereco = %s ' \
+                             'where codpedido = %s and produto = %s '
 
 
-                # Executar a atualização na tabela "Reposicao.pedidossku"
-                cursor.execute(update,
-                               (reservado, endereco, codpedido, produto)
-                               )
+                    # Executar a atualização na tabela "Reposicao.pedidossku"
+                    cursor.execute(update,
+                                   (reservado, endereco, codpedido, produto)
+                                   )
 
-                # Confirmar as alterações
-                conn.commit()
+                    # Confirmar as alterações
+                    conn.commit()
 
 
         cursor.close()
         conn.close()
 
-        return pedidoskuIteracao2
+    return pedidoskuIteracao2
 
 
 
