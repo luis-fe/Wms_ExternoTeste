@@ -130,12 +130,13 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     })
 
     result['quantidade'] = result['quantidade'].astype(int)
+    result['tamanhocaixa'] = result['tamcaixa']
 
-    caixasCadastros = pd.read_sql('select tamanhocaixa as "tamcaixa", codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
-    result = pd.merge(result,caixasCadastros, on='tamcaixa', how= 'left')
+    caixasCadastros = pd.read_sql('select tamanhocaixa , codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
+    result = pd.merge(result,caixasCadastros, on='tamanhocaixa', how= 'left')
 
     conn.close()
-    return caixasCadastros
+    return result
 
 def GetCaixas():
     conn = ConexaoPostgreMPL.conexao()
