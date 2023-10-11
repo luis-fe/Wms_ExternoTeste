@@ -108,9 +108,13 @@ def RecarregarPedidos():
     empresa = request.args.get('empresa','1')
     natureza = request.args.get('natureza','5')
     consideraSobra = request.args.get('consideraSobra',False)
+    ordem = request.args.get('ordem', 'asc')
+    repeticao = request.args.get('repeticao', 12)
 
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
-    # TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,consideraSobra)
+    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5))
+    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),ordem,int(5))
+
 
 
 
