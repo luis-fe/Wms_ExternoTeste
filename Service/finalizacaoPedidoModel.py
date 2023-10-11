@@ -112,8 +112,12 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
     query4 = pd.read_sql("select TO_CHAR(datafinalizacao, 'YYYY-MM-DD') as data ,"
-                         ' tamcaixa4 as tamcaixa , qtdcaixa4 as quantidade  from "Reposicao".relatorio_caixas '
+                         ' tamcaixa4 as tamcaixa , qtdcaixa4 as quantidade   from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
+
+    caixasCadastros = pd.read_sql('select tamanhocaixa as tamcaixa, codcaixa , nomecaixa  from "Reposicao"."Reposicao".caixas c ',conn)
+
+
 
     result = pd.concat([query1, query2,query3,query4])
 
@@ -127,6 +131,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     })
 
     result['quantidade'] = result['quantidade'].astype(int)
+    result= pd.merge(result,caixasCadastros,on ='tamcaixa')
 
     conn.close()
 

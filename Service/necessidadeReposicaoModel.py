@@ -50,3 +50,5 @@ def RelatorioNecessidadeReposicao():
         '1- Detalhamento das Necessidades ': relatorioEndereço.to_dict(orient='records')
     }
     return [data]
+
+
