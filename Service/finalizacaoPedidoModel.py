@@ -134,6 +134,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
 
     caixasCadastros = pd.read_sql('select tamanhocaixa , codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
     result = pd.merge(result,caixasCadastros, on='tamanhocaixa', how= 'left')
+    result.drop('tamanhocaixa', axis=1, inplace=True)
 
     conn.close()
     return result
