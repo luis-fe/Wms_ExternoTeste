@@ -135,7 +135,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
    # result= pd.merge(result,caixasCadastros, on='tamcaixa', how= 'left')
 
     conn.close()
-    return result
+    return caixasCadastros
 
 def GetCaixas():
     conn = ConexaoPostgreMPL.conexao()
