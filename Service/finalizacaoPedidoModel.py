@@ -115,7 +115,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
                          ' tamcaixa4 as tamcaixa , qtdcaixa4 as quantidade   from "Reposicao".relatorio_caixas '
                         'where datafinalizacao >= %s and datafinalizacao <= %s ',conn,params=(dataInico,DataFim))
 
-    caixasCadastros = pd.read_sql('select tamanhocaixa as tamcaixa, codcaixa , nomecaixa  from "Reposicao"."Reposicao".caixas c ',conn)
+    caixasCadastros = pd.read_sql('select tamanhocaixa as tamcaixa, codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
 
 
 
@@ -131,7 +131,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
     })
 
     result['quantidade'] = result['quantidade'].astype(int)
-    result= pd.merge(result,caixasCadastros,on ='tamcaixa')
+    result= pd.merge(result,caixasCadastros, on='tamcaixa')
 
     conn.close()
 
