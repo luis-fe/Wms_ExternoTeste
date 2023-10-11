@@ -18,6 +18,10 @@ def RelatorioNecessidadeReposicao():
                      " where engenharia is not null and codnaturezaatual = '5' "
                      ' group by codreduzido, numeroop',conn)
 
+    reservaEndereco = pd.read_sql('select codreduzido, sum("SaldoLiquid") as "DisponivelPrateleira"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
+                                  ' where ce."SaldoLiquid" > 0'
+                                  ' group by codreduzido',conn)
+
     OP = OP.sort_values(by='qtde', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
 
@@ -32,6 +36,7 @@ def RelatorioNecessidadeReposicao():
 
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP_ag, on='codreduzido', how='left')
+    relatorioEndereço = pd.merge(relatorioEndereço, reservaEndereco, on='codreduzido', how='left')
 
     # Clasificando o Dataframe para analise
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
