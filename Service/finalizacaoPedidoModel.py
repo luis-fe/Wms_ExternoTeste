@@ -131,7 +131,7 @@ def RelatorioConsumoCaixa(dataInico, DataFim):
 
     result['quantidade'] = result['quantidade'].astype(int)
 
-    caixasCadastros = pd.read_sql('select tamanhocaixa as tamcaixa, codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
+    caixasCadastros = pd.read_sql('select tamanhocaixa as "tamcaixa", codcaixa , nomecaixa  from "Reposicao".caixas c ',conn)
     result= pd.merge(result,caixasCadastros, on='tamcaixa', how= 'left')
 
     conn.close()
