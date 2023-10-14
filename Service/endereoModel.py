@@ -1,6 +1,8 @@
 import ConexaoPostgreMPL
 import pandas as pd
 
+from Service import imprimirEtiquetaModel
+
 
 def ObeterEnderecos():
     conn = ConexaoPostgreMPL.conexao()
@@ -86,7 +88,7 @@ def EnderecosDisponiveis(natureza, empresa):
     }
     return [data]
 
-def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza):
+def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza, imprimir):
 
     conn = ConexaoPostgreMPL.conexao()
     query = 'insert into "Reposicao".cadendereco (codendereco, rua, modulo, posicao, tipo, codempresa, natureza) ' \
@@ -112,6 +114,12 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                 cursor = conn.cursor()
                 select = pd.read_sql('select codendereco from "Reposicao".cadendereco where codendereco = %s ', conn,
                                      params=(codendereco,))
+                if imprimir == True:
+
+                    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf', codendereco, rua, modulo, posicao)
+                    imprimirEtiquetaModel.imprimir_pdf('teste.pdf')
+                else:
+                    print(f'sem imprimir')
                 if select.empty:
                     cursor.execute(query, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,))
                     conn.commit()

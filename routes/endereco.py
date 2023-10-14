@@ -100,12 +100,12 @@ def EnderecoAtacado():
     tipo = novo_endereco.get('tipo','COLECAO')
     natureza = novo_endereco.get('natureza','5')
     empresa = novo_endereco.get('empresa','1')
+    imprimir = novo_endereco.get('imprimir', False)
 
 
-    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
+    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir))
 
-    endereco = rua+'-'+modulo+'-'+posicao
-    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf',endereco,rua,modulo,posicao)
+
 
 
     # inserir o novo usuário no banco de dados
