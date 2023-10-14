@@ -77,22 +77,22 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao):
 
         # Título centralizado
         title = rua
-        c.setFont("Helvetica-Bold", 21)
+        c.setFont("Helvetica-Bold", 23)
         c.drawString(0.3 * cm, 0.75 * cm, title)
 
         c.setFont("Helvetica-Bold", 9)
         c.drawString(0.3 * cm, 1.5 * cm, 'Rua.')
 
         title = modulo
-        c.setFont("Helvetica-Bold", 21)
+        c.setFont("Helvetica-Bold", 23)
         c.drawString(1.8 * cm, 0.75 * cm, title)
 
         c.setFont("Helvetica-Bold", 9)
         c.drawString(1.4 * cm, 1.5 * cm, 'Quadra.')
 
         title = posicao
-        c.setFont("Helvetica-Bold", 21)
-        c.drawString(2.9 * cm, 0.75 * cm, title)
+        c.setFont("Helvetica-Bold", 23)
+        c.drawString(3.3 * cm, 0.75 * cm, title)
 
         c.setFont("Helvetica-Bold", 9)
         c.drawString(2.9 * cm, 1.5 * cm, 'Posicao.')
