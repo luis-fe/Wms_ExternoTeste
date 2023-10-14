@@ -101,7 +101,7 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao, natureza):
         c.drawString(5.2 * cm, 0.2 * cm, 'Natureza:')
 
         c.setFont("Helvetica-Bold", 6)
-        c.drawString(5.8 * cm, 0.2 * cm, natureza)
+        c.drawString(6.4 * cm, 0.2 * cm, natureza)
 
 
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
