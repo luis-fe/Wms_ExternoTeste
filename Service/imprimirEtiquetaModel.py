@@ -146,7 +146,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(0.9 * cm, 0.2 * cm, '00' + codigo1)
+        c.drawString(0.9 * cm, 0.2 * cm, '' + codigo1)
 
 
 
@@ -168,7 +168,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
             c.setFont("Helvetica-Bold", 5)
-            c.drawString(3.4 * cm, 0.2 * cm, '00' + codigo2)
+            c.drawString(3.4 * cm, 0.2 * cm, '' + codigo2)
 
         if codigo3 == '0' :
             print('sem seq')
@@ -186,7 +186,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
 
             c.setFont("Helvetica-Bold", 5)
-            c.drawString(5.8 * cm, 0.2 * cm, '00' + codigo3)
+            c.drawString(5.8 * cm, 0.2 * cm, '' + codigo3)
 
         c.save()
 def QuantidadeImprimir(quantidade):
@@ -209,5 +209,18 @@ def QuantidadeImprimir(quantidade):
         codigo2 = '00'+str(codigo2)
         codigo3 = '00'+str(codigo3)
         ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
+
+        insert = 'insert into "off".seq_caixa (codigo) values (%s)'
+
+        cursor = conn.cursor()
+        cursor.execute(insert,(codigo1))
+        conn.commit()
+        cursor.execute(insert,(codigo2))
+        conn.commit()
+        cursor.execute(insert,(codigo3))
+        conn.commit()
+
+        cursor.close()
+    conn.close()
 
 
