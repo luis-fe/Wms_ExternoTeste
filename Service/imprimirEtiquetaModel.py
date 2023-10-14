@@ -105,4 +105,10 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao):
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
         c.drawImage(qr_filename, 5.2 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
 
+        c.setFont("Helvetica-Bold", 9)
+        barcode_value = endereco  # Substitua pelo valor do código de barras desejado
+        barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, humanReadable=True)
+        # Desenhar o código de barras diretamente no canvas
+        barcode_code128.drawOn(c, 0.5 * cm, 0.1 * cm)
+
         c.save()
