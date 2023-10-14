@@ -130,21 +130,8 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
 
         c = canvas.Canvas(saida_pdf, pagesize=custom_page_size)
 
-        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-        qr.add_data(codigo)  # Substitua pelo link desejado
-        qr.make(fit=True)
-        qr_img = qr.make_image(fill_color="black", back_color="white")
-        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 5.4 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
 
-        c.setFont("Helvetica-Bold", 3)
-        c.drawString(5.4 * cm, 0.2 * cm, 'NºCx:')
-
-        c.setFont("Helvetica-Bold", 3)
-        c.drawString(5.8 * cm, 0.2 * cm, '0000'+'3')
-
-
-        # qrcode 2:
+        #qrcode 1
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
         qr.add_data(codigo)  # Substitua pelo link desejado
         qr.make(fit=True)
@@ -152,14 +139,17 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
         c.drawImage(qr_filename, 0.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
-        c.setFont("Helvetica-Bold", 4)
+        c.setFont("Helvetica-Bold", 6)
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
-        c.setFont("Helvetica-Bold", 4)
-        c.drawString(0.7 * cm, 0.2 * cm, '0000' + '2')
+        c.setFont("Helvetica-Bold", 6)
+        c.drawString(0.7 * cm, 0.2 * cm, '0000' + '1')
 
 
-        # qrcode 3:
+
+
+        # qrcode 2:
+
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
         qr.add_data(codigo)  # Substitua pelo link desejado
         qr.make(fit=True)
@@ -171,5 +161,22 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 4)
-        c.drawString(3.1 * cm, 0.2 * cm, '0000' + '1')
+        c.drawString(3.1 * cm, 0.2 * cm, '0000' + '2')
+
+
+
+        # qrcode 3:
+        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr.add_data(codigo)  # Substitua pelo link desejado
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+        c.drawImage(qr_filename, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(5.6 * cm, 0.2 * cm, '0000' + '3')
+
         c.save()
