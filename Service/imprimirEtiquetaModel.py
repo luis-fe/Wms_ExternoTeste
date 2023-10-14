@@ -135,13 +135,13 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 5.2 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
+        c.drawImage(qr_filename, 5.4 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
 
-        c.setFont("Helvetica-Bold", 4)
-        c.drawString(5.2 * cm, 0.2 * cm, 'NºCx:')
+        c.setFont("Helvetica-Bold", 3)
+        c.drawString(5.4 * cm, 0.2 * cm, 'NºCx:')
 
-        c.setFont("Helvetica-Bold", 4)
-        c.drawString(6.4 * cm, 0.2 * cm, '0000'+codigo)
+        c.setFont("Helvetica-Bold", 3)
+        c.drawString(5.8 * cm, 0.2 * cm, '0000'+'3')
 
 
         # qrcode 2:
@@ -156,7 +156,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 4)
-        c.drawString(0.3 * cm, 0.2 * cm, '0000' + codigo)
+        c.drawString(0.7 * cm, 0.2 * cm, '0000' + '2')
 
 
         # qrcode 3:
@@ -171,5 +171,5 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 4)
-        c.drawString(2.8 * cm, 0.2 * cm, '0000' + codigo)
+        c.drawString(3.1 * cm, 0.2 * cm, '0000' + '1')
         c.save()
