@@ -210,14 +210,14 @@ def QuantidadeImprimir(quantidade):
         codigo3 = '00'+str(codigo3)
         ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
 
-        insert = 'insert into "off".seq_caixa (codigo) values (%s)'
+        insert = 'insert into "off".seq_caixa (codigo) values ( %s )'
 
         cursor = conn.cursor()
-        cursor.execute(insert,(codigo1))
+        cursor.execute(insert,(codigo1,))
         conn.commit()
-        cursor.execute(insert,(codigo2))
+        cursor.execute(insert,(codigo2,))
         conn.commit()
-        cursor.execute(insert,(codigo3))
+        cursor.execute(insert,(codigo3,))
         conn.commit()
 
         cursor.close()
