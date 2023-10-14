@@ -159,10 +159,11 @@ def GerarCaixa():
     # Extraia os valores dos campos do novo usuário
 
     QuantidadeImprimir = novo_endereco.get('QuantidadeImprimir')
+    usuario = novo_endereco.get('usuario','')
 
 
 
-    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir)
+    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir,usuario)
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' ok!'}), 200

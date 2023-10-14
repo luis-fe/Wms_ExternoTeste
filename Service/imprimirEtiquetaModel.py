@@ -189,7 +189,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(5.8 * cm, 0.2 * cm, '' + codigo3)
 
         c.save()
-def QuantidadeImprimir(quantidade):
+def QuantidadeImprimir(quantidade, usuario = ''):
     quantidade = int(quantidade)
     n_impressoes = math.ceil(quantidade / 3)
 
@@ -210,15 +210,15 @@ def QuantidadeImprimir(quantidade):
         codigo3 = '00'+str(codigo3)
         ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
 
-        insert = 'insert into "off".seq_caixa (codigo) values ( %s )'
+        insert = 'insert into "off".seq_caixa (codigo, usuario) values ( %s, %s )'
 
         cursor = conn.cursor()
-        cursor.execute(insert,(codigo1,))
+        cursor.execute(insert,(codigo1,usuario,))
         conn.commit()
 
-        cursor.execute(insert,(codigo2,))
+        cursor.execute(insert,(codigo2,usuario,))
         conn.commit()
-        cursor.execute(insert,(codigo3,))
+        cursor.execute(insert,(codigo3,usuario,))
         conn.commit()
 
         cursor.close()
