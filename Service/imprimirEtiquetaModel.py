@@ -7,6 +7,8 @@ import tempfile
 from reportlab.graphics import barcode
 import qrcode
 import math
+import ConexaoPostgreMPL
+import pandas as pd
 
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agrupamento):
@@ -144,7 +146,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(0.9 * cm, 0.2 * cm, '0000' + codigo1)
+        c.drawString(0.9 * cm, 0.2 * cm, '00' + codigo1)
 
 
 
@@ -166,7 +168,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
             c.setFont("Helvetica-Bold", 5)
-            c.drawString(3.4 * cm, 0.2 * cm, '0000' + codigo2)
+            c.drawString(3.4 * cm, 0.2 * cm, '00' + codigo2)
 
         if codigo3 == '0' :
             print('sem seq')
@@ -184,22 +186,28 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
 
             c.setFont("Helvetica-Bold", 5)
-            c.drawString(5.8 * cm, 0.2 * cm, '0000' + codigo3)
+            c.drawString(5.8 * cm, 0.2 * cm, '00' + codigo3)
 
         c.save()
 def QuantidadeImprimir(quantidade):
     quantidade = int(quantidade)
     n_impressoes = math.ceil(quantidade / 3)
 
-    inicial = 4
+    conn = ConexaoPostgreMPL.conexao()
+    inicial = pd.read('select sc.codigo from "off".seq_caixa sc order by codigo desc ',conn)
+
+    inicial = inicial['codigo'][0]
+    inicial = int(inicial)
+
     for i in range(n_impressoes):
         codigo1 = inicial+1
         codigo2=inicial+2
         codigo3 = inicial+3
         inicial = inicial+3
 
-        codigo1 = str(codigo1)
-        codigo2 = str(codigo2)
-        codigo3 = str(codigo3)
+        codigo1 = '00'+str(codigo1)
+        codigo2 = '00'+str(codigo2)
+        codigo3 = '00'+str(codigo3)
         ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
+
 
