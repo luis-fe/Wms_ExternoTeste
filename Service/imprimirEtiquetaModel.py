@@ -172,3 +172,4 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
 
         c.setFont("Helvetica-Bold", 4)
         c.drawString(2.8 * cm, 0.2 * cm, '0000' + codigo)
+        c.save()
