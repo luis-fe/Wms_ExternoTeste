@@ -109,6 +109,6 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao):
         barcode_value = endereco  # Substitua pelo valor do código de barras desejado
         barcode_code128 = barcode.code128.Code128(barcode_value, barHeight=15, barWidth=0.75 ,humanReadable=False)
         # Desenhar o código de barras diretamente no canvas
-        barcode_code128.drawOn(c,0.5 * cm, 0.1 * cm)
+        barcode_code128.drawOn(c,0.1 * cm, 0.1 * cm)
 
         c.save()
