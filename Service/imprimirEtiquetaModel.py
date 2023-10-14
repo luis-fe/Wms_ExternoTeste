@@ -215,12 +215,15 @@ def QuantidadeImprimir(quantidade):
         cursor = conn.cursor()
         cursor.execute(insert,(codigo1,))
         conn.commit()
+
         cursor.execute(insert,(codigo2,))
         conn.commit()
         cursor.execute(insert,(codigo3,))
         conn.commit()
 
         cursor.close()
+        imprimir_pdf('caixa.pdf')
+
     conn.close()
 
 
