@@ -143,7 +143,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(0.7 * cm, 0.2 * cm, '0000' + '1')
+        c.drawString(0.9 * cm, 0.2 * cm, '0000' + '1')
 
 
 
@@ -161,7 +161,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(3.2 * cm, 0.2 * cm, '0000' + '2')
+        c.drawString(3.4 * cm, 0.2 * cm, '0000' + '2')
 
 
 
@@ -177,6 +177,6 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(5.6 * cm, 0.2 * cm, '0000' + '3')
+        c.drawString(5.8 * cm, 0.2 * cm, '0000' + '3')
 
         c.save()
