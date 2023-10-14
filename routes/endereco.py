@@ -105,7 +105,7 @@ def EnderecoAtacado():
     endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
 
     endereco = ruaFinal+'-'+moduloFinal+'-'+posicaoFinal
-    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf',endereco)
+    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf',endereco,rua)
 
 
     # inserir o novo usuário no banco de dados

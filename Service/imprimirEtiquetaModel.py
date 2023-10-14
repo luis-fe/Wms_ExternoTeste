@@ -63,7 +63,7 @@ def imprimir_pdf(pdf_file):
     job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.10x0.25cm', 'FitToPage': 'True', 'Scaling': '100','Orientation':'3'})
     print(f"ID {job_id} enviado para impressão")
 
-def EtiquetaPrateleira(saida_pdf,endereco):
+def EtiquetaPrateleira(saida_pdf,endereco, rua):
     # Configurações das etiquetas e colunas
     label_width = 7.5 * cm
     label_height = 1.8 * cm
@@ -77,8 +77,10 @@ def EtiquetaPrateleira(saida_pdf,endereco):
 
         # Título centralizado
         c.setFont("Helvetica-Bold", 9)
-        title = endereco
-        c.drawString(0.3 * cm, 1.5 * cm, title)
+        c.drawString(0.3 * cm, 1.5 * cm, 'Rua.')
+        title = rua
+        c.setFont("Helvetica-Bold", 19)
+        c.drawString(0.5 * cm, 1.5 * cm, title)
 
 
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
