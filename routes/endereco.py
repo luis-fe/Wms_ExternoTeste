@@ -162,7 +162,7 @@ def GerarCaixa():
 
 
 
-    imprimirEtiquetaModel.QuantidadeImprimir(4)
+    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir)
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' ok!'}), 200
