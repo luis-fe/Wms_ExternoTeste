@@ -6,6 +6,7 @@ from reportlab.pdfgen import canvas
 import tempfile
 from reportlab.graphics import barcode
 import qrcode
+import math
 
 
 def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agrupamento):
@@ -119,7 +120,7 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao, natureza):
 
         c.save()
 
-def ImprimirSeqCaixa(saida_pdf,codigo):
+def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
     # Configurações das etiquetas e colunas
     label_width = 7.5 * cm
     label_height = 1.8 * cm
@@ -133,7 +134,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
 
         #qrcode 1
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-        qr.add_data(codigo)  # Substitua pelo link desejado
+        qr.add_data(codigo1)  # Substitua pelo link desejado
         qr.make(fit=True)
         qr_img = qr.make_image(fill_color="black", back_color="white")
         qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
@@ -143,40 +144,62 @@ def ImprimirSeqCaixa(saida_pdf,codigo):
         c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
 
         c.setFont("Helvetica-Bold", 5)
-        c.drawString(0.9 * cm, 0.2 * cm, '0000' + '1')
+        c.drawString(0.9 * cm, 0.2 * cm, '0000' + codigo1)
 
 
 
 
         # qrcode 2:
 
-        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-        qr.add_data(codigo)  # Substitua pelo link desejado
-        qr.make(fit=True)
-        qr_img = qr.make_image(fill_color="black", back_color="white")
-        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+        if codigo2 == '0' :
+            print('sem seq')
+        else:
 
-        c.setFont("Helvetica-Bold", 5)
-        c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
+            qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+            qr.add_data(codigo2)  # Substitua pelo link desejado
+            qr.make(fit=True)
+            qr_img = qr.make_image(fill_color="black", back_color="white")
+            qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+            c.drawImage(qr_filename, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
-        c.setFont("Helvetica-Bold", 5)
-        c.drawString(3.4 * cm, 0.2 * cm, '0000' + '2')
+            c.setFont("Helvetica-Bold", 5)
+            c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
 
+            c.setFont("Helvetica-Bold", 5)
+            c.drawString(3.4 * cm, 0.2 * cm, '0000' + codigo2)
 
+        if codigo3 == '0' :
+            print('sem seq')
+        else:
 
-        # qrcode 3:
-        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-        qr.add_data(codigo)  # Substitua pelo link desejado
-        qr.make(fit=True)
-        qr_img = qr.make_image(fill_color="black", back_color="white")
-        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-        c.drawImage(qr_filename, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+            # qrcode 3:
+            qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+            qr.add_data(codigo3)  # Substitua pelo link desejado
+            qr.make(fit=True)
+            qr_img = qr.make_image(fill_color="black", back_color="white")
+            qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+            c.drawImage(qr_filename, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
-        c.setFont("Helvetica-Bold", 5)
-        c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
+            c.setFont("Helvetica-Bold", 5)
+            c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
 
-        c.setFont("Helvetica-Bold", 5)
-        c.drawString(5.8 * cm, 0.2 * cm, '0000' + '3')
+            c.setFont("Helvetica-Bold", 5)
+            c.drawString(5.8 * cm, 0.2 * cm, '0000' + codigo3)
 
         c.save()
+def QuantidadeImprimir(quantidade):
+    quantidade = int(quantidade)
+    n_impressoes = math.ceil(quantidade / 3)
+
+    inicial = 4
+    for i in range(n_impressoes):
+        codigo1 = inicial+1
+        codigo2=inicial+2
+        codigo3 = inicial+3
+        inicial = inicial+3
+
+        codigo1 = str(codigo1)
+        codigo2 = str(codigo2)
+        codigo3 = str(codigo3)
+        ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
+

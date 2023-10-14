@@ -158,11 +158,11 @@ def GerarCaixa():
     novo_endereco = request.get_json()
     # Extraia os valores dos campos do novo usuário
 
-    codCaixa = novo_endereco.get('codCaixa')
-    imprimir = novo_endereco.get('imprimir', True)
+    QuantidadeImprimir = novo_endereco.get('QuantidadeImprimir')
 
 
-    imprimirEtiquetaModel.ImprimirSeqCaixa('caixa.pdf',codCaixa)
+
+    imprimirEtiquetaModel.QuantidadeImprimir(4)
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' ok!'}), 200
