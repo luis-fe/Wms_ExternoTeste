@@ -298,3 +298,38 @@
     }
     
 }
+
+
+.Imprimir {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    align-items: center;
+    text-align: center;
+}
+
+.Imprimir h2 {
+    margin: 0;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.Imprimir button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.Imprimir button.cancel {
+    background-color: #b7acac;
+}
