@@ -97,10 +97,10 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao, natureza):
         c.setFont("Helvetica-Bold", 9)
         c.drawString(3.2 * cm, 1.5 * cm, 'Posicao.')
 
-        c.setFont("Helvetica-Bold", 6)
+        c.setFont("Helvetica-Bold", 8)
         c.drawString(5.2 * cm, 0.2 * cm, 'Natureza:')
 
-        c.setFont("Helvetica-Bold", 6)
+        c.setFont("Helvetica-Bold", 8)
         c.drawString(6.4 * cm, 0.2 * cm, natureza)
 
 
