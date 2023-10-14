@@ -160,10 +160,10 @@ def GerarCaixa():
 
     QuantidadeImprimir = novo_endereco.get('QuantidadeImprimir')
     usuario = novo_endereco.get('usuario','')
+    salvaEtiqueta = novo_endereco.get('salvaEtiqueta', False)
 
 
-
-    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir,usuario)
+    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir,usuario,bool(salvaEtiqueta))
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' ok!'}), 200

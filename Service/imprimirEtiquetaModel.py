@@ -189,7 +189,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             c.drawString(5.8 * cm, 0.2 * cm, '' + codigo3)
 
         c.save()
-def QuantidadeImprimir(quantidade, usuario = ''):
+def QuantidadeImprimir(quantidade, usuario = '', salvaEtiqueta = False):
     quantidade = int(quantidade)
     n_impressoes = math.ceil(quantidade / 3)
 
@@ -208,7 +208,12 @@ def QuantidadeImprimir(quantidade, usuario = ''):
         codigo1 = '00'+str(codigo1)
         codigo2 = '00'+str(codigo2)
         codigo3 = '00'+str(codigo3)
-        nometeste = 'caixa_'+str(i)+".pdf"
+
+        if salvaEtiqueta == False:
+            nometeste = 'caixa_'+str('')+".pdf"
+        else:
+            nometeste = 'caixa_' + str(i) + ".pdf"
+
         ImprimirSeqCaixa(nometeste,codigo1,codigo2,codigo3)
 
         insert = 'insert into "off".seq_caixa (codigo, usuario) values ( %s, %s )'
