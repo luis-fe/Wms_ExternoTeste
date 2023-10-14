@@ -194,7 +194,7 @@ def QuantidadeImprimir(quantidade):
     n_impressoes = math.ceil(quantidade / 3)
 
     conn = ConexaoPostgreMPL.conexao()
-    inicial = pd.read('select sc.codigo from "off".seq_caixa sc order by codigo desc ',conn)
+    inicial = pd.read_sql('select sc.codigo from "off".seq_caixa sc order by codigo desc ',conn)
 
     inicial = inicial['codigo'][0]
     inicial = int(inicial)
