@@ -9,7 +9,7 @@ function AbrirModalLoading() {
   }
 
 
-function CadastrarEnderecos(Metodo) {
+function CadastrarEnderecos(Metodo, Condicao) {
     AbrirModalLoading();
 
     const ruaInicial = document.getElementById("inputRuaInicial");
@@ -31,7 +31,8 @@ function CadastrarEnderecos(Metodo) {
         "posicaoFinal": PosicaoFinal.value,
         "tipo": TipoEstoque.value,
         "natureza": Natureza.value,
-        "empresa": Empresa.value
+        "empresa": Empresa.value,
+        "imprimir": Condicao
     }
 
     
@@ -141,11 +142,11 @@ BotaoSelecionar.addEventListener('click', () => {
 
 
 const BotaoPersistir1 = document.getElementById("BotaoPersistir");
-
+const SelecaoEnderecos = document.getElementsByClassName("SelecaoEnderecos")[0];
+const DivBotoes = document.getElementsByClassName("DivBotoes")[0];
 BotaoPersistir1.addEventListener('click', () => {
-    const SelecaoEnderecos = document.getElementsByClassName("SelecaoEnderecos")[0];
     const inputsSelecao = document.querySelectorAll(".SelecaoEnderecos input[type='text']");
-    const DivBotoes = document.getElementsByClassName("DivBotoes")[0];
+   
     let inputsVazias = false;
 
     inputsSelecao.forEach(input => {
@@ -166,30 +167,105 @@ BotaoPersistir1.addEventListener('click', () => {
         return; // Retorna se houver campos vazios
     }
 
+    
     if (radioIncluir.checked) {
-        CadastrarEnderecos("PUT");
-    } else if (radioExcluir.checked) {
-        CadastrarEnderecos("DELETE");
-    }
+        document.getElementById('Imprimir').style.display = 'block';
 
-    // Limpa os campos, desbloqueia seleções e esconde SelecaoEnderecos
-    inputsSelecao.forEach(input => {
-        input.value = "";
+    } else if (radioExcluir.checked) {
+        CadastrarEnderecos("DELETE", false);
+        document.getElementById('Imprimir').style.display = 'none'
+        
+        const inputsSelecao = document.querySelectorAll(".SelecaoEnderecos input[type='text']");
+        inputsSelecao.forEach(input => {
+            input.value = "";
+            Natureza.value = ""; // Limpa a seleção da combobox Natureza
+            TipoEstoque.value = ""; // Limpa a seleção da combobox TipoEstoque
+            radioIncluir.checked = false; // Desmarca a rádio Incluir
+            radioExcluir.checked = false; // Desmarca a rádio Excluir
+
+            Natureza.disabled = false;
+            TipoEstoque.disabled = false;
+            radioIncluir.disabled = false;
+            radioExcluir.disabled = false;
+            DivBotoes.style.display = "none";
+            BotaoPersistir.textContent = "";
+            SelecaoEnderecos.style.display = "none";
+            TipoEstoque.style.borderColor = "";
+            Natureza.style.borderColor = "";
+    })
+    }
+   
     });
 
-    Natureza.value = ""; // Limpa a seleção da combobox Natureza
-    TipoEstoque.value = ""; // Limpa a seleção da combobox TipoEstoque
-    radioIncluir.checked = false; // Desmarca a rádio Incluir
-    radioExcluir.checked = false; // Desmarca a rádio Excluir
+    document.getElementById('confirmButtonImpressao').addEventListener('click', () => {
+            CadastrarEnderecos("PUT", true);
+            document.getElementById('Imprimir').style.display = 'none'
 
-    Natureza.disabled = false;
-    TipoEstoque.disabled = false;
-    radioIncluir.disabled = false;
-    radioExcluir.disabled = false;
-    DivBotoes.style.display = "none";
-    BotaoPersistir.textContent = "";
-    SelecaoEnderecos.style.display = "none";
-    TipoEstoque.style.borderColor = "";
-    Natureza.style.borderColor = "";
-});
+        const inputsSelecao = document.querySelectorAll(".SelecaoEnderecos input[type='text']");
+        inputsSelecao.forEach(input => {
+            input.value = "";
+            Natureza.value = ""; // Limpa a seleção da combobox Natureza
+            TipoEstoque.value = ""; // Limpa a seleção da combobox TipoEstoque
+            radioIncluir.checked = false; // Desmarca a rádio Incluir
+            radioExcluir.checked = false; // Desmarca a rádio Excluir
 
+            Natureza.disabled = false;
+            TipoEstoque.disabled = false;
+            radioIncluir.disabled = false;
+            radioExcluir.disabled = false;
+            DivBotoes.style.display = "none";
+            BotaoPersistir.textContent = "";
+            SelecaoEnderecos.style.display = "none";
+            TipoEstoque.style.borderColor = "";
+            Natureza.style.borderColor = "";
+    })
+
+})
+    
+
+    document.getElementById('cancelButtonImpressao').addEventListener('click', () => {
+            CadastrarEnderecos("PUT", false);
+            document.getElementById('Imprimir').style.display = 'none'
+        const inputsSelecao = document.querySelectorAll(".SelecaoEnderecos input[type='text']");
+        inputsSelecao.forEach(input => {
+            input.value = "";
+            Natureza.value = ""; // Limpa a seleção da combobox Natureza
+            TipoEstoque.value = ""; // Limpa a seleção da combobox TipoEstoque
+            radioIncluir.checked = false; // Desmarca a rádio Incluir
+            radioExcluir.checked = false; // Desmarca a rádio Excluir
+        
+            Natureza.disabled = false;
+            TipoEstoque.disabled = false;
+            radioIncluir.disabled = false;
+            radioExcluir.disabled = false;
+            DivBotoes.style.display = "none";
+            BotaoPersistir.textContent = "";
+            SelecaoEnderecos.style.display = "none";
+            TipoEstoque.style.borderColor = "";
+            Natureza.style.borderColor = "";
+    });
+
+    
+    })
+
+
+    document.getElementById('BotaoCancelar').addEventListener('click', () =>{
+        const inputsSelecao = document.querySelectorAll(".SelecaoEnderecos input[type='text']");
+        inputsSelecao.forEach(input => {
+            input.value = "";
+            Natureza.value = ""; // Limpa a seleção da combobox Natureza
+            TipoEstoque.value = ""; // Limpa a seleção da combobox TipoEstoque
+            radioIncluir.checked = false; // Desmarca a rádio Incluir
+            radioExcluir.checked = false; // Desmarca a rádio Excluir
+        
+            Natureza.disabled = false;
+            TipoEstoque.disabled = false;
+            radioIncluir.disabled = false;
+            radioExcluir.disabled = false;
+            DivBotoes.style.display = "none";
+            BotaoPersistir.textContent = "";
+            SelecaoEnderecos.style.display = "none";
+            TipoEstoque.style.borderColor = "";
+            Natureza.style.borderColor = "";
+        });
+    })

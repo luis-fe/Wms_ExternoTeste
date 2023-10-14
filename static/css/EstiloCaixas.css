@@ -1,0 +1,44 @@
+.DivBotoes1{
+    width: 80%;
+    margin-left: 10%;
+    display: none;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#BotaoImprimir{
+   font-size: 20px;
+   text-align: center;
+   margin-left: 10px;
+   border: 2px solid lightgray;
+   border-radius: 5px;
+   background-color: rgb(17, 45, 126);
+   color: white;
+   cursor: pointer;
+}
+
+.SelecaoEnderecos{
+    display: flex;
+    margin-top: 200px;
+    width: 80%;
+    margin-left: 10%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.SelecaoEnderecos label{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.SelecaoEnderecos input{
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid darkgray;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}

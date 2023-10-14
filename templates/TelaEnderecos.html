@@ -13,13 +13,13 @@
 </head>
 <body>
     <div class="Titulo">
-        <a href="index.html">
+        <a href="/home">
         <img src="/static/imagens/IconeWms.png" alt="" style="width: 100px; height: 100px;">
         </a>
         <h1>WMS GERENCIAL</h1>
     </div>
 
-    <div class="Corpo">
+     <div class="Corpo">
         <nav class="Menu">
             <ul>
                 <li><a href="/home">Home</a></li>
@@ -27,6 +27,7 @@
                     <ul>
                         <li><a href="/Usuarios">Gerenciamento de Usuários</a></li>
                         <li><a href="/Chamados">Gerenciamento de Chamados</a></li>
+                        <li><a href="/CadastroCaixa">Cadastro Qr das Caixas</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Relatórios</a>
@@ -34,13 +35,14 @@
                         <li><a href="/Reposicao">Fila de Reposição</a></li>
                         <li><a href="/Distribuicao">Distribuição de Pedidos</a></li>
                         <li><a href="/Enderecos">Cadastro de Endereços</a></li>
+                        <li><a href="/Embalagens">Consumo Embalagens</a></li>
                     </ul>
                 </li>
 
             </ul>
             
         </nav>
-    </div>  
+    </div> 
 
     <div class="TituloPrograma">
         <h2>Manutenção De Endereços</h2>
@@ -109,10 +111,17 @@
         
 
         <div id="ModalLoading" class="ModalLoading">
-            <span id="loader"><img src="/static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
           </span>
           </div>
         </div>
+
+        <div id="Imprimir" class="Imprimir" style="display: none;">
+            <h2>Deseja Imprimir os Endereços?</h2>
+            <button id="confirmButtonImpressao">Sim</button>
+            <button id="cancelButtonImpressao" class="cancel">Não</button>
+        </div>
+    </div>
 
     
     <script src="/static/js/funcoesEnderecos"></script>
