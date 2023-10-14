@@ -116,7 +116,7 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                                      params=(codendereco,))
                 if imprimir == True:
 
-                    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf', codendereco, rua, modulo, posicao)
+                    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf', codendereco, ruaAtual, moduloAtual, posicaoAtual)
                     imprimirEtiquetaModel.imprimir_pdf('teste.pdf')
                 else:
                     print(f'sem imprimir')
