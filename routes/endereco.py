@@ -163,3 +163,6 @@ def GerarCaixa():
 
 
     imprimirEtiquetaModel.ImprimirSeqCaixa('caixa.pdf',codCaixa)
+
+    # inserir o novo usuário no banco de dados
+    return jsonify({'message': f' ok!'}), 200
