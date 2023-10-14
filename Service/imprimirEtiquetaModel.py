@@ -212,7 +212,6 @@ def QuantidadeImprimir(quantidade, usuario = ''):
         ImprimirSeqCaixa(nometeste,codigo1,codigo2,codigo3)
 
         insert = 'insert into "off".seq_caixa (codigo, usuario) values ( %s, %s )'
-
         cursor = conn.cursor()
         cursor.execute(insert,(codigo1,usuario,))
         conn.commit()
