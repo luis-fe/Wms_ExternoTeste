@@ -1,4 +1,4 @@
-from Service import endereoModel
+from Service import endereoModel,imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -102,7 +102,11 @@ def EnderecoAtacado():
     empresa = novo_endereco.get('empresa','1')
 
 
-    endereco_routes.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
+    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
+
+    endereco = ruaFinal+'-'+moduloFinal+'-'+posicaoFinal
+    imprimirEtiquetaModel.EtiquetaPrateleira('teste.pdf',endereco)
+
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f'Novos enderecos criado com sucesso'}), 200

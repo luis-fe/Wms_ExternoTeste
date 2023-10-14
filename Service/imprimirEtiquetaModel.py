@@ -63,5 +63,29 @@ def imprimir_pdf(pdf_file):
     job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.10x0.25cm', 'FitToPage': 'True', 'Scaling': '100','Orientation':'3'})
     print(f"ID {job_id} enviado para impressão")
 
-#criar_pdf("teste.pdf", "KIBELUS MODA LTDA", "101603", "305815-1", "BRASPRESS")
-#imprimir_pdf("teste.pdf")
+def EtiquetaPrateleira(saida_pdf,endereco):
+    # Configurações das etiquetas e colunas
+    label_width = 7.5 * cm
+    label_height = 1.8 * cm
+
+    # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
+    custom_page_size = landscape((label_width, label_height))
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file:
+        qr_filename = temp_qr_file.name
+
+        c = canvas.Canvas(saida_pdf, pagesize=custom_page_size)
+
+        # Título centralizado
+        c.setFont("Helvetica-Bold", 9)
+        title = endereco
+        c.drawString(0.3 * cm, 1.5 * cm, title)
+
+
+        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr.add_data(endereco)  # Substitua pelo link desejado
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+        c.drawImage(qr_filename, 5.2 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
+
+        c.save()
