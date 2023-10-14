@@ -100,11 +100,11 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao, natureza):
         c.setFont("Helvetica-Bold", 9)
         c.drawString(3.2 * cm, 1.5 * cm, 'Posicao.')
 
-        c.setFont("Helvetica-Bold", 8)
-        c.drawString(5.2 * cm, 0.2 * cm, 'Natureza:')
+        c.setFont("Helvetica-Bold", 7)
+        c.drawString(5.2 * cm, 0.15 * cm, 'Natureza:')
 
-        c.setFont("Helvetica-Bold", 8)
-        c.drawString(6.4 * cm, 0.2 * cm, natureza)
+        c.setFont("Helvetica-Bold", 7)
+        c.drawString(6.4 * cm, 0.15 * cm, natureza)
 
 
         qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
@@ -197,18 +197,19 @@ def QuantidadeImprimir(quantidade, usuario = ''):
     inicial = pd.read_sql('select sc.codigo::INTEGER from "off".seq_caixa sc order by codigo desc ',conn)
 
     inicial = inicial['codigo'][0]
-    inicial = int(inicial)
+    inicial2 = int(inicial)
 
     for i in range(n_impressoes):
-        codigo1 = inicial+1
-        codigo2=inicial+2
-        codigo3 = inicial+3
-        inicial = inicial+3
+        codigo1 = inicial2+1
+        codigo2=inicial2+2
+        codigo3 = inicial2+3
+        inicial2 = codigo3
 
         codigo1 = '00'+str(codigo1)
         codigo2 = '00'+str(codigo2)
         codigo3 = '00'+str(codigo3)
-        ImprimirSeqCaixa('caixa.pdf',codigo1,codigo2,codigo3)
+        nometeste = 'caixa_'+str(n_impressoes)+".pdf"
+        ImprimirSeqCaixa(nometeste,codigo1,codigo2,codigo3)
 
         insert = 'insert into "off".seq_caixa (codigo, usuario) values ( %s, %s )'
 
@@ -222,7 +223,7 @@ def QuantidadeImprimir(quantidade, usuario = ''):
         conn.commit()
 
         cursor.close()
-        imprimir_pdf('caixa.pdf')
+        imprimir_pdf(nometeste)
 
     conn.close()
 
