@@ -149,3 +149,17 @@ def ObterTipoPrateleira():
             FilaReposicaoOP_dict[column_name] = row[column_name]
         FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
     return jsonify(FilaReposicaoOP_data)
+
+
+@endereco_routes.route('/api/GerarCaixa', methods=['PUT'])
+@token_required
+def GerarCaixa():
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+
+    codCaixa = novo_endereco.get('codCaixa')
+    imprimir = novo_endereco.get('imprimir', True)
+
+
+    imprimirEtiquetaModel.ImprimirSeqCaixa('caixa.pdf',codCaixa)

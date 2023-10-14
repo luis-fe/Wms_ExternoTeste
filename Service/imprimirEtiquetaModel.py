@@ -118,3 +118,57 @@ def EtiquetaPrateleira(saida_pdf,endereco, rua,modulo,posicao, natureza):
         barcode_code128.drawOn(c,0.07 * cm, 0.1 * cm)
 
         c.save()
+
+def ImprimirSeqCaixa(saida_pdf,codigo):
+    # Configurações das etiquetas e colunas
+    label_width = 7.5 * cm
+    label_height = 1.8 * cm
+    # Criar o PDF e ajustar o tamanho da página para paisagem com tamanho personalizado
+    custom_page_size = landscape((label_width, label_height))
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file:
+        qr_filename = temp_qr_file.name
+
+        c = canvas.Canvas(saida_pdf, pagesize=custom_page_size)
+
+        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr.add_data(codigo)  # Substitua pelo link desejado
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+        c.drawImage(qr_filename, 5.2 * cm, 0.43 * cm, width=1.45 * cm, height= 1.30 * cm)
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(5.2 * cm, 0.2 * cm, 'NºCx:')
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(6.4 * cm, 0.2 * cm, '0000'+codigo)
+
+
+        # qrcode 2:
+        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr.add_data(codigo)  # Substitua pelo link desejado
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+        c.drawImage(qr_filename, 0.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(0.3 * cm, 0.2 * cm, 'NºCx:')
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(0.3 * cm, 0.2 * cm, '0000' + codigo)
+
+
+        # qrcode 3:
+        qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+        qr.add_data(codigo)  # Substitua pelo link desejado
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+        c.drawImage(qr_filename, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
+
+        c.setFont("Helvetica-Bold", 4)
+        c.drawString(2.8 * cm, 0.2 * cm, '0000' + codigo)
