@@ -208,7 +208,7 @@ def QuantidadeImprimir(quantidade, usuario = ''):
         codigo1 = '00'+str(codigo1)
         codigo2 = '00'+str(codigo2)
         codigo3 = '00'+str(codigo3)
-        nometeste = 'caixa_'+str(n_impressoes)+".pdf"
+        nometeste = 'caixa_'+str(i)+".pdf"
         ImprimirSeqCaixa(nometeste,codigo1,codigo2,codigo3)
 
         insert = 'insert into "off".seq_caixa (codigo, usuario) values ( %s, %s )'
