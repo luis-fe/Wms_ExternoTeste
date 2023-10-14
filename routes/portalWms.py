@@ -42,3 +42,10 @@ def Reposicao():
 @portal_routes.route('/Chamados')
 def Chamados():
     return render_template('TelaChamados.html')
+
+@portal_routes.route('/Embalagens')
+def Embalagens():
+    return render_template('Embalagens.html')
+@portal_routes.route('/CadastroCaixa')
+def CadastroCaixa():
+    return render_template('TelaQrCodeCaixas.html')
