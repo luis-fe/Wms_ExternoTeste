@@ -43,7 +43,8 @@ def EncontrarEPC(caixa):
     caixaNova = ConsultaCaixa(caixa)
 
     ops1 = caixaNova['numeroop']
-    ops1 = ops1.drop_duplicates(subset=['numeroop'])
+    ops1  = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
+
 
     ops = ops1['numeroop'].tolist()
 
