@@ -54,7 +54,7 @@ def EncontrarEPC(caixa):
 
     # Use parâmetro de substituição na consulta SQL
     epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc ' \
-            'FROM tcr.SeqLeituraFase t WHERE t.numeroOP IN '+resultado,conn)
+            'FROM tcr.SeqLeituraTagOPFase t WHERE t.codempresa = 1 and t.numeroOP IN '+resultado,conn)
 
 
 
