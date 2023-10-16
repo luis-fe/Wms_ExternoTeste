@@ -23,13 +23,18 @@ def ApontarTag(codbarras, Ncaixa, empresa):
 def InculirDados(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
-        # Certifique-se de que o nome da tabela no banco de dados corresponda ao seu requisito
-        tabela = 'reposicao_qualidade'
+        cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia ) values ( %s, %s, %s )'
 
-        # Configure a conexão com o banco de dados usando SQLAlchemy
-        engine = create_engine(conn)
+        codbarras = dataframe['codbarras'][0]
+        reduzido = dataframe['codbarras'][0]
+        engenharia = dataframe['engenharia'][0]
 
-        # Use o método to_sql para inserir os dados no PostgreSQL
-        dataframe.to_sql(tabela, engine, if_exists='append', index=False)
+        cursor.execute(insert, (
+            codbarras, reduzido,engenharia ))
+        conn.commit()  # Faça o commit da transação
+        cursor.close()  # Feche o cursor
+
+
 
         conn.close()
