@@ -14,7 +14,7 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 
     return decorated_function
 
-@reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['GET'])
+@reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['POST'])
 @token_required
 def ReporCaixaLivre():
     # Obtenha os dados do corpo da requisição
