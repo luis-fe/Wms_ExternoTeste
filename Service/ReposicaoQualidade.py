@@ -42,7 +42,7 @@ def InculirDados(dataframe):
 def EncontrarEPC(caixa):
     caixaNova = ConsultaCaixa(caixa)
 
-    ops1 = caixaNova.drop_duplicates(subset=['numeroOP'])
+    ops1 = caixaNova.drop_duplicates(subset=['numeroop'])
     ops = ops1['numeroOP'].tolist()
 
     conn = ConexaoCSW.Conexao()
