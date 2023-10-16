@@ -47,18 +47,19 @@ def EncontrarEPC(caixa):
     ops1 = caixaNova[['numeroop']]
     ops1 = ops1.drop_duplicates(subset=['numeroop'])
 
-    #Passo3: Remover duplicatas dessa coluna
-    #ops1 = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
+    # Passo 3: Transformar o dataFrame em lista
+    ops = ops1['numeroop'].tolist()
 
-    #ops = ops1['numeroop'].tolist()
+    conn = ConexaoCSW.Conexao()
 
-    #conn = ConexaoCSW.Conexao()
+    # Use parâmetro de substituição na consulta SQL
+    query = 'SELECT t.codBarrasTag AS codbarrastag, numeroOP, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc ' \
+            'FROM tcr.SeqLeituraFase t WHERE t.numeroOP IN %s'
 
-    #epc = pd.read_sql('select t.codBarrasTag as codbarrastag, numeroOP,'
-     #   ' (select epc.id from Tcr_Rfid.NumeroSerieTagEPC epc WHERE  epc.codTag = t.codBarrasTag) as epc'
-      #  " from tcr.SeqLeituraFase  t WHERE t.numeroOP  = '124962-001'", conn)
+    # Execute a consulta SQL usando o parâmetro ops
+    epc = pd.read_sql(query, conn, params=(ops,))
 
-    return ops1
+    return epc
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
