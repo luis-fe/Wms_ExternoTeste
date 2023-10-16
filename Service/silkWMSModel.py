@@ -57,8 +57,9 @@ def Funcao_Inserir (Referencia, Endereco):
 
 def PesquisarReferencia(numeroOP):
     conn = ConexaoCSW.Conexao()
-    numeroOP = "'%"+numeroOP+"%'"
-    pesquisar = pd.read_sql('SELECT op.codProduto as referencia FROM tco.OrdemProd op '
+
+    numeroOP = "'%"+numeroOP[0:6]+"%'"
+    pesquisar = pd.read_sql('SELECT op.codProduto as referencia, numeroOP FROM tco.OrdemProd op '
                             'WHERE op.codEmpresa =  1 and op.numeroOP like '+numeroOP,conn)
 
     pesquisar['referencia'] = pesquisar['referencia'].str[4:9]
