@@ -29,14 +29,14 @@ def get_PesquisaEndereco():
     resultados = silkWMSModel.PesquisaEnderecos(Coluna, Operador, Nome)
     # Obtém os nomes das colunas
     column_names = resultados.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    enderecos_data = []
+    # Crie um dicionário para agrupar os valores por coluna
+    data_dict = {column_name: [] for column_name in column_names}
+
     for index, row in resultados.iterrows():
-        enderecos_dict = {}
         for column_name in column_names:
-            enderecos_dict[column_name] = row[column_name]
-        enderecos_data.append(enderecos_dict)
-    return jsonify(enderecos_data)
+            data_dict[column_name].append(row[column_name])
+
+    return jsonify(data_dict)
 
 
 @silkWMS_routes.route('/api/Silk/deleteTelas', methods=['DELETE'])
