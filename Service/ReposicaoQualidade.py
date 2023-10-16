@@ -23,7 +23,7 @@ def InculirDados(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao ) values ( %s, %s, %s )'
+        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao ) values ( %s, %s, %s, %s )'
 
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']) for index, row in dataframe.iterrows()]
