@@ -49,7 +49,6 @@ def EncontrarEPC(caixa):
     #Passo3: Remover duplicatas dessa coluna
     ops1 = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
 
-
     #ops = ops1['numeroop'].tolist()
 
     #conn = ConexaoCSW.Conexao()
