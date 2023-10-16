@@ -13,4 +13,17 @@ def ApontarTag(codbarras, Ncaixa, empresa):
                            ' FROM Tcr.TagBarrasProduto p'
                            ' WHERE p.codBarrasTag = '+codbarras+' and p.codempresa ='+empresa,conn)
     conn.close()
+    InculirDados(pesquisa)
     return pesquisa
+
+
+def InculirDados(dataframe):
+    conn = ConexaoPostgreMPL.conexao()
+
+    # Certifique-se de que o nome da tabela no banco de dados corresponda ao seu requisito
+    tabela = 'reposicao_qualidade'
+
+    # Usando Pandas para inserir os dados no banco de dados
+    dataframe.to_sql(tabela, conn, if_exists='append', index=False)
+
+    conn.close()
