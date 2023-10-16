@@ -76,3 +76,20 @@ def insert_endpoint():
     else:
         return jsonify({'Mesagem':'Falha ao inserir'}), 500
 
+@silkWMS_routes.route('/api/PesquisaReferencia', methods=['GET'])
+@token_required
+def PesquisaReferencia():
+    numeroOP = request.args.get('numeroOP')
+
+    enderecos = silkWMSModel.PesquisarReferencia(numeroOP)
+    # Obtém os nomes das colunas
+    column_names = enderecos.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in enderecos.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
+

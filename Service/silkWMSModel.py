@@ -1,4 +1,6 @@
 import ConexaoPostgreMPL
+import ConexaoCSW
+import pandas as pd
 
 def PesquisaEnderecos (Coluna,Operador,Nome):
     conn = ConexaoPostgreMPL.conexao()
@@ -53,4 +55,11 @@ def Funcao_Inserir (Referencia, Endereco):
 
 
 
-#Funcao_InserirTamanhos(2, "Calça Legging", "Calça", "Ativo", "15/05/2023", "joao.ferreira")
+def PesquisarReferencia(numeroOP):
+    conn = ConexaoCSW.Conexao()
+    numeroOP = "'%"+numeroOP+"%'"
+    pesquisar = pd.read_sql('SELECT op.codProduto  FROM tco.OrdemProd op '
+                            'WHERE op.codEmpresa =  1 and op.numeroOP like '+numeroOP,conn)
+    return pesquisar
+
+
