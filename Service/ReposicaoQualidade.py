@@ -1,7 +1,6 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
-from sqlalchemy import create_engine
 
 def ApontarTag(codbarras, Ncaixa, empresa):
     conn = ConexaoCSW.Conexao()
@@ -26,12 +25,10 @@ def InculirDados(dataframe):
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
         insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia ) values ( %s, %s, %s )'
 
-        codbarras = dataframe['codbarrastag'][0]
-        reduzido = dataframe['codreduzido'][0]
-        engenharia = dataframe['engenharia'][0]
 
-        cursor.execute(insert, (
-            codbarras, reduzido,engenharia ))
+        values = [(row['codbarrastag'], row['codreduzido'], row['engenharia']) for index, row in dataframe.iterrows()]
+
+        cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
         cursor.close()  # Feche o cursor
 
