@@ -1,6 +1,7 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
+from sqlalchemy import create_engine
 
 def ApontarTag(codbarras, Ncaixa, empresa):
     conn = ConexaoCSW.Conexao()
@@ -17,13 +18,18 @@ def ApontarTag(codbarras, Ncaixa, empresa):
     return pesquisa
 
 
+
+
 def InculirDados(dataframe):
-    conn = ConexaoPostgreMPL.conexao()
+        conn = ConexaoPostgreMPL.conexao()
 
-    # Certifique-se de que o nome da tabela no banco de dados corresponda ao seu requisito
-    tabela = 'reposicao_qualidade'
+        # Certifique-se de que o nome da tabela no banco de dados corresponda ao seu requisito
+        tabela = 'reposicao_qualidade'
 
-    # Usando Pandas para inserir os dados no banco de dados
-    dataframe.to_sql(tabela, conn, if_exists='append', index=False)
+        # Configure a conexão com o banco de dados usando SQLAlchemy
+        engine = create_engine(conn)
 
-    conn.close()
+        # Use o método to_sql para inserir os dados no PostgreSQL
+        dataframe.to_sql(tabela, engine, if_exists='append', index=False)
+
+        conn.close()
