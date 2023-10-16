@@ -39,3 +39,24 @@ def InculirDados(dataframe):
 
 
         conn.close()
+def EncontrarEPC(caixa):
+    caixaNova = ConsultaCaixa(caixa)
+
+    ops1 = caixaNova.drop_duplicates(subset=['numeroOP'])
+    ops = ops1['numeroOP'].tolist()
+
+    conn = ConexaoCSW.Conexao()
+
+    epc = pd.read_sql('select t.codBarrasTag as codbarrastag, numeroOP,' 
+        ' (select epc.id from Tcr_Rfid.NumeroSerieTagEPC epc WHERE  epc.codTag = t.codBarrasTag) as epc'
+        "from tcr.SeqLeituraFase  t WHERE t.numeroOP  = '124962-001'", conn)
+
+    return ops1
+
+def ConsultaCaixa(NCaixa):
+    conn = ConexaoPostgreMPL.conexao()
+    consultar = pd.read_sql('select rq.codbarrastag , rq.numeroop  from "off".reposicao_qualidade rq  '
+                            "where rq.caixa = %s ",conn,params=(NCaixa,))
+    conn.close()
+
+    return consultar
