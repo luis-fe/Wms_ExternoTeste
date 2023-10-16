@@ -76,7 +76,7 @@ def insert_endpoint():
     else:
         return jsonify({'Mesagem':'Falha ao inserir'}), 500
 
-@silkWMS_routes.route('/api/PesquisaReferencia', methods=['GET'])
+@silkWMS_routes.route('/api/Silk/PesquisaReferencia', methods=['GET'])
 @token_required
 def PesquisaReferencia():
     numeroOP = request.args.get('numeroOP')
