@@ -61,7 +61,7 @@ def PesquisarReferencia(numeroOP):
     pesquisar = pd.read_sql('SELECT op.codProduto as referencia FROM tco.OrdemProd op '
                             'WHERE op.codEmpresa =  1 and op.numeroOP like '+numeroOP,conn)
 
-    pesquisar['referencia'] = pesquisar['referencia'].str[3:9]
+    pesquisar['referencia'] = pesquisar['referencia'].str[4:9]
     return pesquisar
 
 
