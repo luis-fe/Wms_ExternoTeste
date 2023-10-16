@@ -45,6 +45,7 @@ def EncontrarEPC(caixa):
 
     #Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
+    ops1 = ops1.drop_duplicates(subset=['numeroop'])
 
     #Passo3: Remover duplicatas dessa coluna
     #ops1 = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
