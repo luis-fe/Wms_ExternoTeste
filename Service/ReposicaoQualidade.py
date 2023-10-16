@@ -26,8 +26,8 @@ def InculirDados(dataframe):
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
         insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia ) values ( %s, %s, %s )'
 
-        codbarras = dataframe['codbarras'][0]
-        reduzido = dataframe['codbarras'][0]
+        codbarras = dataframe['codbarrastag'][0]
+        reduzido = dataframe['codreduzido'][0]
         engenharia = dataframe['engenharia'][0]
 
         cursor.execute(insert, (
