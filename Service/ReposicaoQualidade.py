@@ -49,7 +49,7 @@ def EncontrarEPC(caixa):
 
     epc = pd.read_sql('select t.codBarrasTag as codbarrastag, numeroOP,' 
         ' (select epc.id from Tcr_Rfid.NumeroSerieTagEPC epc WHERE  epc.codTag = t.codBarrasTag) as epc'
-        "from tcr.SeqLeituraFase  t WHERE t.numeroOP  = '124962-001'", conn)
+        " from tcr.SeqLeituraFase  t WHERE t.numeroOP  = '124962-001'", conn)
 
     return ops1
 
