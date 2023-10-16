@@ -10,11 +10,11 @@ def PesquisaEnderecos(Coluna, Operador, Nome):
     # Crie a consulta SQL com base nos argumentos
     consulta = f'SELECT "Referencia", "Endereco" FROM silk."enderecamento" WHERE "{Coluna}" {Operador} %s'
     valor = (Nome,)
-
-    # Execute a consulta e obtenha os resultados
     cursor = conn.cursor()
     cursor.execute(consulta, valor)
-    resultados = cursor.fetchall()
+    resultados = []
+    for resultado in cursor.fetchall():
+        resultados.append(resultado)
 
     cursor.close()
     conn.close()
