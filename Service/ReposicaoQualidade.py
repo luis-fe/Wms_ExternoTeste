@@ -47,7 +47,7 @@ def EncontrarEPC(caixa):
     ops1 = caixaNova[['numeroop']]
 
     #Passo3: Remover duplicatas dessa coluna
-    ops1 = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
+    #ops1 = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
 
     #ops = ops1['numeroop'].tolist()
 
