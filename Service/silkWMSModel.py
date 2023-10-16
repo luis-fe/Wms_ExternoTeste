@@ -2,21 +2,27 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 import pandas as pd
 
-def PesquisaEnderecos (Coluna,Operador,Nome):
+
+def PesquisaEnderecos(Coluna, Operador, Nome):
+    # Estabeleça uma conexão com o banco de dados
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = f'select "Referencia", "Endereco" from silk."enderecamento"  WHERE "{Coluna}" {Operador} %s'
+    # Crie a consulta SQL com base nos argumentos
+    consulta = f'SELECT "Referencia", "Endereco" FROM silk."enderecamento" WHERE "{Coluna}" {Operador} %s'
     valor = (Nome,)
+
+    # Execute a consulta e obtenha os resultados
     cursor = conn.cursor()
     cursor.execute(consulta, valor)
-    resultados = []
-    for resultado in cursor.fetchall():
-        resultados.append(resultado)
+    resultados = cursor.fetchall()
 
     cursor.close()
     conn.close()
-    print('REALIZADO CONSULTA DE ENDEREÇO DAS TELAS DE SILK')
-    return resultados
+
+    # Crie um DataFrame Pandas com base nos resultados
+    df = pd.DataFrame(resultados, columns=['Referencia', 'Endereco'])
+
+    return df
 
 
 
