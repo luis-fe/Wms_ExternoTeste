@@ -25,7 +25,7 @@ def Funcao_Deletar (Endereco,Produto):
     conn = ConexaoPostgreMPL.conexao()
     cursor =conn.cursor()
 
-    sql= 'DELETE FROM "enderecamento" where "Endereco" = %s and "Referencia" = %s  '
+    sql= 'DELETE FROM silk."enderecamento" where "Endereco" = %s and "Referencia" = %s  '
     VALORES = (Endereco, Produto,)
     cursor.execute(sql, VALORES)
     conn.commit()
@@ -41,7 +41,7 @@ def Funcao_Inserir (Referencia, Endereco):
 
     cursor =conn.cursor()
 
-    sql= 'INSERT INTO "enderecamento" ("Referencia", "Endereco") VALUES (%s, %s)'
+    sql= 'INSERT INTO silk."enderecamento" ("Referencia", "Endereco") VALUES (%s, %s)'
     VALORES = (Referencia, Endereco,)
     cursor.execute(sql, VALORES)
     conn.commit()
