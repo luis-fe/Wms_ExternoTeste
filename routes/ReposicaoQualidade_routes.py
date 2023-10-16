@@ -20,8 +20,11 @@ def ReporCaixaLivre():
     empresa = request.args.get('empresa','1')
     natureza = request.args.get('natureza','5')
     codbarras = request.args.get('codbarras', '5')
+    NCaixa = request.args.get('NCaixa', '')
+    usuario = request.args.get('usuario', '')
 
-    FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,'1' ,empresa)
+
+    FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

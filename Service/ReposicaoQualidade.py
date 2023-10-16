@@ -2,7 +2,7 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 
-def ApontarTag(codbarras, Ncaixa, empresa):
+def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn = ConexaoCSW.Conexao()
     codbarras = "'"+codbarras+"'"
 
@@ -13,6 +13,8 @@ def ApontarTag(codbarras, Ncaixa, empresa):
                            ' FROM Tcr.TagBarrasProduto p'
                            ' WHERE p.codBarrasTag = '+codbarras+' and p.codempresa ='+empresa,conn)
     conn.close()
+    pesquisa['usuario'] = usuario
+    pesquisa['caixa'] = Ncaixa
     InculirDados(pesquisa)
     return pesquisa
 
@@ -23,11 +25,12 @@ def InculirDados(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop ) values ( %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario' \
+                  ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
-                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop']) for index, row in dataframe.iterrows()]
+                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario']) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
