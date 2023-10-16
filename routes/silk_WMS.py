@@ -43,8 +43,12 @@ def get_PesquisaEndereco():
 @silkWMS_routes.route('/api/Silk/deleteTelas', methods=['DELETE'])
 @token_required
 def delete_endpoint():
-    endereco = request.args.get('endereco')
-    produto = request.args.get('produto')
+    # Obtenha os dados do corpo da requisição
+    novo_usuario = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    endereco = novo_usuario.get('endereco')
+    produto = novo_usuario.get('produto')
+
 
     # Chama a função Funcao_Deletar para realizar a exclusão
     resultado = silkWMSModel.Funcao_Deletar(endereco, produto)
@@ -58,8 +62,11 @@ def delete_endpoint():
 @silkWMS_routes.route('/api/Silk/IserirTelas', methods=['PUT'])
 @token_required
 def insert_endpoint():
-    produto = request.args.get('produto')
-    endereco = request.args.get('endereco')
+    # Obtenha os dados do corpo da requisição
+    novo_usuario = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    endereco = novo_usuario.get('endereco')
+    produto = novo_usuario.get('produto')
 
     # Chama a função Funcao_Inserir para realizar a inserção
     resultado = silkWMSModel.Funcao_Inserir(produto, endereco)
