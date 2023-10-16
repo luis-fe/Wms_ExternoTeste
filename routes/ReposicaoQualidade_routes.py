@@ -17,11 +17,14 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['GET'])
 @token_required
 def ReporCaixaLivre():
-    empresa = request.args.get('empresa','1')
-    natureza = request.args.get('natureza','5')
-    codbarras = request.args.get('codbarras', '5')
-    NCaixa = request.args.get('NCaixa', '')
-    usuario = request.args.get('usuario', '')
+    # Obtenha os dados do corpo da requisição
+    novo_usuario = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    empresa = novo_usuario.get('empresa','1')
+    natureza = novo_usuario.get('natureza','5')
+    codbarras = novo_usuario.get('codbarras', '5')
+    NCaixa = novo_usuario.get('NCaixa', '')
+    usuario = novo_usuario.get('usuario', '')
 
 
     FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario)
