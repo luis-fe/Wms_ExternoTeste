@@ -40,9 +40,13 @@ def InculirDados(dataframe):
 
         conn.close()
 def EncontrarEPC(caixa):
+    #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa)
 
-    ops1 = pd.DataFrame(caixaNova['numeroop'])
+    #Passo2: Retirar do dataframe somente a coluna numeroop
+    ops1 = caixaNova[['numeroop']]
+
+    #Passo3: Remover duplicatas dessa coluna
     ops1  = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
 
 
