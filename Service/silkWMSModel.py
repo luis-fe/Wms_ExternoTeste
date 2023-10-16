@@ -1,10 +1,9 @@
 import ConexaoPostgreMPL
 
-
 def PesquisaEnderecos (Coluna,Operador,Nome):
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = f'select "Referencia", "Endereco" from "enderecamento"  WHERE "{Coluna}" {Operador} %s'
+    consulta = f'select "Referencia", "Endereco" from silk."enderecamento"  WHERE "{Coluna}" {Operador} %s'
     valor = (Nome,)
     cursor = conn.cursor()
     cursor.execute(consulta, valor)
