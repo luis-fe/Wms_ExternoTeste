@@ -72,7 +72,7 @@ def insert_endpoint():
     resultado = silkWMSModel.Funcao_Inserir(produto, endereco)
 
     if resultado == True:
-        return jsonify({'Mesagem':f'produto{produto} endereço{endereco}, Inserção realizada com sucesso'}), 200
+        return jsonify({'Mesagem':f'produto {produto} endereço {endereco}, Inserção realizada com sucesso'}), 200
     else:
         return jsonify({'Mesagem':'Falha ao inserir'}), 500
 
