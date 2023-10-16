@@ -42,7 +42,7 @@ def InculirDados(dataframe):
 def EncontrarEPC(caixa):
     caixaNova = ConsultaCaixa(caixa)
 
-    ops1 = caixaNova['numeroop']
+    ops1 = pd.DataFrame(caixaNova['numeroop'])
     ops1  = ops1['numeroop'].drop_duplicates().reset_index(drop=True)
 
 
