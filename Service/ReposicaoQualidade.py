@@ -74,7 +74,7 @@ def EncontrarEPC(caixa):
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
-    consultar = pd.read_sql('select rq.codbarrastag , rq.numeroop, rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza, rq.empresa'
+    consultar = pd.read_sql('select rq.codbarrastag , rq.numeroop, rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
                             ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario  from "off".reposicao_qualidade rq  '
                             "where rq.caixa = %s ",conn,params=(NCaixa,))
     conn.close()
