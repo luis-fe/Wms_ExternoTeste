@@ -60,7 +60,7 @@ def EncontrarEPC(caixa):
 
 
 
-    return pd.DataFrame({'mensagem':f'{resultado}'})
+    return pd.DataFrame([{'mensagem':f'{resultado}'}])
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
