@@ -64,6 +64,8 @@ def EncontrarEPC(caixa):
     if result['mensagem'][0] == 'caixa vazia':
         return pd.DataFrame({'mensagem':['caixa vazia']})
     else:
+        #Avaliar se a op da tag foi baixada
+        result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         return result
 
 def ConsultaCaixa(NCaixa):
