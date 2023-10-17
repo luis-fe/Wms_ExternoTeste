@@ -45,7 +45,7 @@ def EncontrarEPC(caixa):
     caixaNova = caixaNova.drop_duplicates(subset=['codbarrastag'])
     #Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
-        ops1 = ops1.drop_duplicates(subset=['numeroop'])
+    ops1 = ops1.drop_duplicates(subset=['numeroop'])
 
     # Passo 3: Transformar o dataFrame em lista
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in ops1['numeroop']]))
