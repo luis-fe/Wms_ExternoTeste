@@ -53,9 +53,9 @@ def delete_endpoint():
     resultado = silkWMSModel.Funcao_Deletar(endereco, produto)
 
     if resultado == True:
-        return f'endereco: {endereco}, produto {produto}  EXCLUIDOS NO CADASTRO DE SILK', 200
+        return jsonify({f'endereco: {endereco}, produto {produto}  EXCLUIDOS NO CADASTRO DE SILK'}), 200
     else:
-        return 'Falha ao deletar', 500
+        return jsonify({'Mesagem':'Falha ao inserir'}), 500
 
 
 @silkWMS_routes.route('/api/Silk/IserirTelas', methods=['PUT'])

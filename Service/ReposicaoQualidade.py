@@ -66,6 +66,10 @@ def EncontrarEPC(caixa):
     else:
         #Avaliar se a op da tag foi baixada
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
+        #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
+        inserir = result(result['mensagem']=='OP em estoque')
+
+
         return result
 
 def ConsultaCaixa(NCaixa):
@@ -80,3 +84,7 @@ def ConsultaCaixa(NCaixa):
         consultar['mensagem'] = 'Caixa Cheia'
 
         return consultar
+
+def IncrementarCaixa(endereco, dataframe):
+    conn = ConexaoPostgreMPL.conexao()
+    insert = 'insert into "Reposicao".tagsreposicao ("Enderco") values ( %s )'
