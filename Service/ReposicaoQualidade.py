@@ -61,10 +61,11 @@ def EncontrarEPC(caixa):
     result = pd.merge(caixaNova,epc,on=('codbarrastag','numeroop'), how='left')
     result.fillna('-', inplace=True)
 
+    if result['mensagem'][0] == 'caixa vazia':
+        return pd.DataFrame({'mensegem':['caixa vazia']})
+    else:
 
-
-
-    return result
+        return result
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
@@ -74,5 +75,7 @@ def ConsultaCaixa(NCaixa):
 
     if consultar.empty :
         return pd.DataFrame({'mensegem':['caixa vazia'],'codbarrastag':'','numeroop':''})
+    else:
+        consultar['mensagem'] = 'Caixa Cheia'
 
-    return consultar
+        return consultar
