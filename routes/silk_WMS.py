@@ -53,7 +53,7 @@ def delete_endpoint():
     resultado = silkWMSModel.Funcao_Deletar(endereco, produto)
 
     if resultado == True:
-        return jsonify({f'endereco: {endereco}, produto {produto}  EXCLUIDOS NO CADASTRO DE SILK'}), 200
+        return jsonify({f'endereco': f'{endereco}, produto {produto}  EXCLUIDOS NO CADASTRO DE SILK'}), 200
     else:
         return jsonify({'Mesagem':'Falha ao inserir'}), 500
 
