@@ -1,6 +1,8 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
+import psycopg2
+from psycopg2 import Error
 
 def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn = ConexaoCSW.Conexao()
@@ -87,18 +89,33 @@ def ConsultaCaixa(NCaixa):
         return consultar
 
 def IncrementarCaixa(endereco, dataframe):
-    conn = ConexaoPostgreMPL.conexao()
-    insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
-             '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
-    cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+    try:
+        conn = ConexaoPostgreMPL.conexao()
+        insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
+                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
-    values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
-               , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
-               row['usuario']) for index, row in dataframe.iterrows()]
+        cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
-    cursor.executemany(insert, values)
-    conn.commit()  # Faça o commit da transação
-    cursor.close()  # Feche o cursor
+        values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
+                   , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
+                   row['usuario']) for index, row in dataframe.iterrows()]
 
-    conn.close()
+        cursor.executemany(insert, values)
+        conn.commit()  # Faça o commit da transação
+        cursor.close()  # Feche o cursor
+
+
+    except psycopg2.Error as e:
+        if 'duplicate key value violates unique constraint' in str(e):
+            # Tratar a exceção de chave única aqui
+            print("A chave já existe na tabela.")
+            # Ou execute alguma ação alternativa, se necessário
+
+        else:
+            # Lidar com outras exceções que não são relacionadas à chave única
+            print("Erro inesperado:", e)
+
+    finally:
+        if conn:
+            conn.close()
