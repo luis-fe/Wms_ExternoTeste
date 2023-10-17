@@ -110,15 +110,16 @@ def IncrementarCaixa(endereco, dataframe):
 
     except psycopg2.Error as e:
         if 'duplicate key value violates unique constraint' in str(e):
-            # Tratar a exceção de chave única aqui
-            print("A chave já existe na tabela.")
-            dataframe['mensagem'] = "A chave já existe na tabela."
-            # Ou execute alguma ação alternativa, se
+
+            dataframe['mensagem'] = "codbarras ja existe em outra prateleira"
+
             return dataframe
 
         else:
             # Lidar com outras exceções que não são relacionadas à chave única
             print("Erro inesperado:", e)
+            dataframe['mensagem'] = "Erro inesperado:", e
+
             return dataframe
 
     finally:
