@@ -73,7 +73,7 @@ def ConsultaCaixa(NCaixa):
     conn.close()
 
     if consultar.empty :
-        return pd.DataFrame({'mensegem':['caixa vazia'],'codbarrastag':'','numeroop':''})
+        return pd.DataFrame({'mensagem':['caixa vazia'],'codbarrastag':'','numeroop':''})
     else:
         consultar['mensagem'] = 'Caixa Cheia'
 
