@@ -39,7 +39,7 @@ def Funcao_Deletar (Endereco,Produto):
     cursor.close()
 
     conn.close()
-    print('REALIZADO DELETE DE ENDEREÇO DO SILK NO CADASTRO')
+
     return True
 
 def Funcao_Inserir (Referencia, Endereco):

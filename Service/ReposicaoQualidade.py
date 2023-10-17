@@ -68,7 +68,7 @@ def EncontrarEPC(caixa):
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
         inserir = result(result['mensagem']=='OP em estoque')
-
+        IncrementarCaixa('teste',inserir)
 
         return result
 
@@ -87,4 +87,17 @@ def ConsultaCaixa(NCaixa):
 
 def IncrementarCaixa(endereco, dataframe):
     conn = ConexaoPostgreMPL.conexao()
-    insert = 'insert into "Reposicao".tagsreposicao ("Enderco") values ( %s )'
+    insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
+             '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+
+    cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+
+    values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
+               , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
+               row['usuario']) for index, row in dataframe.iterrows()]
+
+    cursor.executemany(insert, values)
+    conn.commit()  # Faça o commit da transação
+    cursor.close()  # Feche o cursor
+
+    conn.close()
