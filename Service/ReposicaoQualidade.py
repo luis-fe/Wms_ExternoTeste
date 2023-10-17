@@ -53,14 +53,14 @@ def EncontrarEPC(caixa):
     conn = ConexaoCSW.Conexao()
 
     # Use parâmetro de substituição na consulta SQL
-   # epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc ' \
-    #        'FROM tcr.SeqLeituraTagOPFase t WHERE t.codempresa = 1 and t.numeroOP IN '+resultado,conn)
+    epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
+            'FROM tcr.SeqLeituraTagOPFase t WHERE t.codempresa = 1 and t.numeroOP IN '+resultado,conn)
 
 
 
 
 
-    return pd.DataFrame([{'mensagem':f'{resultado}'}])
+    return epc
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
