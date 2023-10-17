@@ -70,7 +70,7 @@ def EncontrarEPC(caixa):
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
         inserir = result[result['mensagem']=='OP em estoque']
-        IncrementarCaixa('01-01-01',inserir)
+        inserir = IncrementarCaixa('01-01-01',inserir)
 
         return inserir
 
@@ -105,18 +105,24 @@ def IncrementarCaixa(endereco, dataframe):
         conn.commit()  # Faça o commit da transação
         cursor.close()  # Feche o cursor
 
+        return dataframe
+
 
     except psycopg2.Error as e:
         if 'duplicate key value violates unique constraint' in str(e):
             # Tratar a exceção de chave única aqui
             print("A chave já existe na tabela.")
-            # Ou execute alguma ação alternativa, se necessário
+            dataframe['mensagem'] = "A chave já existe na tabela."
+            # Ou execute alguma ação alternativa, se
+            return dataframe
 
         else:
             # Lidar com outras exceções que não são relacionadas à chave única
             print("Erro inesperado:", e)
+            return dataframe
 
     finally:
         if conn:
             conn.close()
+            return dataframe
 
