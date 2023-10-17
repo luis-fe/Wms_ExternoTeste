@@ -56,7 +56,7 @@ def EncontrarEPC(caixa):
     epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
             "FROM tcr.SeqLeituraFase t WHERE t.codempresa = 1 and t.numeroOP IN "+resultado,conn)
 
-
+    epc = epc.drop_duplicates(subset=['codbarrastag'])
 
 
     return epc
