@@ -119,3 +119,4 @@ def IncrementarCaixa(endereco, dataframe):
     finally:
         if conn:
             conn.close()
+
