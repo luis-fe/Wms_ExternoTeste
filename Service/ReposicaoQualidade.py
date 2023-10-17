@@ -28,7 +28,7 @@ def InculirDados(dataframe):
         insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario)' \
                   ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
-
+        dataframe[''] = ()
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
                    ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario']) for index, row in dataframe.iterrows()]
 
@@ -74,7 +74,7 @@ def EncontrarEPC(caixa):
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
-    consultar = pd.read_sql('select rq.codbarrastag , rq.numeroop  from "off".reposicao_qualidade rq  '
+    consultar = pd.read_sql('select *  from "off".reposicao_qualidade rq  '
                             "where rq.caixa = %s ",conn,params=(NCaixa,))
     conn.close()
 
