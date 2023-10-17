@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endereçamento</title>
+    <link rel="stylesheet" href="./assets/css/TelaPrincipal.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <div class="Titulo" style="width: 100%; background-color: rgb(17, 45, 126); font-size: 40px; color: white; text-align: center;">
+        <h3>Endereçamento Telas</h3>
+    </div>
+
+    <div class="Botoes" style="justify-content: center; align-items: center; text-align: center; margin-top: 15%;">
+        <i id="CadastrarTela" class="bi bi-folder-plus" style="cursor: pointer; font-size: 100px;"></i>
+        <i id="PesquisarIcone" class="bi bi-search" style="cursor: pointer; font-size: 100px; margin-left: 20px;"></i>
+    </div>
+
+    <div id="Opcoes" class="Opcoes" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 95%;
+    background-color: rgb(167, 185, 238);
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    display: none;
+    border-radius: 10px; margin-top: 60px;">
+         
+        <label for="text" style="color: black; font-size: 30px; font-weight: bold;">Op:</label>
+        <input id="InputOpOpcoes" type="text" style="font-size: 30px; text-align: center;">
+        <label for="text" style="color: black; font-size: 30px; font-weight: bold;">Referência:</label>
+        <input id="InputReferenciaOpcoes" type="text" style="font-size: 30px; text-align: center">
+        <label for="text" id="LabelEnderecos" style="color: black; font-size: 30px; font-weight: bold; margin-top: 20px; display: none;">Endereço:</label>
+        <textarea id="InputEnderecoOpcoes" style="font-size: 30px; text-align: center; white-space: pre-wrap; height: 200px; display: none;"></textarea>
+        <table id="TabelaEnderecos"></table>
+        <button id="Pesquisar" style="cursor: pointer; margin-top: 25px; font-size: 25px; font-weight: bold; border-radius: 10px;">Pesquisar</button>
+        <button id="Fechar" style="cursor: pointer; margin-top: 25px; font-size: 25px; font-weight: bold; border-radius: 10px;">Fechar</button>
+    </div>
+
+    <div id="Cad" class="Cad" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 95%;
+    background-color: rgb(167, 185, 238);
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    display: none;
+    border-radius: 10px; margin-top: 60px;">
+         
+        <label for="text" style="color: black; font-size: 30px; font-weight: bold;">Endereço:</label>
+        <input id="InputCadEndereco" type="text" style="font-size: 30px; text-align: center;">
+        <label for="text" id="LabelReferencias" style="color: black; font-size: 30px; font-weight: bold; display: none;">Referências:</label>
+        <textarea id="InputReferencias" style="font-size: 30px; text-align: center; white-space: pre-wrap; height: 200px; display: none"></textarea>
+        <label for="text" id="NovaReferencia" style="color: black; font-size: 30px; font-weight: bold; display: none">Nova Referência:</label>
+        <input id="InputNovaReferencia" type="text" style="font-size: 30px; text-align: center; display: none">
+        <button id="Cadastrar" style="cursor: pointer; margin-top: 25px; font-size: 25px; font-weight: bold; border-radius: 10px;display: none">Cadastrar</button>
+        <button id="FecharCadastro" style="cursor: pointer; margin-top: 25px; font-size: 25px; font-weight: bold; border-radius: 10px;">Fechar</button>
+    </div>
+
+    <script>
+        let Endereco = '';
+        let Referencia = '';
+        const Token = 'a40016aabcx9'
+
+        document.getElementById('PesquisarIcone').addEventListener('click', () => {
+            document.getElementById('Opcoes').style.display = 'flex';
+            document.getElementById('InputOpOpcoes').focus();
+        });
+
+        document.getElementById('Fechar').addEventListener('click', () => {
+            document.getElementById('Opcoes').style.display = 'none';
+            document.getElementById('InputOpOpcoes').value = '';
+            document.getElementById('InputReferenciaOpcoes').value = '';
+            document.getElementById('InputEnderecoOpcoes').value = '';
+            document.getElementById('LabelEnderecos').style.display = 'none'
+            document.getElementById('InputEnderecoOpcoes').style.display = 'none'
+        });
+
+        document.getElementById('CadastrarTela').addEventListener('click', () => {
+            document.getElementById('Cad').style.display = 'flex';
+        });
+
+        document.getElementById('FecharCadastro').addEventListener('click', () => {
+            document.getElementById('Cad').style.display = 'none';
+            
+        });
+
+        async function Consultas(Coluna, Operador, Nome) {
+            try {
+                const response = await fetch(`http://192.168.0.183:5000/api/Silk/PesquisaEndereco?Coluna=${Coluna}&Operador=${Operador}&Nome=${Nome}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': Token
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    Endereco = data.Endereco;
+                    Referencia = data.Referencia;
+                } else {
+                    throw new Error('Erro ao obter os dados da API');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function Inclusao() {
+            const dadosEnviar = {
+                "produto": document.getElementById('InputNovaReferencia').value,
+                "endereco": document.getElementById('InputCadEndereco').value,
+            }
+            try {
+                const response = await fetch(`http://192.168.0.183:5000/api/Silk/IserirTelas`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': Token
+                    },
+                    body: JSON.stringify(dadosEnviar),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    alert('Tela Cadastrada com Sucesso!')
+                } else {
+                    throw new Error('Erro ao obter os dados da API');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        async function ConsultaReferencia(Op) {
+            try {
+                const response = await fetch(`http://192.168.0.183:5000/api/Silk/PesquisaReferencia?numeroOP=${Op}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application.json',
+                        'Authorization': Token
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    Referencia = data[0]['referencia'];
+                } else {
+                    throw new Error('Erro ao obter os dados da API');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+//---------------------------------------------------------------Clicar Em pesquisar-----------------------------------------------------------------------------------------------//       
+document.getElementById('Pesquisar').addEventListener('click', async () => {
+    const inputReferenciaOpcoes = document.getElementById('InputReferenciaOpcoes').value;
+
+    if (inputReferenciaOpcoes === "") {
+        alert('Favor informar uma referência para consulta!');
+    } else {
+        await Consultas('Referencia', '=', inputReferenciaOpcoes);
+        document.getElementById('InputEnderecoOpcoes').value = Endereco;
+        breakTextIntoLines(document.getElementById('InputEnderecoOpcoes'));
+        document.getElementById('InputEnderecoOpcoes').style.display = 'flex';
+        document.getElementById('LabelEnderecos').style.display = 'flex';
+        
+    }
+});
+
+//-------------------------------------------------------------Apertar Enter Em Referência----------------------------------------------------------------------------------------//
+document.getElementById('InputReferenciaOpcoes').addEventListener("keydown", async function(event) {
+    const inputReferenciaOpcoes = document.getElementById('InputReferenciaOpcoes').value;
+    if (event.key === "Enter") {
+        if (inputReferenciaOpcoes === ''){
+            alert('Favor informar uma referência para consulta!');
+        } else {
+        await Consultas('Referencia', '=', document.getElementById('InputReferenciaOpcoes').value);
+        document.getElementById('InputEnderecoOpcoes').value = '';
+        document.getElementById('InputEnderecoOpcoes').value = Endereco;
+        document.getElementById('InputEnderecoOpcoes').style.display = 'flex';
+        document.getElementById('LabelEnderecos').style.display = 'flex';
+        breakTextIntoLines(document.getElementById('InputEnderecoOpcoes'));
+        }}
+});
+
+//--------------------------------------------------------------Apertando Enter em Op--------------------------------------------------------------------------------------------//
+document.getElementById('InputOpOpcoes').addEventListener("keydown", async function(event) {
+    const Op = document.getElementById('InputOpOpcoes').value
+        if (event.key === "Enter") {
+            if(Op === ''){
+                document.getElementById('InputReferenciaOpcoes').focus()
+            } else {
+        await ConsultaReferencia(document.getElementById('InputOpOpcoes').value);
+        document.getElementById('InputReferenciaOpcoes').value = '';
+        document.getElementById('InputReferenciaOpcoes').value = Referencia;
+        await Consultas('Referencia', '=', Referencia);
+        document.getElementById('InputEnderecoOpcoes').value = Endereco;
+        breakTextIntoLines(document.getElementById('InputEnderecoOpcoes'));
+        }}
+});
+
+//---------------------------------------------------------------Função para Quebrar as Linhas-----------------------------------------------------------------------------------//
+function breakTextIntoLines(inputElement) {
+    const inputValue = inputElement.value;
+    const valuesArray = inputValue.split(',');
+    const formattedValue = valuesArray.join('\n');
+    inputElement.value = formattedValue;
+};
+
+
+//-------------------------------------------------------------- Apertando Enter para Pesquisar Endereços------------------------------------------------------------------------//       
+document.getElementById('InputCadEndereco').addEventListener("keydown", async function(event) {
+    const Enderecos = document.getElementById('InputCadEndereco').value
+        if (event.key === "Enter") {
+            if(Enderecos === ''){
+                alert('Favor informar um Endereço para Cadastro!');
+            } else {
+        document.getElementById('InputNovaReferencia').value = ''
+        await Consultas('Endereco', '=', document.getElementById('InputCadEndereco').value);
+        document.getElementById('InputReferencias').value = Referencia;
+        breakTextIntoLines(document.getElementById('InputReferencias'));
+        document.getElementById('LabelReferencias').style.display = 'flex';
+        document.getElementById('InputReferencias').style.display = 'flex';
+        document.getElementById('NovaReferencia').style.display = 'flex';
+        document.getElementById('InputNovaReferencia').style.display = 'flex';
+        document.getElementById('Cadastrar').style.display = 'flex'
+        Cadastrar
+        }}
+});
+
+//--------------------------------------------------------------Clicando em Cadastrar-------------------------------------------------------------------------------------------//
+
+document.getElementById('Cadastrar').addEventListener("click", async function(event) {
+    const InputEndereco = document.getElementById('InputCadEndereco').value
+    const InputNovaReferencia = document.getElementById('InputNovaReferencia').value
+        if(InputEndereco === '' || InputNovaReferencia ==='' ){
+            alert('Para Cadastrar uma nova tela, é preciso preencher todos os Campos')
+        } else{
+            await Inclusao();
+            await Consultas('Endereco', '=', document.getElementById('InputCadEndereco').value);
+        document.getElementById('InputReferencias').value = Referencia;
+        breakTextIntoLines(document.getElementById('InputReferencias'));
+        }
+});
+
+
+document.getElementById('InputNovaReferencia').addEventListener("keydown", async function(event) {
+    const InputEndereco = document.getElementById('InputCadEndereco').value
+    const InputNovaReferencia = document.getElementById('InputNovaReferencia').value
+        if (event.key === "Enter") {
+            if(InputEndereco === '' || InputNovaReferencia ==='' ){
+            alert('Para Cadastrar uma nova tela, é preciso preencher todos os Campos')
+        } else{
+            await Inclusao();
+            await Consultas('Endereco', '=', document.getElementById('InputCadEndereco').value);
+        document.getElementById('InputReferencias').value = Referencia;
+        breakTextIntoLines(document.getElementById('InputReferencias'));
+        }}
+});
+
+
+        
+    </script>
+</body>
+</html>
