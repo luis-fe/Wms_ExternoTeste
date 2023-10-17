@@ -59,7 +59,6 @@ def EncontrarEPC(caixa):
 
 
 
-
     return epc
 
 def ConsultaCaixa(NCaixa):
