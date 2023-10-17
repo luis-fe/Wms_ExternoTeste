@@ -62,9 +62,8 @@ def EncontrarEPC(caixa):
     result.fillna('-', inplace=True)
 
     if result['mensagem'][0] == 'caixa vazia':
-        return pd.DataFrame({'mensegem':['caixa vazia']})
+        return pd.DataFrame({'mensagem':['caixa vazia']})
     else:
-
         return result
 
 def ConsultaCaixa(NCaixa):
