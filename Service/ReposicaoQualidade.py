@@ -65,12 +65,12 @@ def EncontrarEPC(caixa):
         return pd.DataFrame({'mensagem':['caixa vazia']})
     else:
         #Avaliar se a op da tag foi baixada
-       # result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
+        result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
-       # inserir = result(result['mensagem']=='OP em estoque')
+        inserir = result[result['mensagem']=='OP em estoque']
         #IncrementarCaixa('teste',inserir)
 
-        return result
+        return inserir
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
