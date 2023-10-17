@@ -59,6 +59,7 @@ def EncontrarEPC(caixa):
     epc = epc.drop_duplicates(subset=['codbarrastag'])
 
     result = pd.merge(caixaNova,epc,on=('codbarrastag','numeroop'), how='left')
+    result.fillna('-',index=True)
 
 
 
