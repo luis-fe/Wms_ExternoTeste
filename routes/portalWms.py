@@ -49,3 +49,7 @@ def Embalagens():
 @portal_routes.route('/CadastroCaixa')
 def CadastroCaixa():
     return render_template('TelaQrCodeCaixas.html')
+
+@portal_routes.route('/EnderecoTelaSilk')
+def EnderecoTelaSilk():
+    return render_template('TelaEnderecosSilk.html')
