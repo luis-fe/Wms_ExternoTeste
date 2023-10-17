@@ -72,7 +72,7 @@ def ConsultaCaixa(NCaixa):
                             "where rq.caixa = %s ",conn,params=(NCaixa,))
     conn.close()
 
-    if consultar.empety :
+    if consultar.empty :
         return pd.DataFrame({'mensegem':['caixa vazia']})
 
     return consultar
