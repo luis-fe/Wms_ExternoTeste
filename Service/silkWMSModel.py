@@ -27,7 +27,6 @@ def PesquisaEnderecos(Coluna, Operador, Nome):
 
 
 
-
 def Funcao_Deletar (Endereco,Produto):
 
     conn = ConexaoPostgreMPL.conexao()
