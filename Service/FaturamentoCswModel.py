@@ -53,13 +53,18 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         retornaCswSB = retornaCsw[retornaCsw['codigo'] != 39]
         retornaCswMPLUS = retornaCsw[retornaCsw['codigo'] == 39]
 
+        prontaEntrega = retornaCsw[retornaCsw['codigo'] == 66 and retornaCsw['codigo'] == 67 and retornaCsw['codigo'] == 236 and retornaCsw['codigo'] == 237 ]
+
 
 
         retornaCswSB = retornaCswSB[retornaCswSB['conf']==0]
         retornaCswMPLUS = retornaCswMPLUS[retornaCswMPLUS['conf']==0]
+        prontaEntrega = prontaEntrega[retornaCswMPLUS['conf'] == 0]
+
 
         retorna = retornaCswSB['vlrSugestao'].sum()
         ValorRetornaMplus = retornaCswMPLUS['vlrSugestao'].sum()
+        prontaEntrega = prontaEntrega['vlrSugestao'].sum()
 
         pecasSB = retornaCswSB['qtde'].sum()
 
@@ -96,7 +101,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         faturado = faturado.replace(';', ",")
         if detalhar == False:
             return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
-                                  'Pcs Retorna Mplus':f'{pecasMplus} pçs'}])
+                                  'Pcs Retorna Mplus':f'{pecasMplus} pçs','Retorna ProntaEntrega':f'{prontaEntrega}'}])
         else:
             return retornaCsw
    except:
