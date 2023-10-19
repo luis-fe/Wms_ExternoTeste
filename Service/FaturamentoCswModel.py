@@ -83,17 +83,17 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         retorna = retorna.replace(',',".")
         retorna = retorna.replace(';', ",")
 
+        ValorRetornaMplus = "{:,.2f}".format(ValorRetornaMplus)
+        ValorRetornaMplus = 'R$ ' + str(ValorRetornaMplus)
+        ValorRetornaMplus = ValorRetornaMplus.replace('.', ";")
+        ValorRetornaMplus = ValorRetornaMplus.replace(',',".")
+        ValorRetornaMplus = ValorRetornaMplus.replace(';', ",")
+
         ValorprontaEntrega = "{:,.2f}".format(ValorprontaEntrega)
         ValorprontaEntrega = 'R$ ' + str(ValorprontaEntrega)
         ValorprontaEntrega = ValorprontaEntrega.replace('.', ";")
         ValorprontaEntrega = ValorprontaEntrega.replace(',',".")
         ValorprontaEntrega = ValorprontaEntrega.replace(';', ",")
-
-        prontaEntrega = "{:,.2f}".format(prontaEntrega)
-        prontaEntrega = 'R$ ' + str(prontaEntrega)
-        prontaEntrega = prontaEntrega.replace('.', ";")
-        prontaEntrega = prontaEntrega.replace(',',".")
-        prontaEntrega = prontaEntrega.replace(';', ",")
 
         conn.close()
         dataframe['tiponota'] = dataframe['tiponota'].astype(str)
