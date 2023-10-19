@@ -25,7 +25,7 @@ def obter_notaCsw():
 
 def Faturamento(empresa, dataInicio, dataFim, detalhar):
 
-   #try:
+   try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
         dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
@@ -72,7 +72,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
 
         retornaCswSB = retornaCswSB[retornaCswSB['conf']==0]
         retornaCswMPLUS = retornaCswMPLUS[retornaCswMPLUS['conf']==0]
-        prontaEntrega = prontaEntrega[retornaCswMPLUS['conf'] == 0]
+        prontaEntrega = prontaEntrega[prontaEntrega['conf'] == 0]
 
 
         retorna = retornaCswSB['vlrSugestao'].sum()
@@ -127,9 +127,9 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
                                   'Pcs Retorna Mplus':f'{pecasMplus} pçs','Retorna ProntaEntrega':f'{ValorprontaEntrega}', 'Pç Pronta Entrega':f'{pecasProntaEntrega}'}])
         else:
             return retornaCsw
-   #except:
-    #    return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida','No Retorna':f'conexao perdida','Pcs Retorna':f'conexao perdida','No Retorna MPlus':f'conexao perdida',
-     #                             'Pcs Retorna Mplus':f'conexao perdida'}])
+   except:
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida','No Retorna':f'conexao perdida','Pcs Retorna':f'conexao perdida','No Retorna MPlus':f'conexao perdida',
+                                  'Pcs Retorna Mplus':f'conexao perdida'}])
 
 
 
