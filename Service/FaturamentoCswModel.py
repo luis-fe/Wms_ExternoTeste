@@ -58,7 +58,6 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
                                   (retornaCsw['codigo'] != 172) |
                                      (retornaCsw['codigo'] != 39)]
 
-
         retornaCswMPLUS = retornaCsw[retornaCsw['codigo'] == 39]
 
         prontaEntrega = retornaCsw[(retornaCsw['codigo'] == 66) |
