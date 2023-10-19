@@ -50,12 +50,12 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         retornaCsw["codPedido"]=retornaCsw["codPedido"]+'-'+retornaCsw["codSequencia"]
 
         # Retirando as bonificacoes
-        retornaCswSB = retornaCsw[(retornaCsw['codigo'] != 66) | (retornaCsw['codigo'] != 67) | (retornaCsw['codigo'] != 236) | (
-                        retornaCsw['codigo'] != 237)| (retornaCsw['codigo'] != 39) ]
+        retornaCswSB = retornaCsw[(retornaCsw['codigo'] != 66) & (retornaCsw['codigo'] != 67) & (retornaCsw['codigo'] != 236) & (
+                        retornaCsw['codigo'] != 237)& (retornaCsw['codigo'] != 39) ]
         retornaCswMPLUS = retornaCsw[retornaCsw['codigo'] == 39]
 
         prontaEntrega = retornaCsw[
-            (retornaCsw['codigo'] == 66) | (retornaCsw['codigo'] == 67) | (retornaCsw['codigo'] == 236) | (
+            (retornaCsw['codigo'] == 66) & (retornaCsw['codigo'] == 67) & (retornaCsw['codigo'] == 236) & (
                         retornaCsw['codigo'] == 237)]
 
         retornaCswSB = retornaCswSB[retornaCswSB['conf']==0]
