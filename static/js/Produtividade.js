@@ -90,11 +90,15 @@ async function DadosFaturamento(dataInicio, dataFim) {
             const Retorna = data[0]['No Retorna'];
             const RetornaMplus = data[0]['No Retorna MPlus'];
             const RetornaMplusPcs = data[0]['Pcs Retorna Mplus'];
+            const ProntaEntrega = data[0]['Pç Pronta Entrega'];
+            const ProntaEntregaR$ = data[0]['Retorna ProntaEntrega'];
             document.getElementById("FaturadoR$").textContent = Faturado;
             document.getElementById("RetornaPcs").textContent = RetornaPecas;
             document.getElementById("RetornaValor").textContent = formatarMoeda(Retorna);
             document.getElementById("RetornaMplus").textContent = RetornaMplusPcs;
             document.getElementById("RetornaMplusR$").textContent = formatarMoeda(RetornaMplus);
+            document.getElementById("RetornaProntaEnt").textContent = ProntaEntrega;
+            document.getElementById("RetornaProntaEntR$").textContent = formatarMoeda(ProntaEntregaR$);
         } else {
             throw new Error("Erro na Atualização, Recarregue a página!\nSe o problema persistir, contate o Administrador!");
         }
