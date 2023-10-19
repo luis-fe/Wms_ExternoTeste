@@ -53,9 +53,9 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         retornaCswSB = retornaCsw[retornaCsw['codigo'] != 39]
         retornaCswMPLUS = retornaCsw[retornaCsw['codigo'] == 39]
 
-        prontaEntrega = retornaCsw[retornaCsw['codigo'] == 66 and retornaCsw['codigo'] == 67 and retornaCsw['codigo'] == 236 and retornaCsw['codigo'] == 237 ]
-
-
+        prontaEntrega = retornaCsw[
+            (retornaCsw['codigo'] == 66) | (retornaCsw['codigo'] == 67) | (retornaCsw['codigo'] == 236) | (
+                        retornaCsw['codigo'] == 237)]
 
         retornaCswSB = retornaCswSB[retornaCswSB['conf']==0]
         retornaCswMPLUS = retornaCswMPLUS[retornaCswMPLUS['conf']==0]
