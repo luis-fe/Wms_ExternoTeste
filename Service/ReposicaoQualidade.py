@@ -102,7 +102,7 @@ def IncrementarCaixa(endereco, dataframe):
     try:
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
-                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
         insert['proveniencia'] = 'Veio da Caixa'
         insert['DataReposicao'] = obterHoraAtual()
 
