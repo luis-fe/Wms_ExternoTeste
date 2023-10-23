@@ -28,7 +28,7 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
     InculirDados(pesquisa)
-    return pesquisa
+    return pd.DataFrame({'status':True , 'Mensagem':'tag inserido !'})
 
 
 
