@@ -41,7 +41,7 @@ def InculirDados(dataframe):
                   ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
-                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'],row['proveniencia'],row['DataReposicao'] ) for index, row in dataframe.iterrows()]
+                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'] ) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
