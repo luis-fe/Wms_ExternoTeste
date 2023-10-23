@@ -30,7 +30,6 @@ def InculirDados(dataframe):
         insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario)' \
                   ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
-        dataframe[''] = ()
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
                    ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario']) for index, row in dataframe.iterrows()]
 
