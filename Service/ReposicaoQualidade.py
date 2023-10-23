@@ -172,7 +172,7 @@ def PesquisarTag(codbarrastag, caixa):
 
     if consulta.empty:
         return 1
-    elif int(consulta[caixa][0])==int(caixa):
+    elif consulta[caixa][0] == str(caixa):
         return 2
     else:
         return consulta[caixa][0]
