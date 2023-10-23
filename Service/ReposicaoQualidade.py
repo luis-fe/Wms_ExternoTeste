@@ -3,6 +3,16 @@ import ConexaoPostgreMPL
 import pandas as pd
 import psycopg2
 from psycopg2 import Error
+import datetime
+import pytz
+
+
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
+    return hora_str
+
 
 def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn = ConexaoCSW.Conexao()
@@ -31,7 +41,7 @@ def InculirDados(dataframe):
                   ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
-                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario']) for index, row in dataframe.iterrows()]
+                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'],row['proveniencia'],row['DataReposicao'] ) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
@@ -93,12 +103,14 @@ def IncrementarCaixa(endereco, dataframe):
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
                  '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+        insert['proveniencia'] = 'Veio da Caixa'
+        insert['DataReposicao'] = obterHoraAtual()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
         values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                    , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
-                   row['usuario']) for index, row in dataframe.iterrows()]
+                   row['usuario'],row['proveniencia'],row['DataReposicao']) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
