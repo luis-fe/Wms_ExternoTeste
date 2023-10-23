@@ -178,3 +178,4 @@ def PesquisarTag(codbarrastag, caixa):
         return consulta[caixa][0]
 
 
+
