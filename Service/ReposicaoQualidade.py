@@ -27,7 +27,7 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
-    if pesquisa.empety:
+    if pesquisa.empty:
         return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
     else:
 
