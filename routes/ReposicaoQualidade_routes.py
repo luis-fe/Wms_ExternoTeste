@@ -31,14 +31,13 @@ def ReporCaixaLivre():
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    FilaReposicaoOP_data = []
+    enderecos_data = []
     for index, row in FilaReposicaoOP.iterrows():
-        FilaReposicaoOP_dict = {}
+        enderecos_dict = {}
         for column_name in column_names:
-            FilaReposicaoOP_dict[column_name] = row[column_name]
-        FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
-    return jsonify({"Mensagem":'Dados Inseridos com sucesso'})
-
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
 
 @reposicao_qualidadeRoute.route('/api/ConsultarCaixa', methods=['GET'])
 @token_required
