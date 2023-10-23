@@ -30,11 +30,16 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     if pesquisa.empty:
         return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
     else:
+        pesquisarSituacao = PesquisarTag(codbarras,Ncaixa)
 
-        InculirDados(pesquisa)
-
-        return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
-
+        if pesquisarSituacao == 1:
+            InculirDados(pesquisa)
+            return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
+        elif pesquisarSituacao ==2:
+            return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} ja bipado nessa caixa, deseja estornar ?'}])
+        else:
+            return pd.DataFrame(
+                [{'status': False, 'Mensagem': f'tag {codbarras} ja bipado em outra  caixa de n°{pesquisarSituacao}, deseja estornar ?'}])
 
 
 
@@ -157,3 +162,19 @@ def PesquisarTagCsw(codbarras, empresa):
     conn.close()
 
     return pesquisa
+
+
+def PesquisarTag(codbarrastag, caixa):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql('select caixa  from "off".reposicao_qualidade rq'
+                           ' where rq.codbarrastag = '+codbarrastag, conn )
+    conn.close()
+
+    if consulta.empty:
+        return 1
+    elif consulta[caixa]==caixa:
+        return 2
+    else:
+        return consulta[caixa][0]
+
+
