@@ -71,7 +71,7 @@ def EncontrarEPC(caixa):
         inserir = result[result['mensagem']=='OP em estoque']
         inserir = IncrementarCaixa('01-01-01',inserir)
 
-        return inserir
+        return pd.DataFrame({'status':True})
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
