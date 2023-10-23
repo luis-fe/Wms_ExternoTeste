@@ -27,8 +27,13 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
-    InculirDados(pesquisa)
-    return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
+    if pesquisa.empety:
+        return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
+    else:
+
+        InculirDados(pesquisa)
+
+        return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
 
 
 
