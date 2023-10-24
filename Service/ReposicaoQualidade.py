@@ -120,7 +120,7 @@ def IncrementarCaixa(endereco, dataframe):
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
                  '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
-        insert['proveniencia'] = 'Veio da Caixa'
+        dataframe['proveniencia'] = 'Veio da Caixa'
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
