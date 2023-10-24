@@ -3,13 +3,19 @@ import pandas as pd
 
 
 def Conexao():
-    conn = jaydebeapi.connect(
+    try:
+        conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
     'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
-    {'user': '_SYSTEM', 'password': 'ccscache'},
+    {'user': '_SYSTEM', 'password': 'ccscache2'},
     'CacheDB.jar'
-)
-    return conn
+    )
+        return conn
+    except:
+        conn2 = Conexao2()
+        return conn2
+
+
 
 def Conexao2():
     conn = jaydebeapi.connect(
