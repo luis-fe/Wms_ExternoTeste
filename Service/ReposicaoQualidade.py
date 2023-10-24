@@ -14,7 +14,7 @@ def obterHoraAtual():
     return hora_str
 
 
-def ApontarTag(codbarras, Ncaixa, empresa, usuario):
+def ApontarTag(codbarras, Ncaixa, empresa, usuario, estornar = False):
     conn = ConexaoCSW.Conexao()
     codbarras = "'"+codbarras+"'"
 
@@ -27,19 +27,24 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario):
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
-    if pesquisa.empty:
-        return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
-    else:
-        pesquisarSituacao = PesquisarTag(codbarras,Ncaixa)
-
-        if pesquisarSituacao == 1:
-            InculirDados(pesquisa)
-            return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
-        elif pesquisarSituacao ==2:
-            return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} ja bipado nessa caixa, deseja estornar ?'}])
+    if estornar == False:
+        if pesquisa.empty:
+            return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
         else:
-            return pd.DataFrame(
-                [{'status': False, 'Mensagem': f'tag {codbarras} ja bipado em outra  caixa de n°{pesquisarSituacao}, deseja estornar ?'}])
+            pesquisarSituacao = PesquisarTag(codbarras,Ncaixa)
+
+            if pesquisarSituacao == 1:
+                InculirDados(pesquisa)
+                return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
+            elif pesquisarSituacao ==2:
+                return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} ja bipado nessa caixa, deseja estornar ?'}])
+            else:
+                return pd.DataFrame(
+                    [{'status': False, 'Mensagem': f'tag {codbarras} ja bipado em outra  caixa de n°{pesquisarSituacao}, deseja estornar ?'}])
+    else:
+        estorno = EstornarTag(codbarras)
+        return estorno
+
 
 
 
@@ -179,6 +184,19 @@ def PesquisarTag(codbarrastag, caixa):
             return 2
         else:
          return consulta['caixa'][0]
+
+def EstornarTag(codbarrastag):
+    conn = ConexaoPostgreMPL.conexao()
+    delete = 'delete from "off".reposicao_qualidade ' \
+             'where codbarrastag  = '+codbarrastag
+    cursor = conn.cursor()
+    cursor.execute(delete,)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return pd.DataFrame([{'status':True,'Mensagem':'tag estornada! '}])
+
 
 
 

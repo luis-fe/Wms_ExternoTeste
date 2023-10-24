@@ -25,9 +25,10 @@ def ReporCaixaLivre():
     codbarras = novo_usuario.get('codbarras', '5')
     NCaixa = novo_usuario.get('NCaixa', '')
     usuario = novo_usuario.get('usuario', '')
+    estornar = novo_usuario.get('estornar', False)
 
 
-    FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario)
+    FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario, estornar)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
