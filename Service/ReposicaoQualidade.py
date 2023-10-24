@@ -111,9 +111,9 @@ def EncontrarEPC(caixa,endereco):
 
 
             data = {
-                'status': True,
-                'Mensagem': 'Endereco PARCIALMENTE carregado',
-                'Tags nao carregadas':NaoEntrou.to_dict(orient='records')
+                'status': False,
+                'Mensagem': 'Algumas OPs da caixa nao entraram em estoque',
+                'Tags Pendentes':NaoEntrou.to_dict(orient='records')
             }
             return pd.DataFrame([data])
 
