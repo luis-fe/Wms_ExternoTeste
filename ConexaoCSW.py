@@ -43,7 +43,12 @@ def obter_notaCsw():
 
 def VerificarConexao():
     try:
-        conn = Conexao()
+        conn = jaydebeapi.connect(
+                                    'com.intersys.jdbc.CacheDriver',
+                                    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+                                    {'user': '_SYSTEM', 'password': 'ccscache2'},
+                                    'CacheDB.jar'
+                                    )
         teste = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
         data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal com o servidor 192.168.0.25:1972 root ','teste':'csw'}])
     except:
