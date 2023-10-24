@@ -178,7 +178,7 @@ def PesquisarTag(codbarrastag, caixa):
         if  caixaAntes == str(caixa):
             return 2
         else:
-         return consulta[caixa][0]
+         return consulta['caixa'][0]
 
 
 
