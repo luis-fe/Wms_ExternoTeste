@@ -116,7 +116,7 @@ def ConsultaCaixa(NCaixa):
 
 def IncrementarCaixa(endereco, dataframe):
 
-    try:
+    #try:
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
                  '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
@@ -134,7 +134,7 @@ def IncrementarCaixa(endereco, dataframe):
 
         return dataframe
 
-
+'''''
     except psycopg2.Error as e:
         if 'duplicate key value violates unique constraint' in str(e):
 
@@ -153,6 +153,7 @@ def IncrementarCaixa(endereco, dataframe):
         if conn:
             conn.close()
             return dataframe
+'''''
 
 def PesquisarTagCsw(codbarras, empresa):
     conn = ConexaoCSW.Conexao()
