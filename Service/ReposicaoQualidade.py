@@ -27,6 +27,8 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario, estornar = False):
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
+    pesquisa['DataReposicao'] = obterHoraAtual()
+
     if estornar == False:
         if pesquisa.empty:
             return pd.DataFrame([{'status': False, 'Mensagem': f'tag {codbarras} nao encontrada !'}])
@@ -52,11 +54,11 @@ def InculirDados(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario)' \
-                  ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario, DataReposicao)' \
+                  ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
-                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'] ) for index, row in dataframe.iterrows()]
+                   ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'], row['DataReposicao'] ) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
@@ -119,7 +121,6 @@ def IncrementarCaixa(endereco, dataframe):
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
                  '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
         insert['proveniencia'] = 'Veio da Caixa'
-        insert['DataReposicao'] = obterHoraAtual()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
