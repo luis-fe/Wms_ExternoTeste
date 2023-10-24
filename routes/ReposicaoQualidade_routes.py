@@ -40,13 +40,17 @@ def ReporCaixaLivre():
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
 
-@reposicao_qualidadeRoute.route('/api/ConsultarCaixa', methods=['GET'])
+@reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required
-def ConsultarCaixa():
-    empresa = request.args.get('empresa','1')
-    Ncaixa = request.args.get('Ncaixa','5')
+def RecarrearEndereco():
+    # Obtenha os dados do corpo da requisição
+    novo_usuario = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    Ncaixa = novo_usuario.get('Ncaixa')
+    endereco = novo_usuario.get('endereco')
 
-    FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa)
+
+    FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

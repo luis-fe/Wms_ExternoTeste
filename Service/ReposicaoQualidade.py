@@ -67,7 +67,7 @@ def InculirDados(dataframe):
 
 
         conn.close()
-def EncontrarEPC(caixa):
+def EncontrarEPC(caixa,endereco):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa)
     caixaNova = caixaNova.drop_duplicates(subset=['codbarrastag'])
@@ -96,7 +96,7 @@ def EncontrarEPC(caixa):
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
         inserir = result[result['mensagem']=='OP em estoque']
-        inserir = IncrementarCaixa('01-01-01',inserir)
+        inserir = IncrementarCaixa(endereco,inserir)
 
         return pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
 
