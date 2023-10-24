@@ -98,7 +98,27 @@ def EncontrarEPC(caixa,endereco):
         inserir = result[result['mensagem']=='OP em estoque']
         inserir = IncrementarCaixa(endereco,inserir)
 
-        return pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
+        QtdtotalCaixa = result['codbarrastag'].count()
+        Qtde_noEstoque = inserir['codbarrastag'].count()
+
+
+        if QtdtotalCaixa == Qtde_noEstoque:
+            return pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
+        else:
+            NaoEntrou = result[result['mensagem'] == 'OP nao entrou em estoque']
+
+            NaoEntrou = NaoEntrou[['codbarrastag', 'numeroop']]
+
+
+            data = {
+                'status': True,
+                'Mensagem': 'Endereco PARCIALMENTE carregado',
+                'Tags nao carregadas':NaoEntrou.to_dict(orient='records')
+            }
+            return pd.DataFrame([data])
+
+
+
 
 def ConsultaCaixa(NCaixa):
     conn = ConexaoPostgreMPL.conexao()
