@@ -54,7 +54,7 @@ def InculirDados(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario, DataReposicao)' \
+        insert =  'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario, "DataReposicao")' \
                   ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
