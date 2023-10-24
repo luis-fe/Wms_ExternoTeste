@@ -113,7 +113,7 @@ def EncontrarEPC(caixa,endereco):
             data = {
                 'status': False,
                 'Mensagem': 'Algumas OPs da caixa nao entraram em estoque',
-                'Tags Pendentes':NaoEntrou.to_dict(orient='records')
+                'tags Pendentes':NaoEntrou.to_dict(orient='records')
             }
             return pd.DataFrame([data])
 
