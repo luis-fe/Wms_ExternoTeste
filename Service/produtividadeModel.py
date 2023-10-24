@@ -45,8 +45,13 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
             'where datareposicao >= %s and datareposicao <= %s '
             'group by usuario ', conn, params=(dataInicial, dataFInal,))
 
+        TagReposicao3 = pd.read_sql(
+            'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores3" '
+            'where datareposicao >= %s and datareposicao <= %s '
+            'group by usuario ', conn, params=(dataInicial, dataFInal,))
+
         # Unir os DataFrames usando pd.concat()
-        TagReposicao = pd.concat([TagReposicao, TagReposicao2])
+        TagReposicao = pd.concat([TagReposicao, TagReposicao2, TagReposicao3])
         TagReposicao = TagReposicao.groupby('usuario')['qtde'].sum().reset_index()
 
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
