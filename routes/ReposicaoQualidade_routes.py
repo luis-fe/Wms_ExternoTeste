@@ -79,3 +79,23 @@ def PesquisarCodbarrastag():
             enderecos_dict[column_name] = row[column_name]
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
+
+@reposicao_qualidadeRoute.route('/api/ExcluirCaixa', methods=['DELETE'])
+@token_required
+def ExcluirCaixa():
+    # Obtenha os dados do corpo da requisição
+    novo_usuario = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    Ncaixa = novo_usuario.get('Ncaixa')
+
+    FilaReposicaoOP = ReposicaoQualidade.ExcluirCaixa(Ncaixa)
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)

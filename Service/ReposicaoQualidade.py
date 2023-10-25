@@ -219,6 +219,17 @@ def EstornarTag(codbarrastag):
 
     return pd.DataFrame([{'status':True,'Mensagem':'tag estornada! '}])
 
+def ExcluirCaixa(Ncaixa):
+    delete = 'delete from "off".reposicao_qualidade ' \
+             'where caixa  = %s '
 
+    conn = ConexaoPostgreMPL.conexao()
+    cursor = conn.cursor()
+    cursor.execute(delete,(Ncaixa,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return pd.DataFrame([{'status':True,'Mensagem':'Caixa Excluida com sucesso! '}])
 
 
