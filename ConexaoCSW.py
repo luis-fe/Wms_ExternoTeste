@@ -79,10 +79,9 @@ def pesquisaTagCSW(codbarras):
 
 
 ####### TESTE NO INICIO DA APLICACAO,
-'''''
+
 try:
     teste = obter_notaCsw()
     print(f'{teste}')
 except:
     print('caiu a conexao')
-'''''
