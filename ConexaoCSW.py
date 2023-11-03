@@ -26,7 +26,7 @@ def Conexao2():
 def ConexaoExterna2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
+    'jdbc:Cache://187.32.10.129:1972/CONSISTEM?loginTimeout=10',
     {'user': 'root', 'password': 'ccscache'},
     'CacheDB_root.jar'
 )
@@ -43,7 +43,7 @@ def VerificarConexao():
     try:
         connPrincipal = jaydebeapi.connect(
                                     'com.intersys.jdbc.CacheDriver',
-                                    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+                                    'jdbc:Cache://192.168.0.25:1972/CONSISTEM?loginTimeout=10',
                                     {'user': '_SYSTEM', 'password': 'ccscache'},
                                     'CacheDB.jar'
                                     )
