@@ -6,7 +6,7 @@ def Conexao():
    # try:
         conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM?loginTimeout=10',
+    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
     {'user': '_system', 'password': 'ccscache'},
     'CacheDB.jar'
     )
@@ -18,8 +18,8 @@ def Conexao():
 def Conexao2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM?loginTimeout=10',
-    {'user': '_SYSTEM', 'password': 'ccscache'},
+    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+    {'user': 'root', 'password': 'ccscache'},
     'CacheDB_root.jar'
 )
     return conn
