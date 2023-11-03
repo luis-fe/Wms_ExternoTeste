@@ -332,8 +332,9 @@ def InformacaoImpresao(pedido):
 
 
     try:
-        conn2 = ConexaoCSW.Conexao()
+
         ''''
+        conn2 = ConexaoCSW.Conexao()
         transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
                                  ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
                                  ' WHERE t.Empresa = 1 ',conn2)
