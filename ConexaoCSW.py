@@ -79,9 +79,11 @@ def pesquisaTagCSW(codbarras):
         return pd.DataFrame([{'stauts conexao': False}])
 
 
-####### TESTE NO INICIO DA APLICACAO
+####### TESTE NO INICIO DA APLICACAO,
+'''''
 try:
     teste = obter_notaCsw()
     print(f'{teste}')
 except:
     print('caiu a conexao')
+'''''
