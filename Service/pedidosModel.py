@@ -333,11 +333,16 @@ def InformacaoImpresao(pedido):
 
     try:
         conn2 = ConexaoCSW.Conexao()
+        ''''
         transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
                                  ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
                                  ' WHERE t.Empresa = 1 ',conn2)
         conn2.close()
         pedido = pd.merge(pedido, transporta, on=["cidade", "estado"], how='left')
+        '''''
+        pedido['transportadora'] = 'Perdeu Conexao Csw'
+
+
     except:
 
         pedido['transportadora'] = 'Perdeu Conexao Csw'
