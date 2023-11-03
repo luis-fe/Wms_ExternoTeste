@@ -15,7 +15,6 @@ def Conexao():
    #     conn2 = Conexao2()
     #    return conn2
 
-
 def Conexao2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
