@@ -97,7 +97,7 @@ def RelatorioNecessidadeReposicaoDisponivel():
 
     pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
                           "where p.necessidade > 0 and p.reservado = 'nao' ",conn)
-    pedidos = pedidos.groupby('produto')['codpedido'].agg(', '.join).reset_index()
+    pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
 
