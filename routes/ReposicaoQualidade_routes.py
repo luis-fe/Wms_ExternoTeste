@@ -155,3 +155,21 @@ def CaixasAbertasGeral():
             enderecos_dict[column_name] = row[column_name]
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
+
+@reposicao_qualidadeRoute.route('/api/CaixasAbertasUsuario', methods=['GET'])
+@token_required
+def CaixasAbertasUsuario():
+    empresa = request.args.get('empresa','1')
+    codUsuario = request.args.get('codUsuario')
+
+    FilaReposicaoOP = ReposicaoQualidade.CaixasAbertasUsuario(empresa, codUsuario)
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
