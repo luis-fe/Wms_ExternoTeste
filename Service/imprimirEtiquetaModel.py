@@ -157,11 +157,11 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
             print('sem seq')
         else:
 
-            qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-            qr.add_data(codigo2)  # Substitua pelo link desejado
-            qr.make(fit=True)
-            qr_img = qr.make_image(fill_color="black", back_color="white")
-            qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+            qr2 = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+            qr2.add_data(codigo2)  # Substitua pelo link desejado
+            qr2.make(fit=True)
+            qr_img2 = qr.make_image(fill_color="black", back_color="white")
+            qr_img2.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
             c.drawImage(qr_filename, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
             c.setFont("Helvetica-Bold", 5)
@@ -175,11 +175,11 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         else:
 
             # qrcode 3:
-            qr = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
-            qr.add_data(codigo3)  # Substitua pelo link desejado
-            qr.make(fit=True)
-            qr_img = qr.make_image(fill_color="black", back_color="white")
-            qr_img.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
+            qr3 = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
+            qr3.add_data(codigo3)  # Substitua pelo link desejado
+            qr3.make(fit=True)
+            qr_img3 = qr3.make_image(fill_color="black", back_color="white")
+            qr_img3.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
             c.drawImage(qr_filename, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
             c.setFont("Helvetica-Bold", 5)
