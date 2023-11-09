@@ -232,3 +232,18 @@ def ExcluirCaixa(Ncaixa):
     conn.close()
 
     return pd.DataFrame([{'status':True,'Mensagem':'Caixa Excluida com sucesso! '}])
+
+
+def PesquisaOPSKU_tag(codbarras):
+    conn = ConexaoCSW.Conexao()
+    codbarras = "'" + codbarras + "'"
+
+    consulta = pd.read_sql('select p.numeroOP, p.codReduzido FROM tcr.TagBarrasProduto p,'
+                           '(select i.nome from cgi.Item i WHERE i.codigo = p.codReduzido) as descricao, '
+                           '(select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento) as cor'
+                           'where codBarrasTag = '+codbarras,conn)
+    conn.close()
+    return consulta
+
+
+
