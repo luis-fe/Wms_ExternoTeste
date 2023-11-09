@@ -240,11 +240,34 @@ def PesquisaOPSKU_tag(codbarras):
 
     consulta = pd.read_sql('select p.numeroOP, p.codReduzido, '
                            '(select i.nome from cgi.Item i WHERE i.codigo = p.codReduzido) as descricao, '
-                           "(select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento) as cor"
+                           "(select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento) as cor,"
+                           " (select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = p.seqTamanho ) as tamanho"
                            ' FROM tcr.TagBarrasProduto p '
                            'where codBarrasTag = '+codbarras,conn)
+
+    reduzido = consulta['codReduzido'][0]
+    numeroOP = consulta['numeroOP'][0]
+    descricao = consulta['descricao'][0]
+    cor = consulta['cor'][0]
+    tamanho = consulta['tamanho'][0]
+
+
+    codbarras_ = pd.read_sql('select codBarrasTag from tcr.TagBarrasProduto p '
+                             'where codReduzido = '+"'"+reduzido+"' and numeroOP = "+"'"+numeroOP+"'",conn)
+
     conn.close()
-    return consulta
+
+    data = {
+        '1 - Reduzido': f'{reduzido}',
+        '2 - numeroOP': f'{numeroOP}',
+        '3 - Descricao': f'{descricao}',
+        '4 - cor': f'{cor}',
+        '5 - tamanho': f'{tamanho}',
+        '6- Detalhamento dos Tags:': codbarras_.to_dict(orient='records')
+    }
+    return [data]
+
+
 
 
 

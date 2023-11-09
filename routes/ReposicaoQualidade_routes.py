@@ -1,6 +1,7 @@
 from Service import ReposicaoQualidade
 from flask import Blueprint, jsonify, request
 from functools import wraps
+import pandas as pd
 
 reposicao_qualidadeRoute = Blueprint('reposicao_qualidadeRoute', __name__)
 
@@ -87,6 +88,7 @@ def PesquisaOPSKU_tag():
 
 
     FilaReposicaoOP = ReposicaoQualidade.PesquisaOPSKU_tag(codbarras)
+    FilaReposicaoOP = pd.DataFrame(FilaReposicaoOP)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
