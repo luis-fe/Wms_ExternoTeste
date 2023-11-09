@@ -275,8 +275,13 @@ def PesquisaOPSKU_tag(codbarras):
 
 def CaixasAbertas(empresa):
     conn = ConexaoPostgreMPL.conexao()
-    consulta =  pd.read_sql('select distinct rq.caixa from "Reposicao"."off".reposicao_qualidade rq '
-                            'where rq.codempresa  = %s', conn, params=(empresa,))
+    consulta =  pd.read_sql('select distinct rq.caixa, rq.usuario from "Reposicao"."off".reposicao_qualidade rq '
+                            'where rq.codempresa  = %s order by caixa ', conn, params=(empresa,))
+    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+    consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
+
+
     conn.close()
     return consulta
 
