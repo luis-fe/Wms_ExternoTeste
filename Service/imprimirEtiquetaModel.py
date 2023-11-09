@@ -148,15 +148,12 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         c.setFont("Helvetica-Bold", 5)
         c.drawString(0.9 * cm, 0.2 * cm, '' + codigo1)
 
-
-
-
         # qrcode 2:
 
         if codigo2 == '0' :
             print('sem seq')
         else:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file2:
+            with tempfile.NamedTemporaryFile(delete=False, suffix="2.png") as temp_qr_file2:
                 qr_filename2 = temp_qr_file2.name
 
             qr2 = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
@@ -175,7 +172,7 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         if codigo3 == '0' :
             print('sem seq')
         else:
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file3:
+            with tempfile.NamedTemporaryFile(delete=False, suffix="3.png") as temp_qr_file3:
                 qr_filename3 = temp_qr_file3.name
 
             # qrcode 3:
