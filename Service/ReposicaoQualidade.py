@@ -273,7 +273,12 @@ def PesquisaOPSKU_tag(codbarras):
     }
     return [data]
 
-
+def CaixasAbertas(empresa):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta =  pd.read_sql('select distinct rq.caixa from "Reposicao"."off".reposicao_qualidade rq '
+                            'where rq.codempresa  = %s', conn, params=(empresa,))
+    conn.close()
+    return consulta
 
 
 
