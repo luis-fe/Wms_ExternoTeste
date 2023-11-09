@@ -250,7 +250,7 @@ def PesquisaOPSKU_tag(codbarras):
     descricao = consulta['descricao'][0]
     cor = consulta['cor'][0]
     tamanho = consulta['tamanho'][0]
-    totalTags = consulta['codReduzido'].sum()
+    totalTags = consulta['codReduzido'].count()
 
 
     codbarras_ = pd.read_sql('select codBarrasTag from tcr.TagBarrasProduto p '
