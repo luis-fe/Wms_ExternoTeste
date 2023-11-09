@@ -156,13 +156,15 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         if codigo2 == '0' :
             print('sem seq')
         else:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file2:
+                qr_filename2 = temp_qr_file2.name
 
             qr2 = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
             qr2.add_data(codigo2)  # Substitua pelo link desejado
             qr2.make(fit=True)
             qr_img2 = qr.make_image(fill_color="black", back_color="white")
-            qr_img2.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-            c.drawImage(qr_filename, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+            qr_img2.save(qr_filename2)  # Salvar a imagem do QR code no arquivo temporário
+            c.drawImage(qr_filename2, 2.8 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
             c.setFont("Helvetica-Bold", 5)
             c.drawString(2.8 * cm, 0.2 * cm, 'NºCx:')
@@ -173,14 +175,16 @@ def ImprimirSeqCaixa(saida_pdf,codigo1, codigo2 ='0', codigo3='0'):
         if codigo3 == '0' :
             print('sem seq')
         else:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_qr_file3:
+                qr_filename3 = temp_qr_file3.name
 
             # qrcode 3:
             qr3 = qrcode.QRCode(version=1, box_size=int(1.72 * cm), border=0)
             qr3.add_data(codigo3)  # Substitua pelo link desejado
             qr3.make(fit=True)
             qr_img3 = qr3.make_image(fill_color="black", back_color="white")
-            qr_img3.save(qr_filename)  # Salvar a imagem do QR code no arquivo temporário
-            c.drawImage(qr_filename, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
+            qr_img3.save(qr_filename3)  # Salvar a imagem do QR code no arquivo temporário
+            c.drawImage(qr_filename3, 5.3 * cm, 0.43 * cm, width=1.45 * cm, height=1.30 * cm)
 
             c.setFont("Helvetica-Bold", 5)
             c.drawString(5.3 * cm, 0.2 * cm, 'NºCx:')
