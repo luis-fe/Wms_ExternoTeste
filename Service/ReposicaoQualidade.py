@@ -238,7 +238,7 @@ def PesquisaOPSKU_tag(codbarras):
     conn = ConexaoCSW.Conexao()
     codbarras = "'" + codbarras + "'"
 
-    consulta = pd.read_sql('select p.numeroOP, p.codReduzido FROM tcr.TagBarrasProduto p,'
+    consulta = pd.read_sql('select p.numeroOP, p.codReduzido, '
                            '(select i.nome from cgi.Item i WHERE i.codigo = p.codReduzido) as descricao, '
                            "(select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento) as cor"
                            ' FROM tcr.TagBarrasProduto p '
