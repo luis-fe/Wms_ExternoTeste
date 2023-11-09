@@ -268,7 +268,7 @@ def PesquisaOPSKU_tag(codbarras):
         '3 - Descricao': f'{descricao}',
         '4 - cor': f'{cor}',
         '5 - tamanho': f'{tamanho}',
-        '6- Detalhamento dos Tags:': f'{lista_de_dicionarios}'
+        '6- Detalhamento dos Tags:': lista_de_dicionarios
     }
     return [data]
 
