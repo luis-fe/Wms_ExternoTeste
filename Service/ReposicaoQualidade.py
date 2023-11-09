@@ -257,7 +257,7 @@ def PesquisaOPSKU_tag(codbarras):
 
     conn.close()
 
-    lista_de_dicionarios = codbarras_.to_dict('records')
+    lista_de_dicionarios = codbarras_['codBarrasTag'].tolist()
 
     data = {
         '1 - Reduzido': f'{reduzido}',
