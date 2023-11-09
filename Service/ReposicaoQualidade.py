@@ -14,7 +14,7 @@ def obterHoraAtual():
     return hora_str
 
 
-def ApontarTag(codbarras, Ncaixa, empresa, usuario, estornar = False):
+def ApontarTag(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):
     conn = ConexaoCSW.Conexao()
     codbarras = "'"+codbarras+"'"
 
@@ -27,6 +27,7 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario, estornar = False):
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
+    pesquisa['natureza'] = natureza
     pesquisa['DataReposicao'] = obterHoraAtual()
 
     if estornar == False:
