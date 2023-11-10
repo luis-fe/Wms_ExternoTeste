@@ -288,7 +288,7 @@ def CaixasAbertas(empresa):
 def CaixasAbertasUsuario(empresa, codusuario):
     conn = ConexaoPostgreMPL.conexao()
     consulta =  pd.read_sql('select  rq.caixa, rq.usuario, count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
-                            'where rq.codempresa  = %s and rq.usuario = %s order by caixa group by rq.caixa, rq.usuario  ', conn, params=(empresa,codusuario,))
+                            'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.usuario  ', conn, params=(empresa,codusuario,))
 
 
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
