@@ -52,7 +52,7 @@ def NecessidadeReposicaoDisponivel():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-@necessidadeRepos_routes.route('/api/RedistribuirPedido', methods=['PUT'])
+@necessidadeRepos_routes.route('/api/RedistribuirPedido', methods=['GET'])
 @token_required
 def RedistribuirPedido():
     # Obtém os dados do corpo da requisição (JSON)
