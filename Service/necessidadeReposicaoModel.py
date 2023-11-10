@@ -115,7 +115,7 @@ def Redistribuir(pedido, produto, natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     EnderecosDisponiveis = pd.read_sql('select ce.endereco , ce."SaldoLiquid"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
-                                       'where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 order by ce."SaldoLiquid" desc ',conn,params=(natureza, produto))
+                                       'where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 order by ce."SaldoLiquid" desc ',conn,params=(natureza, produto,))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
     if tamanho > 0:
@@ -167,4 +167,4 @@ def Redistribuir(pedido, produto, natureza):
 
         return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
     else:
-        return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0'}])
+        return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0', 'natureza':natureza}])
