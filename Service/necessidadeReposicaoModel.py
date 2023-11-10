@@ -119,7 +119,7 @@ def Redistribuir(pedido, produto, natureza):
 
     tamanho = EnderecosDisponiveis['endereco'].count
 
-    for i in tamanho:
+    for i in range(tamanho):
         pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
                                 "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
                                 , conn, params=(produto, pedido))
@@ -164,3 +164,5 @@ def Redistribuir(pedido, produto, natureza):
                 print('fim')
         else:
             print('fim')
+
+        return pd.DataFrame([{'status':True}])
