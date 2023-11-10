@@ -118,7 +118,7 @@ def Redistribuir(pedido, produto, natureza):
                                        'where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 order by ce."SaldoLiquid" desc ',conn,params=(natureza, produto,))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
-    if tamanho > 0:
+    if tamanho >= 0:
         for i in range(tamanho):
             pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
                                     "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
