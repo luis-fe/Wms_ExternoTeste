@@ -125,15 +125,40 @@ def Redistribuir(pedido, produto, natureza):
                                 , conn, params=(produto, pedido))
 
         sugerido = pedidosku['qtdesugerida'][0]
+        data_Hora = pedidosku['datahora'][0]
 
         endereco_i= EnderecosDisponiveis['endereco'][i]
         saldo_i = EnderecosDisponiveis['endereco'][i]
 
         if not pedidosku.empty:
-            if sugerido <= endereco_i:
-                update = 'update "Reposicao".pedidossku ' \
+            if sugerido <= saldo_i:
+                qurery = 'update "Reposicao".pedidossku ' \
                          "set endereco = %s, reservado = 'sim' " \
                          "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+
+                cursor = conn.cursor()
+                cursor.execute(qurery, (endereco_i, produto, pedido,))
+                conn.commit()
+                cursor.close()
+
+            elif sugerido > saldo_i:
+                insert = 'insert into "Reposicao".pedidossku ' \
+                         '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora, valorunitarioliq, reservado) ' \
+                         'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+                cursor = conn.cursor()
+                cursor.execute(insert, (pedido, produto, saldo_i, 0, endereco_i, saldo_i,data_Hora,str(i), 'sim'))
+                conn.commit()
+                nova_sugerido = sugerido - saldo_i
+
+                update = 'update "Reposicao".pedidossku ' \
+                         'set qtdesugerida = %s, necessidade = %s ' \
+                         "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                cursor.execute(update, (nova_sugerido, nova_sugerido, produto, pedido,))
+                conn.commit()
+
+                cursor.close()
+
+
             else:
 
                 print('fim')
