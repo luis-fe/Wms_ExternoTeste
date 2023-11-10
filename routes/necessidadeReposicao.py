@@ -62,7 +62,6 @@ def RedistribuirPedido():
     natureza = request.args.get('natureza')
 
     Endereco_det = necessidadeReposicaoModel.Redistribuir(pedido,produto,natureza)
-    Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
