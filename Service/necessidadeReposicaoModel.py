@@ -118,51 +118,53 @@ def Redistribuir(pedido, produto, natureza):
                                        'where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 order by ce."SaldoLiquid" desc ',conn,params=(natureza, produto))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
+    if tamanho > 0:
+        for i in range(tamanho):
+            pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
+                                    "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                                    , conn, params=(produto, pedido))
 
-    for i in range(tamanho):
-        pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
-                                "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
-                                , conn, params=(produto, pedido))
+            sugerido = pedidosku['qtdesugerida'][0]
+            data_Hora = pedidosku['datahora'][0]
 
-        sugerido = pedidosku['qtdesugerida'][0]
-        data_Hora = pedidosku['datahora'][0]
+            endereco_i= EnderecosDisponiveis['endereco'][i]
+            saldo_i = EnderecosDisponiveis['endereco'][i]
 
-        endereco_i= EnderecosDisponiveis['endereco'][i]
-        saldo_i = EnderecosDisponiveis['endereco'][i]
+            if not pedidosku.empty:
+                if sugerido <= saldo_i:
+                    qurery = 'update "Reposicao".pedidossku ' \
+                             "set endereco = %s, reservado = 'sim' " \
+                             "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
 
-        if not pedidosku.empty:
-            if sugerido <= saldo_i:
-                qurery = 'update "Reposicao".pedidossku ' \
-                         "set endereco = %s, reservado = 'sim' " \
-                         "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                    cursor = conn.cursor()
+                    cursor.execute(qurery, (endereco_i, produto, pedido,))
+                    conn.commit()
+                    cursor.close()
 
-                cursor = conn.cursor()
-                cursor.execute(qurery, (endereco_i, produto, pedido,))
-                conn.commit()
-                cursor.close()
+                elif sugerido > saldo_i:
+                    insert = 'insert into "Reposicao".pedidossku ' \
+                             '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora, valorunitarioliq, reservado) ' \
+                             'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+                    cursor = conn.cursor()
+                    cursor.execute(insert, (pedido, produto, saldo_i, 0, endereco_i, saldo_i,data_Hora,str(i), 'sim'))
+                    conn.commit()
+                    nova_sugerido = sugerido - saldo_i
 
-            elif sugerido > saldo_i:
-                insert = 'insert into "Reposicao".pedidossku ' \
-                         '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora, valorunitarioliq, reservado) ' \
-                         'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-                cursor = conn.cursor()
-                cursor.execute(insert, (pedido, produto, saldo_i, 0, endereco_i, saldo_i,data_Hora,str(i), 'sim'))
-                conn.commit()
-                nova_sugerido = sugerido - saldo_i
+                    update = 'update "Reposicao".pedidossku ' \
+                             'set qtdesugerida = %s, necessidade = %s ' \
+                             "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                    cursor.execute(update, (nova_sugerido, nova_sugerido, produto, pedido,))
+                    conn.commit()
 
-                update = 'update "Reposicao".pedidossku ' \
-                         'set qtdesugerida = %s, necessidade = %s ' \
-                         "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
-                cursor.execute(update, (nova_sugerido, nova_sugerido, produto, pedido,))
-                conn.commit()
-
-                cursor.close()
+                    cursor.close()
 
 
+                else:
+
+                    print('fim')
             else:
-
                 print('fim')
-        else:
-            print('fim')
 
-    return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
+        return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
+    else:
+        return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0'}])
