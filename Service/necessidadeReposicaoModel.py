@@ -128,7 +128,7 @@ def Redistribuir(pedido, produto, natureza):
             data_Hora = pedidosku['datahora'][0]
 
             endereco_i= EnderecosDisponiveis['endereco'][i]
-            saldo_i = EnderecosDisponiveis['endereco'][i]
+            saldo_i = EnderecosDisponiveis['SaldoLiquid'][i]
 
             if not pedidosku.empty:
                 if sugerido <= saldo_i:
