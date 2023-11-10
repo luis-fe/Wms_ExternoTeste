@@ -109,3 +109,33 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
         '1- Detalhamento das Necessidades ': relatorioEndereço.to_dict(orient='records')
     }
     return [data]
+
+
+def Redistribuir(pedido, produto, natureza):
+    conn = ConexaoPostgreMPL.conexao()
+
+    EnderecosDisponiveis = pd.read_sql('select ce.endereco , ce."SaldoLiquid"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
+                                       'where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 order by ce."SaldoLiquid" desc ',conn,params=(natureza, produto))
+
+    tamanho = EnderecosDisponiveis['endereco'].count
+
+    for i in tamanho:
+        pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
+                                "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                                , conn, params=(produto, pedido))
+
+        sugerido = pedidosku['qtdesugerida'][0]
+
+        endereco_i= EnderecosDisponiveis['endereco'][i]
+        saldo_i = EnderecosDisponiveis['endereco'][i]
+
+        if not pedidosku.empty:
+            if sugerido <= endereco_i:
+                update = 'update "Reposicao".pedidossku ' \
+                         "set endereco = %s, reservado = 'sim' " \
+                         "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+            else:
+
+                print('fim')
+        else:
+            print('fim')
