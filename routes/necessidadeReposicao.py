@@ -65,10 +65,10 @@ def RedistribuirPedido():
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
+    pedidos_data = []
     for index, row in Endereco_det.iterrows():
-        end_dict = {}
+        pedidos_dict = {}
         for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
