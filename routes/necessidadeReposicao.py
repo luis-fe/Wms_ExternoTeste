@@ -37,8 +37,9 @@ def NecessidadeReposicaoDisponivel():
     # Obtém os dados do corpo da requisição (JSON)
 
     natureza = request.args.get('natureza', '5')
+    empresa = request.args.get('empresa', '1')
 
-    Endereco_det = necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(natureza)
+    Endereco_det = necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns

@@ -52,7 +52,7 @@ def RelatorioNecessidadeReposicao():
     return [data]
 
 
-def RelatorioNecessidadeReposicaoDisponivel(natureza):
+def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     relatorioEndereço = pd.read_sql(
         'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
