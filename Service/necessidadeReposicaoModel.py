@@ -165,4 +165,4 @@ def Redistribuir(pedido, produto, natureza):
         else:
             print('fim')
 
-        return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
+    return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
