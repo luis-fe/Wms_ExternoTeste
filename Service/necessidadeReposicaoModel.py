@@ -52,7 +52,7 @@ def RelatorioNecessidadeReposicao():
     return [data]
 
 
-def RelatorioNecessidadeReposicaoDisponivel():
+def RelatorioNecessidadeReposicaoDisponivel(natureza):
     conn = ConexaoPostgreMPL.conexao()
     relatorioEndereço = pd.read_sql(
         'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
@@ -69,8 +69,8 @@ def RelatorioNecessidadeReposicaoDisponivel():
                      ' group by codreduzido, numeroop',conn)
 
     reservaEndereco = pd.read_sql('select codreduzido, sum("SaldoLiquid") as "DisponivelPrateleira"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
-                                  ' where ce."SaldoLiquid" > 0'
-                                  ' group by codreduzido',conn)
+                                  ' where ce."SaldoLiquid" > 0 and natureza = %s '
+                                  ' group by codreduzido',conn,params=(natureza,))
 
     OP = OP.sort_values(by='qtde', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
