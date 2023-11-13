@@ -102,8 +102,8 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
 
     for i in range(relatorioEndereço['codpedido'].count()):
-        pedido = relatorioEndereço['codpedido'][0]
-        produto = relatorioEndereço['codreduzido'][0]
+        pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
+        produto = relatorioEndereço['codreduzido'][i]
 
         Redistribuir(pedido,produto,natureza)
 
