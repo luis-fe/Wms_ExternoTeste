@@ -305,11 +305,13 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
 
 
-def Get_quantidadeOP_Sku(numeroOP, empresa):
+def Get_quantidadeOP_Sku(ops1, empresa):
     conn = ConexaoCSW.Conexao()
 
+    ops1 = ops1.drop_duplicates(subset=['numeroop'])
+
     # Passo 3: Transformar o dataFrame em lista
-    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in numeroOP['numeroop']]))
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in ops1['numeroop']]))
 
     get = pd.read_sql('SELECT  '
                       '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
@@ -318,5 +320,5 @@ def Get_quantidadeOP_Sku(numeroOP, empresa):
                       "FROM tco.OrdemProdTamanhos op "
                       "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+resultado,conn)
 
-    get = pd.merge(numeroOP, get , on='codreduzido', how='left')
+    get = pd.merge(ops1, get , on='codreduzido', how='left')
     return get
