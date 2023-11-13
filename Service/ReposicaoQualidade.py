@@ -311,14 +311,14 @@ def Get_quantidadeOP_Sku(ops1, empresa):
     novo = novo.drop_duplicates(subset=['numeroop'])
 
     # Passo 3: Transformar o dataFrame em lista
-    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in ops1['numeroop']]))
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
 
     get = pd.read_sql('SELECT  '
                       '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
                       "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
                       "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
                       "FROM tco.OrdemProdTamanhos op "
-                      "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+novo,conn)
+                      "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+resultado,conn)
 
     get = pd.merge(ops1, get , on='codreduzido', how='left')
     return get
