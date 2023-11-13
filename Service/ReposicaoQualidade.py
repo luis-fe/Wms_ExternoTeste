@@ -296,7 +296,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
-    consulta = pd.merge(consulta, BipadoSKU, on='codreduzido', how='left')
+    consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
 
 
     conn.close()
