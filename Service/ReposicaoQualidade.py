@@ -307,6 +307,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
 def Get_quantidadeOP_Sku(ops1, empresa):
     conn = ConexaoCSW.Conexao()
+
     novo = ops1[['numeroop']]
     novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -318,7 +319,8 @@ def Get_quantidadeOP_Sku(ops1, empresa):
                       "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
                       "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
                       "FROM tco.OrdemProdTamanhos op "
-                      "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+resultado,conn)
+                      "WHERE op.codEmpresa = "+ empresa,conn)
 
     get = pd.merge(ops1, get , on='codreduzido', how='left')
+#" and op.numeroOP IN "+resultado
     return get
