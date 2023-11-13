@@ -289,7 +289,7 @@ def CaixasAbertas(empresa):
 
 def CaixasAbertasUsuario(empresa, codusuario):
     conn = ConexaoPostgreMPL.conexao()
-    consulta =  pd.read_sql('select  rq.caixa, rq.usuario, numeroop, rq.codreduzido , descricao, count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
+    consulta =  pd.read_sql('select  rq.caixa as 1 - caixa, rq.usuario, numeroop, rq.codreduzido , descricao, count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
                             'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.usuario, rq.numeroop, rq.codreduzido, descricao  ', conn, params=(empresa,codusuario,))
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  group by codreduzido, numeroop ',conn)
 
@@ -298,8 +298,8 @@ def CaixasAbertasUsuario(empresa, codusuario):
     consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
     consulta = Get_quantidadeOP_Sku(consulta, empresa)
-    consulta['1 - status']= consulta["bipado_sku_op"].astype(str)
-    consulta['1 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
+    consulta['2 - status']= consulta["bipado_sku_op"].astype(str)
+    consulta['2 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
 
 
     conn.close()
