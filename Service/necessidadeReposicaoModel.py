@@ -124,13 +124,15 @@ def Redistribuir(pedido, produto, natureza):
                                     "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
                                     , conn, params=(produto, pedido))
 
-            sugerido = pedidosku['qtdesugerida'][0]
-            data_Hora = pedidosku['datahora'][0]
+
 
             endereco_i= EnderecosDisponiveis['endereco'][i]
             saldo_i = EnderecosDisponiveis['SaldoLiquid'][i]
 
             if not pedidosku.empty:
+                sugerido = pedidosku['qtdesugerida'][0]
+                data_Hora = pedidosku['datahora'][0]
+
                 if sugerido <= saldo_i:
                     qurery = 'update "Reposicao".pedidossku ' \
                              "set endereco = %s, reservado = 'sim' " \
