@@ -325,11 +325,10 @@ def Get_quantidadeOP_Sku(ops1, empresa):
                           "WHERE op.codEmpresa = "+ empresa + "and op.numeroOP IN "+resultado,conn)
 
         get = pd.merge(ops1, get , on='codreduzido', how='left')
-    #" and op.numeroOP IN "+resultado
 
-        get['bipado_sku_OP'] = get['bipado_sku_OP'].astype(str)
-        get['total_pcs'] = get['total_pcs'].astype(str)
-        get['bipado_sku_OP'] = get['bipado_sku_OP']  + '/' + get['total_pcs']
+       # get['bipado_sku_OP'] = get['bipado_sku_OP'].astype(str)
+       # get['total_pcs'] = get['total_pcs'].astype(str)
+       # get['bipado_sku_OP'] = get['bipado_sku_OP']  + '/' + get['total_pcs']
 
         return get
     else:
