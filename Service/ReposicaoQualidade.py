@@ -326,7 +326,7 @@ def Get_quantidadeOP_Sku(ops1, empresa):
 
         get = pd.merge(ops1, get , on='codreduzido', how='left')
 
-       # get['bipado_sku_OP'] = get['bipado_sku_OP'].astype(str)
+        get['bipado_sku_OP'] = get['bipado_sku_OP'].astype(str)
        # get['total_pcs'] = get['total_pcs'].astype(str)
        # get['bipado_sku_OP'] = get['bipado_sku_OP']  + '/' + get['total_pcs']
 
