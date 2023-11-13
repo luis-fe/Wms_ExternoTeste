@@ -293,12 +293,13 @@ def CaixasAbertasUsuario(empresa, codusuario):
                             'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.usuario, rq.numeroop, rq.codreduzido, descricao  ', conn, params=(empresa,codusuario,))
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  group by codreduzido, numeroop ',conn)
 
+    BipadoSKU['bipado_sku_OP'] = BipadoSKU['bipado_sku_OP'].astype(str)
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
     consulta = Get_quantidadeOP_Sku(consulta, empresa)
-    consulta['bipado_sku_OP'] = consulta['bipado_sku_OP'].astype(str)
+
 
 
     conn.close()
