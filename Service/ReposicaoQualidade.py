@@ -297,6 +297,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
+    consulta = Get_quantidadeOP_Sku(consulta, empresa)
 
 
     conn.close()
@@ -304,3 +305,18 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
 
 
+def Get_quantidadeOP_Sku(numeroOP, empresa):
+    conn = ConexaoCSW.Conexao()
+
+    # Passo 3: Transformar o dataFrame em lista
+    numeroOP = '({})'.format(', '.join(["'{}'".format(valor) for valor in numeroOP['numeroop']]))
+
+    get = pd.read_sql('SELECT  '
+                      '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
+                      "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
+                      "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
+                      "FROM tco.OrdemProdTamanhos op "
+                      "WHERE op.codempresa = '"+ empresa + "and t.numeroOP IN "+numeroOP,conn)
+
+    get = pd.merge(numeroOP, get , on='codreduzido', how='left')
+    return get

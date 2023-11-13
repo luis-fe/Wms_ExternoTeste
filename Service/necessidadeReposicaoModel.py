@@ -1,4 +1,6 @@
 import pandas as pd
+
+import ConexaoCSW
 import ConexaoPostgreMPL
 
 
@@ -175,3 +177,8 @@ def Redistribuir(pedido, produto, natureza):
         return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
     else:
         return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0', 'natureza':natureza}])
+
+
+
+
+
