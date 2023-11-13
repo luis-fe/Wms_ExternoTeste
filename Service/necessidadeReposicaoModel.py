@@ -105,7 +105,7 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
         pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
         produto = relatorioEndereço['codreduzido'][i]
 
-        Redistribuir(pedido,produto,natureza)
+        Redistribuir(pedido,str(produto),natureza)
 
     conn.close()
 
