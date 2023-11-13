@@ -299,6 +299,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
     consulta = Get_quantidadeOP_Sku(consulta, empresa)
     consulta['status']= consulta["bipado_sku_op"].astype(str)
+    consulta['total_pcs'] = consulta["total_pcs"].astype(str)
 
 
     conn.close()
