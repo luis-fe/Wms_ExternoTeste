@@ -316,7 +316,7 @@ def Get_quantidadeOP_Sku(numeroOP, empresa):
                       "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
                       "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
                       "FROM tco.OrdemProdTamanhos op "
-                      "WHERE op.codempresa = '"+ empresa + "' and op.numeroOP IN "+numeroOP,conn)
+                      "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+numeroOP,conn)
 
     get = pd.merge(numeroOP, get , on='codreduzido', how='left')
     return get
