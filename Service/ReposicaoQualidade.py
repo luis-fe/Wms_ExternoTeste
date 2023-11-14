@@ -133,7 +133,7 @@ def ConsultaCaixa(NCaixa, empresa):
     else:
         consultar['mensagem'] = 'Caixa Cheia'
         consultar['status'] = False
-        consultar = Get_quantidadeOP_Sku(consultar,empresa)
+        consultar = Get_quantidadeOP_Sku(consultar,empresa,'1')
 
         return consultar
 
