@@ -137,7 +137,7 @@ def ConsultaCaixa(NCaixa, empresa):
         numeroOP = consultar['numeroop'][0]
         codempresa = consultar['codempresa'][0]
 
-        consultar.drop(('numeroop','codempresa'), axis=1, inplace=True)
+        consultar.drop(['numeroop','codempresa'], axis=1, inplace=True)
 
         data = {
 
