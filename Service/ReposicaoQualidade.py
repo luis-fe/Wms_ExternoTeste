@@ -143,15 +143,15 @@ def ConsultaCaixa(NCaixa, empresa):
         data = {
 
             '0- mensagem ': 'Caixa Cheia',
-            '1- status': False,
-            '2- Empresa':codempresa,
-            '3- numeroOP': numeroOP,
-            '4- totalOP': totalOP,
-            '5- totalOPBipado':'',
-            '6- codreduzido':codreduzido,
-            '7- cor':'',
-            '8- tamanho':'',
-            '9- totalpçsSKU':'',
+            '01- status': False,
+            '02- Empresa':codempresa,
+            '03- numeroOP': numeroOP,
+            '04- totalOP': totalOP,
+            '05- totalOPBipado':'',
+            '06- codreduzido':codreduzido,
+            '07- cor':'',
+            '08- tamanho':'',
+            '09- totalpçsSKU':'',
             '10- totalpcsSkuBipado':'',
             '11- Tags da Caixa ': consultar.to_dict(orient='records')
         }
