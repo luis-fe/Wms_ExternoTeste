@@ -341,6 +341,8 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
         if numeroop_ != '0':
             totalGeral = get["total_pcs"].sum()
             totalGeral = int(totalGeral)
+            get = pd.merge(ops1, get, on='codreduzido', how='left')
+
             return get, totalGeral
 
         else:
