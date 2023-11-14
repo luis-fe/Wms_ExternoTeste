@@ -135,16 +135,18 @@ def ConsultaCaixa(NCaixa, empresa):
         consultar['status'] = False
         consultar, totalOP = Get_quantidadeOP_Sku(consultar,empresa,'1')
         numeroOP = consultar['numeroop'][0]
+        codempresa = consultar['codempresa'][0]
 
-        consultar.drop('numeroop', axis=1, inplace=True)
+        consultar.drop(('numeroop','codempresa'), axis=1, inplace=True)
 
         data = {
 
             '0- mensagem ': 'Caixa Cheia',
             '1- status': False,
-            '2- numeroOP': numeroOP,
-            '3- totalOP': totalOP,
-            '4- Tags da Caixa ': consultar.to_dict(orient='records')
+            '2- Empresa':codempresa,
+            '3- numeroOP': numeroOP,
+            '4- totalOP': totalOP,
+            '5- Tags da Caixa ': consultar.to_dict(orient='records')
         }
         return [data]
 
