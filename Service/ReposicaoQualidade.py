@@ -131,8 +131,7 @@ def ConsultaCaixa(NCaixa, empresa):
     if consultar.empty :
         return pd.DataFrame({'mensagem':['caixa vazia'],'codbarrastag':'','numeroop':'','status':True})
     else:
-        consultar['mensagem'] = 'Caixa Cheia'
-        consultar['status'] = False
+
         consultar, totalOP = Get_quantidadeOP_Sku(consultar,empresa,'1')
         numeroOP = consultar['numeroop'][0]
         codempresa = consultar['codempresa'][0]
