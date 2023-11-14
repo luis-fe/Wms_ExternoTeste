@@ -136,8 +136,10 @@ def ConsultaCaixa(NCaixa, empresa):
         numeroOP = consultar['numeroop'][0]
         codempresa = consultar['codempresa'][0]
         codreduzido = consultar['codreduzido'][0]
+        descricao = consultar['descricao'][0]
+        cor = consultar['cor'][0]
 
-        consultar.drop(['numeroop','codempresa','codreduzido'], axis=1, inplace=True)
+        consultar.drop(['numeroop','codempresa','codreduzido','descricao','cor'], axis=1, inplace=True)
 
         data = {
 
@@ -148,11 +150,12 @@ def ConsultaCaixa(NCaixa, empresa):
             '04- totalOP': totalOP,
             '05- totalOPBipado':'',
             '06- codreduzido':codreduzido,
-            '07- cor':'',
-            '08- tamanho':'',
-            '09- totalpçsSKU':'',
-            '10- totalpcsSkuBipado':'',
-            '11- Tags da Caixa ': consultar.to_dict(orient='records')
+            '07- descricao':descricao,
+            '08- cor':cor,
+            '09- tamanho':'',
+            '10- totalpçsSKU':'',
+            '11- totalpcsSkuBipado':'',
+            '12- Tags da Caixa ': consultar.to_dict(orient='records')
         }
         return [data]
 
