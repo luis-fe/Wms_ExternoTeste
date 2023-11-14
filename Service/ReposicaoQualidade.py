@@ -136,8 +136,9 @@ def ConsultaCaixa(NCaixa, empresa):
         consultar, totalOP = Get_quantidadeOP_Sku(consultar,empresa,'1')
         numeroOP = consultar['numeroop'][0]
         codempresa = consultar['codempresa'][0]
+        codreduzido = consultar['codreduzido'][0]
 
-        consultar.drop(['numeroop','codempresa'], axis=1, inplace=True)
+        consultar.drop(['numeroop','codempresa','codreduzido'], axis=1, inplace=True)
 
         data = {
 
@@ -146,7 +147,13 @@ def ConsultaCaixa(NCaixa, empresa):
             '2- Empresa':codempresa,
             '3- numeroOP': numeroOP,
             '4- totalOP': totalOP,
-            '5- Tags da Caixa ': consultar.to_dict(orient='records')
+            '5- totalOPBipado':'',
+            '6- codreduzido':codreduzido,
+            '7- cor':'',
+            '8- tamanho':'',
+            '9- totalpçsSKU':'',
+            '10- totalpcsSkuBipado':'',
+            '11- Tags da Caixa ': consultar.to_dict(orient='records')
         }
         return [data]
 
