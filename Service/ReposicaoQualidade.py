@@ -308,7 +308,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
 
 
-def Get_quantidadeOP_Sku(ops1, empresa):
+def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
     conn = ConexaoCSW.Conexao()
 
     if not ops1.empty :
@@ -327,6 +327,10 @@ def Get_quantidadeOP_Sku(ops1, empresa):
                           "FROM tco.OrdemProdTamanhos op "
                           "WHERE op.codEmpresa = "+ empresa + "and op.numeroOP IN "+resultado,conn)
 
+        if numeroop_ != '0':
+            get['TotalOPGeral'] = get["total_pcs"].sum()
+        else:
+            numeroop_ ='0'
         get = pd.merge(ops1, get , on='codreduzido', how='left')
 
 
