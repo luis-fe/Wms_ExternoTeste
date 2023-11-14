@@ -127,6 +127,7 @@ def ConsultaCaixa():
     Ncaixa = request.args.get('Ncaixa')
 
     FilaReposicaoOP = ReposicaoQualidade.ConsultaCaixa(Ncaixa, empresa)
+    FilaReposicaoOP = pd.DataFrame[FilaReposicaoOP]
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
