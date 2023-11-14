@@ -144,6 +144,7 @@ def ConsultaCaixa(NCaixa, empresa):
         consultar.drop(['numeroop','codempresa','codreduzido','descricao','cor','engenharia','tamanho',
                         'total_pcs']
                        , axis=1, inplace=True)
+        totalbipagemOP, totalbipagemSku = TotalBipado(empresa, numeroOP, codreduzido)
 
         data = {
 
@@ -152,14 +153,14 @@ def ConsultaCaixa(NCaixa, empresa):
             '02- Empresa':codempresa,
             '03- numeroOP': numeroOP,
             '04- totalOP': totalOP,
-            '05- totalOPBipado':'',
+            '05- totalOPBipado':totalbipagemOP,
             '06- engenharia':eng,
             '07- codreduzido':codreduzido,
             '08- descricao':descricao,
             '09- cor':cor,
             '10- tamanho':tam,
             '11- totalpçsSKU':totalPcSku,
-            '12- totalpcsSkuBipado':'',
+            '12- totalpcsSkuBipado':totalbipagemSku,
             '13- Tags da Caixa ': consultar.to_dict(orient='records')
         }
         return [data]
@@ -373,3 +374,17 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
             return get, False
     else:
         return ops1
+
+def TotalBipado(empresa, numeroop, reduzido):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql('select numeroop, rq.codreduzido from "Reposicao"."off".reposicao_qualidade rq '
+                           'where rq.codempresa  = %s and numeroop = %s',
+                           conn, params=(empresa,numeroop,))
+    totalBipadoOP = consulta['numeroop'].count()
+    totalSku = consulta[consulta['codreduzido'] == reduzido]
+    totalSku = totalSku['numeroop'].count()
+
+    return  totalBipadoOP, totalSku
+
+
+
