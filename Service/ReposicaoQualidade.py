@@ -133,12 +133,20 @@ def ConsultaCaixa(NCaixa, empresa):
     else:
         consultar['mensagem'] = 'Caixa Cheia'
         consultar['status'] = False
-        consultar = Get_quantidadeOP_Sku(consultar,empresa,'1')
+        consultar, totalOP = Get_quantidadeOP_Sku(consultar,empresa,'1')
         consultar.rename(
-            columns={'numeroop': '01-numeroop', 'TotalOPGeral': '02-TotalOPGeral'},
+            columns={'numeroop': '01-numeroop'},
             inplace=True)
 
-        return consultar
+        data = {
+
+            '0- mensagem ': 'Caixa Cheia',
+            '1- status': False,
+            '2- totalOP': totalOP,
+            '3- Tags da Caixa ': consultar.to_dict(orient='records')
+        }
+        return [data]
+
 
 def IncrementarCaixa(endereco, dataframe):
 
@@ -331,18 +339,18 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
                           "WHERE op.codEmpresa = "+ empresa + "and op.numeroOP IN "+resultado,conn)
 
         if numeroop_ != '0':
-            get['TotalOPGeral'] = get["total_pcs"].sum()
-            get['TotalOPGeral'] = get['TotalOPGeral'].astype(float).round(0)
-
+            totalGeral = get["total_pcs"].sum()
+            totalGeral = int(totalGeral)
+            return get, totalGeral
 
         else:
             numeroop_ ='0'
-        get = pd.merge(ops1, get , on='codreduzido', how='left')
+            get = pd.merge(ops1, get , on='codreduzido', how='left')
 
 
        # get['total_pcs'] = get['total_pcs'].astype(str)
        # get['bipado_sku_OP'] = get['bipado_sku_OP']  + '/' + get['total_pcs']
 
-        return get
+            return get, False
     else:
         return ops1
