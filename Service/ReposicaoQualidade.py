@@ -134,6 +134,9 @@ def ConsultaCaixa(NCaixa, empresa):
         consultar['mensagem'] = 'Caixa Cheia'
         consultar['status'] = False
         consultar = Get_quantidadeOP_Sku(consultar,empresa,'1')
+        consultar.rename(
+            columns={'numeroop': '01-numeroop', 'TotalOPGeral': '02-TotalOPGeral'},
+            inplace=True)
 
         return consultar
 
@@ -330,6 +333,7 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
         if numeroop_ != '0':
             get['TotalOPGeral'] = get["total_pcs"].sum()
             get['TotalOPGeral'] = get['TotalOPGeral'].astype(float).round(0)
+
 
         else:
             numeroop_ ='0'
