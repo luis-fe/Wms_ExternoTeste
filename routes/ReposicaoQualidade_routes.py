@@ -126,7 +126,7 @@ def ConsultaCaixa():
     empresa = request.args.get('empresa','1')
     Ncaixa = request.args.get('Ncaixa')
 
-    FilaReposicaoOP = ReposicaoQualidade.ConsultaCaixa(Ncaixa)
+    FilaReposicaoOP = ReposicaoQualidade.ConsultaCaixa(Ncaixa, empresa)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

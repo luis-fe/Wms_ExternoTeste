@@ -121,7 +121,7 @@ def EncontrarEPC(caixa,endereco):
 
 
 
-def ConsultaCaixa(NCaixa):
+def ConsultaCaixa(NCaixa, empresa):
     conn = ConexaoPostgreMPL.conexao()
     consultar = pd.read_sql('select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
                             ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
@@ -133,6 +133,7 @@ def ConsultaCaixa(NCaixa):
     else:
         consultar['mensagem'] = 'Caixa Cheia'
         consultar['status'] = False
+        consultar = Get_quantidadeOP_Sku(consultar,empresa)
 
         return consultar
 
