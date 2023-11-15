@@ -177,6 +177,8 @@ def OPsAliberar(empresa):
                                        axis=1)
 
     totalOPs = consulta['status_Recebimento'].count()
+    totalOPs_iniciado = consulta[consulta['status_Recebimento'] == 'Iniciado']
+    totalOPs_iniciado = totalOPs_iniciado['status_Recebimento'].count()
 
     conn2 = ConexaoPostgreMPL.conexao()
 
@@ -189,6 +191,7 @@ def OPsAliberar(empresa):
     data = {
 
         '0 - Total de OPs ': totalOPs,
+        '01 - Ops RecebimentoIniciado ': totalOPs_iniciado,
         'Detalhamento das OPs ': consulta.to_dict(orient='records')
     }
     return [data]
