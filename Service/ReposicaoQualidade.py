@@ -186,12 +186,14 @@ def OPsAliberar(empresa):
                             'from "off".reposicao_qualidade rq group by numeroop',conn2)
     conn2.close()
 
+    Op_ReposicaoIniciada = consulta2['numeroop'].count()
     consulta = pd.merge(consulta, consulta2 ,on='numeroop', how= 'left')
     consulta.fillna('Nao Iniciado', inplace=True)
     data = {
 
         '0 - Total de OPs ': totalOPs,
         '01 - Ops RecebimentoIniciado ': totalOPs_iniciado,
+        '02 - Ops ReposicaoIniciada ': Op_ReposicaoIniciada,
         'Detalhamento das OPs ': consulta.to_dict(orient='records')
     }
     return [data]
