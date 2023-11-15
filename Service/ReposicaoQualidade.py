@@ -165,6 +165,16 @@ def ConsultaCaixa(NCaixa, empresa):
         }
         return [data]
 
+def OPsAliberar(empresa):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql("SELECT op.numeroOP , op.codProduto, op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
+                           " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as situacao  "
+                           " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
+                           'and op.situacao = 3 and op.codFaseAtual in (210, 320) '
+                           'order by numeroOP desc', conn,params=(empresa))
+    return consulta
+
+
 
 def IncrementarCaixa(endereco, dataframe):
 
