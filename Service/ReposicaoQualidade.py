@@ -166,7 +166,7 @@ def ConsultaCaixa(NCaixa, empresa):
         return [data]
 
 def OPsAliberar(empresa):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql("SELECT op.numeroOP , op.codProduto, op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as situacao  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
