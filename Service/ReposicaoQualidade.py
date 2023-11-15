@@ -171,7 +171,7 @@ def OPsAliberar(empresa):
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as situacao  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
                            'and op.situacao = 3 and op.codFaseAtual in (210, 320) '
-                           'order by numeroOP desc', conn,params=(empresa))
+                           'order by numeroOP desc', conn)
     return consulta
 
 
