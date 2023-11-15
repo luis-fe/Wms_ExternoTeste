@@ -180,7 +180,7 @@ def OPsAliberar(empresa):
 
     data = {
 
-        'Total de OPs ': totalOPs,
+        '0 - Total de OPs ': totalOPs,
         'Detalhamento das OPs ': consulta.to_dict(orient='records')
     }
     return [data]
