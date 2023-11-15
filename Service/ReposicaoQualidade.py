@@ -175,7 +175,17 @@ def OPsAliberar(empresa):
     consulta.fillna('Nao Iniciado', inplace=True)
     consulta['status_Recebimento'] = consulta.apply(lambda row: 'Iniciado' if row['status_Recebimento'] != 'Nao Iniciado' else row['status_Recebimento'] ,
                                        axis=1)
-    return consulta
+
+    totalOPs = consulta['status_Recebimento'].count()
+
+    data = {
+
+        'Total de OPs ': totalOPs,
+        'Detalhamento das OPs ': consulta.to_dict(orient='records')
+    }
+    return [data]
+
+
 
 
 
