@@ -178,6 +178,14 @@ def OPsAliberar(empresa):
 
     totalOPs = consulta['status_Recebimento'].count()
 
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    consulta2 = pd.read_sql("select numeroop, 'Iniciado' status_Reposicao "
+                            'from "off".reposicao_qualidade rq group by numeroop',conn2)
+    conn2.close()
+
+    consulta = pd.merge(consulta, consulta2 ,on='numeroop', how= 'left')
+    consulta.fillna('Nao Iniciado', inplace=True)
     data = {
 
         '0 - Total de OPs ': totalOPs,
