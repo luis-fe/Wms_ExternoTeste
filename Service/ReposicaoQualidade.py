@@ -173,6 +173,8 @@ def OPsAliberar(empresa):
                            'and op.situacao = 3 and op.codFaseAtual in (210, 320) '
                            'order by numeroOP desc', conn)
     consulta.fillna('Nao Iniciado', inplace=True)
+    consulta['status_Recebimento'] = consulta.apply(lambda row: 'Iniciado' if row['status_Recebimento'] != 'Nao Iniciado' else row['status_Recebimento'] ,
+                                       axis=1)
     return consulta
 
 
