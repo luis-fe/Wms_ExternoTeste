@@ -434,7 +434,6 @@ def InformacoesOPsGarantia(empresa, dataframe):
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
 
     conn = ConexaoCSW.Conexao()
-
     consulta = pd.read_sql("SELECT r.codOP as numeroop , r.dataEmissao , r.codFaccio,  "
                            "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
                            "r.quantidade, "
