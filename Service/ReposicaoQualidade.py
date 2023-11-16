@@ -201,10 +201,13 @@ def OPsAliberar(empresa):
     faccionista_Costura.rename(columns={'dataEmissao': 'dataCostura'}, inplace=True)
     faccionista_CosturaAcab.rename(columns={'dataEmissao': 'dataAcab','nomeFaccionista':'FacAcabamento'}, inplace=True)
 
+    faccionista_Costura_mei = FaccionistaMei(empresa, consulta)
 
 
     consulta = pd.merge(consulta, faccionista_Costura, on='numeroop',how='left' )
     consulta = pd.merge(consulta, faccionista_CosturaAcab, on='numeroop',how='left' )
+    consulta = pd.merge(consulta, faccionista_Costura_mei, on='numeroop',how='left' )
+
 
     consulta.fillna('-', inplace=True)
 
@@ -456,8 +459,25 @@ def InformacoesOPsGarantia(empresa, dataframe):
                            "r.quantidade, "
                            "r.codFase  FROM tct.RetSimbolicoNFERetorno r "
                            "WHERE r.Empresa = 1 and  r.codOP IN "+resultado, conn)
+    conn.close()
 
     return consulta
+def FaccionistaMei(empresa, dataframe):
+    novo = dataframe[['numeroop']]
+    novo = novo.drop_duplicates(subset=['numeroop'])
+
+    # Passo 3: Transformar o dataFrame em lista
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
+    conn = ConexaoCSW.Conexao()
+    consulta = pd.read_sql("SELECT f.numeroOP as numeroop, f.codFaccionista as faccionistaMei  FROM tco.MovimentacaoOPFase f "
+                           "WHERE f.codEmpresa = 1 and f.codFase in (54, 430) and codFaccionista > 0 "
+                           "and f.numeroop in "+resultado,conn)
+
+    conn.close()
+
+    return consulta
+
+
 
 
 
