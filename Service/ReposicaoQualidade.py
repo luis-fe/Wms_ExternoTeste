@@ -435,7 +435,7 @@ def InformacoesOPsGarantia(empresa, dataframe):
 
     conn = ConexaoCSW.Conexao()
 
-    consulta = pd.read_sql("SELECT r.codOP , r.dataEmissao , r.codFaccio,  "
+    consulta = pd.read_sql("SELECT r.codOP as numeroop , r.dataEmissao , r.codFaccio,  "
                            "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
                            "r.quantidade, "
                            "r.codFase  FROM tct.RetSimbolicoNFERetorno r "
