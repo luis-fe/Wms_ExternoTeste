@@ -170,7 +170,7 @@ def OPsAliberar(empresa):
     consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto, op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as status_Recebimento  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
-                           'and op.situacao = 3 and op.codFaseAtual in (210, 320) '
+                           'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 ) '
                            'order by numeroOP desc', conn)
     consulta.fillna('Nao Iniciado', inplace=True)
     consulta['status_Recebimento'] = consulta.apply(lambda row: 'Iniciado' if row['status_Recebimento'] != 'Nao Iniciado' else row['status_Recebimento'] ,
