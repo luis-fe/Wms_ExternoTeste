@@ -168,7 +168,7 @@ def ConsultaCaixa(NCaixa, empresa):
 def OPsAliberar(empresa):
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto, "
-                           "(SELECT e.descricao  FROM tcp.Engenharia e where e.codempresa =1 and e.codEngenharia = op.codProduto) as descricao,"
+                           "(SELECT e.descricao  FROM tcp.Engenharia e where e.codempresa =1 and e.codEngenharia = op.codProduto) as nome,"
                            " op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as status_Recebimento  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
@@ -217,6 +217,21 @@ def OPsAliberar(empresa):
     consulta.fillna('-', inplace=True)
     consulta.drop('nomeFaccionistaMei', axis=1, inplace=True)
 
+    consulta['categoria'] = '-'
+    consulta['categoria'] = consulta.apply(lambda row: consulta('CAMISA', row['nome'], 'CAMISA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('TSHORT', row['nome'], 'CAMISETA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('POLO', row['nome'], 'POLO', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('BABY', row['nome'], 'CAMISETA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('REGATA', row['nome'], 'CAMISETA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('JUST', row['nome'], 'CAMISETA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('BATA', row['nome'], 'CAMISA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('JAQUETA', row['nome'], 'JAQUETA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('SHORT', row['nome'], 'BOARDSHORT', row['categoria']),
+                                     axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('CARTEIRA', row['nome'], 'CARTEIRA', row['categoria']),
+                                     axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('MEIA', row['nome'], 'MEIA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('BLAZER', row['nome'], 'JAQUETA', row['categoria']), axis=1)
 
     data = {
 
@@ -227,6 +242,11 @@ def OPsAliberar(empresa):
     }
     return [data]
 
+def Categoria(contem, valorReferencia, valorNovo, categoria):
+    if contem in valorReferencia:
+        return valorNovo
+    else:
+        return categoria
 
 
 
