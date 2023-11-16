@@ -219,6 +219,8 @@ def OPsAliberar(empresa):
 
     consulta['categoria'] = '-'
     consulta['categoria'] = consulta.apply(lambda row: Categoria('CAMISA', row['nome'], 'CAMISA', row['categoria']), axis=1)
+    consulta['categoria'] = consulta.apply(lambda row: Categoria('TSHIRT', row['nome'], 'CAMISETA', row['categoria']),
+                                           axis=1)
     consulta['categoria'] = consulta.apply(lambda row: Categoria('TSHORT', row['nome'], 'CAMISETA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(lambda row: Categoria('POLO', row['nome'], 'POLO', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(lambda row: Categoria('BABY', row['nome'], 'CAMISETA', row['categoria']), axis=1)
