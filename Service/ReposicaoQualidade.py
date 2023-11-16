@@ -209,8 +209,11 @@ def OPsAliberar(empresa):
     consulta = pd.merge(consulta, faccionista_Costura_mei, on='numeroop',how='left' )
 
 
-    consulta.fillna('-', inplace=True)
+    consulta['nomeFaccionista']= consulta.apply(lambda row: row['nomeFaccionistaMei'] if row['nomeFaccionista'] == '-' else row['nomeFaccionista'],
+                                      axis=1)
 
+    consulta.fillna('-', inplace=True)
+    consulta.drop('nomeFaccionistaMei', axis=1, inplace=True)
 
 
     data = {
@@ -472,7 +475,7 @@ def FaccionistaMei(empresa, dataframe):
     consulta = pd.read_sql("SELECT f.numeroOP as numeroop, "
                            "(SELECT f2.nome from Tcg.Faccionista f2 WHERE f2.Empresa = 1 and f2.codFaccionista = f.codFaccionista) as nomeFaccionistaMei "
                            "  FROM tco.MovimentacaoOPFase f "
-                           "WHERE f.codEmpresa = 1 and f.codFase in (54, 430) and codFaccionista > 0 "
+                           "WHERE f.codEmpresa = 1 and f.codFase in (54, 50, 430, 431) and codFaccionista > 0 "
                            "and f.numeroOP in "+resultado,conn)
 
     conn.close()
