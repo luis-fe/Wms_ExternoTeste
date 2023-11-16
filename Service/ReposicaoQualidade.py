@@ -192,6 +192,8 @@ def OPsAliberar(empresa):
     faccionista = InformacoesOPsGarantia(empresa, consulta)
     faccionista_Costura = faccionista[faccionista['codFase'] == 55]
     consulta = pd.merge(consulta, faccionista_Costura, on='numeroop',how='left' )
+    consulta.fillna('-', inplace=True)
+
 
     data = {
 
