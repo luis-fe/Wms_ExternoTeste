@@ -167,7 +167,9 @@ def ConsultaCaixa(NCaixa, empresa):
 
 def OPsAliberar(empresa):
     conn = ConexaoCSW.Conexao()
-    consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto, op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
+    consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto, "
+                           "(SELECT e.descricao  FROM tcp.Engenharia e where e.codempresa =1 and e.codEngenharia = op.codProduto) as descricao,"
+                           " op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as status_Recebimento  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
                            'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 ) '
