@@ -469,7 +469,9 @@ def FaccionistaMei(empresa, dataframe):
     # Passo 3: Transformar o dataFrame em lista
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
     conn = ConexaoCSW.Conexao()
-    consulta = pd.read_sql("SELECT f.numeroOP as numeroop, f.codFaccionista as faccionistaMei  FROM tco.MovimentacaoOPFase f "
+    consulta = pd.read_sql("SELECT f.numeroOP as numeroop, "
+                           "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionistaMei, "
+                           "  FROM tco.MovimentacaoOPFase f "
                            "WHERE f.codEmpresa = 1 and f.codFase in (54, 430) and codFaccionista > 0 "
                            "and f.numeroop in "+resultado,conn)
 
