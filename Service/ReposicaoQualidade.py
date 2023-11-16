@@ -189,6 +189,10 @@ def OPsAliberar(empresa):
     Op_ReposicaoIniciada = consulta2['numeroop'].count()
     consulta = pd.merge(consulta, consulta2 ,on='numeroop', how= 'left')
     consulta.fillna('Nao Iniciado', inplace=True)
+    faccionista = InformacoesOPsGarantia(empresa, consulta)
+    faccionista_Costura = faccionista[faccionista['codFase'] == 55]
+    consulta = pd.merge(consulta, faccionista_Costura, on='numeroop',how='left' )
+
     data = {
 
         '0 - Total de OPs ': totalOPs,
@@ -421,6 +425,26 @@ def TotalBipado(empresa, numeroop, reduzido):
     totalSku = totalSku['numeroop'].count()
 
     return  totalBipadoOP, totalSku
+
+def InformacoesOPsGarantia(empresa, dataframe):
+    novo = dataframe[['numeroop']]
+    novo = novo.drop_duplicates(subset=['numeroop'])
+
+    # Passo 3: Transformar o dataFrame em lista
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
+
+    conn = ConexaoCSW.Conexao()
+
+    consulta = pd.read_sql("SELECT r.codOP , r.dataEmissao , r.codFaccio,  "
+                           "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
+                           "r.quantidade, "
+                           "r.codFase  FROM tct.RetSimbolicoNFERetorno r "
+                           "WHERE r.Empresa = 1 and  op.codOP IN "+resultado, conn)
+
+    return consulta
+
+
+
 
 
 
