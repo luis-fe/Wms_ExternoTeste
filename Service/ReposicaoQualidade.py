@@ -439,7 +439,7 @@ def InformacoesOPsGarantia(empresa, dataframe):
                            "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
                            "r.quantidade, "
                            "r.codFase  FROM tct.RetSimbolicoNFERetorno r "
-                           "WHERE r.Empresa = 1 and  op.codOP IN "+resultado, conn)
+                           "WHERE r.Empresa = 1 and  r.codOP IN "+resultado, conn)
 
     return consulta
 
