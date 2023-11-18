@@ -237,6 +237,7 @@ def OPsAliberar(empresa):
 
     quantidade = QuantidadeOP(empresa,consulta,True)
     consulta = pd.merge(consulta, quantidade, on='numeroop', how='left')
+    consulta.fillna('-', inplace=True)
 
     data = {
 
@@ -532,7 +533,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
         consulta = consulta.groupby('numeroop').agg({
             'quantidade': 'sum'
         })
-        consulta.fillna('-', inplace=True)
+
     else:
         consulta = consulta
 
