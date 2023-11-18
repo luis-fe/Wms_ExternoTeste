@@ -577,7 +577,13 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
+    data = {
+        'numeroOP': numeroop,
+        'Detalha Grade': novo.to_dict(orient='records')
+    }
+    return pd.DataFrame([data])
 
-    return novo
+
+
 
 
