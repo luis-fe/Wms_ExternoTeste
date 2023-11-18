@@ -570,6 +570,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
     quantidade = QuantidadeOP(empresa,novo,False)
     novo = pd.merge(novo,quantidade,on=['numeroop','codSortimento'], how='left')
+    novo.drop(['indice','qtdePecasProgramadas']
+                   , axis=1, inplace=True)
 
     return novo
 
