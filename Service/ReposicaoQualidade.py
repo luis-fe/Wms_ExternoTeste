@@ -546,8 +546,16 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
 
 def DetalhaQuantidadeOP(empresa, numeroop):
     conn = ConexaoCSW.Conexao()
-    consulta = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
+    df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     conn.close()
-    return consulta
+    # Dividir as strings e transformar em listas
+    df['codSortimento'] = df['codSortimento'].str.split(',')
+    df['sortimentosCores'] = df['sortimentosCores'].str.split(',')
+
+    # Explodir as listas em linhas separadas
+    df = df.explode('codSortimento')
+    df = df.explode('sortimentosCores')
+
+    return df
 
