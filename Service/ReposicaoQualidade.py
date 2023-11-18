@@ -473,8 +473,8 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
 
 def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
     conn = ConexaoPostgreMPL.conexao()
-    consulta = pd.read_sql('select numeroop, rq.codreduzido, rq.cor as  "codSortimento", tamanho  from "Reposicao"."off".reposicao_qualidade rq '
-                           'where rq.codempresa  = %s and numeroop = %s',
+    consulta = pd.read_sql('select numeroop, rq.codreduzido, rq.cor as  "codSortimento", tamanho, count(codreduzido) as Qtbipado  from "Reposicao"."off".reposicao_qualidade rq '
+                           'where rq.codempresa  = %s and numeroop = %s group by numeroop, codreduzido, cor, tamanho',
                            conn, params=(empresa,numeroop,))
     conn.close()
     totalBipadoOP = consulta['numeroop'].count()
@@ -482,7 +482,7 @@ def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
 
     if agrupado == True:
         totalSku = consulta[consulta['codreduzido'] == reduzido]
-        totalSku = totalSku['numeroop'].count()
+        totalSku = totalSku['Qtbipado'].sum()
 
         return  totalBipadoOP, totalSku
     else:
@@ -582,7 +582,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                    , axis=1, inplace=True)
     bipadoSku, totalbipado = TotalBipado(empresa, numeroop, '', False)
     novo = pd.merge(novo, bipadoSku, on=['codSortimento', 'tamanho'], how='left')
-    novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
+    novo = novo.groupby(['codSortimento',"sortimentosCores",""]).agg({'tamanho': list, 'quantidade': list}).reset_index()
 
 
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
