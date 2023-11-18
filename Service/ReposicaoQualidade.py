@@ -574,7 +574,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                    , axis=1, inplace=True)
 
     novo = novo.groupby(['codSortimento',"sortimentosCores"])['Tamanho'].agg(list).reset_index()
-    novo.rename(columns={'codSortimento': '1- codSortimento'}, inplace=True)
+    novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'}, inplace=True)
 
     return novo
 
