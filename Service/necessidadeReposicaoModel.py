@@ -44,7 +44,7 @@ def RelatorioNecessidadeReposicao():
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
     relatorioEndereço.fillna('-', inplace=True)
-    relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
+    #relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
 
     conn.close()
     data = {
