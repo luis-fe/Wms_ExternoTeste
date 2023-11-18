@@ -520,7 +520,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
 
     consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento ,  '
                            '(select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
-                           'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.MovimentacaoOPFaseTam ot '
+                           'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas, seqRoteiro  from tco.MovimentacaoOPFaseTam ot '
                            'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
     conn.close()
     consulta.fillna('-', inplace=True)
@@ -528,7 +528,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
                                       axis=1)
 
     if agrupado == True:
-        consulta = consulta.groupby('numeroop').agg({
+        consulta = consulta.groupby('numeroop','seqRoteiro').agg({
             'quantidade': 'sum'
         })
     else:
