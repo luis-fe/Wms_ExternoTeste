@@ -554,11 +554,9 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo['codSortimento'] = df['codSortimento'].str.split(',')
     novo = novo.explode('codSortimento', ignore_index=True)  # Use ignore_index para redefinir o índice
 
-    # Definir a coluna do índice como uma coluna normal
-    novo.set_index('index', inplace=True)
-
     # Redefinir o índice e exibir o DataFrame
-    novo = novo.reset_index(drop=False)
+    novo_reset = novo.reset_index(drop=True)  # drop=True para remover o índice anterior
+
 
     #novo['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
@@ -567,5 +565,5 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     #df = df.explode('sortimentosCores')
 
 
-    return novo
+    return novo_reset
 
