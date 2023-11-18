@@ -584,7 +584,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
     novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
     bipadoSku, totalbipado = TotalBipado(empresa,numeroop,'',False)
-    novo = pd.merge(novo,bipadoSku,on=['numeroop','codSortimento','tamanho'],how='left')
+    novo = pd.merge(novo,bipadoSku,on=['codSortimento','tamanho'],how='left')
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
