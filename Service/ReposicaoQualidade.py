@@ -553,10 +553,19 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo = pd.DataFrame({'codSortimento': []})
     novo['codSortimento'] = df['codSortimento'].str.split(',')
     novo = novo.explode('codSortimento', ignore_index=True)  # Use ignore_index para redefinir o índice
-
     # Redefinir o índice e exibir o DataFrame
     novo = novo.reset_index(drop=True)  # drop=True para remover o índice anterior
     novo['indice'] = novo.index
+
+    # Dividir as strings e transformar em listas
+    novo2 = pd.DataFrame({'sortimentosCores': []})
+    novo2['codSortimento'] = df['sortimentosCores'].str.split(',')
+    novo2 = novo2.explode('sortimentosCores', ignore_index=True)  # Use ignore_index para redefinir o índice
+    # Redefinir o índice e exibir o DataFrame
+    novo2 = novo2.reset_index(drop=True)  # drop=True para remover o índice anterior
+    novo2['indice'] = novo2.index
+
+    novo = pd.merge(novo,novo2,on='indice')
 
 
     #novo['sortimentosCores'] = df['sortimentosCores'].str.split(',')
