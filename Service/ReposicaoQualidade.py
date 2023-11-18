@@ -550,7 +550,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     conn.close()
     # Dividir as strings e transformar em listas
-    novo = pd.DataFrame({'codSortimento'})
+    novo = pd.DataFrame({'codSortimento':[]})
     novo['codSortimento']= df['codSortimento'].str.split(',')
     df['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
