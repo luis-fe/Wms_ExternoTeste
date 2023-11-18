@@ -544,5 +544,10 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
 
     return consulta
 
-
+def DetalhaQuantidadeOP(empresa, numeroop):
+    conn = ConexaoCSW.Conexao()
+    consulta = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
+                           'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
+    conn.close()
+    return consulta
 
