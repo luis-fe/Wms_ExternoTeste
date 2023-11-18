@@ -238,12 +238,14 @@ def OPsAliberar(empresa):
     quantidade = QuantidadeOP(empresa,consulta,True)
     consulta = pd.merge(consulta, quantidade, on='numeroop', how='left')
     consulta.fillna('-', inplace=True)
+    totalPcs = consulta['quantidade'].sum()
 
     data = {
 
         '0 - Total de OPs ': totalOPs,
         '01 - Ops RecebimentoIniciado ': totalOPs_iniciado,
         '02 - Ops ReposicaoIniciada ': Op_ReposicaoIniciada,
+        '03 - Total Pçs ': totalPcs,
         'Detalhamento das OPs ': consulta.to_dict(orient='records')
     }
     return [data]
