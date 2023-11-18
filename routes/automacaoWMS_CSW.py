@@ -1,3 +1,4 @@
+from Service import necessidadeReposicaoModel
 from Service.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, RecarregarPedidosCSWModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -113,8 +114,9 @@ def RecarregarPedidos():
 
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5))
-    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),ordem,int(5))
-    #TagReposicao = pd.DataFrame([{'Mensagem':f' pedidos foram deletados pois foram faturados'}])
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5))
+    necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
+
 
 
 
