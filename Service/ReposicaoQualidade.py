@@ -473,7 +473,7 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
 
 def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
     conn = ConexaoPostgreMPL.conexao()
-    consulta = pd.read_sql('select numeroop, rq.codreduzido, rq.cor as  codSortimento, tamanho  from "Reposicao"."off".reposicao_qualidade rq '
+    consulta = pd.read_sql('select numeroop, rq.codreduzido, rq.cor as  "codSortimento", tamanho  from "Reposicao"."off".reposicao_qualidade rq '
                            'where rq.codempresa  = %s and numeroop = %s',
                            conn, params=(empresa,numeroop,))
     conn.close()
