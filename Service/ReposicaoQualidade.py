@@ -237,7 +237,7 @@ def OPsAliberar(empresa):
 
     quantidade = QuantidadeOP(empresa,consulta,True)
     consulta = pd.merge(consulta, quantidade, on='numeroop', how='left')
-    consulta.fillna('-', inplace=True)
+    consulta.fillna(0, inplace=True)
     totalPcs = consulta['quantidade'].sum()
 
     data = {
