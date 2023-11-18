@@ -532,6 +532,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
         consulta = consulta.groupby('numeroop').agg({
             'quantidade': 'sum'
         })
+        consulta.fillna('-', inplace=True)
     else:
         consulta = consulta
 
