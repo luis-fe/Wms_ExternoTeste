@@ -540,7 +540,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
         })
 
     else:
-        consulta = consulta
+        consulta['codSortimento'] = consulta['codSortimento'].astype(str)
 
     return consulta
 
