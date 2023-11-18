@@ -518,7 +518,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
     conn = ConexaoCSW.Conexao()
 
-    consulta = pd.read_sql('SELECT (varchar(11), ot.numeroop) as numeroop, ot.codSortimento ,  '
+    consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento ,  '
                            '(select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
                            'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.MovimentacaoOPFaseTam ot '
                            'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
