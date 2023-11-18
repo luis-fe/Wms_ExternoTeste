@@ -532,7 +532,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     conn = ConexaoCSW.Conexao()
 
     consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento as codSortimento,  '
-                           '(select t.descricao from tcp.Tamanhos as tamanho t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
+                           '(select t.descricao from tcp.Tamanhos  t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho) as tamanho , '
                            'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.OrdemProdTamanhos ot '
                            'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
     conn.close()
