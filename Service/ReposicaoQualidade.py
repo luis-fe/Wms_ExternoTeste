@@ -528,7 +528,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
                                       axis=1)
 
     if agrupado == True:
-        consulta = consulta.groupby('numeroop','seqRoteiro').agg({
+        consulta = consulta.groupby(['numeroop','seqRoteiro']).agg({
             'quantidade': 'sum'
         })
     else:
