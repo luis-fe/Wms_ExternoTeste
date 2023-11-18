@@ -552,7 +552,12 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     # Dividir as strings e transformar em listas
     novo = pd.DataFrame({'codSortimento':[]})
     novo['codSortimento']= df['codSortimento'].str.split(',')
-    novo = novo.explode('codSortimento', inplace=True)
+    novo = novo.explode('codSortimento', ignore_index=True)  # Use ignore_index para redefinir o índice
+
+    # Redefinir o índice e exibir o DataFrame
+    novo_reset = novo.reset_index(drop=False)
+
+
     #novo['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
     # Explodir as listas resultantes
