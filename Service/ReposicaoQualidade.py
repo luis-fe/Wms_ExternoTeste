@@ -240,6 +240,7 @@ def OPsAliberar(empresa):
     consulta = pd.merge(consulta, quantidade, on='numeroop', how='left')
     consulta.fillna(0, inplace=True)
     totalPcs = consulta['quantidade'].sum()
+    consulta['lote'] = consulta['lote'].str.replace('LOTE INTERNO ', '', regex=True)
 
     data = {
 
