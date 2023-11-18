@@ -549,24 +549,13 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     conn.close()
-    # Inicializar uma lista para armazenar as linhas resultantes
-    result = []
+    # Dividir as strings e transformar em listas
+    df['codSortimento'] = df['codSortimento'].str.split(',')
+    df['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
-    # Iterar sobre as linhas do DataFrame original
-    for index, row in df.iterrows():
-        numeroop = row['numeroop']
-        codSortimentos = row['codSortimento']
-        sortimentosCores = row['sortimentosCores']
-
-        # Iterar sobre os valores correspondentes índice a índice
-        for codSortimento, sortimentoCor in zip(codSortimentos, sortimentosCores):
-            result.append({'numeroop': numeroop, 'codSortimento': codSortimento, 'sortimentosCores': sortimentoCor})
-
-    # Criar um novo DataFrame com as linhas resultantes
-    result_df = pd.DataFrame(result)
-
-    # Exibir o DataFrame resultante
-    print(result_df)
+    # Explodir as listas resultantes
+    df = df.explode('codSortimento')
+    df = df.explode('sortimentosCores')
 
     return df
 
