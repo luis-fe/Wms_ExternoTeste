@@ -578,8 +578,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     data = {
-        'numeroOP': numeroop,
-        'Detalha Grade': novo.to_dict(orient='records')
+        '1 -numeroOP': numeroop,
+        '2- Detalha Grade': novo.to_dict(orient='records')
     }
     return pd.DataFrame([data])
 
