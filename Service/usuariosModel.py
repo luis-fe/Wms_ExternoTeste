@@ -11,7 +11,7 @@ def obterHoraAtual():
 def PesquisarUsuarios():
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute('select codigo, nome, funcao, situacao from "Reposicao"."cadusuarios" c')
+    cursor.execute('select codigo, nome, funcao, situacao from "Reposicao"."cadusuarios" c order by nome asc')
     usuarios = cursor.fetchall()
     cursor.close()
     conn.close()

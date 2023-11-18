@@ -144,7 +144,7 @@ def ConsultaCaixa(NCaixa, empresa):
         consultar.drop(['numeroop','codempresa','codreduzido','descricao','cor','engenharia','tamanho',
                         'total_pcs']
                        , axis=1, inplace=True)
-        totalbipagemOP, totalbipagemSku = TotalBipado(empresa, numeroOP, codreduzido)
+        totalbipagemOP, totalbipagemSku = TotalBipado(empresa, numeroOP, codreduzido,True)
 
         data = {
 
@@ -471,17 +471,21 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
     else:
         return ops1
 
-def TotalBipado(empresa, numeroop, reduzido):
+def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
     conn = ConexaoPostgreMPL.conexao()
     consulta = pd.read_sql('select numeroop, rq.codreduzido from "Reposicao"."off".reposicao_qualidade rq '
                            'where rq.codempresa  = %s and numeroop = %s',
                            conn, params=(empresa,numeroop,))
+    conn.close()
     totalBipadoOP = consulta['numeroop'].count()
     totalSku = consulta[consulta['codreduzido'] == reduzido]
     totalSku = totalSku['numeroop'].count()
 
-    return  totalBipadoOP, totalSku
+    if agrupado == True:
 
+        return  totalBipadoOP, totalSku
+    else:
+        return consulta, totalBipadoOP
 def InformacoesOPsGarantia(empresa, dataframe):
     novo = dataframe[['numeroop']]
     novo = novo.drop_duplicates(subset=['numeroop'])
@@ -574,10 +578,10 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo.drop(['indice','qtdePecasProgramadas','numeroop']
                    , axis=1, inplace=True)
 
+
     novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'Tamanho': list, 'quantidade': list}).reset_index()
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
-
     data = {
         '1 -numeroOP': numeroop,
         '2 -CodProduto':engenharia,
