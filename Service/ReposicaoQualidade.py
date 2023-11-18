@@ -554,8 +554,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     df['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
     # Explodir as listas em linhas separadas
-    df = df.explode('codSortimento')
-    df = df.explode('sortimentosCores')
+    #df = df.explode('codSortimento')
+    #df = df.explode('sortimentosCores')
 
     return df
 
