@@ -526,6 +526,10 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     consulta.fillna('-', inplace=True)
     consulta['quantidade'] = consulta.apply(lambda row: row['qtdePecasProgramadas'] if row['quantidade'] == '-' else row['quantidade'] ,
                                       axis=1)
+    consulta['maxRoteiro'] = consulta.groupby('numeroop')['seqRoteiro'].transform('max')
+    consulta['maxRoteiro'] = consulta.apply(lambda row: row['maxRoteiro'] if row['maxRoteiro'] == row['seqRoteiro']  else '-',
+                                      axis=1)
+    consulta = consulta[consulta['maxRoteiro']!= '-']
 
     if agrupado == True:
         consulta = consulta.groupby(['numeroop','seqRoteiro']).agg({
