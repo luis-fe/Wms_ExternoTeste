@@ -196,7 +196,7 @@ def OPsAliberar(empresa):
     faccionista_CosturaAcab = faccionista.loc[(faccionista['codFase'] == 195) | (faccionista['codFase'] == 437)]
 
 
-    faccionista_Costura.drop(['codFase','codFaccio'], axis=1, inplace=True)
+    faccionista_Costura.drop(['codFase','codFaccio','quantidade'], axis=1, inplace=True)
     faccionista_CosturaAcab.drop(['codFase', 'codFaccio','quantidade'], axis=1, inplace=True)
 
 
@@ -234,6 +234,9 @@ def OPsAliberar(empresa):
                                      axis=1)
     consulta['categoria'] = consulta.apply(lambda row: Categoria('MEIA', row['nome'], 'MEIA', row['categoria']), axis=1)
     consulta['categoria'] = consulta.apply(lambda row: Categoria('BLAZER', row['nome'], 'JAQUETA', row['categoria']), axis=1)
+
+    quantidade = QuantidadeOP(empresa,consulta,True)
+    consulta = pd.merge(consulta, quantidade, on='numeroop', how='left')
 
     data = {
 
@@ -507,9 +510,32 @@ def FaccionistaMei(empresa, dataframe):
     return consulta
 
 
+def QuantidadeOP(empresa, dataframe, agrupado = True):
+    novo = dataframe[['numeroop']]
+    novo = novo.drop_duplicates(subset=['numeroop'])
 
+    # Passo 3: Transformar o dataFrame em lista
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
+    conn = ConexaoCSW.Conexao()
 
+    consulta = pd.read_sql('SELECT ot.numeroOP as numeroop, ot.codSortimento ,  '
+                           '(select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
+                           'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.MovimentacaoOPFaseTam ot '
+                           'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
+    conn.close()
+    consulta.fillna('-', inplace=True)
+    consulta['quantidade'] = consulta.apply(lambda row: row['qtdePecasProgramadas'] if row['quantidade'] == '-' else row['quantidade'] ,
+                                      axis=1)
 
+    if agrupado == True:
+        consulta = consulta.groupby('numeroop').agg({
+            'numeroop': 'first',
+            'quantidade': 'sum'
+        })
+    else:
+        consulta = consulta
+
+    return consulta
 
 
 
