@@ -94,7 +94,7 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
     relatorioEndereço.fillna('-', inplace=True)
-    relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
+    #relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
     relatorioEndereço = relatorioEndereço[relatorioEndereço['DisponivelPrateleira'] != '-']
 
     pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
