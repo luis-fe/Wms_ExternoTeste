@@ -524,7 +524,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
     conn = ConexaoCSW.Conexao()
 
-    consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento ,  '
+    consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento as codSortimento,  '
                            '(select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
                            'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.OrdemProdTamanhos ot '
                            'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
@@ -568,13 +568,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo = pd.merge(novo,novo2,on='indice')
     novo['numeroop']=numeroop
 
-
-    #novo['sortimentosCores'] = df['sortimentosCores'].str.split(',')
-
-    # Explodir as listas resultantes
-    #df = df.explode('codSortimento')
-    #df = df.explode('sortimentosCores')
-
+    quantidade = QuantidadeOP(empresa,novo,False)
+    novo = pd.merge(novo,quantidade,on=['numeroop','codSortimento'], how='left')
 
     return novo
 
