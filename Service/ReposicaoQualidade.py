@@ -549,21 +549,16 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     conn.close()
-
-    # Função para combinar valores índice a índice
-    def combine_values(row):
-        return list(zip(row['codSortimento'], row['sortimentosCores']))
-
-    # Aplicar a função a cada linha
-    df['combined'] = df.apply(combine_values, axis=1)
-
-    # Explodir a lista resultante
-    df = df.explode('combined')
+    # Dividir as strings e transformar em listas
+    df['codSortimento'] = df['codSortimento'].str.split(',')
+    df['sortimentosCores'] = df['sortimentosCores'].str.split(',')
 
     # Criar colunas separadas para 'codSortimento' e 'sortimentosCores'
-    df[['codSortimento', 'sortimentosCores']] = pd.DataFrame(df['combined'].tolist(), index=df.index)
+    df = pd.concat([df['numeroop'], df['codSortimento'], df['sortimentosCores']], axis=1)
 
-    # Descartar a coluna temporária 'combined'
+    # Explodir as listas resultantes
+    df = df.explode('codSortimento')
+    df = df.explode('sortimentosCores')
 
     return df
 
