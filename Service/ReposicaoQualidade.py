@@ -473,18 +473,21 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
 
 def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
     conn = ConexaoPostgreMPL.conexao()
-    consulta = pd.read_sql('select numeroop, rq.codreduzido from "Reposicao"."off".reposicao_qualidade rq '
+    consulta = pd.read_sql('select numeroop, rq.codreduzido, rq.cor as  codSortimento, tamanho  from "Reposicao"."off".reposicao_qualidade rq '
                            'where rq.codempresa  = %s and numeroop = %s',
                            conn, params=(empresa,numeroop,))
     conn.close()
     totalBipadoOP = consulta['numeroop'].count()
-    totalSku = consulta[consulta['codreduzido'] == reduzido]
-    totalSku = totalSku['numeroop'].count()
+
 
     if agrupado == True:
+        totalSku = consulta[consulta['codreduzido'] == reduzido]
+        totalSku = totalSku['numeroop'].count()
 
         return  totalBipadoOP, totalSku
     else:
+        consulta['codSortimento'] = consulta['codSortimento'].str.split('-').str[0]
+
         return consulta, totalBipadoOP
 def InformacoesOPsGarantia(empresa, dataframe):
     novo = dataframe[['numeroop']]
@@ -529,7 +532,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     conn = ConexaoCSW.Conexao()
 
     consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento as codSortimento,  '
-                           '(select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
+                           '(select t.descricao from tcp.Tamanhos as tamanho t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho)as Tamanho , '
                            'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.OrdemProdTamanhos ot '
                            'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
     conn.close()
@@ -579,9 +582,12 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                    , axis=1, inplace=True)
 
 
-    novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'Tamanho': list, 'quantidade': list}).reset_index()
+    novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
+    bipadoSku, totalbipado = TotalBipado(empresa,numeroop,'',False)
+    novo = pd.merge(novo,bipadoSku,on=['numeroop','codSortimento','tamanho'],how='left')
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
+
     data = {
         '1 -numeroOP': numeroop,
         '2 -CodProduto':engenharia,
