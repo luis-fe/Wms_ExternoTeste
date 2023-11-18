@@ -549,6 +549,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     conn.close()
+    engenharia = df['codProduto'][0]
     # Dividir as strings e transformar em listas
     novo = pd.DataFrame({'codSortimento': []})
     novo['codSortimento'] = df['codSortimento'].str.split(',')
@@ -579,7 +580,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
     data = {
         '1 -numeroOP': numeroop,
-        '2- Detalha Grade': novo.to_dict(orient='records')
+        '2 -CodProduto':engenharia,
+        '3- Detalhamento da Grade': novo.to_dict(orient='records')
     }
     return pd.DataFrame([data])
 
