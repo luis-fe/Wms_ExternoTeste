@@ -169,6 +169,7 @@ def OPsAliberar(empresa):
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto,"
                            " (select l.descricao FROM  tcl.Lote l WHERE op.codempresa = l.codempresa and op.codLote = l.codlote) as lote, "
+                           "(SELECT t.codtipo||'-'||t.nome FROM tcp.TipoOP t WHERE t.empresa = op.codempresa and t.codtipo=op.codTipoOP ) as tipoOP, "
                            "(SELECT e.descricao  FROM tcp.Engenharia e where e.codempresa =1 and e.codEngenharia = op.codProduto) as nome,"
                            " op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as status_Recebimento  "
