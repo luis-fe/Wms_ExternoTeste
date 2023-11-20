@@ -258,7 +258,6 @@ def DetalhandoPedidoSku(empresa, pedido):
 
 
 
-
     query =  'Insert into "Reposicao".pedidossku (codpedido, produto, qtdesugerida, qtdepecasconf, endereco,' \
              ' necessidade, datahora, reservado ) values (%s, %s, %s, %s, %s, %s, %s, %s )'
 
