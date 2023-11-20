@@ -204,7 +204,6 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal):
     TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde'] / TagReposicao['Qtd Pedido']
     TagReposicao['Méd pçs/ped.'] = TagReposicao['Méd pçs/ped.'].astype(int) + 1
 
-    conn.close()
 
     def format_with_separator(value):
         return locale.format('%0.0f', value, grouping=True)
@@ -217,5 +216,7 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal):
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     TagReposicao = pd.merge(TagReposicao, Usuarios, on='usuario', how='left')
+    conn.close()
+
 
     return TagReposicao
