@@ -585,9 +585,10 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo = pd.merge(novo, bipadoSku, on=['codSortimento', 'tamanho'], how='left')
     novo['quantidade'] = novo['quantidade'].astype(int)
     novo['quantidade'] = novo['quantidade'].astype(str)
-    novo['Qtbipado'] = novo['Qtbipado'].astype(str)
     novo.fillna('0', inplace=True)
-    novo['quantidade'] = novo['Qtbipado']+"/"+novo['Qtbipado']
+    novo['Qtbipado'] = novo['Qtbipado'].astype(str)
+
+    novo['quantidade'] = novo['Qtbipado']+"/"+novo['quantidade']
 
     novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
 
