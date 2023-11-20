@@ -253,6 +253,7 @@ def DetalhandoPedidoSku(empresa, pedido):
     SugestoesAbertos['reservado'] = 'nao'
     SugestoesAbertos.drop('codSequencia', axis=1, inplace=True)
     SugestoesAbertos['endereco'] = 'Não Reposto'
+    SugestoesAbertos = SugestoesAbertos.drop_duplicates()
 
 
 
