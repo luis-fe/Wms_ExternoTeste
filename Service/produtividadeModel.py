@@ -240,6 +240,7 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
         return TagReposicao
     else:
         TagReposicao = pd.read_csv('ProdSepa.csv')
+        TagReposicao['usuario'] = TagReposicao['usuario'] .astype(str)
         TagReposicao = TagReposicao[TagReposicao['usuario']==str(usuario)]
 
 
