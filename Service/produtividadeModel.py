@@ -228,7 +228,7 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
         ritmo2 = ritmo2.groupby(['usuario', 'dia']).tail(1)
 
         ritmo2 = ritmo2.groupby(['usuario','dia']).agg({
-            'usuario1':'first',
+            #'usuario':'first',
             'dia':'first',
             'ritmo': 'mean'})
         ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
