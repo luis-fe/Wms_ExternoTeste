@@ -192,49 +192,55 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
             '3- Ranking Repositores': TagReposicao.to_dict(orient='records')
         }
         return [data]
-def RelatorioSeparacao(empresa, dataInicial, dataFInal):
-    conn = ConexaoPostgreMPL.conexao()
-    TagReposicao = pd.read_sql(
-        'SELECT usuario, dataseparacao, count(dataseparacao) as Qtde, count(distinct codpedido) as "Qtd Pedido" from "Reposicao"."ProducaoSeparadores" '
-        'where dataseparacao >= %s and dataseparacao <= %s '
-        'group by usuario, dataseparacao ', conn, params=(dataInicial, dataFInal,))
+def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
+    if usuario == '':
+        conn = ConexaoPostgreMPL.conexao()
+        TagReposicao = pd.read_sql(
+            'SELECT usuario, dataseparacao, count(dataseparacao) as Qtde, count(distinct codpedido) as "Qtd Pedido" from "Reposicao"."ProducaoSeparadores" '
+            'where dataseparacao >= %s and dataseparacao <= %s '
+            'group by usuario, dataseparacao ', conn, params=(dataInicial, dataFInal,))
 
-    TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
+        TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
 
-    TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde'] / TagReposicao['Qtd Pedido']
-    TagReposicao['Méd pçs/ped.'] = TagReposicao['Méd pçs/ped.'].astype(int) + 1
-
-
-    def format_with_separator(value):
-        return locale.format('%0.0f', value, grouping=True)
-
-    TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde'] / TagReposicao['Qtd Pedido']
+        TagReposicao['Méd pçs/ped.'] = TagReposicao['Méd pçs/ped.'].astype(int) + 1
 
 
-    # Aplicar a função na coluna do DataFrame
+        def format_with_separator(value):
+            return locale.format('%0.0f', value, grouping=True)
 
-    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
-    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
-    TagReposicao = pd.merge(TagReposicao, Usuarios, on='usuario', how='left')
-
-    ritmo2 = pd.read_sql(
-        'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritmosseparador r '
-        ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
-    ritmo2['acum'] = ritmo2.groupby(['usuario', 'dia']).cumcount() + 1
-    ritmo2['acum'] = ritmo2['acum'] * (15 * 60)
-    ritmo2['ritmo'] = ritmo2.groupby(['usuario', 'dia'])['ritmo'].cumsum()
-    ritmo2['ritmo'] = ritmo2['acum'] / ritmo2['ritmo']
-    ritmo2 = ritmo2.groupby(['usuario', 'dia']).tail(1)
-
-    ritmo2 = ritmo2.groupby('usuario').agg({
-        'ritmo': 'mean'})
-    ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
-
-    TagReposicao = pd.merge(TagReposicao, ritmo2, on='usuario', how='left')
-
-    conn.close()
+        TagReposicao['qtde'] = TagReposicao['qtde'].apply(format_with_separator)
 
 
+        # Aplicar a função na coluna do DataFrame
+
+        Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+        Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+        TagReposicao = pd.merge(TagReposicao, Usuarios, on='usuario', how='left')
+
+        ritmo2 = pd.read_sql(
+            'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritmosseparador r '
+            ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
+        ritmo2['acum'] = ritmo2.groupby(['usuario', 'dia']).cumcount() + 1
+        ritmo2['acum'] = ritmo2['acum'] * (15 * 60)
+        ritmo2['ritmo'] = ritmo2.groupby(['usuario', 'dia'])['ritmo'].cumsum()
+        ritmo2['ritmo'] = ritmo2['acum'] / ritmo2['ritmo']
+        ritmo2 = ritmo2.groupby(['usuario', 'dia']).tail(1)
+
+        ritmo2 = ritmo2.groupby('usuario').agg({
+            'ritmo': 'mean'})
+        ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
+
+        TagReposicao = pd.merge(TagReposicao, ritmo2, on='usuario', how='left')
+
+        conn.close()
+
+        #
+        TagReposicao.to_csv('ProdSepa.csv')
+        return TagReposicao
+    else:
+        TagReposicao = pd.read_csv('ProdSepa.csv')
+        TagReposicao = TagReposicao[TagReposicao['usuario']==usuario]
 
 
-    return TagReposicao
+        return TagReposicao

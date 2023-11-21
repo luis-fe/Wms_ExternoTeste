@@ -64,8 +64,10 @@ def RelatorioSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
     data_final = request.args.get('DataFinal','0')
+    usuario = request.args.get('usuario','')
+
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = produtividadeModel.RelatorioSeparacao('1',data_inicial,data_final)
+    TagReposicao = produtividadeModel.RelatorioSeparacao('1',data_inicial,data_final,usuario)
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns
