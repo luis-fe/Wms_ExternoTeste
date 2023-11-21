@@ -216,7 +216,25 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal):
     Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     TagReposicao = pd.merge(TagReposicao, Usuarios, on='usuario', how='left')
+
+    ritmo2 = pd.read_sql(
+        'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritmosseparador r '
+        ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
+    ritmo2['acum'] = ritmo2.groupby(['usuario', 'dia']).cumcount() + 1
+    ritmo2['acum'] = ritmo2['acum'] * (15 * 60)
+    ritmo2['ritmo'] = ritmo2.groupby(['usuario', 'dia'])['ritmo'].cumsum()
+    ritmo2['ritmo'] = ritmo2['acum'] / ritmo2['ritmo']
+    ritmo2 = ritmo2.groupby(['usuario', 'dia']).tail(1)
+
+    ritmo2 = ritmo2.groupby('usuario').agg({
+        'ritmo': 'mean'})
+    ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
+
+    TagReposicao = pd.merge(TagReposicao, ritmo2, on='usuario', how='left')
+
     conn.close()
+
+
 
 
     return TagReposicao
