@@ -234,7 +234,7 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
         #ritmo2['dataseparacao'] = ritmo2['dia']
 
 
-        TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
+        #TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
 
         conn.close()
 
