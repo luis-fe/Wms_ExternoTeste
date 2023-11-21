@@ -230,8 +230,8 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
         ritmo2 = ritmo2.groupby('usuario').agg({
             'ritmo': 'mean'})
         ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
-        ritmo2['dia'] = ritmo2['dia'].astype(str)
-        ritmo2['dataseparacao'] = ritmo2['dia']
+        #ritmo2['dia'] = ritmo2['dia'].astype(str)
+        #ritmo2['dataseparacao'] = ritmo2['dia']
 
 
         TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
@@ -240,7 +240,7 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
 
         #
         TagReposicao.to_csv('ProdSepa.csv')
-        return TagReposicao
+        return ritmo2
     else:
         TagReposicao = pd.read_csv('ProdSepa.csv')
         TagReposicao['usuario'] = TagReposicao['usuario'] .astype(str)
