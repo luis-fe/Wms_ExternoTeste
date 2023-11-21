@@ -232,11 +232,10 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
             'dia':'first',
             'ritmo': 'mean'})
         ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
-        #ritmo2['dia'] = ritmo2['dia'].astype(str)
-        #ritmo2['dataseparacao'] = ritmo2['dia']
+        ritmo2['dataseparacao'] = ritmo2['dia']
 
 
-        #TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
+        TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
 
         conn.close()
 
