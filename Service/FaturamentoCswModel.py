@@ -23,7 +23,7 @@ def obter_notaCsw():
     return data
 
 
-def Faturamento(empresa, dataInicio, dataFim, detalhar):
+def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
 
    try:
         tipo_nota = ObterTipoNota(empresa)
@@ -122,7 +122,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar):
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
         if detalhar == False:
-            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
+            return pd.DataFrame([{'Total Faturado':f'{mensagem}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
                                   'Pcs Retorna Mplus':f'{pecasMplus} pçs','Retorna ProntaEntrega':f'{ValorprontaEntrega}', 'Pç Pronta Entrega':f'{pecasProntaEntrega} pç'}])
         else:
             return retornaCsw

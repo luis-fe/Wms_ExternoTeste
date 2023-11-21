@@ -23,8 +23,10 @@ def get_Faturamento():
     dataInicio = request.args.get('dataInicio')
     dataFim = request.args.get('dataFim')
     detalhar = request.args.get('detalhar', False)
+    mensagem = request.args.get('mensagem', 'ConexaoPerdida')
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = FaturamentoCswModel.Faturamento(empresa, dataInicio, dataFim, detalhar)
+    TagReposicao = FaturamentoCswModel.Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem)
+
 
 
     # Obtém os nomes das colunas
