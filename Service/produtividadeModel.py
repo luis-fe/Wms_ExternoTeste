@@ -230,8 +230,10 @@ def RelatorioSeparacao(empresa, dataInicial, dataFInal, usuario = ''):
         ritmo2 = ritmo2.groupby('usuario').agg({
             'ritmo': 'mean'})
         ritmo2['ritmo'] = ritmo2['ritmo'].round(2)
+        ritmo2['dataseparacao'] = ritmo2['dia']
 
-        TagReposicao = pd.merge(TagReposicao, ritmo2, on='usuario', how='left')
+
+        TagReposicao = pd.merge(TagReposicao, ritmo2, on=('usuario','dataseparacao'), how='left')
 
         conn.close()
 
