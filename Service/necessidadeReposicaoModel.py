@@ -46,9 +46,12 @@ def RelatorioNecessidadeReposicao():
 
     relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
 
-    pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
-                          "where p.necessidade > 0 and p.reservado = 'nao' ", conn)
-    pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+    pedidos = pd.read_sql('select codpedido, produto as codreduzido, sum(necessidade) as necessidade  from "Reposicao".pedidossku p '
+                          "where p.necessidade > 0 and p.reservado = 'nao' "
+                          " group by codpedido, produto", conn)
+    #pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+    pedidos = pedidos.groupby(['codreduzido']).agg({'codpedido': list, 'necessidade': list}).reset_index()
+
 
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
     relatorioEndereço.fillna('-', inplace=True)
