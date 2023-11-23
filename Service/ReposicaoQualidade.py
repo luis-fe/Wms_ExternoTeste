@@ -595,10 +595,10 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
 
     # Função para calcular o subtotal com base no padrão "x/y"
-    def calcular_subtotal(padrao):
-        # Dividindo a string em "x" e "y"
-        x, y = map(int, padrao.split('/'))
-        return x + y
+    def calcular_subtotal(lista_padroes):
+        # Iterando sobre cada padrão na lista, dividindo em "x" e "y" e calculando a soma
+        subtotais = [sum(map(int, padrao.split('/'))) for padrao in lista_padroes]
+        return subtotais
 
     # Aplicando a função à coluna2 para obter os subtotais
     novo['subtotal'] = novo['quantidade'].apply(calcular_subtotal)
