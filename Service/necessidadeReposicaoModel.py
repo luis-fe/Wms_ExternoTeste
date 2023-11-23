@@ -88,6 +88,10 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
                                   ' where ce."SaldoLiquid" > 0 and natureza = %s '
                                   ' group by codreduzido',conn,params=(natureza,))
 
+    naturezaPedido = pd.read_sql("select desc_tiponota, natureza from configuracoes.tiponota_nat ", conn)
+    relatorioEndereço = pd.merge(relatorioEndereço, naturezaPedido, on="desc_tiponota", how='left')
+
+
     OP = OP.sort_values(by='qtde', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
 
