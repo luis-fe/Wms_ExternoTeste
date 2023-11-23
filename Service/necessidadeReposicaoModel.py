@@ -21,7 +21,8 @@ def RelatorioNecessidadeReposicao():
                      ' group by codreduzido, numeroop',conn)
 
     reservaEndereco = pd.read_sql('select codreduzido, sum("SaldoLiquid") as "DisponivelPrateleira"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
-                                  ' where ce."SaldoLiquid" > 0'
+                                  ' where ce."SaldoLiquid" > 0 '
+                                                         " and natureza = '5'"
                                   ' group by codreduzido',conn)
 
     OP = OP.sort_values(by='qtde', ascending=False,
