@@ -43,9 +43,15 @@ def RelatorioNecessidadeReposicao():
     # Clasificando o Dataframe para analise
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
-    relatorioEndereço.fillna('-', inplace=True)
+
     relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
 
+    pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
+                          "where p.necessidade > 0 and p.reservado = 'nao' ", conn)
+    pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+
+    relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
+    relatorioEndereço.fillna('-', inplace=True)
     conn.close()
     data = {
 
