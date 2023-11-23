@@ -15,8 +15,7 @@ def RelatorioNecessidadeReposicao():
         "where engenharia is not null and codnaturezaatual = '5' "
         'group by codreduzido, engenharia ', conn)
 
-    naturezaPedido = pd.read_sql("select desc_tiponota, natureza from configuracoes.tiponota_nat ", conn)
-    relatorioEndereço = pd.merge(relatorioEndereço, naturezaPedido, on="desc_tiponota", how='left')
+
 
     OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f '
@@ -27,6 +26,8 @@ def RelatorioNecessidadeReposicao():
                                   ' where ce."SaldoLiquid" > 0 '
                                                          " and natureza = '5'"
                                   ' group by codreduzido',conn)
+
+
 
     OP = OP.sort_values(by='qtde', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
@@ -50,7 +51,9 @@ def RelatorioNecessidadeReposicao():
 
     relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
 
-    pedidos = pd.read_sql('select codpedido, produto as codreduzido, sum(necessidade) as "necessidadePedido"  from "Reposicao".pedidossku p '
+    pedidos = pd.read_sql('select codpedido, produto as codreduzido, sum(necessidade) as "necessidadePedido" ,'
+                          '(select f.desc_tiponota from "Reposicao".filaseparacaopedidos f) as desc_tiponota'
+                          ' from "Reposicao".pedidossku p '
                           "where p.necessidade > 0 and p.reservado = 'nao' "
                           " group by codpedido, produto", conn)
     pedidos1 = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
@@ -91,8 +94,7 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
                                   ' where ce."SaldoLiquid" > 0 and natureza = %s '
                                   ' group by codreduzido',conn,params=(natureza,))
 
-    naturezaPedido = pd.read_sql("select desc_tiponota, natureza from configuracoes.tiponota_nat ", conn)
-    relatorioEndereço = pd.merge(relatorioEndereço, naturezaPedido, on="desc_tiponota", how='left')
+
 
 
     OP = OP.sort_values(by='qtde', ascending=False,
