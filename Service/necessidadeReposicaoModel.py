@@ -59,12 +59,15 @@ def RelatorioNecessidadeReposicao():
     pedidos1 = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
     pedidos['necessidadePedido'] = pedidos['necessidadePedido'].astype(str)
     pedidos2 = pedidos.groupby('codreduzido')['necessidadePedido'].agg(', '.join).reset_index()
+    pedidos3 = pedidos.groupby('codreduzido')['desc_tiponota'].agg(', '.join).reset_index()
+
 
     #pedidos = pedidos.groupby(['codreduzido']).agg({'codpedido': list, 'necessidadePedido': list}).reset_index()
 
 
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos1, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos2, on='codreduzido', how='left')
+    relatorioEndereço = pd.merge(relatorioEndereço, pedidos3, on='codreduzido', how='left')
     relatorioEndereço.fillna('-', inplace=True)
     conn.close()
     data = {
