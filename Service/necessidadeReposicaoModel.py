@@ -50,6 +50,7 @@ def RelatorioNecessidadeReposicao():
                           "where p.necessidade > 0 and p.reservado = 'nao' "
                           " group by codpedido, produto", conn)
     pedidos1 = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+    pedidos['necessidadePedido'] = pedidos['necessidadePedido'].astype(str)
     pedidos2 = pedidos.groupby('codreduzido')['necessidadePedido'].agg(', '.join).reset_index()
 
     #pedidos = pedidos.groupby(['codreduzido']).agg({'codpedido': list, 'necessidadePedido': list}).reset_index()
