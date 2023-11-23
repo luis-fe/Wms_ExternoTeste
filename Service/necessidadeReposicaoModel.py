@@ -15,6 +15,9 @@ def RelatorioNecessidadeReposicao():
         "where engenharia is not null and codnaturezaatual = '5' "
         'group by codreduzido, engenharia ', conn)
 
+    naturezaPedido = pd.read_sql("select desc_tiponota, natureza from configuracoes.tiponota_nat ", conn)
+    relatorioEndereço = pd.merge(relatorioEndereço, naturezaPedido, on="desc_tiponota", how='left')
+
     OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f '
                      " where engenharia is not null and codnaturezaatual = '5' "
