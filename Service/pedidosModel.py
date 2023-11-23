@@ -21,7 +21,7 @@ def FilaPedidos():
         '  from "Reposicao".filaseparacaopedidos f '
          , conn)
     naturezaPedido = ("select desc_tiponota, natureza from configuracoes.tiponota_nat ", conn)
-    pedido = pd.merge(pedido, naturezaPedido, on='desc_tiponota', how='left')
+    pedido = pd.merge(pedido, naturezaPedido, on="desc_tiponota", how='left')
 
     pedidosku = pd.read_sql('select codpedido, sum(qtdesugerida) as qtdesugerida, sum(necessidade) as necessidade   from "Reposicao".pedidossku p  '
                             'group by codpedido ', conn)
