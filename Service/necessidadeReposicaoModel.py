@@ -116,6 +116,7 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
 
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
+    relatorioEndereço.fillna('-', inplace=True)
 
     for i in range(relatorioEndereço['codpedido'].count()):
         pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
