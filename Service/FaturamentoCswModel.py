@@ -37,7 +37,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
         retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde,  i.codSequencia,  "
                                  " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = i.codEmpresa and p.codpedido = i.codPedido) as codigo "
                                  " FROM ped.SugestaoPed e "
-                                " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido "
+                                " inner join ped.SugestaoPedItem i on i.codEmpresa = e.codEmpresa and i.codPedido = e.codPedido and i.codSequencia = codSequencia "
                                 ' WHERE e.codEmpresa ='+empresa+
                                 " and e.dataGeracao > '2023-01-01' and situacaoSugestao = 2"
                             " group by i.codPedido, e.vlrSugestao,  i.codSequencia ", conn )
