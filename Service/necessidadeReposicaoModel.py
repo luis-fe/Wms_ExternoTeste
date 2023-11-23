@@ -122,7 +122,10 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
         pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
         produto = relatorioEndereço['codreduzido'][i]
 
-        Redistribuir(pedido,str(produto),natureza)
+        if pedido == '-':
+            print('-')
+        else:
+            Redistribuir(pedido,str(produto),natureza)
 
     conn.close()
 
