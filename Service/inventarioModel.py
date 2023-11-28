@@ -233,6 +233,8 @@ def SalvarInventario(endereco):
     conn = ConexaoPostgreMPL.conexao()
     DataReposicao = obterHoraAtual()
 
+
+
     # Avisar sobre as Tags migradas
     Aviso = pd.read_sql('SELECT * FROM "Reposicao".tagsreposicao_inventario t '
              'WHERE "Endereco" = '+ "'"+endereco+"'"+' and "situacaoinventario" is not null ;', conn)
@@ -295,9 +297,13 @@ def SalvarInventario(endereco):
     cursor = conn.cursor()
     cursor.execute(deleteMigradas, (endereco,))
     conn.commit()
+
+
+    salvarRegistro = 'update "Reposicao".registroinventario ' \
+                     "set situacao = 'finalizado' where endereco = %s and situacao = 'iniciado'"
+    cursor.execute(salvarRegistro, (endereco,))
+    conn.commit()
     cursor.close()
-
-
 
     data = {
         '1 - Tags Encontradas': f'{numero_linhas_afetadas} foram encontradas e inventariadas com sucesso',
