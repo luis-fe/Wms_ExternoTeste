@@ -67,9 +67,12 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         cursor.close()
         conn.close()
         return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} mudado para {endereco}!']})
+
+
     if validador == False:
         conn.close()
         return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} não exite no estoque! ']})
+    # caso ache na fila
     if validador ==3:
         query = 'insert into  "Reposicao".tagsreposicao_inventario ' \
                 '("codbarrastag","Endereco","situacaoinventario","epc","tamanho","cor","engenharia","codreduzido","descricao","numeroop","totalop","usuario","natureza") ' \
@@ -143,21 +146,23 @@ def PesquisarTagPrateleira(codbarra, endereco):
         # Procurar a tag em outras prateleiras
         query2 = pd.read_sql('select codbarrastag, "Endereco", natureza   from "Reposicao".tagsreposicao f  '
                              'where codbarrastag = ' + "'" + codbarra + "'", conn)
-        if not query2.empty:
+        if not query2.empty: #caso ache em outra prateleira
 
             conn.close()
             return 2, query2["Endereco"][0], 2, 2,2,2,2,2,2,2,2
         else:
+            # procurar na fila
             query3 = pd.read_sql('select "codbarrastag","epc", "tamanho", "cor", "engenharia" , "codreduzido",  '
                                  '"descricao" ,"numeroop", "totalop", "codnaturezaatual" from "Reposicao".filareposicaoportag f  '
                                  'where codbarrastag = %s ', conn,params=(codbarra,))
 
-            if not query3.empty:
+            if not query3.empty: #Caso ache na fila
                 conn.close()
                 return 3, query3["codbarrastag"][0],query3["epc"][0],query3["tamanho"][0],query3["cor"][0],query3["engenharia"][0],query3["codreduzido"][0], \
                     query3["descricao"][0],query3["numeroop"][0],query3["totalop"][0], query3["codnaturezaatual"][0]
 
             else:
+                # procurar
                 query4 = pd.read_sql('select "Endereco"  from "Reposicao".tagsreposicao t  '
                                      'where codbarrastag = ' + "'" + codbarra + "'", conn)
                 if not query3.empty:
