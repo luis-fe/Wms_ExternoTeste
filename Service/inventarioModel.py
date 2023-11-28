@@ -27,8 +27,6 @@ def RegistrarInventario(usuario, data, endereco):
                    , (
                    usuario, data, endereco, 'iniciado'))
 
-    # Obter o número de linhas afetadas
-    numero_linhas_afetadas = cursor.rowcount
     conn.commit()
     cursor.close()
     conn.close()
