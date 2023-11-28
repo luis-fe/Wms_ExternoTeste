@@ -14,12 +14,12 @@ def obterHoraAtual():
 def RegistrarInventario(usuario, data, endereco):
     conn = ConexaoPostgreMPL.conexao()
     # VERIFICANDO SE EXISTE CODIGO DE BARRAS DUPLICADOS NA FILA
-    inserir = 'insert into "Reposicao".registroinventario ("usuario","data","endereco")  '\
-                        ' values(%s, %s, %s) '
+    inserir = 'insert into "Reposicao".registroinventario ("usuario","data","endereco", situacao)  '\
+                        ' values(%s, %s, %s, %s) '
     cursor = conn.cursor()
     cursor.execute(inserir
                    , (
-                   usuario, data, endereco))
+                   usuario, data, endereco, 'iniciado'))
 
     # Obter o número de linhas afetadas
     numero_linhas_afetadas = cursor.rowcount
