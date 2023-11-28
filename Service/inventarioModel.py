@@ -32,7 +32,7 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     conn = ConexaoPostgreMPL.conexao()
 
     validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop, natureza   = PesquisarTagPrateleira(codbarra, endereco)
-
+    # Caso a tag estiver em inventario
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
             'set situacaoinventario  = '+"'OK', "+ \
@@ -49,6 +49,8 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         cursor.close()
         conn.close()
         return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} conferida!']})
+
+
     if validador == 11:
         query = 'update "Reposicao".tagsreposicao_inventario '\
             'set situacaoinventario  = '+"'OK', "+ \
@@ -100,10 +102,10 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     if validador == 2 and padrao == True:
         insert = 'INSERT INTO "Reposicao".tagsreposicao_inventario ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                  '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                 '"numeroop", "cor", "tamanho", "totalop", "situacaoinventario") ' \
+                 '"numeroop", "cor", "tamanho", "totalop", "situacaoinventario", natureza) ' \
                  'SELECT "usuario", "codbarrastag", "codreduzido", %s, "engenharia", ' \
                  '"DataReposicao", "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", ' \
-                 "'endereco migrado'" \
+                 "'endereco migrado', natureza" \
                  'FROM "Reposicao".tagsreposicao t ' \
                  'WHERE "codbarrastag" = %s;'
         cursor = conn.cursor()
@@ -127,6 +129,8 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
 
 def PesquisarTagPrateleira(codbarra, endereco):
     conn = ConexaoPostgreMPL.conexao()
+
+    #verificar se a tag esta na tabela de inventario
     query1 = pd.read_sql('SELECT "codbarrastag", "Endereco" from "Reposicao".tagsreposicao_inventario t '
             'where codbarrastag = '+"'"+codbarra+"'",conn )
     #enderecoNovo = query1["Endereco"][0]
@@ -136,7 +140,8 @@ def PesquisarTagPrateleira(codbarra, endereco):
         return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10,11
 
     else:
-        query2 = pd.read_sql('select codbarrastag, "Endereco"   from "Reposicao".tagsreposicao f  '
+        # Procurar a tag em outras prateleiras
+        query2 = pd.read_sql('select codbarrastag, "Endereco", natureza   from "Reposicao".tagsreposicao f  '
                              'where codbarrastag = ' + "'" + codbarra + "'", conn)
         if not query2.empty:
 
@@ -255,7 +260,7 @@ def SalvarInventario(endereco):
 
     cursor.close()
 
-
+    # inserir as tag que foram encontradas proveniente de outro lugar
     datahora = obterHoraAtual()
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
