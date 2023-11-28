@@ -31,7 +31,6 @@ def RegistrarInventario(usuario, data, endereco):
     cursor.close()
     conn.close()
 
-    return True
 
 def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     conn = ConexaoPostgreMPL.conexao()
