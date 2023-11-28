@@ -14,9 +14,15 @@ def obterHoraAtual():
 def RegistrarInventario(usuario, data, endereco):
     conn = ConexaoPostgreMPL.conexao()
     # VERIFICANDO SE EXISTE CODIGO DE BARRAS DUPLICADOS NA FILA
+    deletar = 'delete from "Reposicao".registroinventario ' \
+              " where endereco = %s and situacao = 'iniciado'"
+    cursor = conn.cursor()
+    cursor.execute(deletar
+                   , (endereco,))
+    conn.commit()
+
     inserir = 'insert into "Reposicao".registroinventario ("usuario","data","endereco", situacao)  '\
                         ' values(%s, %s, %s, %s) '
-    cursor = conn.cursor()
     cursor.execute(inserir
                    , (
                    usuario, data, endereco, 'iniciado'))
@@ -26,6 +32,7 @@ def RegistrarInventario(usuario, data, endereco):
     conn.commit()
     cursor.close()
     conn.close()
+
     return True
 
 def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
