@@ -301,8 +301,8 @@ def SalvarInventario(endereco):
     cursor = conn.cursor()
 
     salvarRegistro = 'update "Reposicao".registroinventario ' \
-                     "set situacao = 'finalizado' where endereco = %s and situacao = 'iniciado'"
-    cursor.execute(salvarRegistro, (endereco,))
+                     "set situacao = 'finalizado', datafinalizacao = %s where endereco = %s and situacao = 'iniciado'"
+    cursor.execute(salvarRegistro, (datahora,endereco,))
     conn.commit()
     cursor.close()
 
