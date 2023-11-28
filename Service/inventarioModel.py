@@ -109,8 +109,8 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
                  'SELECT "usuario", "codbarrastag", "codreduzido", %s, "engenharia", ' \
                  '"DataReposicao", "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", ' \
                  "'endereco migrado', natureza" \
-                 'FROM "Reposicao".tagsreposicao t ' \
-                 'WHERE "codbarrastag" = %s;'
+                 ' FROM "Reposicao".tagsreposicao t ' \
+                 ' WHERE "codbarrastag" = %s;'
         cursor = conn.cursor()
         cursor.execute(insert, (endereco, codbarra))
         conn.commit()
