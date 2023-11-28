@@ -297,7 +297,8 @@ def SalvarInventario(endereco):
     cursor = conn.cursor()
     cursor.execute(deleteMigradas, (endereco,))
     conn.commit()
-
+    cursor.close()
+    cursor = conn.cursor()
 
     salvarRegistro = 'update "Reposicao".registroinventario ' \
                      "set situacao = 'finalizado' where endereco = %s and situacao = 'iniciado'"
