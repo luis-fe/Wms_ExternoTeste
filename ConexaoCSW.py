@@ -8,7 +8,7 @@ def Conexao():
     'com.intersys.jdbc.CacheDriver',
     'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
     {'user': '_system', 'password': 'ccscache'},
-    'CacheDB.jar'
+    'CacheDB_root.jar'
     )
         return conn
   #  except:
