@@ -1,6 +1,7 @@
 import jaydebeapi
 import pandas as pd
 
+
 # Função de conectar com o CSW, com 2 opções de conexao:
 def Conexao():
    # try:
