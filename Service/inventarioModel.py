@@ -327,7 +327,7 @@ def ExcluirTagsDuplicadas(endereco):
     delete = 'delete  from "Reposicao"."Reposicao".tagsreposicao t ' \
              ' where t.codbarrastag in (' \
              ' select codbarrastag from "Reposicao"."Reposicao".tagsreposicao_inventario ti ' \
-             ' where "Endereco" = %s and ti.situacaoinventario is null )'
+             ' where "Endereco" = %s and ti.situacaoinventario is not null )'
 
     cursor = conn.cursor()
     cursor.execute(delete, (endereco,))
