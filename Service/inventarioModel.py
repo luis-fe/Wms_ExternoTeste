@@ -349,13 +349,13 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql2 = sql2[sql2['ocorrencia'] ==1]
 
 
-    sql2['finalizado'] = sql2.apply(lambda row: 1 if row['situacao'] == 'finalizado' else 0 , axis=1)
 
 
     sql= pd.merge(sql1, sql2, on='codendereco', how='left')
     sql.fillna('-', inplace=True)
 
 
+    sql['finalizado'] = sql.apply(lambda row: 1 if row['situacao'] == 'finalizado' else 0 , axis=1)
 
     sql = sql.groupby(['rua']).agg({
             'rua':'first',
