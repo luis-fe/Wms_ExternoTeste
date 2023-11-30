@@ -309,7 +309,7 @@ def SalvarInventario(endereco):
     cursor.execute(salvarRegistro, (datahora,endereco,))
     conn.commit()
     cursor.close()
-
+    ExcluirTagsDuplicadas(endereco)
     data = {
         '1 - Tags Encontradas': f'{numero_linhas_afetadas} foram encontradas e inventariadas com sucesso',
         '2 - Tags Migradas de endereço': 
@@ -319,3 +319,17 @@ def SalvarInventario(endereco):
     }
 
     return [data]
+
+#Funcao para excluir eventuais tags que ao ser inventaria ainda conste na tabela reposicao
+def ExcluirTagsDuplicadas(endereco):
+    conn = ConexaoPostgreMPL.conexao()
+
+    delete = 'delete  from "Reposicao"."Reposicao".tagsreposicao t ' \
+             ' where t.codbarrastag in (' \
+             ' select codbarrastag from "Reposicao"."Reposicao".tagsreposicao_inventario ti ' \
+             ' where "Endereco" = %s and ti.situacaoinventario is null )'
+
+    cursor = conn.cursor()
+    cursor.execute(delete, (endereco,))
+    conn.commit()
+    cursor.close()
