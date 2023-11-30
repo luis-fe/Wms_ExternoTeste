@@ -376,6 +376,12 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
     sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
+    totalPrateleiras = sql['Qtd Prat.'].sum()
+    data = {
+        '1 - Total Prateleiras': f'{totalPrateleiras} ',
+        '5- Detalhamento Ruas:': sql.to_dict(orient='records')
+    }
+    return [data]
 
-    return sql
+
 
