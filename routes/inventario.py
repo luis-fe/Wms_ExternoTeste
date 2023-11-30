@@ -70,6 +70,7 @@ def get_FinalizarInventario():
     endereco = datas['endereço']
 
     Endereco_det = inventarioModel.SalvarInventario(endereco)
+    inventarioModel.ExcluirTagsDuplicadas(endereco)
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns

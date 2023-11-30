@@ -309,7 +309,6 @@ def SalvarInventario(endereco):
     cursor.execute(salvarRegistro, (datahora,endereco,))
     conn.commit()
     cursor.close()
-    ExcluirTagsDuplicadas(endereco)
     data = {
         '1 - Tags Encontradas': f'{numero_linhas_afetadas} foram encontradas e inventariadas com sucesso',
         '2 - Tags Migradas de endereço': 
