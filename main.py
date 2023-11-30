@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory
-#from flask_cors import CORS
-#import pandas as pd
+from flask_cors import CORS
+import pandas as pd
 import os
 from functools import wraps
 import PediosApontamento
@@ -17,7 +17,7 @@ app.register_blueprint(routes_blueprint)
 #Aqui registo todas as rotas , url's DO PROJETO, para acessar bastar ir na pasta "routes",
 #duvidas o contato (62)99351-42-49 ou acessar a documentacao do projeto em:
 
-#CORS(app)
+CORS(app)
 
 # Decorator para verificar o token fixo
 def token_required(f):
