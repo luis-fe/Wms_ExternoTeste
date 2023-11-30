@@ -332,3 +332,19 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.execute(delete, (endereco,))
     conn.commit()
     cursor.close()
+def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
+    conn = ConexaoPostgreMPL.conexao()
+
+    sql = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
+                      'where c.natureza = %s '
+                      'order by codendereco ',conn,params=(natureza,))
+
+    sql['codendereco'] = sql['rua'].str.split('-').str[0]
+
+
+    sql = sql.groupby(['rua']).agg({
+        'codendereco': 'count'
+    })
+
+    return sql
+
