@@ -340,10 +340,13 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     if natureza == '':
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'order by codendereco ',conn)
+
     else:
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
+        TotalPcs['natureza'] = TotalPcs['natureza'].astype(str)
+        TotalPcs = TotalPcs[TotalPcs['natureza'] == natureza]
 
 
 
