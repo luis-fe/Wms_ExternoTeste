@@ -335,7 +335,7 @@ def ExcluirTagsDuplicadas(endereco):
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     conn = ConexaoPostgreMPL.conexao()
     natureza = str(natureza)
-    TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as totalReposicao from "Reposicao"."Reposicao".tagsreposicao t '
+    TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
     if natureza == '':
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
