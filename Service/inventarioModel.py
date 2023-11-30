@@ -354,11 +354,12 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql.fillna('-', inplace=True)
 
 
-    '''
-        sql = sql.groupby(['rua']).agg({
+
+    sql = sql.groupby(['rua']).agg({
+            'rua':'first',
             'codendereco': 'count'
         })
-    '''
+
 
     return sql
 
