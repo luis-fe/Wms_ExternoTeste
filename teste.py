@@ -1,17 +1,17 @@
+import psutil
 import socket
 
+def obter_ip_rede():
+    # Obtém todas as interfaces de rede
+    interfaces = psutil.net_if_addrs()
 
-def obter_ip():
-    # Obtém o nome do host da máquina
-    host_name = socket.gethostname()
+    # Itera sobre as interfaces para encontrar a primeira interface com um endereço IPv4
+    for interface, info in interfaces.items():
+        for addr in info:
+            if addr.family == socket.AF_INET:
+                return addr.address
 
-    # Obtém o endereço IP associado ao nome do host
-    endereco_ip = socket.gethostbyname(host_name)
+# Chamando a função para obter o endereço IP da rede
+ip_rede = obter_ip_rede()
 
-    return endereco_ip
-
-
-# Chamando a função para obter o endereço IP
-ip_da_maquina = obter_ip()
-
-print(f"O endereço IP da máquina é: {ip_da_maquina}")
+print(f"O endereço IP da rede local é: {ip_rede}")
