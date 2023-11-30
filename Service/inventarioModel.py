@@ -359,7 +359,9 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
             'rua':'first',
             'codendereco': 'count'
         })
-
+    sql.rename(
+        columns={'codendereco': 'Qtd Prateleiras'},
+        inplace=True)
 
     return sql
 
