@@ -339,7 +339,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
 
-    sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
+    #sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
     sql2 = pd.read_sql('select * from ('
                        'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
