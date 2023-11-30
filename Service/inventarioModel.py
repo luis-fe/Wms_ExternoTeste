@@ -334,7 +334,7 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.close()
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     conn = ConexaoPostgreMPL.conexao()
-
+    natureza = str(natureza)
     sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
