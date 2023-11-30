@@ -358,5 +358,5 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     })
 
 
-    return sql
+    return sql2
 
