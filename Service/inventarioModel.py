@@ -381,7 +381,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
         '1 - Total Prateleiras': f'{totalPrateleiras} ',
         '5- Detalhamento Ruas:': sql.to_dict(orient='records')
     }
-    return [data]
+    return pd.DataFrame([data])
 
 
 
