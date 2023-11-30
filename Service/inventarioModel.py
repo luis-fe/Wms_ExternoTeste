@@ -341,8 +341,9 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
 
     sql['rua'] = sql['codendereco'].str.split('-').str[0]
 
-    sql2 = pd.read_sql('select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r '
-                       ' where data >= %s and data <= %s',conn,params=(dataInicio,dataFim,))
+    sql2 = pd.read_sql('select * from ('
+                       'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
+                       ' where df.datainicio >= %s and df.datainicio <= %s',conn,params=(dataInicio,dataFim,))
 
     sql2['ocorrencias'] = sql2['codendereco'].cumsum()
 
