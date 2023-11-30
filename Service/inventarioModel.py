@@ -341,10 +341,21 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
 
     sql['codendereco'] = sql['rua'].str.split('-').str[0]
 
+    sql2 = pd.read_sql('select usuario , "data"::date as dataInicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r '
+                       'where datainicio >= %s and datainicio <= %s',conn,params=(dataInicio,dataFim,))
 
+    sql2['ocorrencias'] = sql2['codendereco'].cumsum()
+
+    sql2 = sql[sql2['ocorrencias'] ==1]
+
+    sql= pd.merge(sql, sql2, on='codendereco', how='left')
+
+    sql= sql[sql['situacao'] == 'finalizado']
     sql = sql.groupby(['rua']).agg({
-        'codendereco': 'count'
+        'codendereco': 'count',
+        'situacao':'count'
     })
+
 
     return sql
 
