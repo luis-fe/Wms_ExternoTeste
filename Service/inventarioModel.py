@@ -341,7 +341,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
                                'where "Endereco" in ( '
                                'select endereco from ('
                                'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
-                               'where df.datainicio >= %s and df.datainicio <= %s )', conn,
+                               ' where df.datainicio >= %s and df.datainicio <= %s )', conn,
                                params=(dataInicio, dataFim,))
     if natureza == '':
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
