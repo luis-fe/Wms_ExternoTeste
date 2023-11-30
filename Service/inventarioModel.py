@@ -345,8 +345,8 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
                        'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
                        ' where df.datainicio >= %s and df.datainicio <= %s ',conn,params=(dataInicio,dataFim,))
 
-   # sql2['ocorrencias'] = sql2['codendereco'].cumsum()
-    sql2['ocorrencias'] = sql2.groupby(['codendereco']).cumsum()
+    sql2['ocorrencia'] = sql2.groupby('codendereco').cumcount() + 1
+
 
     #sql2 = sql2[sql2['ocorrencias'] ==1]
 
