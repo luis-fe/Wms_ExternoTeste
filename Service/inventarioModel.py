@@ -335,7 +335,8 @@ def ExcluirTagsDuplicadas(endereco):
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     conn = ConexaoPostgreMPL.conexao()
     natureza = str(natureza)
-
+    TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as totalReposicao from "Reposicao"."Reposicao".tagsreposicao t '
+                           'group by natureza ',conn)
     if natureza == '':
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'order by codendereco ',conn)
@@ -343,6 +344,10 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
+
+
+
+    TotalPecas = TotalPcs['totalReposicao'].sum()
 
     sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
@@ -380,8 +385,9 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     totalPrateleiras = sql['Qtd Prat.'].sum()
 
     data = {
-        '1 - Total Prateleiras': f'{totalPrateleiras} ',
-        '2- Prateleiras Inventariadas':f'{Prateleiras_inv}',
+        '3 - Total Prateleiras': f'{totalPrateleiras} ',
+        '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
+        '1: Total de Peças':f'{TotalPcs}',
         '5- Detalhamento Ruas:': sql.to_dict(orient='records')
     }
     return pd.DataFrame([data])
