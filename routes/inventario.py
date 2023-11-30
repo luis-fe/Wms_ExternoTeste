@@ -89,11 +89,11 @@ def get_RelatorioInventario():
     # Obtém os dados do corpo da requisição (JSON)
     natureza = request.args.get('natureza', '5')
     empresa = request.args.get('empresa', '1')
-    dataincio =request.args.get('dataincio')
+    datainicio =request.args.get('datainicio')
     datafinal = request.args.get('datafinal')
 
 
-    Endereco_det = inventarioModel.RelatorioInventario(dataincio,datafinal,natureza,empresa)
+    Endereco_det = inventarioModel.RelatorioInventario(datainicio,datafinal,natureza,empresa)
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
