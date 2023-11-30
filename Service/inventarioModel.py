@@ -338,7 +338,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
     inventariado = pd.read_sql('select "Endereco", natureza  from "Reposicao"."Reposicao".tagsreposicao t '
-                               'where "Endereco" in ( '
+                               'where "codendereco" in ( '
                                'select endereco from ('
                                'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
                                ' where df.datainicio >= %s and df.datainicio <= %s )', conn,
