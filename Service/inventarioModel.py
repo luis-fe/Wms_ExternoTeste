@@ -337,9 +337,16 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     natureza = str(natureza)
     TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
+    inventariado = pd.read_sql('select "Endereco", natureza  from "Reposicao"."Reposicao".tagsreposicao t '
+                               'where "Endereco" in ( '
+                               'select endereco from ('
+                               'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
+                               'where df.datainicio >= %s and df.datainicio <= %s )', conn,
+                               params=(dataInicio, dataFim,))
     if natureza == '':
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'order by codendereco ',conn)
+
 
     else:
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
@@ -351,12 +358,15 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
 
 
     TotalPecas = TotalPcs['totalReposicao'].sum()
+    invetariadoPecas = inventariado['Endereco'].count()
 
     sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
     sql2 = pd.read_sql('select * from ('
                        'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
                        ' where df.datainicio >= %s and df.datainicio <= %s ',conn,params=(dataInicio,dataFim,))
+
+
 
     sql2['ocorrencia'] = sql2.groupby('codendereco').cumcount() + 1
     sql2 = sql2[sql2['ocorrencia'] ==1]
@@ -391,6 +401,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
         '3 - Total Prateleiras': f'{totalPrateleiras} ',
         '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
         '1: Total de Peças':f'{TotalPecas}',
+        '2- Pçs Inventariadas':f'{invetariadoPecas}',
         '5- Detalhamento Ruas:': sql.to_dict(orient='records')
     }
     return pd.DataFrame([data])
