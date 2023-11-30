@@ -348,7 +348,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql2['ocorrencia'] = sql2.groupby('codendereco').cumcount() + 1
 
 
-    sql2 = sql2[sql2['ocorrencias'] ==1]
+    sql2 = sql2[sql2['ocorrencia'] ==1]
 
     sql= pd.merge(sql, sql2, on='codendereco', how='left')
 
