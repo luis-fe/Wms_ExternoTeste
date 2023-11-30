@@ -356,8 +356,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
 
 
     sql = sql.groupby(['rua']).agg({
-        'codendereco': 'count',
-        'situacao':'count'
+        'codendereco': 'count'
     })
 
 
