@@ -366,7 +366,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql.rename(
         columns={'codendereco': 'Qtd Prat.','finalizado':'status','rua':'Rua'},
         inplace=True)
-    sql['% Realizado'] = sql['status']/sql['Qtd Prateleiras']
+    sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
     sql['% Realizado'] = sql['% Realizado'].round(2) * 100
     sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prateleiras'].astype(str)
     sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
