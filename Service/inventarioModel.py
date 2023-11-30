@@ -346,6 +346,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
                        ' where df.datainicio >= %s and df.datainicio <= %s ',conn,params=(dataInicio,dataFim,))
 
    # sql2['ocorrencias'] = sql2['codendereco'].cumsum()
+    sql2['ocorrencias'] = sql2.groupby(['codendereco'])['codendereco'].cumsum()
 
     #sql2 = sql2[sql2['ocorrencias'] ==1]
 
