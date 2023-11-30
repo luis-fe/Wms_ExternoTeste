@@ -335,11 +335,11 @@ def ExcluirTagsDuplicadas(endereco):
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     conn = ConexaoPostgreMPL.conexao()
 
-    sql = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
+    sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
 
-    sql['rua'] = sql['codendereco'].str.split('-').str[0]
+    sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
     sql2 = pd.read_sql('select * from ('
                        'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
@@ -350,7 +350,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
 
     sql2 = sql2[sql2['ocorrencia'] ==1]
 
-    sql= pd.merge(sql, sql2, on='codendereco', how='left')
+    sql= pd.merge(sql1, sql2, on='codendereco', how='left')
 
 #    sql= sql[sql['situacao'] == 'finalizado']
 
@@ -360,5 +360,5 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
    # })
 
 
-    return sql2
+    return sql1
 
