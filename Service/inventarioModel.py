@@ -369,7 +369,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql['% Realizado'] = sql['status']/sql['Qtd Prateleiras']
     sql['% Realizado'] = sql['% Realizado'].round(2) * 100
     sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prateleiras'].astype(str)
-
+    sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
 
     return sql
