@@ -362,9 +362,12 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
             'codendereco': 'count',
         'finalizado':'sum'
         })
+
     sql.rename(
-        columns={'codendereco': 'Qtd Prateleiras'},
+        columns={'codendereco': 'Qtd Prateleiras','finalizado':'status'},
         inplace=True)
+
+    sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prateleiras'].astype(str)
 
     return sql
 
