@@ -87,7 +87,7 @@ def get_FinalizarInventario():
 @token_required
 def get_RelatorioInventario():
     # Obtém os dados do corpo da requisição (JSON)
-    natureza = request.args.get('natureza', '5')
+    natureza = request.args.get('natureza', '')
     empresa = request.args.get('empresa', '1')
     datainicio =request.args.get('datainicio')
     datafinal = request.args.get('datafinal')
