@@ -371,14 +371,17 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
     sql.rename(
         columns={'codendereco': 'Qtd Prat.','finalizado':'status','rua':'Rua'},
         inplace=True)
+    Prateleiras_inv = sql['status'].sum()
     sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
     sql['% Realizado'] = sql['% Realizado'].round(2) * 100
     sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
     sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
     totalPrateleiras = sql['Qtd Prat.'].sum()
+
     data = {
         '1 - Total Prateleiras': f'{totalPrateleiras} ',
+        '2- Prateleiras Inventariadas':f'{Prateleiras_inv}',
         '5- Detalhamento Ruas:': sql.to_dict(orient='records')
     }
     return pd.DataFrame([data])
