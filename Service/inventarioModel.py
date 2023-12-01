@@ -389,8 +389,12 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
     else: # Caso a API seja NORMAL : sem emissao de relatorio:
 
-
+        # Obtendo o total de PEÇAS e formatando o numero para tornar apresentavel
         TotalPecas = TotalPcs['totalReposicao'].sum()
+        TotalPecas = "{:,.0f}".format(TotalPecas)
+        TotalPecas = str(TotalPecas).replace(',', '.')
+
+
         invetariadoPecas = inventariado['Endereco'].count()
 
         sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
