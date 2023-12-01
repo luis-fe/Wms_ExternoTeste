@@ -334,7 +334,8 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.close()
 
 
-    ## FUNCAO PARA EMITIR O RELATÓRIO DE INVENTARIO REALIZADO ENTRE ALGUM PERÍODO
+######### FUNCAO PARA EMITIR O RELATÓRIO DE INVENTARIO REALIZADO ENTRE ALGUM PERÍODO
+
     # Parametros: 1: Data Inicio do Inventario
     # Parametro: 2: DataFinal do Inventario
     # Parametro: 3: Natureza a ser analizada
@@ -385,7 +386,8 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
     if emtirRelatorio == True: # Caso a API solicite um relatorio GERAL
         return inventariado
-    else:
+
+    else: # Caso a API seja NORMAL : sem emissao de relatorio:
 
 
         TotalPecas = TotalPcs['totalReposicao'].sum()
@@ -427,6 +429,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
         totalPrateleiras = sql['Qtd Prat.'].sum()
+        totalPrateleiras = "{:,.0f}".format(totalPrateleiras)
 
 
         data = {
