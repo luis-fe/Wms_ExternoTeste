@@ -444,11 +444,12 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
         def format_with_separator2(value):
             return locale.format('%0.0f', value, grouping=True)
-        sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2)
+
 
 
         # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
+        sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2)
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
         totalEnderecos = str(totalEnderecos).replace(',','.')
 
