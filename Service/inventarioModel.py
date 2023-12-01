@@ -394,8 +394,10 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         TotalPecas = "{:,.0f}".format(TotalPecas)
         TotalPecas = str(TotalPecas).replace(',', '.')
 
-
+        # Obtendo o total de PEÇAS_INVENTARIADAS e formatando o numero para tornar apresentavel
         invetariadoPecas = inventariado['Endereco'].count()
+        invetariadoPecas = "{:,.0f}".format(invetariadoPecas)
+        invetariadoPecas = str(invetariadoPecas).replace(',', '.')
 
         sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
