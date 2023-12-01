@@ -520,7 +520,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
     INVENTARIO = pd.read_sql('select codbarrastag from "Reposicao".tagsreposicao_inventario t '
                             'where t.natureza = %s ', conn2,params=(natureza,))
-    INVENTARIO['situacao'] = 'reposicao'
+    INVENTARIO['situacao'] = 'inventario'
 
 
 
