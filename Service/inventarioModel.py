@@ -425,7 +425,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
         sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
         sql['% Realizado'] = sql['% Realizado'].round(2) * 100
-        sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
+
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
         # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
@@ -434,14 +434,16 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         totalEnderecos = str(totalEnderecos).replace(',','.')
 
         # Obtendo o total de endereços INVENTARIADOS e formatando o numero para tornar apresentavel
-        Prateleiras_inv = sql['status'].sum()
-        Prateleiras_inv = "{:,.0f}".format(Prateleiras_inv)
-        Prateleiras_inv = str(Prateleiras_inv).replace(',', '.')
+        Enderecos_inv = sql['status'].sum()
+        Enderecos_inv = "{:,.0f}".format(Enderecos_inv)
+        Enderecos_inv = str(Enderecos_inv).replace(',', '.')
+
+        sql['status'] = sql['status'].astype(str) + '/' + sql['Qtd Prat.'].astype(str)
 
 
         data = {
             '3 - Total Enderecos': f'{totalEnderecos} ',
-            '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
+            '4- Enderecos Inventariados':f'{Enderecos_inv}',
             '1: Total de Peças':f'{TotalPecas}',
             '2- Pçs Inventariadas':f'{invetariadoPecas}',
             '5- Detalhamento Ruas:': sql.to_dict(orient='records')
