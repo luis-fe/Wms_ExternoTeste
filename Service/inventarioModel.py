@@ -501,10 +501,22 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     # Estabelece uma Conexao com o CSW
     conn = ConexaoCSW.Conexao()
 
-    consultar = pd.read_sql('SELECT t.codBarrasTag  FROM Tcr.TagBarrasProduto t '
+    consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag FROM Tcr.TagBarrasProduto t '
                             'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa+" and  codNaturezaAtual = "+natureza ,conn)
 
     conn.close()
+
+
+    # Fazer a consulta comparativa com as tags do Wms
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    FILA = pd.read_sql('select codbarrastag from "Reposicao".filareposicaoportag '
+                       'where codempresa = %s and codnatureza = %s ',conn2,params=(empresa,natureza,))
+    FILA['situacao'] = 'na fila'
+
+    consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='left')
+    consultar.fillna('-', inplace=True)
+
     return consultar
 
 
