@@ -514,10 +514,10 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
                        'where codempresa = %s and codnaturezaatual = %s ',conn2,params=(empresa,natureza,))
     FILA['situacao'] = 'na fila'
 
-    REPOSICAO = pd.read_sql('select codbarrastag from "Reposicao".tagsreposicao t '
+    REPOSICAO = pd.read_sql('select codbarrastag, codusuario from "Reposicao".tagsreposicao t '
                             'where t.natureza = %s ', conn2,params=(natureza,))
     REPOSICAO['situacao'] = 'reposicao'
-    INVENTARIO = pd.read_sql('select codbarrastag from "Reposicao".tagsreposicao_inventario t '
+    INVENTARIO = pd.read_sql('select codbarrastag, codusuario from "Reposicao".tagsreposicao_inventario t '
                             'where t.natureza = %s ', conn2,params=(natureza,))
     INVENTARIO['situacao'] = 'inventario'
 
