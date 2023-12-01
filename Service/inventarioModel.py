@@ -422,15 +422,21 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         sql.rename(
             columns={'codendereco': 'Qtd Prat.','finalizado':'status','rua':'Rua'},
             inplace=True)
-        Prateleiras_inv = sql['status'].sum()
+
         sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
         sql['% Realizado'] = sql['% Realizado'].round(2) * 100
         sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
+        # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
         totalEnderecos = str(totalEnderecos).replace(',','.')
+
+        # Obtendo o total de endereços INVENTARIADOS e formatando o numero para tornar apresentavel
+        Prateleiras_inv = sql['status'].sum()
+        Prateleiras_inv = "{:,.0f}".format(Prateleiras_inv)
+        Prateleiras_inv = str(Prateleiras_inv).replace(',', '.')
 
 
         data = {
