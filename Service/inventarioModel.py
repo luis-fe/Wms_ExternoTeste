@@ -428,12 +428,13 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
-        totalPrateleiras = sql['Qtd Prat.'].sum()
-        totalPrateleiras = "{:,.0f}".format(totalPrateleiras)
+        totalEnderecos = sql['Qtd Prat.'].sum()
+        totalEnderecos = "{:,.0f}".format(totalEnderecos)
+        totalEnderecos = totalEnderecos.replace(',','.')
 
 
         data = {
-            '3 - Total Prateleiras': f'{totalPrateleiras} ',
+            '3 - Total Enderecos': f'{totalEnderecos} ',
             '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
             '1: Total de Peças':f'{TotalPecas}',
             '2- Pçs Inventariadas':f'{invetariadoPecas}',
