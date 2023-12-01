@@ -449,6 +449,11 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         Enderecos_inv = "{:,.0f}".format(Enderecos_inv)
         Enderecos_inv = str(Enderecos_inv).replace(',', '.')
 
+        # Obtendo o % de peças  Inventariadas e formatando o numero para tornar apresentavel
+        PerInventarioPecas = (inventariado['Endereco'].count() / TotalPcs['totalReposicao'].sum())*100
+        PerInventarioPecas = "{:,.0f}".format(PerInventarioPecas)
+        PerInventarioPecas = str(PerInventarioPecas).replace(',', '.')+'%'
+
         sql['status'] = sql['status'].astype(str) + '/' + sql['Qtd Prat.'].astype(str)
 
 
@@ -458,6 +463,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
             '1: Total de Peças':f'{TotalPecas}',
             '2- Pçs Inventariadas':f'{invetariadoPecas}',
             '2.1- Status Getal Inventario': f'{statusGeral}',
+            '2.2- % Pçs Inventariadas': f'{PerInventarioPecas}',
             '5- Detalhamento Ruas:': sql.to_dict(orient='records')
         }
         return pd.DataFrame([data])
