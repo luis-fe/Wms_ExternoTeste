@@ -359,19 +359,21 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         # 4 UNINDO AS CONSULTAS PARA FORMAR O TOTALPEÇAS
     TotalPcs = pd.concat([TotalPcs, TotalPcs_EmINVENTARIO, TotalPcs_EmFila],ignore_index=True)
 
-
+    ## Obtendo os Enderecos que foram inventariados no periodo
     inventariado = pd.read_sql('select "Endereco", natureza, codbarrastag, codreduzido  from "Reposicao"."Reposicao".tagsreposicao t '
                                'where "Endereco" in ( '
                                'select codendereco from ('
                                'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
                                ' where df.datainicio >= %s and df.datainicio <= %s )', conn,
                                params=(dataInicio, dataFim,))
-    if natureza == '':
+
+    ## O codigo IF abaixo é para validar as NATUREZAS:
+    if natureza == '': # Caso a natureza for ocultada na API - TRAZ TODAS AS NATUREZAS
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'order by codendereco ',conn)
 
 
-    else:
+    else: # Caso a API venha com alguma natureza no parametro
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'where c.natureza = %s '
                       'order by codendereco ',conn,params=(natureza,))
@@ -379,7 +381,9 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         TotalPcs = TotalPcs[TotalPcs['natureza'] == natureza]
         inventariado = inventariado[inventariado['natureza']==natureza]
 
-    if emtirRelatorio == True:
+
+
+    if emtirRelatorio == True: # Caso a API solicite um relatorio GERAL
         return inventariado
     else:
 
@@ -423,6 +427,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
         totalPrateleiras = sql['Qtd Prat.'].sum()
+
 
         data = {
             '3 - Total Prateleiras': f'{totalPrateleiras} ',
