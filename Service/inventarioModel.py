@@ -332,12 +332,12 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.execute(delete, (endereco,))
     conn.commit()
     cursor.close()
-def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
+def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
     conn = ConexaoPostgreMPL.conexao()
     natureza = str(natureza)
     TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
-    inventariado = pd.read_sql('select "Endereco", natureza  from "Reposicao"."Reposicao".tagsreposicao t '
+    inventariado = pd.read_sql('select "Endereco", natureza, codbarrastag, reduzido  from "Reposicao"."Reposicao".tagsreposicao t '
                                'where "Endereco" in ( '
                                'select codendereco from ('
                                'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
@@ -354,57 +354,61 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa):
                       'order by codendereco ',conn,params=(natureza,))
         TotalPcs['natureza'] = TotalPcs['natureza'].astype(str)
         TotalPcs = TotalPcs[TotalPcs['natureza'] == natureza]
+        inventariado = inventariado[inventariado['natureza']==natureza]
+
+    if emtirRelatorio == True:
+        return inventariado
+    else:
+
+
+        TotalPecas = TotalPcs['totalReposicao'].sum()
+        invetariadoPecas = inventariado['Endereco'].count()
+
+        sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
+
+        sql2 = pd.read_sql('select * from ('
+                           'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
+                           ' where df.datainicio >= %s and df.datainicio <= %s ',conn,params=(dataInicio,dataFim,))
 
 
 
-    TotalPecas = TotalPcs['totalReposicao'].sum()
-    invetariadoPecas = inventariado['Endereco'].count()
-
-    sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
-
-    sql2 = pd.read_sql('select * from ('
-                       'select usuario , "data"::date as datainicio ,endereco as  codendereco ,situacao ,"datafinalizacao"::date as datafinalizacao  from "Reposicao"."Reposicao".registroinventario r ) as df'
-                       ' where df.datainicio >= %s and df.datainicio <= %s ',conn,params=(dataInicio,dataFim,))
-
-
-
-    sql2['ocorrencia'] = sql2.groupby('codendereco').cumcount() + 1
-    sql2 = sql2[sql2['ocorrencia'] ==1]
+        sql2['ocorrencia'] = sql2.groupby('codendereco').cumcount() + 1
+        sql2 = sql2[sql2['ocorrencia'] ==1]
 
 
 
 
-    sql= pd.merge(sql1, sql2, on='codendereco', how='left')
-    sql.fillna('-', inplace=True)
+        sql= pd.merge(sql1, sql2, on='codendereco', how='left')
+        sql.fillna('-', inplace=True)
 
 
-    sql['finalizado'] = sql.apply(lambda row: 1 if row['situacao'] == 'finalizado' else 0 , axis=1)
+        sql['finalizado'] = sql.apply(lambda row: 1 if row['situacao'] == 'finalizado' else 0 , axis=1)
 
-    sql = sql.groupby(['rua']).agg({
-            'rua':'first',
-            'codendereco': 'count',
-        'finalizado':'sum'
-        })
+        sql = sql.groupby(['rua']).agg({
+                'rua':'first',
+                'codendereco': 'count',
+            'finalizado':'sum'
+            })
 
-    sql.rename(
-        columns={'codendereco': 'Qtd Prat.','finalizado':'status','rua':'Rua'},
-        inplace=True)
-    Prateleiras_inv = sql['status'].sum()
-    sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
-    sql['% Realizado'] = sql['% Realizado'].round(2) * 100
-    sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
-    sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
+        sql.rename(
+            columns={'codendereco': 'Qtd Prat.','finalizado':'status','rua':'Rua'},
+            inplace=True)
+        Prateleiras_inv = sql['status'].sum()
+        sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
+        sql['% Realizado'] = sql['% Realizado'].round(2) * 100
+        sql['status'] = sql['status'].astype(str)+'/'+sql['Qtd Prat.'].astype(str)
+        sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
 
-    totalPrateleiras = sql['Qtd Prat.'].sum()
+        totalPrateleiras = sql['Qtd Prat.'].sum()
 
-    data = {
-        '3 - Total Prateleiras': f'{totalPrateleiras} ',
-        '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
-        '1: Total de Peças':f'{TotalPecas}',
-        '2- Pçs Inventariadas':f'{invetariadoPecas}',
-        '5- Detalhamento Ruas:': sql.to_dict(orient='records')
-    }
-    return pd.DataFrame([data])
+        data = {
+            '3 - Total Prateleiras': f'{totalPrateleiras} ',
+            '4- Prateleiras Inventariadas':f'{Prateleiras_inv}',
+            '1: Total de Peças':f'{TotalPecas}',
+            '2- Pçs Inventariadas':f'{invetariadoPecas}',
+            '5- Detalhamento Ruas:': sql.to_dict(orient='records')
+        }
+        return pd.DataFrame([data])
 
 
 
