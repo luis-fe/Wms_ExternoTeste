@@ -517,7 +517,6 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     REPOSICAO = pd.read_sql('select codbarrastag from "Reposicao".tagsreposicao t '
                             'where t.natureza = %s ', conn2,params=(natureza,))
     REPOSICAO['situacao'] = 'reposicao'
-
     INVENTARIO = pd.read_sql('select codbarrastag from "Reposicao".tagsreposicao_inventario t '
                             'where t.natureza = %s ', conn2,params=(natureza,))
     INVENTARIO['situacao'] = 'inventario'
@@ -528,10 +527,11 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
 
 
-    consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='left')
+    consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='right')
     consultar.fillna('-', inplace=True)
 
     return consultar
+
 
 
 
