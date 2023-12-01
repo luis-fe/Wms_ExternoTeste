@@ -389,6 +389,8 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
     else: # Caso a API seja NORMAL : sem emissao de relatorio:
 
+
+
         # Obtendo o total de PEÇAS e formatando o numero para tornar apresentavel
         TotalPecas = TotalPcs['totalReposicao'].sum()
         TotalPecas = "{:,.0f}".format(TotalPecas)
@@ -398,6 +400,9 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         invetariadoPecas = inventariado['Endereco'].count()
         invetariadoPecas = "{:,.0f}".format(invetariadoPecas)
         invetariadoPecas = str(invetariadoPecas).replace(',', '.')
+
+        #STATUS de peças Inventariadas:
+        statusGeral = invetariadoPecas+'/'+TotalPecas
 
         sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
 
@@ -452,6 +457,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
             '4- Enderecos Inventariados':f'{Enderecos_inv}',
             '1: Total de Peças':f'{TotalPecas}',
             '2- Pçs Inventariadas':f'{invetariadoPecas}',
+            '2.1- Status Getal Inventario': f'{statusGeral}',
             '5- Detalhamento Ruas:': sql.to_dict(orient='records')
         }
         return pd.DataFrame([data])
