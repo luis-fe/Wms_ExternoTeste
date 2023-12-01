@@ -110,3 +110,26 @@ def get_RelatorioInventario():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+                   ##LimparTagsSaidaForaWms(situacao, empresa, natureza):
+@inventario_routes.route('/api/LimparTagsSaidaForaWms', methods=['GET'])
+@token_required
+def LimparTagsSaidaForaWms():
+    # Obtém os dados do corpo da requisição (JSON)
+    natureza = request.args.get('natureza', '')
+    empresa = request.args.get('empresa', '1')
+    situacao = request.args.get('situacao', '1')
+
+
+    Endereco_det = inventarioModel.LimparTagsSaidaForaWms(situacao,empresa,natureza)
+
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)

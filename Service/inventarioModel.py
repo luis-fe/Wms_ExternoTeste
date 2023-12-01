@@ -1,5 +1,7 @@
 import pytz
 import locale
+
+import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 import datetime
@@ -450,6 +452,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
         sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2)
+
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
         totalEnderecos = str(totalEnderecos).replace(',','.')
 
@@ -476,6 +479,39 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
             '5- Detalhamento Ruas:': sql.to_dict(orient='records')
         }
         return pd.DataFrame([data])
+
+### FUNCAO PARA LIMPAR AS TAGS DO ESTOQUE
+
+def LimparTagsSaidaForaWms(situacao, empresa, natureza):
+
+
+    # Tratando a situacao da tag para acrescentar na consulta SQL
+    if situacao == '3' or situacao == '8':
+        situacao = '('+"'"+situacao+"'"+')'
+
+    elif situacao == '3,8':
+        situacao = "('3','8')"
+    else:
+        situacao = "('3','8')"
+
+    empresa = "'"+empresa+"'"
+    natureza = "'"+natureza+"'"
+
+
+    # Estabelece uma Conexao com o CSW
+    conn = ConexaoCSW.Conexao()
+
+    consultar = pd.read_sql('SELECT t.codBarrasTag  FROM Tcr.TagBarrasProduto t '
+                            'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa+" and  codNaturezaAtual = "+natureza ,conn)
+
+    conn.close()
+    return consultar
+
+
+
+
+
+
 
 
 
