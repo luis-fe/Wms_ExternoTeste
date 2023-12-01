@@ -503,7 +503,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
     consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag FROM Tcr.TagBarrasProduto t '
                             'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa2+" and  codNaturezaAtual = "+natureza2 ,conn)
-
+    consultar['Saida'] = 'nao'
     conn.close()
 
 
