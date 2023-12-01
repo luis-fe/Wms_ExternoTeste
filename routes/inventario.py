@@ -91,9 +91,14 @@ def get_RelatorioInventario():
     empresa = request.args.get('empresa', '1')
     datainicio =request.args.get('datainicio')
     datafinal = request.args.get('datafinal')
+    emitirRelatorio = request.args.get('emitirRelatorio','')
 
+    if emitirRelatorio == 'True' or emitirRelatorio == True:
+        emitirRelatorio == True
+    else:
+        emitirRelatorio == False
 
-    Endereco_det = inventarioModel.RelatorioInventario(datainicio,datafinal,natureza,empresa)
+    Endereco_det = inventarioModel.RelatorioInventario(datainicio,datafinal,natureza,empresa,emitirRelatorio)
 
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
