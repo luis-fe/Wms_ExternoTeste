@@ -332,11 +332,34 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.execute(delete, (endereco,))
     conn.commit()
     cursor.close()
+
+
+    ## FUNCAO PARA EMITIR O RELATÓRIO DE INVENTARIO REALIZADO ENTRE ALGUM PERÍODO
+    # Parametros: 1: Data Inicio do Inventario
+    # Parametro: 2: DataFinal do Inventario
+    # Parametro: 3: Natureza a ser analizada
+    # Parametro: 4: Empresa
+    # Parametro 5: Se deseja ou Nao emitir o relatório completo de Tag's (TRUE OR FALSE)
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
-    conn = ConexaoPostgreMPL.conexao()
-    natureza = str(natureza)
+    conn = ConexaoPostgreMPL.conexao() # Ligando a Conexao
+    natureza = str(natureza) # Obtendo a natureza e transformando para string
+
+    ## OBTENDO O TOTAL DE PEÇAS NO ESTOUE :
+        # 1 Consulta Sql das tags que estao repostas
     TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
+        # 2 Consulta Sql das tags que estao em inventario
+    TotalPcs_EmINVENTARIO = pd.read_sql('select codnaturezaatual as natureza, count(codbarrastag) as "totalReposicao"  from "Reposicao"."Reposicao".filareposicaoportag  ti '
+                                        ' where codempresa =  %s'
+                                        'group by natureza ',conn,params=(empresa,))
+
+        # 3 Consulta Sql das tags que estao em fila
+    TotalPcs_EmFila = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao_inventario t '
+                           'group by natureza ',conn)
+        # 4 UNINDO AS CONSULTAS PARA FORMAR O TOTALPEÇAS
+    TotalPcs = pd.concat([TotalPcs, TotalPcs_EmINVENTARIO, TotalPcs_EmFila],ignore_index=True)
+
+
     inventariado = pd.read_sql('select "Endereco", natureza, codbarrastag, codreduzido  from "Reposicao"."Reposicao".tagsreposicao t '
                                'where "Endereco" in ( '
                                'select codendereco from ('
