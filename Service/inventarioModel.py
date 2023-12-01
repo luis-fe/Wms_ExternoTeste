@@ -528,7 +528,8 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
 
     consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='right')
-    consultar.fillna('-', inplace=True)
+    consultar.fillna('-', inplace=True
+    consultar = consultar[consultar['Saida'] == '-']
 
     return consultar
 
