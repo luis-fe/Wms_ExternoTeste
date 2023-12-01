@@ -430,7 +430,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
         totalEnderecos = sql['Qtd Prat.'].sum()
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
-        totalEnderecos = totalEnderecos.astype(str).replace(',','.')
+        totalEnderecos = str(totalEnderecos).replace(',','.')
 
 
         data = {
