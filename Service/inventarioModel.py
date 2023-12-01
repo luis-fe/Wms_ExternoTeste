@@ -511,7 +511,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     conn2 = ConexaoPostgreMPL.conexao()
 
     FILA = pd.read_sql('select codbarrastag from "Reposicao".filareposicaoportag '
-                       'where codempresa = %s and codnatureza = %s ',conn2,params=(empresa,natureza,))
+                       'where codempresa = %s and codnaturezaatual = %s ',conn2,params=(empresa,natureza,))
     FILA['situacao'] = 'na fila'
 
     consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='left')
