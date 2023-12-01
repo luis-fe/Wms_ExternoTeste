@@ -1,5 +1,5 @@
 import pytz
-
+import locale
 import ConexaoPostgreMPL
 import pandas as pd
 import datetime
@@ -435,9 +435,14 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
             inplace=True)
 
         sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
-        sql['% Realizado'] = sql['% Realizado'].round(2) * 100
 
+        # Funcao utilizada para formatar numero no PANDAS
+        def format_with_separator(value):
+            return locale.format('%0.2f', value, grouping=True)
+        sql['% Realizado'] = sql['% Realizado'].apply(format_with_separator)
         sql['% Realizado'] = sql['% Realizado'] .astype(str) + ' %'
+
+
 
         # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
