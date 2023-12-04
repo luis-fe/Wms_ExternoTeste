@@ -503,7 +503,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
     consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag FROM Tcr.TagBarrasProduto t '
                             'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa2+" and  codNaturezaAtual = "+natureza2 ,conn)
-    consultar['Saida'] = 'nao'
+    consultar['saida'] = 'nao'
     conn.close()
 
 
@@ -529,7 +529,10 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
     consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='right')
     consultar.fillna('-', inplace=True)
-    consultar = consultar[consultar['Saida'] == '-']
+    consultar = consultar[consultar['saida'] == '-']
+
+    #Inserindo as Tags com Saida AVULSA no WMS
+    ConexaoPostgreMPL.Funcao_Inserir(consultar, consultar['saida'].count(), 'saida_avulsa', 'append')
 
     return consultar
 
