@@ -533,6 +533,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     consultar = consultar[consultar['saida'] == '-']
     dataHota = obterHoraAtual()
     consultar['data_saida'] =  dataHota
+    consultar['natureza_saida'] = natureza
 
     #Inserindo as Tags com Saida AVULSA no WMS
     tamanho =  consultar['saida'].count()
