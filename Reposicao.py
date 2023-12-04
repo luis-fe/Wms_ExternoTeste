@@ -161,7 +161,7 @@ def EstornoApontamento(codbarrastag, empresa, natureza):
     situacao, reduzido, engenharia, numeroop, descricao, cor, epc, tam, totalop, usuario = Devolver_Inf_Tag(codbarrastag, 1)
 
     consulta = pd.read_sql('select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag  t '
-                           'where codbarrastag = %s',conn,params=(codbarrastag,))
+                           'where codbarrastag = %s ',conn,params=(codbarrastag,))
     if not consulta.empty:
         deletar = 'delete from "Reposicao"."Reposicao".filareposicaoportag  t' \
                   'where codbarrastag = %s '
