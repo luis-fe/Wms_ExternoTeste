@@ -51,7 +51,7 @@ def get_ApontaReposicao():
         Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza)
 
         if Apontamento == 'Reposto':
-            if estornar:
+            if estornar == True:
                 Reposicao.EstornoApontamento(codbarra, empresa, natureza)
                 return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
 
