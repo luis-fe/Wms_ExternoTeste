@@ -558,6 +558,28 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     else:
         print('sem tag em inventario para deletar')
 
+    #Deletando tag da Tabela reposicao
+    inventario_deletar = consultar[consultar['situacao']=='reposicao']
+    if not inventario_deletar.empty:
+        novo = inventario_deletar[['codbarrastag']]
+        novo = novo.drop_duplicates(subset=['codbarrastag'])
+
+        # Passo 3: Transformar o dataFrame em lista
+        resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['codbarrastag']]))
+
+        deletar = 'delete from  "Reposicao".tagsreposicao ' \
+                  'where codbarrastag in '+resultado
+
+        cursor = conn2.cursor()
+
+        cursor.execute(deletar
+                       , ())
+
+        conn2.commit()
+        cursor.close()
+    else:
+        print('sem tag em inventario para reposicao')
+
     return consultar
 
 
