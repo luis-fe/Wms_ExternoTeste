@@ -532,7 +532,11 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     consultar = consultar[consultar['saida'] == '-']
 
     #Inserindo as Tags com Saida AVULSA no WMS
-    ConexaoPostgreMPL.Funcao_Inserir(consultar, consultar['saida'].count(), 'saida_avulsa', 'append')
+    tamanho =  consultar['saida'].count()
+    if tamanho > 0:
+        ConexaoPostgreMPL.Funcao_Inserir(consultar, tamanho, 'saida_avulsa', 'append')
+    else:
+        print('sem tags')
 
 
 
