@@ -536,12 +536,20 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
 
     #Deletando tag da Tabela Inventario
-    inventario_deletar = pd.DataFrame(consultar[consultar['situacao']=='inventario'])
-    inventario_deletar = inventario_deletar['codbarrastag']
+    inventario_deletar = consultar[consultar['situacao']=='inventario']
 
+    novo = inventario_deletar[['codbarrastag']]
+    novo = novo.drop_duplicates(subset=['codbarrastag'])
 
+    # Passo 3: Transformar o dataFrame em lista
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['codbarrastag']]))
 
-    return inventario_deletar
+    deletar = 'select codbarrastag from "Reposicao".tagsreposicao_inventario ' \
+              'where codbarrastag in '+resultado
+
+    deletar = pd.read_sql(deletar,conn2)
+
+    return deletar
 
 
 
