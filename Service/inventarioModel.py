@@ -504,6 +504,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag FROM Tcr.TagBarrasProduto t '
                             'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa2+" and  codNaturezaAtual = "+natureza2 ,conn)
     consultar['saida'] = 'nao'
+
     conn.close()
 
 
@@ -530,6 +531,8 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     consultar = pd.merge(consultar, FILA, on ='codbarrastag', how='right')
     consultar.fillna('-', inplace=True)
     consultar = consultar[consultar['saida'] == '-']
+    dataHota = obterHoraAtual()
+    consultar['data_saida'] =  dataHota
 
     #Inserindo as Tags com Saida AVULSA no WMS
     tamanho =  consultar['saida'].count()
