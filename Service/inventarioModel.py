@@ -536,7 +536,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
 
 
     #Deletando tag da Tabela Inventario
-    inventario_deletar = consultar[consultar['situacao']=='inventario']
+    inventario_deletar = pd.DataFrame(consultar[consultar['situacao']=='inventario'])
     inventario_deletar = inventario_deletar['codbarrastag']
 
 
