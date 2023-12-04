@@ -197,18 +197,21 @@ def EstornoApontamento(codbarrastag, empresa, natureza):
     return True
 
 
-def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natureza):
+def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natureza, estornar):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
 
     # Verificando se está na Fila de Reposição
     cursor.execute(
         'SELECT "codbarrastag" FROM "Reposicao"."filareposicaoportag" ce '
-        'WHERE "codbarrastag" = %s and codnaturezaatual = %s', (codbarras, natureza,)
+        'WHERE "codbarrastag" = %s and codnaturezaatual = %s ', (codbarras, natureza,)
     )
     fila_reposicao = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
 
-    if not fila_reposicao.empty:
+    if estornar == True:
+        retorno = 'Reposto'
+
+    elif not fila_reposicao.empty:
         update = 'UPDATE "Reposicao"."filareposicaoportag" ce ' \
                  'SET usuario = %s ' \
                  'WHERE "codbarrastag" = %s;'

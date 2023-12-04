@@ -48,7 +48,7 @@ def get_ApontaReposicao():
 
 
         # Verifica se existe atribuição
-        Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza)
+        Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
 
         if Apontamento == 'Reposto':
             if estornar == True:
