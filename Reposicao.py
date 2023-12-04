@@ -163,12 +163,14 @@ def EstornoApontamento(codbarrastag, empresa, natureza):
     consulta = pd.read_sql('select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag  t '
                            'where codbarrastag = %s ',conn,params=(codbarrastag,))
     if not consulta.empty:
+        print('localizou')
         deletar = 'delete from "Reposicao"."Reposicao".filareposicaoportag  t' \
                   'where codbarrastag = %s '
         cursor = conn.cursor()
         cursor.execute(deletar,(codbarrastag,))
         conn.commit()
         cursor.close()
+
     else:
         print('estorno')
 
