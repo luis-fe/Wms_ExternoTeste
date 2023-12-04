@@ -55,7 +55,7 @@ def get_ApontaReposicao():
                 Reposicao.EstornoApontamento(codbarra, empresa, natureza)
                 return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
 
-            ender, ender2 = PediosApontamento.EndereçoTag(codbarra)
+            ender, ender2 = PediosApontamento.EndereçoTag(codbarra, empresa, natureza)
             return jsonify({'message': f'codigoBarras {codbarra} ja reposto no endereço {ender}'})
 
         if Apontamento is False:
