@@ -501,7 +501,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     # Estabelece uma Conexao com o CSW
     conn = ConexaoCSW.Conexao()
 
-    consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag FROM Tcr.TagBarrasProduto t '
+    consultar = pd.read_sql('SELECT t.codBarrasTag as  codbarrastag, situacao as situacao_csw FROM Tcr.TagBarrasProduto t '
                             'where t.situacao in '+situacao + ' and t.codempresa = '+ empresa2+" and  codNaturezaAtual = "+natureza2 ,conn)
     consultar['saida'] = 'nao'
 
