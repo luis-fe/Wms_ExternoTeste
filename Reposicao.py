@@ -159,6 +159,19 @@ def ApontarReposicao(codUsuario, codbarras, endereco, dataHora):
 def EstornoApontamento(codbarrastag, empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     situacao, reduzido, engenharia, numeroop, descricao, cor, epc, tam, totalop, usuario = Devolver_Inf_Tag(codbarrastag, 1)
+
+    consulta = pd.read_sql('select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag  t '
+                           'where codbarrastag = %s',conn,params=(codbarrastag,))
+    if not consulta.empty:
+        deletar = 'delete from "Reposicao"."Reposicao".filareposicaoportag  t' \
+                  'where codbarrastag = %s '
+        cursor = conn.cursor()
+        cursor.execute(deletar,(codbarrastag,))
+        conn.commit()
+        cursor.close()
+    else:
+        print('estorno')
+
     Insert = 'INSERT INTO  "Reposicao"."filareposicaoportag" ("codreduzido", "engenharia","codbarrastag","numeroop", "descricao", "cor", "epc", "tamanho", "totalop", "Situacao",' \
              ' "usuario", codnaturezaatual) ' \
              'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,'+"'Reposição não Iniciada'"+',%s, %s);'
