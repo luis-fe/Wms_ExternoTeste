@@ -555,7 +555,7 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     conn2.commit()
     cursor.close()
 
-    return deletar
+    return consultar
 
 
 
