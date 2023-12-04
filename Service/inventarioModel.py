@@ -534,7 +534,14 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     #Inserindo as Tags com Saida AVULSA no WMS
     ConexaoPostgreMPL.Funcao_Inserir(consultar, consultar['saida'].count(), 'saida_avulsa', 'append')
 
-    return consultar
+
+    #Deletando tag da Tabela Inventario
+    inventario_deletar = consultar[consultar['situacao']=='inventario']
+    inventario_deletar = inventario_deletar['codbarrastag']
+
+
+
+    return inventario_deletar
 
 
 
