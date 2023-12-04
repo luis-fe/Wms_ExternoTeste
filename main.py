@@ -66,8 +66,7 @@ def get_ApontaReposicao():
     except KeyError as e:
         return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
 
-    except Exception as e:
-        return jsonify({'message': 'Ocorreu um erro interno.', 'error': str(e)}), 500
+
 
 
 
