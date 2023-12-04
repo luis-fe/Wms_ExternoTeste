@@ -535,25 +535,28 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     ConexaoPostgreMPL.Funcao_Inserir(consultar, consultar['saida'].count(), 'saida_avulsa', 'append')
 
 
+
     #Deletando tag da Tabela Inventario
     inventario_deletar = consultar[consultar['situacao']=='inventario']
+    if not inventario_deletar.empty:
+        novo = inventario_deletar[['codbarrastag']]
+        novo = novo.drop_duplicates(subset=['codbarrastag'])
 
-    novo = inventario_deletar[['codbarrastag']]
-    novo = novo.drop_duplicates(subset=['codbarrastag'])
+        # Passo 3: Transformar o dataFrame em lista
+        resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['codbarrastag']]))
 
-    # Passo 3: Transformar o dataFrame em lista
-    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['codbarrastag']]))
+        deletar = 'delete from  "Reposicao".tagsreposicao_inventario ' \
+                  'where codbarrastag in '+resultado
 
-    deletar = 'delete from  "Reposicao".tagsreposicao_inventario ' \
-              'where codbarrastag in '+resultado
+        cursor = conn2.cursor()
 
-    cursor = conn2.cursor()
+        cursor.execute(deletar
+                       , ())
 
-    cursor.execute(deletar
-                   , ())
-
-    conn2.commit()
-    cursor.close()
+        conn2.commit()
+        cursor.close()
+    else:
+        print('sem tag em inventario para deletar')
 
     return consultar
 
