@@ -544,10 +544,16 @@ def LimparTagsSaidaForaWms(situacao, empresa, natureza):
     # Passo 3: Transformar o dataFrame em lista
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['codbarrastag']]))
 
-    deletar = 'select codbarrastag from "Reposicao".tagsreposicao_inventario ' \
+    deletar = 'delete from  "Reposicao".tagsreposicao_inventario ' \
               'where codbarrastag in '+resultado
 
-    deletar = pd.read_sql(deletar,conn2)
+    cursor = conn2.cursor()
+
+    cursor.execute(deletar
+                   , ())
+
+    conn2.commit()
+    cursor.close()
 
     return deletar
 
