@@ -112,13 +112,13 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         insert = 'INSERT INTO "Reposicao".tagsreposicao_inventario ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                  '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
                  '"numeroop", "cor", "tamanho", "totalop", "situacaoinventario", natureza) ' \
-                 'SELECT "usuario", "codbarrastag", "codreduzido", %s, "engenharia", ' \
+                 'SELECT %s, "codbarrastag", "codreduzido", %s, "engenharia", ' \
                  '"DataReposicao", "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", ' \
                  "'endereco migrado', natureza" \
                  ' FROM "Reposicao".tagsreposicao t ' \
                  ' WHERE "codbarrastag" = %s;'
         cursor = conn.cursor()
-        cursor.execute(insert, (endereco, codbarra))
+        cursor.execute(insert, (usuario, endereco, codbarra))
         conn.commit()
         cursor.close()
         delete = 'Delete from "Reposicao"."tagsreposicao"  ' \
