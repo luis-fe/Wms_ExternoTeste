@@ -37,17 +37,17 @@ def RegistrarInventario(usuario, data, endereco):
 def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
     conn = ConexaoPostgreMPL.conexao()
 
-    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop, natureza   = PesquisarTagPrateleira(codbarra, endereco)
+    validador, colu1, colu_epc, colu_tamanho, colu_cor, colu_eng, colu_red, colu_desc, colu_numeroop, colu_totalop, natureza, usuario_inv   = PesquisarTagPrateleira(codbarra, endereco)
     # Caso a tag estiver em inventario
     if validador == 1:
         query = 'update "Reposicao".tagsreposicao_inventario '\
             'set situacaoinventario  = '+"'OK', "+ \
-            'usuario = %s, "Endereco"= %s  '\
+            'usuario = %s, "Endereco"= %s, "usuario_inv"= %s  '\
             'where codbarrastag = %s'
         cursor = conn.cursor()
         cursor.execute(query
                        , (
-                           usuario, endereco,codbarra,))
+                           usuario, endereco,usuario_inv,codbarra,))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
@@ -140,13 +140,13 @@ def PesquisarTagPrateleira(codbarra, endereco):
     conn = ConexaoPostgreMPL.conexao()
 
     #verificar se a tag esta na tabela de inventario
-    query1 = pd.read_sql('SELECT "codbarrastag", "Endereco" from "Reposicao".tagsreposicao_inventario t '
+    query1 = pd.read_sql('SELECT "codbarrastag", "Endereco", usuario from "Reposicao".tagsreposicao_inventario t '
             'where codbarrastag = '+"'"+codbarra+"'",conn )
     #enderecoNovo = query1["Endereco"][0]
     if not query1.empty  :
-
+        usuario_inv = query1['usuario'][0]
         conn.close()
-        return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10,11
+        return 1, 2, 3, 4, 5, 6 ,7 ,8 , 9 , 10,11, usuario_inv
 
     else:
         # Procurar a tag em outras prateleiras
@@ -155,7 +155,7 @@ def PesquisarTagPrateleira(codbarra, endereco):
         if not query2.empty: #caso ache em outra prateleira
 
             conn.close()
-            return 2, query2["Endereco"][0], 2, 2,2,2,2,2,2,2,2
+            return 2, query2["Endereco"][0], 2, 2,2,2,2,2,2,2,2,''
         else:
             # procurar na fila
             query3 = pd.read_sql('select "codbarrastag","epc", "tamanho", "cor", "engenharia" , "codreduzido",  '
@@ -165,7 +165,7 @@ def PesquisarTagPrateleira(codbarra, endereco):
             if not query3.empty: #Caso ache na fila
                 conn.close()
                 return 3, query3["codbarrastag"][0],query3["epc"][0],query3["tamanho"][0],query3["cor"][0],query3["engenharia"][0],query3["codreduzido"][0], \
-                    query3["descricao"][0],query3["numeroop"][0],query3["totalop"][0], query3["codnaturezaatual"][0]
+                    query3["descricao"][0],query3["numeroop"][0],query3["totalop"][0], query3["codnaturezaatual"][0],''
 
             else:
                 # procurar
@@ -173,10 +173,10 @@ def PesquisarTagPrateleira(codbarra, endereco):
                                      'where codbarrastag = ' + "'" + codbarra + "'", conn)
                 if not query3.empty:
                     conn.close()
-                    return query4["Endereco"][0], 4, 4, 4,4,4,4,4,4,4,4
+                    return query4["Endereco"][0], 4, 4, 4,4,4,4,4,4,4,4,''
                 else:
                     conn.close()
-                    return False, False, False, False, False, False, False, False, False, False, False
+                    return False, False, False, False, False, False, False, False, False, False, False,False
 def SituacaoEndereco(endereco,usuario, data):
     conn = ConexaoPostgreMPL.conexao()
     select = 'select * from "Reposicao"."cadendereco" ce ' \
@@ -252,9 +252,9 @@ def SalvarInventario(endereco):
     # Inserir de volta as tags que deram certo
     insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
              '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-             '"numeroop", "cor", "tamanho", "totalop","natureza") ' \
+             '"numeroop", "cor", "tamanho", "totalop","natureza","usuario_inv") ' \
              'SELECT distinct "usuario", "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-             ' %s ,  "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", "natureza" ' \
+             ' %s ,  "descricao", "epc", "StatusEndereco", "numeroop", "cor", "tamanho", "totalop", "natureza", "usuario_inv" ' \
              'FROM "Reposicao".tagsreposicao_inventario t ' \
              'WHERE "Endereco" = %s and "situacaoinventario" = %s ;'
     cursor = conn.cursor()
