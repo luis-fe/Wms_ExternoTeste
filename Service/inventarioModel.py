@@ -451,7 +451,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
         # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
-        sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2)
+        sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2).str.replace(',','.')
 
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
         totalEnderecos = str(totalEnderecos).replace(',','.')
