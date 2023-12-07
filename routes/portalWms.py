@@ -53,3 +53,7 @@ def CadastroCaixa():
 @portal_routes.route('/EnderecoTelaSilk')
 def EnderecoTelaSilk():
     return render_template('TelaEnderecosSilk.html')
+
+@portal_routes.route('/TelaAcompanhamentoInventário')
+def TelaAcompanhamentoInventário():
+    return render_template('TelaAcompanhamentoInventário.html')
