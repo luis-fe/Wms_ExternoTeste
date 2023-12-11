@@ -32,9 +32,14 @@ def relatorioTotalFila(empresa, natureza):
     if  query3.empty:
         total = 0
         Percentual = 0
+        Nao_reposto = 0
+        RepostoOK = 0
+
     else:
         total =  query3['contagem'][0] +  query2['contagem'][0]
         Percentual = query3['contagem'][0] / total
+        Nao_reposto = query2["contagem"][0]
+        RepostoOK = query3["contagem"][0]
 
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+Inventario["codreduzido"][0]
@@ -59,8 +64,8 @@ def relatorioTotalFila(empresa, natureza):
         '1.4-Peçs em Inventario':   f'{Inventario["codreduzido"][0]} pçs',
         '2.0':' Informacoes dos pedidos',
         '2.1- Total de Skus nos Pedidos em aberto ': f'{total2} pçs',
-        '2.2-Qtd de Enderecos Nao Reposto em Pedido': f'{query2["contagem"][0]}',
-        '2.3-Qtd de Enderecos OK Reposto nos Pedido': f'{query3["contagem"][0]}',
+        '2.2-Qtd de Enderecos Nao Reposto em Pedido': f'{Nao_reposto}',
+        '2.3-Qtd de Enderecos OK Reposto nos Pedido': f'{RepostoOK}',
         '2.4- Percentual Reposto':f'{Percentual}%'
     }
     return [data]
