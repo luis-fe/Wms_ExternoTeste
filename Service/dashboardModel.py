@@ -31,10 +31,11 @@ def relatorioTotalFila(empresa, natureza):
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
     if  query3.empty:
         total = 0
+        Percentual = 0
     else:
         total =  query3['contagem'][0] +  query2['contagem'][0]
+        Percentual = query3['contagem'][0] / total
 
-    Percentual = query3['contagem'][0] / total
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+Inventario["codreduzido"][0]
     # Aplicando a formatação para exibir como "100.000"
