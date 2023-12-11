@@ -437,7 +437,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
             inplace=True)
 
         sql['% Realizado'] = sql['status']/sql['Qtd Prat.']
-
+        sql['% Realizado'] = sql['% Realizado']  *100
         # Funcao utilizada para formatar numero no PANDAS
         def format_with_separator(value):
             return locale.format('%0.2f', value, grouping=True)
