@@ -29,7 +29,10 @@ def relatorioTotalFila(empresa, natureza):
     query3['contagem'] = query3['qtdesugerida'].sum()
     Inventario['codreduzido'] = Inventario['codreduzido'].count()
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
-    total =  query3['contagem'][0] +  query2['contagem'][0]
+    if  query3.empty:
+        total = 0
+    else:
+        total =  query3['contagem'][0] +  query2['contagem'][0]
 
     Percentual = query3['contagem'][0] / total
     Percentual = round(Percentual, 2) * 100
