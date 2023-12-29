@@ -19,15 +19,15 @@ def Estoque_endereco(endereco,empresa, natureza):
 def SituacaoEndereco(endereco, empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     select = 'select * from "Reposicao"."cadendereco" ce ' \
-             'where codendereco = %s and natureza = %s'
+             'where codendereco = %s ' \
+             ##'and natureza = %s ' ocultado ata o Sergio arrumar no front essa opcao !! na reposicao
     cursor = conn.cursor()
-    cursor.execute(select, (endereco, natureza, ))
+    cursor.execute(select, (endereco, ))
     resultado = cursor.fetchall()
     cursor.close()
     if not resultado:
         conn.close()
         print(f'3 endereco {endereco} selecionado')
-        SituacaoEndereco(endereco, empresa,'7')
         return pd.DataFrame({'Status Endereco': [False], 'Mensagem': [f'endereco {endereco} nao existe na natureza {natureza}!']})
     else:
         saldo = Estoque_endereco(endereco, empresa, natureza)
