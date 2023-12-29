@@ -204,7 +204,9 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
     # Verificando se está na Fila de Reposição
     cursor.execute(
         'SELECT "codbarrastag" FROM "Reposicao"."filareposicaoportag" ce '
-        'WHERE "codbarrastag" = %s and codnaturezaatual = %s ', (codbarras, natureza,)
+        'WHERE "codbarrastag" = %s '
+        #'and codnaturezaatual = %s ' Provisorio ate o sergio arrumar
+        , (codbarras, natureza,)
     )
     fila_reposicao = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
 
@@ -231,7 +233,9 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
         # Verificando se está na Prateleira
         cursor.execute(
             'SELECT "codbarrastag" FROM "Reposicao"."tagsreposicao" ce '
-            'WHERE "codbarrastag" = %s and natureza = %s', (codbarras,natureza,)
+            'WHERE "codbarrastag" = %s and '
+            #'natureza = %s' Provisorio ate o sergio arrumar
+            , (codbarras,natureza,)
         )
         prateleira = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
         if not prateleira.empty:
