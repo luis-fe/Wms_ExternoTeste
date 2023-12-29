@@ -26,15 +26,17 @@ def SituacaoEndereco(endereco, empresa, natureza):
     cursor.close()
     if not resultado:
         conn.close()
+        print(f'3 endereco {endereco} selecionado')
         return pd.DataFrame({'Status Endereco': [False], 'Mensagem': [f'endereco {endereco} nao existe na natureza {natureza}!']})
     else:
         saldo = Estoque_endereco(endereco, empresa, natureza)
         if saldo == 0:
             conn.close()
+            print(f'2 endereco {endereco} selecionado')
             return pd.DataFrame({'Status Endereco': [True], 'Mensagem': [f'endereco {endereco} existe!'],
                                  'Status do Saldo': ['Vazio']})
         else:
-            print(f'endereco {endereco} selecionado')
+            print(f'1 endereco {endereco} selecionado')
             skus = pd.read_sql('select  count(codbarrastag) as "Saldo Geral"  from "Reposicao".tagsreposicao e '
                                     'where "Endereco"= %s and natureza = %s ',conn,params=(endereco,natureza,))
             SaldoSku_Usuario = pd.read_sql('select  "Endereco", "codreduzido" as codreduzido , "usuario", count(codbarrastag) as "Saldo Sku"  from "Reposicao".tagsreposicao e '
