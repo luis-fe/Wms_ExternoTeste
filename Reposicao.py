@@ -233,8 +233,8 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
         # Verificando se está na Prateleira
         cursor.execute(
             'SELECT "codbarrastag" FROM "Reposicao"."tagsreposicao" ce '
-            'WHERE "codbarrastag" = %s and '
-            #'natureza = %s' Provisorio ate o sergio arrumar
+            'WHERE "codbarrastag" = %s  '
+            #' and natureza = %s' Provisorio ate o sergio arrumar
             , (codbarras,)
         )
         prateleira = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
