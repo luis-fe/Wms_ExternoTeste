@@ -20,9 +20,9 @@ def SituacaoEndereco(endereco, empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     select = 'select * from "Reposicao"."cadendereco" ce ' \
              'where codendereco = %s ' \
-             ##'and natureza = %s ' ocultado ata o Sergio arrumar no front essa opcao !! na reposicao
+             'and natureza = %s ' #ocultado ata o Sergio arrumar no front essa opcao !! na reposicao
     cursor = conn.cursor()
-    cursor.execute(select, (endereco, ))
+    cursor.execute(select, (endereco,natureza, ))
     resultado = cursor.fetchall()
     cursor.close()
     if not resultado:
