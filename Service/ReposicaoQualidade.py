@@ -587,7 +587,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                    , axis=1, inplace=True)
 
     bipadoSku, totalbipado = TotalBipado(empresa, numeroop, '', False)
-
+    print(novo)
     novo = pd.merge(novo, bipadoSku, on=['codSortimento', 'tamanho'], how='left')
     novo['quantidade'] = novo['quantidade'].astype(int)
     novo['quantidade'] = novo['quantidade'].astype(str)
