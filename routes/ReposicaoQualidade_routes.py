@@ -206,19 +206,25 @@ def RelacaoDeOPs():
 @reposicao_qualidadeRoute.route('/api/DetalhaOPQuantidade', methods=['GET'])
 @token_required
 def DetalhaOPQuantidade():
-    empresa = request.args.get('empresa','1')
-    numeroop = request.args.get('numeroop')
+    try:
+        empresa = request.args.get('empresa','1')
+        numeroop = request.args.get('numeroop')
 
 
-    FilaReposicaoOP = ReposicaoQualidade.DetalhaQuantidadeOP(empresa, numeroop)
+        FilaReposicaoOP = ReposicaoQualidade.DetalhaQuantidadeOP(empresa, numeroop)
 
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    enderecos_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        enderecos_dict = {}
-        for column_name in column_names:
-            enderecos_dict[column_name] = row[column_name]
-        enderecos_data.append(enderecos_dict)
-    return jsonify(enderecos_data)
+        # Obtém os nomes das colunas
+        column_names = FilaReposicaoOP.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        enderecos_data = []
+        for index, row in FilaReposicaoOP.iterrows():
+            enderecos_dict = {}
+            for column_name in column_names:
+                enderecos_dict[column_name] = row[column_name]
+            enderecos_data.append(enderecos_dict)
+        return jsonify(enderecos_data)
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
