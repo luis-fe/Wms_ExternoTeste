@@ -5,13 +5,18 @@ import psycopg2
 from psycopg2 import Error
 import datetime
 import pytz
-
+import subprocess
 
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
+
+
+def restart_server():
+    print("Reiniciando o aplicativo...")
+    subprocess.call(["python", "main.py"])
 
 
 def ApontarTag(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):

@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
 
+
 endereco_routes = Blueprint('endereco', __name__)
 
 
