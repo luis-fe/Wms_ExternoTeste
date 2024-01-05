@@ -2,7 +2,7 @@ from Service import ReposicaoQualidade
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
-
+import subprocess
 reposicao_qualidadeRoute = Blueprint('reposicao_qualidadeRoute', __name__)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
@@ -14,32 +14,41 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
         return jsonify({'message': 'Acesso negado'}), 401
 
     return decorated_function
-
+def restart_server():
+    print("Reiniciando o aplicativo...")
+    subprocess.call(["python", "main.py"])
 @reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['POST'])
 @token_required
 def ReporCaixaLivre():
-    # Obtenha os dados do corpo da requisição
-    novo_usuario = request.get_json()
-    # Extraia os valores dos campos do novo usuário
-    empresa = novo_usuario.get('empresa','1')
-    natureza = novo_usuario.get('natureza','5')
-    codbarras = novo_usuario.get('codbarras', '5')
-    NCaixa = novo_usuario.get('NCaixa', '')
-    usuario = novo_usuario.get('usuario', '')
-    estornar = novo_usuario.get('estornar', False)
+    try:
+        # Obtenha os dados do corpo da requisição
+        novo_usuario = request.get_json()
+        # Extraia os valores dos campos do novo usuário
+        empresa = novo_usuario.get('empresa','1')
+        natureza = novo_usuario.get('natureza','5')
+        codbarras = novo_usuario.get('codbarras', '5')
+        NCaixa = novo_usuario.get('NCaixa', '')
+        usuario = novo_usuario.get('usuario', '')
+        estornar = novo_usuario.get('estornar', False)
 
 
-    FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario, natureza, estornar)
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    enderecos_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        enderecos_dict = {}
-        for column_name in column_names:
-            enderecos_dict[column_name] = row[column_name]
-        enderecos_data.append(enderecos_dict)
-    return jsonify(enderecos_data)
+        FilaReposicaoOP = ReposicaoQualidade.ApontarTag(codbarras,NCaixa ,empresa,usuario, natureza, estornar)
+        # Obtém os nomes das colunas
+        column_names = FilaReposicaoOP.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        enderecos_data = []
+        for index, row in FilaReposicaoOP.iterrows():
+            enderecos_dict = {}
+            for column_name in column_names:
+                enderecos_dict[column_name] = row[column_name]
+            enderecos_data.append(enderecos_dict)
+        return jsonify(enderecos_data)
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+
 
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required

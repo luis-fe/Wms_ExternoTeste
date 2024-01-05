@@ -5,7 +5,6 @@ import psycopg2
 from psycopg2 import Error
 import datetime
 import pytz
-import subprocess
 
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
@@ -14,9 +13,7 @@ def obterHoraAtual():
     return hora_str
 
 
-def restart_server():
-    print("Reiniciando o aplicativo...")
-    subprocess.call(["python", "main.py"])
+
 
 
 def ApontarTag(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):
