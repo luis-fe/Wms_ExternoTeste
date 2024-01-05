@@ -57,3 +57,15 @@ def EnderecoTelaSilk():
 @portal_routes.route('/Inventarios')
 def TelaAcompanhamentoInventário():
     return render_template('TelaAcompanhamentoInventário.html')
+
+@portal_routes.route('/TelaLiberacao')
+def TelaLiberacao():
+    return render_template('TelaLiberacao.html')
+
+@portal_routes.route('/TelaGrades')
+def TelaGrades():
+    return render_template('TelaGrades.html')
+
+@portal_routes.route('/HomeGarantia')
+def HomeGarantia():
+    return render_template('indexGarantia.html')
