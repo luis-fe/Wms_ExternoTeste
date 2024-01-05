@@ -493,6 +493,10 @@ def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
 
         consulta['codSortimento'] = consulta['codSortimento'].str.split('-').str[0]
         consulta['sortimentosCores'] = consulta['codSortimento']
+        consulta.drop('codSortimento'
+                  , axis=1, inplace=True)
+
+
         print(consulta)
         return consulta, totalBipadoOP
 def InformacoesOPsGarantia(empresa, dataframe):
