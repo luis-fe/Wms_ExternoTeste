@@ -492,6 +492,7 @@ def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
     else:
 
         consulta['codSortimento'] = consulta['codSortimento'].str.split('-').str[0]
+        consulta['sortimentosCores'] = consulta['codSortimento']
         print(consulta)
         return consulta, totalBipadoOP
 def InformacoesOPsGarantia(empresa, dataframe):
@@ -588,7 +589,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
     bipadoSku, totalbipado = TotalBipado(empresa, numeroop, '', False)
     print(novo)
-    novo = pd.merge(novo, bipadoSku, on=['codSortimento', 'tamanho'], how='left')
+    novo = pd.merge(novo, bipadoSku, on=['sortimentosCores', 'tamanho'], how='left')
     novo['quantidade'] = novo['quantidade'].astype(int)
     novo['quantidade'] = novo['quantidade'].astype(str)
     novo.fillna('0', inplace=True)
