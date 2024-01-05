@@ -206,7 +206,7 @@ def RelacaoDeOPs():
 @reposicao_qualidadeRoute.route('/api/DetalhaOPQuantidade', methods=['GET'])
 @token_required
 def DetalhaOPQuantidade():
-    #try:
+    try:
         empresa = request.args.get('empresa','1')
         numeroop = request.args.get('numeroop')
 
@@ -224,9 +224,8 @@ def DetalhaOPQuantidade():
             enderecos_data.append(enderecos_dict)
         return jsonify(enderecos_data)
 
-'''''
+
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
-'''''
