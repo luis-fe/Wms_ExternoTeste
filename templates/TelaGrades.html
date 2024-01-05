@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGQ (Gestão da Qualidade)</title>
+    <link rel="stylesheet" href="static/css/Cabecalho.css">
+    <style>
+        .Tabela{
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        #TabelaGrades {
+            border-collapse: collapse;
+            width: 100%;
+       
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .Tabela{
+             width: 50%; /* Ajustado para ocupar toda a largura disponível */
+             max-height: 50vh; /* Mantido um limite de altura */
+             border: 2px solid black;
+             border-radius: 10px;
+             overflow: auto; /* Adicionado overflow para permitir rolagem horizontal se necessário */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="CABECALHO">
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul>
+                <li><a href="TelaPrincipal.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="TelaUsuarios.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="TelaControleFase.html">Gerenciamento de Fase</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="TelaLiberacao.html">Lista Op's</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="TituloRotina">
+        <h2>CONFERÊNCIA REPOSIÇÃO</h2>
+    </div>
+   
+        <div class="Tabela" >
+            <table id="TabelaGrades"></table>
+        </div>
+        <script>
+            let dadosApi = [];
+
+            async function Api(Op) {
+                try {
+                    const response = await fetch(`http://192.168.0.183:5000/api/DetalhaOPQuantidade?empresa=1&numeroop=${Op}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'a40016aabcx9'
+                        },
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        dadosApi = data[0]["3- Detalhamento da Grade"];
+                        criarTabela(dadosApi);
+                        console.log(data);
+                    } else {
+                        throw new Error('Erro No Retorno');
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            // Função para criar a tabela
+            function criarTabela(dados) {
+                const tabela = document.getElementById('TabelaGrades');
+                tabela.innerHTML = ''; // Limpar o conteúdo existente
+
+                // Cabeçalho
+                const cabecalho = tabela.createTHead();
+                const linhaCabecalho = cabecalho.insertRow();
+                linhaCabecalho.insertCell().textContent = 'Cores';
+
+                // Obter todos os tamanhos disponíveis
+                const tamanhos = Array.from(new Set(dados.flatMap(grade => grade.tamanho)));
+
+                // Adicionar tamanhos ao cabeçalho
+                tamanhos.forEach(tamanho => {
+                    const th = document.createElement('th');
+                    th.textContent = tamanho;
+                    linhaCabecalho.appendChild(th);
+                });
+
+                // Adicionar dados à tabela
+                dados.forEach(grade => {
+                    const linha = tabela.insertRow();
+                    const celulaCor = linha.insertCell();
+                    celulaCor.textContent = grade['2-sortimentosCores'];
+
+                    // Preencher as células de quantidade
+                    tamanhos.forEach(tamanho => {
+                        const celulaQuantidade = linha.insertCell();
+                        const quantidade = grade.quantidade.shift(); // Remova o primeiro elemento do array
+                        celulaQuantidade.textContent = quantidade !== undefined ? quantidade.toString() : ''; // Verifique se a quantidade é definida antes de convertê-la para uma string
+                    });
+                });
+            }
+
+            window.addEventListener('load', () => {
+    const numeroOP = localStorage.getItem('numeroOP');
+
+    // Verifique se o valor está presente
+    if (numeroOP) {
+        console.log(numeroOP);
+        Api(numeroOP);
+    } else {
+        console.error('Número da OP não encontrado.');
+        alert('Selecione uma Op para Prosseguir!');
+        window.location.href = 'TelaLiberacao.html'; // Redireciona para a página principal
+    }
+});
+
+window.addEventListener('beforeunload', () => {
+    // Limpar o localStorage
+    localStorage.removeItem('numeroOP');
+});
+        </script>
+    </div>
+</body>
+</html>

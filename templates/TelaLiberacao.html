@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGQ (Gestão da Qualidade)</title>
+    <link rel="stylesheet" href="static/css/Cabecalho.css">
+    <style>
+        .button {
+            background-color: rgb(255, 255, 255);
+            color: black;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            width: 100%;
+            font-size: 20px;
+            cursor: pointer;
+            position: relative;
+            justify-content: center;
+        }
+
+        .button:hover {
+            background-color: rgb(17, 45, 126);
+            color: white;
+        }
+
+        .details {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            width: 600px;
+            left: 45%;
+            transform: translateX(-50%);
+            top: 100%;
+            z-index: 1;
+            margin-top: -5%;
+        }
+
+        .button:hover .details {
+            display: block;
+        }
+
+        .Pesquisa{
+            margin-left: 20px;
+        }
+
+        .CABECALHO{
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: lightgray;
+        }
+        #pesquisar{
+            font-size: 25px;
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 500px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #buttonPesquisar{
+            font-size: 25px;
+            border: 2px solid black;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .left-container,
+        .right-container {
+            width: 49%;
+        }
+
+        .left-container {
+            margin-right: 2%; /* Adicionei uma margem à direita para garantir que haja espaço entre os contêineres */
+        }
+
+        .dados{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .dados label{
+            border-radius: 10px;
+            margin-left: 20px;
+            font-size: 25px;
+            background-color: white;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="CABECALHO">
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul>
+                <li><a href="TelaPrincipal.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="TelaUsuarios.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="TelaControleFase.html">Gerenciamento de Fase</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="TelaLiberacao.html">Lista Op's</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="TituloRotina">
+        <h2>Lista OP'S</h2>
+    </div>
+
+    <div class="dados">
+        <label id="Ops" for="text"></label>
+        <label id="Pcs" for="text"></label>
+    </div>
+
+    <div class="Pesquisa">
+        <input id="pesquisar" type="search" placeholder="Pesquisar por OP" oninput="filtrarPorOP(this.value)">
+    </div>
+</div>
+
+    <div class="container">
+        <div class="left-container" id="opButtonsContainerLeft"></div>
+        <div class="right-container" id="opButtonsContainerRight"></div>
+    </div>
+
+    <script>
+        let detalhesOPsData;  // Armazena os detalhes da OP para referência posterior
+
+
+        async function ChamadaApi() {
+            try {
+                const response = await fetch('http://192.168.0.183:5000/api/RelacaoDeOPs?empresa=1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'a40016aabcx9'
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    detalhesOPsData = data[0]["Detalhamento das OPs "];
+                    construirInterface(detalhesOPsData);
+                    document.getElementById('Ops').innerHTML = `Total Op's na Fase: <strong>${data[0]['0 - Total de OPs ']}</strong>`;
+                    document.getElementById('Pcs').innerHTML = `Total Peças na Fase: <strong>${data[0]['03 - Total Pçs ']}</strong>`;
+                    console.log(data);
+                } else {
+                    throw new Error('Erro No Retorno');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function construirInterface(detalhesOPs) {
+            var opButtonsContainerLeft = document.getElementById('opButtonsContainerLeft');
+            var opButtonsContainerRight = document.getElementById('opButtonsContainerRight');
+
+            detalhesOPs.forEach(function (item) {
+                var btn = document.createElement('button');
+                btn.classList.add('button');
+
+                var infoDiv = document.createElement('div');
+                infoDiv.style.flex = '1';
+                infoDiv.style.textAlign = 'left';
+                infoDiv.innerHTML = `<strong style="font-size: 26px;">OP: ${item.numeroop}</strong>`;
+                infoDiv.innerHTML += '<br>'.repeat(1);
+                infoDiv.innerHTML += `<br><strong>Produto: ${item.codProduto}</strong>`;
+                infoDiv.innerHTML += '<br>'.repeat(1);
+                infoDiv.innerHTML += `<br><strong>Quantidade Op: ${item.quantidade}</strong> `;
+
+                btn.appendChild(infoDiv);
+
+                var statusDiv = document.createElement('div');
+                statusDiv.style.textAlign = 'right';
+                statusDiv.innerHTML = `<strong>Status Recebimento:</strong> ${item.status_Recebimento}`;
+                statusDiv.innerHTML += '<br>'.repeat(1);
+                statusDiv.innerHTML += `<br><strong>Stauts Reposição:</strong> ${item.status_reposicao}`;
+                statusDiv.innerHTML += '<br>'.repeat(1);
+                statusDiv.innerHTML += `<br><strong>Fase Atual:</strong> ${item.faseAtual}`;
+
+                btn.appendChild(statusDiv);
+
+                var detailsDiv = document.createElement('div');
+                detailsDiv.classList.add('details');
+                detailsDiv.innerHTML = `Detalhes:<br>
+                   Categoria: ${item.categoria}<br>
+                   Descrição: ${item.nome}<br>
+                   Data Finalização Costura: ${item.dataCostura}<br>
+                   Faccionista: ${item.nomeFaccionista}<br>
+                   Lote: ${item.lote}`;
+
+                btn.appendChild(detailsDiv);
+
+                btn.onclick = function () {
+                    Grades(item.numeroop);
+                };
+
+                if (item.status_reposicao === 'Nao Iniciado') {
+                    opButtonsContainerLeft.appendChild(btn);
+                } else {
+                    opButtonsContainerRight.appendChild(btn);
+                }
+            });
+        }
+
+        function Grades(Op) {
+    // Armazene o valor da OP no localStorage
+    localStorage.setItem('numeroOP', Op);
+
+    // Redirecione para a nova página
+    window.location.href = 'TelaGrades.html';
+}
+
+
+        function filtrarPorOP(op) {
+    const opButtonsContainerLeft = document.getElementById('opButtonsContainerLeft');
+    const opButtonsContainerRight = document.getElementById('opButtonsContainerRight');
+    opButtonsContainerLeft.innerHTML = '';  // Limpa o conteúdo atual
+    opButtonsContainerRight.innerHTML = '';  // Limpa o conteúdo atual
+
+    const opLowerCase = op.toLowerCase();  // Convertendo para minúsculas
+
+    const opFiltered = detalhesOPsData.filter(item =>
+        item.numeroop.toLowerCase().includes(opLowerCase) ||
+        item.nomeFaccionista.toLowerCase().includes(opLowerCase) ||
+        item.categoria.toLowerCase().includes(opLowerCase) ||
+        item.lote.toLowerCase().includes(opLowerCase)
+    );
+
+    construirInterface(opFiltered);
+}
+
+
+        window.addEventListener('Load', ChamadaApi());
+    </script>
+</body>
+</html>
