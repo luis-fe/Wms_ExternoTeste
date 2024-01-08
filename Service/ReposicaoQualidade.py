@@ -71,18 +71,15 @@ def InculirDados(dataframe):
 
         conn.close()
 def EncontrarEPC(caixa,endereco,empresa):
-    #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
-    caixaNova = ConsultaCaixa(caixa, empresa)
-    print((caixaNova))
-
-    caixaNova = [item['03- numeroOP'] for item in caixaNova]
-    print('segue o que foi retirado:')
-    print((caixaNova))
-    caixaNova = pd.DataFrame([{'03- numeroOP':caixaNova[0]}])
-    caixaNova.rename(columns={'03- numeroOP': 'numeroop'}, inplace=True)
-    #Passo2: Retirar do dataframe somente a coluna numeroop
+    # Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
+    conn = ConexaoPostgreMPL.conexao()
+    caixaNova = pd.read_sql('select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
+                            ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
+                            "where rq.caixa = %s ", conn, params=(caixa,))
+    conn.close()
+    caixaNova = caixaNova.drop_duplicates(subset=['codbarrastag'])
+    # Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
-
     ops1 = ops1.drop_duplicates(subset=['numeroop'])
 
     # Passo 3: Transformar o dataFrame em lista
