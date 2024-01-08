@@ -73,9 +73,10 @@ def InculirDados(dataframe):
 def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa, empresa)
+    print((caixaNova))
     caixaNova = pd.DataFrame(caixaNova)
     caixaNova.rename(columns={'03- numeroOP': 'numeroop'}, inplace=True)
-    print((caixaNova))
+
 
 
     #Passo2: Retirar do dataframe somente a coluna numeroop
