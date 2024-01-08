@@ -613,7 +613,6 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
-    novo['quantidade'] = novo['quantidade'].astype(str).str.replace('.0', '', regex=False)
 
     novo = novo.sort_values(by='1- codSortimento', ascending=True)
     novo = novo
