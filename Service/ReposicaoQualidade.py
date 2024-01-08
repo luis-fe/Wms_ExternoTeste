@@ -611,6 +611,9 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
+
+    novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
+    novo = novo.sort_values(by='1- codSortimento', ascending=False)
     novo = novo
     data = {
         '1 -numeroOP': numeroop,
