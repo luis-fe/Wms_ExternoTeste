@@ -613,7 +613,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
-    novo = novo.sort_values(by='1- codSortimento', ascending=False)
+    novo = novo.sort_values(by='1- codSortimento', ascending=True)
     novo = novo
     data = {
         '1 -numeroOP': numeroop,
