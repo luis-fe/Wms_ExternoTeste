@@ -58,9 +58,9 @@ def RecarrearEndereco():
     # Extraia os valores dos campos do novo usuário
     Ncaixa = novo_usuario.get('Ncaixa')
     endereco = novo_usuario.get('endereco')
+    empresa = novo_usuario.get('empresa','1')
 
-
-    FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco)
+    FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, empresa)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

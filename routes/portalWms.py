@@ -66,6 +66,6 @@ def TelaLiberacao():
 def TelaGrades():
     return render_template('TelaGrades.html')
 
-@portal_routes.route('/HomeGarantia')
+@portal_routes.route('/HomeGarantia') # Aqui é o link da pagina incial do Portal da Garantia
 def HomeGarantia():
     return render_template('indexGarantia.html')

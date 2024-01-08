@@ -70,9 +70,9 @@ def InculirDados(dataframe):
 
 
         conn.close()
-def EncontrarEPC(caixa,endereco):
+def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
-    caixaNova = ConsultaCaixa(caixa)
+    caixaNova = ConsultaCaixa(caixa, empresa)
     caixaNova = caixaNova.drop_duplicates(subset=['codbarrastag'])
     #Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
