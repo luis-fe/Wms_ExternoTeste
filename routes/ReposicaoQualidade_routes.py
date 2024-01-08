@@ -57,8 +57,8 @@ def RecarrearEndereco():
     dados = request.get_json()
 
     # Extraia os valores dos campos do novo usuário
-    Ncaixa = dados['Ncaixa']
-    endereco = dados['endereco']
+    Ncaixa = dados.get('Ncaixa')
+    endereco = dados.get('endereco')
     FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
