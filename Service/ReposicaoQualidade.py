@@ -73,6 +73,7 @@ def InculirDados(dataframe):
 def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa, empresa)
+    print((caixaNova))
     caixaNova = [item['03- numeroOP'] for item in caixaNova]
     print((caixaNova))
     caixaNova = pd.DataFrame(caixaNova)
