@@ -55,11 +55,11 @@ def ReporCaixaLivre():
 def RecarrearEndereco():
     # Obtenha os dados do corpo da requisição
     novo_usuario = request.get_json()
-    # Extraia os valores dos campos do novo usuário
-    Ncaixa = novo_usuario.get('Ncaixa')
-    endereco = novo_usuario.get('endereco')
-    empresa = novo_usuario.get('empresa','1')
 
+    # Extraia os valores dos campos do novo usuário
+    Ncaixa = novo_usuario['Ncaixa']
+    endereco = novo_usuario['endereco']
+    empresa = novo_usuario['empresa','1']
     FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, empresa)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
