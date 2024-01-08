@@ -600,7 +600,10 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     print(novo)
     novo = pd.merge(novo, bipadoSku, on=['sortimentosCores', 'tamanho'], how='left')
     novo['quantidade'] = novo['quantidade'].astype(int)
+    totalop = novo['quantidade'].sum()
     novo['quantidade'] = novo['quantidade'].astype(str)
+
+
 
     novo.fillna('0', inplace=True)
     novo['Qtbipado'] = novo['Qtbipado'].astype(str)
@@ -622,6 +625,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     data = {
         '1 -numeroOP': numeroop,
         '2 -CodProduto':engenharia,
+        '2.1 - Total OP':totalop,
         '3- Detalhamento da Grade': novo.to_dict(orient='records')
     }
     return pd.DataFrame([data])
