@@ -606,6 +606,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
 
     novo.fillna('0', inplace=True)
+    bipado = novo['Qtbipado'].sum()
     novo['Qtbipado'] = novo['Qtbipado'].astype(str)
     novo['Qtbipado'] = novo['Qtbipado'].astype(str).str.replace('.0', '', regex=False)
 
@@ -626,7 +627,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
         '1 -numeroOP': numeroop,
         '2 -CodProduto':engenharia,
         '2.1 - Total OP':totalop,
-        '2.2- Total Bipado':totalbipado,
+        '2.2- Total Bipado':bipado,
         '3- Detalhamento da Grade': novo.to_dict(orient='records')
     }
     return pd.DataFrame([data])
