@@ -95,8 +95,8 @@
 
         <div class="Informacoes">
             <label for="text" id="LabelOp"></label>
-            <label for="text">Peças Lidas: 500</label>
-            <label for="text">Peças Op: 1200</label>
+            <label for="text" id="PecasLidas"></label>
+            <label for="text" id="PecasOps"></label>
         </div>
    
         <div class="Tabela" >
@@ -107,6 +107,7 @@
 
             async function Api(Op) {
                 try {
+                    const numeroOP = localStorage.getItem('numeroOP');
                     const response = await fetch(`http://192.168.0.183:5000/api/DetalhaOPQuantidade?empresa=1&numeroop=${Op}`, {
                         method: 'GET',
                         headers: {
@@ -118,7 +119,12 @@
                     if (response.ok) {
                         const data = await response.json();
                         dadosApi = data[0]["3- Detalhamento da Grade"];
+                        const QtdLida = data[0]["2.2- Total Bipado"];
+                        const QtdOp = data[0]["2.1 - Total OP"];
                         criarTabela(dadosApi);
+                        document.getElementById('LabelOp').textContent = `Numero da Op: ${numeroOP}` ;
+                        document.getElementById('PecasLidas').textContent = `Qtd Peças Lidas: ${QtdLida}`;
+                        document.getElementById('PecasOps').textContent = `Qtd Peças Op: ${QtdOp}`
                         console.log(data);
                     } else {
                         throw new Error('Erro No Retorno');
@@ -127,6 +133,7 @@
                     console.error(error);
                 }
             }
+
 
             function criarTabela(dados) {
     const tabela = document.getElementById('TabelaGrades');
