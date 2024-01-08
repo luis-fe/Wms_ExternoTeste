@@ -606,6 +606,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
 
 
     novo.fillna('0', inplace=True)
+    novo['Qtbipado'] = novo['Qtbipado'].astype(int)
     bipado = novo['Qtbipado'].sum()
     novo['Qtbipado'] = novo['Qtbipado'].astype(str)
     novo['Qtbipado'] = novo['Qtbipado'].astype(str).str.replace('.0', '', regex=False)
