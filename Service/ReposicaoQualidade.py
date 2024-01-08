@@ -74,10 +74,11 @@ def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa, empresa)
     print(caixaNova)
+    caixaNova.rename(columns={'03- numeroop': 'numeroop'}, inplace=True)
     #Passo2: Retirar do dataframe somente a coluna numeroop
-    ops1 = caixaNova[['03- numeroOP']]
+    ops1 = caixaNova[['numeroop']]
 
-    ops1 = ops1.drop_duplicates(subset=['03- numeroOP'])
+    ops1 = ops1.drop_duplicates(subset=['numeroop'])
 
     # Passo 3: Transformar o dataFrame em lista
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in ops1['numeroop']]))
