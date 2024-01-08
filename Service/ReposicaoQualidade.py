@@ -72,8 +72,8 @@ def InculirDados(dataframe):
         conn.close()
 def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
-    caixaNova = ConsultaCaixa(caixa, empresa)
-    caixaNova = caixaNova.drop_duplicates(subset=['codbarrastag'])
+    caixaNova1 = ConsultaCaixa(caixa, empresa)
+    caixaNova = caixaNova1.drop_duplicates(subset=['codbarrastag'])
     #Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
     ops1 = ops1.drop_duplicates(subset=['numeroop'])
@@ -93,7 +93,7 @@ def EncontrarEPC(caixa,endereco,empresa):
     result.fillna('-', inplace=True)
 
     if result['mensagem'][0] == 'caixa vazia':
-        print(caixaNova)
+        print(caixaNova1)
         return pd.DataFrame({'mensagem':['caixa vazia'],'status':False})
     else:
         #Avaliar se a op da tag foi baixada
