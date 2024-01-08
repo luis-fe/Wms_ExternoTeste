@@ -93,6 +93,7 @@ def EncontrarEPC(caixa,endereco,empresa):
     result.fillna('-', inplace=True)
 
     if result['mensagem'][0] == 'caixa vazia':
+        print(result)
         return pd.DataFrame({'mensagem':['caixa vazia'],'status':False})
     else:
         #Avaliar se a op da tag foi baixada
