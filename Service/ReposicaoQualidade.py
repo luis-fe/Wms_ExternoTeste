@@ -626,6 +626,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
         '1 -numeroOP': numeroop,
         '2 -CodProduto':engenharia,
         '2.1 - Total OP':totalop,
+        '2.2- Total Bipado':totalbipado,
         '3- Detalhamento da Grade': novo.to_dict(orient='records')
     }
     return pd.DataFrame([data])
