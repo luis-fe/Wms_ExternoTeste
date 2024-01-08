@@ -87,19 +87,19 @@ def EncontrarEPC(caixa,endereco,empresa):
 
     conn = ConexaoCSW.Conexao()
 
-    # Use parâmetro de substituição na consulta SQL
-    epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
-            "FROM tcr.SeqLeituraFase t WHERE t.codempresa = 1 and t.numeroOP IN "+resultado,conn)
-
-    epc = epc.drop_duplicates(subset=['codbarrastag'])
-
-    result = pd.merge(caixaNova,epc,on=('codbarrastag','numeroop'), how='left')
-    result.fillna('-', inplace=True)
-
     if consulta.empty:
 
         return pd.DataFrame({'mensagem':['caixa vazia'],'status':False})
     else:
+        # Use parâmetro de substituição na consulta SQL
+        epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
+                "FROM tcr.SeqLeituraFase t WHERE t.codempresa = 1 and t.numeroOP IN "+resultado,conn)
+
+        epc = epc.drop_duplicates(subset=['codbarrastag'])
+
+        result = pd.merge(caixaNova,epc,on=('codbarrastag','numeroop'), how='left')
+        result.fillna('-', inplace=True)
+
         #Avaliar se a op da tag foi baixada
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
