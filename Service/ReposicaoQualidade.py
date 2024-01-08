@@ -130,7 +130,7 @@ def ConsultaCaixa(NCaixa, empresa):
                             ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
                             "where rq.caixa = %s ",conn,params=(NCaixa,))
     conn.close()
-    print(consultar)
+    print(NCaixa)
     if consultar.empty :
         return pd.DataFrame({'mensagem':['caixa vazia'],'codbarrastag':'','numeroop':'','status':True})
     else:
