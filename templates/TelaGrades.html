@@ -8,37 +8,63 @@
     <title>SGQ (Gestão da Qualidade)</title>
     <link rel="stylesheet" href="static/css/Cabecalho.css">
     <style>
-        .Tabela{
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        .Tabela {
+            width: 80%;
+            margin: 30px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: auto;
         }
 
         #TabelaGrades {
             border-collapse: collapse;
             width: 100%;
-       
         }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
             text-align: center;
-            
         }
 
         th {
             background-color: #f2f2f2;
         }
 
-        .Tabela{
-             width: 50%; /* Ajustado para ocupar toda a largura disponível */
-             max-height: 50vh; /* Mantido um limite de altura */
-             border: 2px solid black;
-             border-radius: 10px;
-             overflow: auto; /* Adicionado overflow para permitir rolagem horizontal se necessário */
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        th {
+            background-color: rgb(17, 45, 126);
+            color: white;
+        }
+
+        .Informacoes {
+            margin: 20px auto;
+            padding: 15px;
+            width: 80%;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+.Informacoes label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
     </style>
 </head>
 
@@ -66,6 +92,12 @@
     <div class="TituloRotina">
         <h2>CONFERÊNCIA REPOSIÇÃO</h2>
     </div>
+
+        <div class="Informacoes">
+            <label for="text" id="LabelOp"></label>
+            <label for="text">Peças Lidas: 500</label>
+            <label for="text">Peças Op: 1200</label>
+        </div>
    
         <div class="Tabela" >
             <table id="TabelaGrades"></table>
@@ -96,40 +128,51 @@
                 }
             }
 
-            // Função para criar a tabela
             function criarTabela(dados) {
-                const tabela = document.getElementById('TabelaGrades');
-                tabela.innerHTML = ''; // Limpar o conteúdo existente
+    const tabela = document.getElementById('TabelaGrades');
+    tabela.innerHTML = '';
 
-                // Cabeçalho
-                const cabecalho = tabela.createTHead();
-                const linhaCabecalho = cabecalho.insertRow();
-                linhaCabecalho.insertCell().textContent = 'Cores';
+    const cabecalho = tabela.createTHead();
+    const linhaCabecalho = cabecalho.insertRow();
+    linhaCabecalho.insertCell().textContent = 'Cores';
 
-                // Obter todos os tamanhos disponíveis
-                const tamanhos = Array.from(new Set(dados.flatMap(grade => grade.tamanho)));
+    // Defina a ordem desejada para os tamanhos
+    const ordemTamanhos = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'G1', 'G2', 'G3'];
 
-                // Adicionar tamanhos ao cabeçalho
-                tamanhos.forEach(tamanho => {
-                    const th = document.createElement('th');
-                    th.textContent = tamanho;
-                    linhaCabecalho.appendChild(th);
-                });
+    ordemTamanhos.forEach(tamanho => {
+        const th = document.createElement('th');
+        th.textContent = tamanho;
+        linhaCabecalho.appendChild(th);
+    });
 
-                // Adicionar dados à tabela
-                dados.forEach(grade => {
-                    const linha = tabela.insertRow();
-                    const celulaCor = linha.insertCell();
-                    celulaCor.textContent = grade['2-sortimentosCores'];
+    dados.forEach(item => {
+        const linha = tabela.insertRow();
+        const celulaCor = linha.insertCell();
+        celulaCor.textContent = item['2-sortimentosCores'];
 
-                    // Preencher as células de quantidade
-                    tamanhos.forEach(tamanho => {
-                        const celulaQuantidade = linha.insertCell();
-                        const quantidade = grade.quantidade.shift(); // Remova o primeiro elemento do array
-                        celulaQuantidade.textContent = quantidade !== undefined ? quantidade.toString() : ''; // Verifique se a quantidade é definida antes de convertê-la para uma string
-                    });
-                });
+        ordemTamanhos.forEach(tamanho => {
+            const celulaQuantidade = linha.insertCell();
+            const indice = item.tamanho.indexOf(tamanho);
+            
+            if (indice !== -1) {
+                const quantidade = item.quantidade[indice];
+                const [atual, total] = quantidade.split('/').map(Number);
+                if (atual < total) {
+                    celulaQuantidade.textContent = quantidade;
+                    celulaQuantidade.style.backgroundColor = '#FA8072';
+                } else if (atual === total) {
+                    celulaQuantidade.textContent = quantidade;
+                    celulaQuantidade.style.backgroundColor = '#2E8B57';
+                } else {
+                    celulaQuantidade.textContent = quantidade;
+                }
+            } else {
+                celulaQuantidade.textContent = '-';
             }
+        });
+    });
+}
+
 
             window.addEventListener('load', () => {
     const numeroOP = localStorage.getItem('numeroOP');
@@ -145,10 +188,7 @@
     }
 });
 
-window.addEventListener('beforeunload', () => {
-    // Limpar o localStorage
-    localStorage.removeItem('numeroOP');
-});
+
         </script>
     </div>
 </body>
