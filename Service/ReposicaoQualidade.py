@@ -74,9 +74,10 @@ def EncontrarEPC(caixa,endereco,empresa):
     #Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     caixaNova = ConsultaCaixa(caixa, empresa)
     caixaNova = pd.DataFrame(caixaNova)
+    caixaNova.rename(columns={'03- numeroOP': 'numeroop'}, inplace=True)
     print((caixaNova))
 
-    caixaNova.rename(columns={'03- numeroop': 'numeroop'}, inplace=True)
+
     #Passo2: Retirar do dataframe somente a coluna numeroop
     ops1 = caixaNova[['numeroop']]
 
