@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = 'Login.html';
+    window.location.href = '/Login_Teste';
 }
 
 const Api = 'http://192.168.0.183:5000/api/GerarCaixa';
@@ -61,11 +61,11 @@ window.addEventListener('load', async () => {
 
     if (VerificaLogin !== "Logado") {
         // Se não houver token, redirecione para a página de login
-        window.location.href = 'Login.html';
+        window.location.href = '/Login_Teste';
     }
 });
 
-const linkSair = document.querySelector('.right-menu-item li a[href="Login.html"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
