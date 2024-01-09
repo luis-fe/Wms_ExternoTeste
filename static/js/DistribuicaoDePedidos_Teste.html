@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/CSS/index.css">
+    <link rel="stylesheet" href="static/CSS/Distribuicao.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul class="left-menu">
+                <li><a href="indexMatriz_Teste.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="Usuarios_Teste.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="Chamados_Teste.html">Gerenciamento de Chamados</a></li>
+                        <li><a href="CadastroQrCaixas_Teste.html">Cadastro Qr das Caixas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="FilaReposicao_Teste.html">Fila de Reposição</a></li>
+                        <li><a href="DistribuicaoDePedidos_Teste.html">Distribuição de Pedidos</a></li>
+                        <li><a href="CadastroDeEnderecos_Teste.html">Cadastro de Endereços</a></li>
+                        <li><a href="ConsumoEmbalagens_Teste.html">Consumo Embalagens</a></li>
+                        <li><a href="RelatorioInventario_Teste.html">Relatório Inventários</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="right-menu-item">
+                <li><a href="#">Nome do Usuário</a>
+                    <ul>
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="Login_Teste.html">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Distribuição de Pedidos</h2></div>
+
+        <div class="Busca">
+            <input id="InputBusca" type="search" class="InputBusca" placeholder="Digite aqui sua busca!">
+        </div>
+
+
+        <div class="Usuarios">
+            <select id="Usuarios" onchange="if (this.value !== 'Selecione um usuário para Atribuição!')">
+                <option disabled selected>Selecione um usuário para Atribuição!</option>
+            </select>
+            <button id="VerificarPecasFaltando">Peças Faltantes</button>
+            <button id="Priorizacao">Priorizar Pedido</button>
+        </div>
+
+    
+    <div class="TabelaContainer">
+        <table border="2" class="TabelaTabelaDistribuicao" id="TabelaTabelaDistribuicao">
+
+        </table>
+        </div>
+
+        <div id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+        <div id="ModalPeçasFaltantes" class="modal">
+            <div class="ModalPeçasFaltantes-content">
+                <span class="close">&times;</span>
+                <h3 id="TituloModal">Peças Faltantes no Pedido</h3>
+                <ul id="ListaPeçasFaltantes"></ul>
+            </div>
+        </div>
+
+        <div class="TabelaInformacoes">
+            <table border="2" class="TabelaInformacao" id="TabelaInformacao">
+            </table>
+
+            
+        </div>
+
+
+    
+    <script src="static/js/Distribuicao.js"></script>
+    
+
+</body>
+</html>

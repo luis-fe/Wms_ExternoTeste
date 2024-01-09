@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/CSS/index.css">
+    <link rel="stylesheet" href="static/css/ConsumoEmbalagens.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+
+
+
+</head>
+<body>
+
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul class="left-menu">
+                <li><a href="indexMatriz_Teste.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="Usuarios_Teste.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="Chamados_Teste.html">Gerenciamento de Chamados</a></li>
+                        <li><a href="CadastroQrCaixas_Teste.html">Cadastro Qr das Caixas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="FilaReposicao_Teste.html">Fila de Reposição</a></li>
+                        <li><a href="DistribuicaoDePedidos_Teste.html">Distribuição de Pedidos</a></li>
+                        <li><a href="CadastroDeEnderecos_Teste.html">Cadastro de Endereços</a></li>
+                        <li><a href="ConsumoEmbalagens_Teste.html">Consumo Embalagens</a></li>
+                        <li><a href="RelatorioInventario_Teste.html">Relatório Inventários</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="right-menu-item">
+                <li><a href="#">Nome do Usuário</a>
+                    <ul>
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="Login_Teste.html">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div class="Conteudo">
+        <div class="Filtros">
+            <div class="DataInicio">
+                <label for="text">Data Inicial:</label>
+                <input id="DataInicial" type="date">
+            </div>
+            <div class="DataFim">
+                <label for="text">Data Final:</label>
+                <input id="DataFinal" type="date">
+            </div>
+            <div class="Botao">
+                <button id="btnFiltrar">Filtrar</button>
+            </div>
+            <div class="Botao">
+                <button id="btnCadastrar">Cadastrar Nova Embalagem</button>
+            </div>
+    
+            <div id="confirmationBox" class="confirmation-box" style="display: none;">
+                <h2>Confirmar Cadastro</h2>
+                <p>Deseja realmente cadastrar?</p>
+                <button id="confirmButton">Sim</button>
+                <button id="cancelButton" class="cancel">Cancelar</button>
+            </div>
+        </div>
+    
+        <div class="TabelasCaixas">
+            <table border="2" class="TabelaCaixa" id="TabelaCaixa">
+            </table>
+        </div>
+    </div>
+    
+    <div id="ModalCadastroEmbalagem" class="ModalCadastroEmbalagem">
+        <div class="ModalCadastroEmbalagem-content">
+            <span id="FecharModalCadastro" class="fechar">&times;</span>
+            <h3>Cadastro de Embalagem</h3>
+            <label for="Codigo" id="CodigoCaixa" class="CodigoCaixa">Cód.Caixa</label>
+            <div class="Codigos">
+                <input type="text" id="InputCodigo" class="InputCodigo" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+                <i id="Pesquisar" class="bi bi-search"></i>
+            </div>
+            <label for="Descricao" id="DescricaoEmbalagem" class="DescricaoEmbalagem">Descrição:</label>
+            <input type="text" id="InputDescricaoEmbalagem" class="InputDescricaoEmbalagem" onkeydown="checkEnterModal(event, 'InputLoginEditar')">
+            <label for="TamanhoCaixa" id="TamanhoCaixa" class="TamanhoCaixa">Tamanho Caixa:</label>
+            <input type="text" id="InputTamanhoCaixa" class="InputTamanhoCaixa" onkeydown="checkEnterModal(event, 'InputConfirmarSenha')">
+            <button type="button" id="SalvarNovaCaixa">CADASTRAR</button>
+        </div>
+    </div>
+
+    <script src="static/js/ConsumoEmbalagens.js"></script>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/CSS/index.css">
+    <link rel="stylesheet" href="static/CSS/CadastroDeEnderecos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul class="left-menu">
+                <li><a href="indexMatriz_Teste.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="Usuarios_Teste.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="Chamados_Teste.html">Gerenciamento de Chamados</a></li>
+                        <li><a href="CadastroQrCaixas_Teste.html">Cadastro Qr das Caixas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="FilaReposicao_Teste.html">Fila de Reposição</a></li>
+                        <li><a href="DistribuicaoDePedidos_Teste.html">Distribuição de Pedidos</a></li>
+                        <li><a href="CadastroDeEnderecos_Teste.html">Cadastro de Endereços</a></li>
+                        <li><a href="ConsumoEmbalagens_Teste.html">Consumo Embalagens</a></li>
+                        <li><a href="RelatorioInventario_Teste.html">Relatório Inventários</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="right-menu-item">
+                <li><a href="#">Nome do Usuário</a>
+                    <ul>
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="Login_Teste.html">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+
+    <div class="TituloPrograma">
+        <h2>Manutenção De Endereços</h2>
+    </div>
+
+    <div class="CorpoEnderecos">
+        <div class="Opcao">
+            <label>
+                <input type="radio" id="radioIncluir" name="acaoEndereco" value="Incluir"> Incluir
+            </label><br>
+            <label>
+                <input type="radio" id="radioExcluir" name="acaoEndereco" value="Excluir"> Excluir
+            </label>
+        </div>
+
+        <div class="Comboboxex">
+            <label for="OpcoesNaturezas">Natureza de Estoque:</label>
+            <select id="OpcoesNaturezas">
+                <option></option>
+                <option value="5">5 - P.A ATACADO</option>
+                <option value="7">7 - SALDO</option>
+                <option value="54">54 - BONIFICAÇÃO MKT</option>
+            </select>
+                <label for="OpcoesEstoque">Tipo de Estoque:</label>
+            <select id="OpcoesEstoque">
+                <option ></option>
+                <option value="COLECAO">COLEÇÃO</option>
+                <option value="SALDO">SALDO</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="BotaoCad">
+        <button id="ButtonCad">Selecionar Endereços</button>
+    </div>
+
+    <div class="LinhaDiv"></div>
+
+    <div class="SelecaoEnderecos">
+        <div class="SelecaoInicial">
+            <label for="text" id="LabelRuaInicial">Rua Inicial</label>
+            <input type="text" id="inputRuaInicial">
+            <label for="text" id="LabelModuloInicial">Modulo Inicial</label>
+            <input type="text" id="InputModuloInicial">
+            <label for="text" id="LabelPosicaoInicial">Posicao Inicial</label>
+            <input type="text" id="InputPosicaoInicial">
+        </div>
+
+        <div class="SelecaoFinal">
+            <label for="text" id="LabelRuaFinal">Rua Final</label>
+            <input type="text" id="inputRuaFinal">
+            <label for="text" id="LabelModuloFinal">Modulo Final</label>
+            <input type="text" id="InputModuloFinal">
+            <label for="text" id="LabelPosicaoFinal">Posicao Final</label>
+            <input type="text" id="InputPosicaoFinal">
+        </div>
+    </div>
+
+    <div class="DivBotoes">
+        <button id="BotaoPersistir"></button>
+        <button id="BotaoCancelar">CANCELAR</button>
+    </div>
+
+    
+
+        
+
+        <div id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+        <div id="Imprimir" class="Imprimir" style="display: none;">
+            <h2>Deseja Imprimir os Endereços?</h2>
+            <button id="confirmButtonImpressao">Sim</button>
+            <button id="cancelButtonImpressao" class="cancel">Não</button>
+        </div>
+    </div>
+
+    
+    <script src="static/js/CadastroDeEnderecos.js"></script>
+    
+
+</body>
+</html>

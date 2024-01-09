@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/CSS/index.css">
+    <link rel="stylesheet" href="static/CSS/Chamados.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul class="left-menu">
+                <li><a href="indexMatriz_Teste.html">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="Usuarios_Teste.html">Gerenciamento de Usuários</a></li>
+                        <li><a href="Chamados_Teste.html">Gerenciamento de Chamados</a></li>
+                        <li><a href="CadastroQrCaixas_Teste.html">Cadastro Qr das Caixas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="FilaReposicao_Teste.html">Fila de Reposição</a></li>
+                        <li><a href="DistribuicaoDePedidos_Teste.html">Distribuição de Pedidos</a></li>
+                        <li><a href="CadastroDeEnderecos_Teste.html">Cadastro de Endereços</a></li>
+                        <li><a href="ConsumoEmbalagens_Teste.html">Consumo Embalagens</a></li>
+                        <li><a href="RelatorioInventario_Teste.html">Relatório Inventários</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="right-menu-item">
+                <li><a href="#">Nome do Usuário</a>
+                    <ul>
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="Login_Teste.html">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Gerenciamento de Chamados</h2></div>
+
+        <div class="BuscaUsuario">
+            <input id="InputBuscaChamados" type="search" class="InputBuscaChamados" placeholder="Digite aqui sua busca!">
+            <i id="AdicionarChamado" title="Novo Chamado" class="bi bi-database-add"></i>
+            <i id="CancelarChamado" title="Cancelar Chamado" class="bi bi-database-dash"></i>
+            <i id="EditarChamado" title="Editar Chamado" class="bi bi-pencil-square"></i>
+        </div>
+
+
+    <div class="TabelasChamados">
+        <table border="2" class="TabelaChamados" id="TabelaChamados">
+
+        </table>
+        </div>
+
+        <div  id="ModalLoading" class="ModalLoading">
+            <span id="loader"><img src="static/imagens/IconeLoading.gif" style="width: 80px; height: 80px;" id="ImagemLoading">
+          </span>
+          </div>
+        </div>
+
+        <div id="ModalNovoChamado" class="ModalNovoChamado">
+          <div class="ModalNovoChamado-content">
+              <span id="FecharModalNovoChamado" class="fechar">&times;</span>
+              <h3>Novo Chamado</h3>
+              <label for="DescricaoChamado" id="DescricaoChamado" class="DescricaoChamado">Descrição Chamado:</label>
+              <textarea id="InputDescricaoChamado" rows="4" style="height: 150px; width: 100%; resize: none; font-size: 18px;"></textarea>
+              <div class="imagens" style="display: flex; width: 100%;">
+              <input type="file" id="fileInput" style="display: none;" accept="image/*">
+              <i id="AddImagem" title="Anexar Imagem" style="font-size: 30px; cursor: pointer;" class="bi bi-image"></i>
+              <i id="DeleteImagem" title="Excluir Imagem" style="font-size: 30px; cursor: pointer; margin-left: 1%; margin-top: 1%; display: none;" class="bi bi-trash"></i>
+              <img id="imagePreview" style="display: none; max-width: 50%; margin-top: 1%; margin-left: 1%;">
+            </div>
+              <label for="TipoChamado" id="TipoChamado" class="TipoChamado">Tipo Chamado:</label>
+              <select id="OpcoesTipoChamado">
+                <option value=""></option>
+                <option value="Manutenção">Manutenção</option>
+                <option value="Melhoria">Melhoria</option>
+              </select>
+              <label for="AreaChamado" id="AreaChamado" class="AreaChamado">Área</label>
+              <select id="OpcoesArea">
+                <option value=""></option>
+              </select>
+              <i id="BotaoSalvarChamado" title="Salvar" style="font-size: 40px; color: rgb(17, 45, 126); margin-left: 45%; cursor: pointer;" class="bi bi-database-fill-check"></i>
+          </div>
+      </div>
+
+
+    
+
+    <script src="static/js/FuncoesChamados.js"></script>
+    
+
+</body>
+</html>
