@@ -8,8 +8,31 @@ import Service.configuracoes.empresaConfigurada as emp
 
 empresa = emp.EmpresaEscolhida()
 print(empresa)
-# Função de conectar com o CSW, com 2 opções de conexao:
+
 def Conexao():
+    empresa = emp.EmpresaEscolhida()
+
+    if empresa == '1':
+        ConexaoInternoMPL()
+    else:
+        ConexaoCianorte()
+
+
+
+def ConexaoCianorte():
+   # try:
+        conn = jaydebeapi.connect(
+    'com.intersys.jdbc.CacheDriver',
+    'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
+    {'user': '_system', 'password': 'ccscache'},
+    'CacheDB_root.jar'
+    )
+        return conn
+
+
+
+# Função de conectar com o CSW, com 2 opções de conexao:
+def ConexaoInternoMPL():
    # try:
         conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
