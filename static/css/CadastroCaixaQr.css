@@ -1,0 +1,129 @@
+/* Paleta de cores para Empresa A */
+:root.palheta-empresa-a {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
+}
+
+/* Paleta de cores para Empresa B */
+:root.palheta-empresa-b {
+    --cor1: rgb(255, 255, 255);
+    --cor2: #00838F;
+    --cor3: darkgray;
+    --cor4: black;
+}
+
+.Corpo{
+    background-color: var(--cor2);
+}
+
+.Menu {
+    width: 100%; /* Ocupar toda a largura da tela */
+    display: flex;
+    justify-content: space-between; /* Distribui os elementos uniformemente */
+    align-items: center;
+}
+
+.left-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.right-menu-item {
+    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
+}
+
+
+.TituloPrograma {
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: var(--cor2);
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    color: var(--cor4);
+}
+
+.TituloPrograma label {
+    color: var(--cor4);
+    font-weight: bold;
+}
+
+.ModalLoading {
+    display: none; /* Oculta o modal por padrão */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+  }
+
+  #loader {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  }
+  
+  .SelecaoEnderecos {
+    background-color: var(--cor2);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    margin-top: 100px;
+}
+
+.SelecaoEnderecos label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--cor4);
+}
+
+.SelecaoEnderecos input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.SelecaoEnderecos button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.SelecaoEnderecos button:hover {
+    background-color: #0056b3;
+}
+
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .SelecaoEnderecos {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .Menu ul li {
+        display: block;
+        padding: 10px 0;
+        text-align: center;
+    }
+}

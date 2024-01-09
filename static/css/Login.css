@@ -1,0 +1,117 @@
+/* Reset de estilos básicos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(180, 180, 180); /* Cor cinza claro */
+    font-family: Arial, sans-serif; /* Escolha uma fonte padrão */
+}
+
+.Geral {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Isso fará com que o conteúdo esteja centralizado na tela */
+}
+
+.imagem {
+    margin-right: 30px; /* Espaçamento à direita da imagem */
+}
+
+
+.imagem img {
+    max-width: 100%;
+    height: auto;
+}
+
+.formulario {
+    width: 25%;
+    background-color: #fff; /* Fundo branco para o formulário */
+    padding: 20px;
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center;
+    align-items: center;
+}
+
+#UsuarioNegado {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.Campo {
+    margin-bottom: 20px;
+}
+
+#LabelLogin{
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: rgb(17, 45, 126);
+    outline: none;
+}
+
+select#InputEmpresa {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: #fff; /* Cor de fundo */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilo para quando o select está focado */
+select#InputEmpresa:focus {
+    border-color: #4facfe; /* Cor quando focado */
+    outline: none; /* Remove a borda de foco padrão */
+    box-shadow: 0 0 5px rgba(79, 172, 254, 0.5); /* Sombra quando focado */
+}
+
+#BotaoLogin {
+    background-color: rgb(17, 45, 126);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+#BotaoLogin:hover {
+    background-color: #4facfe;
+}

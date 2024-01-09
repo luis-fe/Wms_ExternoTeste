@@ -1,0 +1,247 @@
+:root.palheta-empresa-a {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
+}
+
+:root.palheta-empresa-b {
+    --cor1: rgb(255, 255, 255);
+    --cor2: #00838F;
+    --cor3: darkgray;
+    --cor4: black;
+}
+
+.Corpo{
+    background-color: var(--cor2);
+}
+
+.Menu {
+    width: 100%; /* Ocupar toda a largura da tela */
+    display: flex;
+    justify-content: space-between; /* Distribui os elementos uniformemente */
+    align-items: center;
+}
+
+.left-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.right-menu-item {
+    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
+}
+
+
+
+#loader {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.ModalLoading {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.TituloPrograma {
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: var(--cor2);
+    width: 100%;
+    text-align: center;
+    color: var(--cor4);
+    color: var(--cor4);
+}
+
+.TituloPrograma label {
+    font-weight: bold;
+}
+
+.Busca {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: lightgray;
+    border-bottom: 1px solid #ddd;
+}
+
+.InputBusca {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 70%;
+}
+
+/* Botões e seletores */
+.Usuarios {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--cor2);
+    color: var(--cor4);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.botaoProduto, 
+.botaoUsuario, 
+.botaoNota, 
+.botaoData, 
+.botaoQuantidade,
+.botaoReposto,
+.botaoSeparado,
+.botaoValor {
+    background-color: white; /* cor de fundo azul */
+    border: none;
+    padding: 3px 6px; /* reduzindo o padding */
+    cursor: pointer;
+    border-radius: 3px; /* bordas arredondadas */
+    font-size: 5px; /* ajuste o tamanho da fonte conforme necessário */
+}
+
+
+.botaoProduto img,
+.botaoUsuario img,
+.botaoNota img,
+.botaoData img,
+.botaoQuantidade img,
+.botaoReposto img,
+.botaoSeparado img,
+.botaoValor img {
+    width: 10px; /* reduzindo o tamanho do ícone */
+    height: 10px;
+    margin-left: 3px; /* reduzindo o espaço entre o ícone e o texto (se houver) */
+    color: white;
+}
+
+
+
+
+.TabelaContainer {
+    width: 100%;
+    height: 78vh;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+.TabelaInformacoes {
+    width: 80%;
+    height: 50vh;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid black;
+    overflow-y: scroll;
+    margin-left: 11%;
+}
+
+.TabelaTabelaDistribuicao, .TabelaInformacao {
+    width: 100%;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+.TabelaTabelaDistribuicao th, .TabelaTabelaDistribuicao td, .TabelaInformacao th, .TabelaInformacao td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.TabelaTabelaDistribuicao th{
+white-space: nowrap; /* Impede a quebra de texto */
+    overflow: hidden; /* Esconde qualquer texto que possa transbordar do elemento */
+    text-overflow: ellipsis; /* Exibe reticências (...) para indicar que há mais conteúdo */
+    max-width: 200px; /* Defina uma largura máxima para evitar que os títulos se estendam demais */
+    text-align: left;
+}
+
+.TabelaChamados thead, .TabelaInformacao thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--cor2);
+    color: var(--cor4);
+}
+
+/* Estilos para a modal */
+.modal {
+    display: none; /* Inicia escondida */
+    position: fixed; /* Posição fixa na janela do navegador */
+    top: 0;
+    left: 0;
+    width: 100%; /* 100% da largura da janela */
+    height: 100%; /* 100% da altura da janela */
+    background-color: rgba(0, 0, 0, 0.7); /* Cor de fundo preta com transparência */
+    z-index: 1000; /* Z-index alto para sobrepor outros elementos */
+    overflow: auto; /* Adiciona rolagem se necessário */
+}
+
+/* Estilos para o conteúdo da modal */
+.ModalPeçasFaltantes-content {
+    background-color: #fefefe; /* Cor de fundo branca */
+    margin: 15% auto; /* Centraliza a modal verticalmente e define uma margem em relação às laterais */
+    padding: 20px;
+    border: 1px solid #888; /* Borda cinza */
+    width: 70%; /* Largura da modal */
+    max-width: 500px; /* Largura máxima da modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de elevação */
+}
+
+/* Estilos para o botão de fechar */
+.close {
+    color: #aaa; /* Cor do ícone */
+    float: right; /* Flutua para a direita */
+    font-size: 28px; /* Tamanho da fonte */
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: black; /* Cor ao passar o mouse ou focar */
+    text-decoration: none; /* Remove a sublinhado */
+    cursor: pointer; /* Mostra o cursor como um ponteiro */
+}
+
+/* Estilos para o título da modal */
+#TituloModal {
+    margin-top: 0; /* Remove a margem superior para alinhamento */
+    margin-bottom: 20px; /* Adiciona uma margem inferior */
+}
+
+/* Estilos para a lista de peças faltantes */
+#ListaPeçasFaltantes {
+    list-style-type: none; /* Remove os marcadores da lista */
+    padding: 0; /* Remove o padding padrão */
+}
+
+/* Estilo para os itens da lista */
+#ListaPeçasFaltantes li {
+    margin-bottom: 10px; /* Espaçamento entre os itens */
+}
+
+

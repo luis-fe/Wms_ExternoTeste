@@ -1,0 +1,224 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* Paleta de cores para Empresa A */
+:root.palheta-empresa-a {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
+}
+
+/* Paleta de cores para Empresa B */
+:root.palheta-empresa-b {
+    --cor1: rgb(255, 255, 255);
+    --cor2: #00838F;
+    --cor3: darkgray;
+    --cor4: black;
+}
+
+.Corpo{
+    background-color: var(--cor2);
+}
+
+.Menu {
+    width: 100%; /* Ocupar toda a largura da tela */
+    display: flex;
+    justify-content: space-between; /* Distribui os elementos uniformemente */
+    align-items: center;
+}
+
+.left-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.right-menu-item {
+    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
+}
+
+
+.Menu ul {
+    font-size: 15px;
+    background-color: var(--cor2);
+    margin-top: 0;
+    padding: 0;
+}
+
+.Menu ul li {
+    display: inline;
+    position: relative;
+    margin: 0;
+}
+
+.Menu ul li a {
+    color: var(--cor4);
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block;
+}
+
+.Menu ul li a:hover {
+    background-color: var(--cor3);
+}
+
+
+.Menu ul ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 250px;
+    background-color: var(--cor3);
+}
+
+.Menu ul li:hover ul {
+    display: block;
+    z-index: 9999;
+    background-color: var(--cor2);
+}
+
+.Menu ul ul li a {
+    display: flex;
+    color: var(--cor4);
+    justify-content: left;
+}
+
+.TituloPrograma {
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: var(--cor2);
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.TituloPrograma label {
+    color: var(--cor4);
+    font-weight: bold;
+}
+
+.Gerenciamento {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid black;
+    
+}
+
+.Indicador {
+    width: 50%;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 5px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: lightgray;
+}
+
+.Legenda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Estilo para os títulos acima dos indicadores */
+.TituloIndicador {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(17, 45, 126);
+}
+
+/* Estilo para as divs Reposicao e Separacao */
+.Reposicao,
+.Separacao,
+.Enderecos,
+.PedidosCompletos {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    margin-top: 20px;
+}
+
+/* Estilo para os medidores dentro de Reposicao e Separacao */
+#medidorReposicao,
+#medidorSeparacao,
+#medidorEnderecos,
+#medidorPedidos {
+    width: 35%;
+    position: relative;
+    max-width: 35%;
+    margin-left: 32%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilo para as etiquetas (labels) dos indicadores */
+.Reposicao label,
+.Separacao label,
+.Enderecos label,
+.PedidosCompletos label {
+    font-size: 2vh;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Estilo para as informações de legenda */
+.MetaReposicao,
+.PecasRepostas,
+.MetaPecas,
+.PecasRealizadas,
+.MetaEnderecos,
+.EnderecosRealizados,
+.TotalPedidosRetorna,
+.PedidosCompleto {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilo para os botões de cor nas informações de legenda */
+.MetaReposicao button,
+.PecasRepostas button,
+.MetaPecas button,
+.PecasRealizadas button,
+.MetaEnderecos button,
+.EnderecosRealizados button,
+.TotalPedidosRetorna button,
+.PedidosCompleto button {
+    background-size: 10%;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Estilo para as etiquetas (labels) nas informações de legenda */
+.MetaReposicao label,
+.PecasRepostas label,
+.MetaPecas label,
+.PecasRealizadas label,
+.MetaEnderecos label,
+.EnderecosRealizados label,
+.TotalPedidosRetorna label,
+.PedidosCompleto label {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media screen and (min-width: 750px) {
+
+}
