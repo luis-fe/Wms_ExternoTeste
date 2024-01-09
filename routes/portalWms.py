@@ -70,7 +70,7 @@ def TelaGrades():
 def HomeGarantia():
     return render_template('indexGarantia.html')
 
-@portal_routes.route('/LoginTeste') # Aqui é o link da pagina incial do Portal da Garantia
+@portal_routes.route('/Login_Teste') # Aqui é o link da pagina incial do Portal da Garantia
 def LoginTeste():
     return render_template('Login_Teste.html')
 
@@ -81,3 +81,31 @@ def indexMatriz_Teste():
 @portal_routes.route('/Usuarios_Teste') # Aqui é o link da pagina incial do Portal da Garantia
 def Usuarios_Teste():
     return render_template('Usuarios_Teste.html')
+
+@portal_routes.route('/CadastroDeEnderecos_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def CadastroDeEnderecos_Teste():
+    return render_template('CadastoDeEnderecos_Teste.html')
+
+@portal_routes.route('/CadastroQrCaixas_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def CadastroQrCaixas_Teste():
+    return render_template('CadastroQrCaixas_Teste.html')
+
+@portal_routes.route('/Chamados_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def Chamados_Teste():
+    return render_template('Chamados_Teste.html')
+
+@portal_routes.route('/ConsumoEmbalagens_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def ConsumoEmbalagens_Teste():
+    return render_template('ConsumoEmbalagens_Teste.html')
+
+@portal_routes.route('/DistribuicaoDePedidos_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def DistribuicaoDePedidos_Teste():
+    return render_template('DistribuicaoDePedidos_Teste.html')
+
+@portal_routes.route('/FilaReposicao_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def FilaReposicao_Teste():
+    return render_template('FilaReposicao_Teste.html')
+
+@portal_routes.route('/RelatorioInventario_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def FilaReposicao_Teste():
+    return render_template('FilaReposicao_Teste.html')

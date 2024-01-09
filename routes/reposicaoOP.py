@@ -84,9 +84,10 @@ def get_DetalhaOP():
 @reposicaoOP_routes.route('/api/DetalhaOPxSKU', methods=['GET'])
 @token_required
 def get_DetalhaOPxSKU():
+    emp = empresaConfigurada.EmpresaEscolhida()
     # Obtém o código do usuário e a senha dos parâmetros da URL
     NumeroOP = request.args.get('numeroOP')
-    empresa = request.args.get('empresa','1')
+    empresa = request.args.get('empresa',emp)
     natureza = request.args.get('natureza','5')
 
 
