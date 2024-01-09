@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
   } else {
-    window.location.href = 'Login.html';
+    window.location.href = '/Login_Teste';
 }
 
 const Api = 'http://192.168.0.183:5000/api/RelatorioInventario?';
@@ -132,7 +132,7 @@ window.addEventListener('load', async () => {
 
   if (VerificaLogin !== "Logado") {
       // Se não houver token, redirecione para a página de login
-      window.location.href = 'Login.html';
+      window.location.href = '/Login_Teste';
   } else {
     linkUsuario.textContent = NomeUsuario;
     const inputDataInicio = document.getElementById('InputDataInicio');
@@ -171,7 +171,7 @@ await XLSX.utils.book_append_sheet(wb, ws, sheetName || 'Sheet 1');
 XLSX.writeFile(wb, fileName || 'exportedData.xlsx');
 }
 
-const linkSair = document.querySelector('.right-menu-item li a[href="Login.html"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
