@@ -570,6 +570,8 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     conn = ConexaoCSW.Conexao()
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
+    cores = pd.read_sql("SELECT codigoCor as 2-sortimentosCores , descricao  FROM Ppcpt_Gen_Ttg.TabGenClasseCor c "
+                        "WHERE c.codEmpresa = 1 ")
     conn.close()
     engenharia = df['codProduto'][0]
     # Dividir as strings e transformar em listas
@@ -623,6 +625,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
 
     novo = novo.sort_values(by='1- codSortimento', ascending=True)
+    novo = pd.merge(novo,cores,on='2-sortimentosCores',how='left')
     novo = novo
     data = {
         '1 -numeroOP': numeroop,
