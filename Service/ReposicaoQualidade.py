@@ -623,6 +623,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
+    cores['sortimentosCores'] =  cores['sortimentosCores'] .astype(str)
     novo = pd.merge(novo, cores, on='sortimentosCores', how='left')
     novo = novo.sort_values(by='1- codSortimento', ascending=True)
 
