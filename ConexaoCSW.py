@@ -1,7 +1,13 @@
 import jaydebeapi
 import pandas as pd
+import Service.configuracoes.empresaConfigurada as emp
 
 
+
+
+
+empresa = emp.EmpresaEscolhida()
+print(empresa)
 # Função de conectar com o CSW, com 2 opções de conexao:
 def Conexao():
    # try:
