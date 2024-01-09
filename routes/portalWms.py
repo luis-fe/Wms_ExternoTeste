@@ -69,3 +69,7 @@ def TelaGrades():
 @portal_routes.route('/HomeGarantia') # Aqui é o link da pagina incial do Portal da Garantia
 def HomeGarantia():
     return render_template('indexGarantia.html')
+
+@portal_routes.route('/LoginTeste') # Aqui é o link da pagina incial do Portal da Garantia
+def LoginTeste():
+    return render_template('Login_Teste.html')
