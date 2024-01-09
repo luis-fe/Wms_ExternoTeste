@@ -107,5 +107,5 @@ def FilaReposicao_Teste():
     return render_template('FilaReposicao_Teste.html')
 
 @portal_routes.route('/RelatorioInventario_Teste') # Aqui é o link da pagina incial do Portal da Garantia
-def FilaReposicao_Teste():
-    return render_template('FilaReposicao_Teste.html')
+def RelatorioInventario_Teste():
+    return render_template('RelatorioInventario_Teste.html')
