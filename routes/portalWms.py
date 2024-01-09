@@ -73,3 +73,11 @@ def HomeGarantia():
 @portal_routes.route('/LoginTeste') # Aqui é o link da pagina incial do Portal da Garantia
 def LoginTeste():
     return render_template('Login_Teste.html')
+
+@portal_routes.route('/indexMatriz_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def indexMatriz_Teste():
+    return render_template('indexMatriz_Teste.html')
+
+@portal_routes.route('/Usuarios_Teste') # Aqui é o link da pagina incial do Portal da Garantia
+def Usuarios_Teste():
+    return render_template('Usuarios_Teste.html')
