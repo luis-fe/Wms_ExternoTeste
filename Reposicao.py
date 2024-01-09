@@ -48,11 +48,13 @@ def Devolver_Inf_Tag(codbarras, padrao=0):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
 
+    # Aqui é feito uma consulta sql para procurar a tag na FilaReposicao
     cursor.execute(
         'select "codreduzido", "engenharia", "Situacao", "usuario", "descricao", "cor", "epc", "numeroop" from "Reposicao"."filareposicaoportag" ce '
         'where "codbarrastag" = %s', (codbarras,))
     codreduzido = pd.DataFrame(cursor.fetchall(), columns=['codreduzido', 'engenharia', 'Situacao', 'usuario',  'descricao', 'cor', 'epc','numeroop'])
 
+    # Aqui é feito uma Segunda consulta sql para procurar a tag na tagsreposicao (caso a tag ja tenha sido reposta)
     cursor.execute(
         'select count("codbarrastag") as situacao, "codreduzido", "engenharia", "numeroop", "descricao", "cor", "epc", "tamanho", "totalop","usuario" from "Reposicao"."tagsreposicao" tr '
         'where "codbarrastag" = %s '
