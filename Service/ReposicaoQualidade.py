@@ -617,14 +617,14 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     novo['quantidade'] = novo['Qtbipado']+"/"+novo['quantidade']
 
     novo = novo.groupby(['codSortimento',"sortimentosCores"]).agg({'tamanho': list, 'quantidade': list}).reset_index()
-
+    cores['sortimentosCores'] =  cores['sortimentosCores'] .astype(str)
+    novo = pd.merge(novo, cores, on='sortimentosCores', how='left')
 
     novo.rename(columns={'codSortimento': '1- codSortimento','sortimentosCores':'2-sortimentosCores'
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
-    cores['sortimentosCores'] =  cores['sortimentosCores'] .astype(str)
-    novo = pd.merge(novo, cores, on='sortimentosCores', how='left')
+
     novo = novo.sort_values(by='1- codSortimento', ascending=True)
 
     novo = novo
