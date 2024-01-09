@@ -1,8 +1,8 @@
 
 from flask import Blueprint, jsonify, request
 from functools import wraps
-
 from Service import usuariosModel
+from Service.configuracoes import empresaConfigurada
 
 usuarios_routes = Blueprint('usuarios', __name__)
 
@@ -79,7 +79,8 @@ def criar_usuario():
     nome = novo_usuario.get('nome')
     senha = novo_usuario.get('senha')
     situacao = novo_usuario.get('situacao')
-    empresa = novo_usuario.get('empresa','1')
+    emp = empresaConfigurada.EmpresaEscolhida()
+    empresa = novo_usuario.get('empresa',emp)
     # inserir o novo usuário no banco de dados
     c, n, f, g = usuariosModel.PesquisarUsuariosCodigo(codigo)
     if c != 0:
