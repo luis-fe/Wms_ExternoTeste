@@ -13,10 +13,11 @@ def Conexao():
     empresa = emp.EmpresaEscolhida()
 
     if empresa == '1':
-        ConexaoInternoMPL()
+        x1 = ConexaoInternoMPL()
+        return x1
     else:
-        ConexaoCianorte()
-
+        x4 = ConexaoCianorte()
+        return x4
 
 
 def ConexaoCianorte():
