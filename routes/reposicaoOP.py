@@ -1,6 +1,7 @@
 from Service import reposicaoOPModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
+from Service.configuracoes import empresaConfigurada
 
 reposicaoOP_routes = Blueprint('reposicaoOP', __name__)
 
@@ -18,7 +19,8 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @reposicaoOP_routes.route('/api/FilaReposicaoOP', methods=['GET'])
 @token_required
 def get_FilaReposicaoOP():
-    empresa = request.args.get('empresa','1')
+    emp = empresaConfigurada.EmpresaEscolhida()
+    empresa = request.args.get('empresa',emp)
     natureza = request.args.get('natureza','5')
 
     FilaReposicaoOP = reposicaoOPModel.FilaPorOP(natureza, empresa)
@@ -60,7 +62,8 @@ def get_AtribuirOPRepositor():
 @reposicaoOP_routes.route('/api/DetalhaOP', methods=['GET'])
 @token_required
 def get_DetalhaOP():
-    empresa = request.args.get('empresa','1')
+    emp = empresaConfigurada.EmpresaEscolhida()
+    empresa = request.args.get('empresa',emp)
     natureza = request.args.get('natureza','5')
 
     # Obtém o código do usuário e a senha dos parâmetros da URL
