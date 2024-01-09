@@ -7,6 +7,7 @@ import PediosApontamento
 import Relatorios
 import Reposicao
 import ReposicaoSku
+from Service.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
 app = Flask(__name__)
@@ -34,6 +35,7 @@ def token_required(f):
 @app.route('/api/ApontamentoReposicao', methods=['POST'])
 @token_required
 def get_ApontaReposicao():
+    emp = empresaConfigurada.EmpresaEscolhida()
     try:
         # Obtenha os dados do corpo da requisição
         data = request.get_json()
@@ -43,7 +45,7 @@ def get_ApontaReposicao():
         dataHora = data['dataHora']
         estornar = data.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
         natureza = data.get('natureza', '5')  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-        empresa = data.get('empresa', '1')  # Valor padrão: False, se 'estornar' não estiver presente no corpo
+        empresa = data.get('empresa', emp)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
 
 
 
