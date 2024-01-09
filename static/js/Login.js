@@ -47,7 +47,7 @@ function Login(api) {
             localStorage.setItem('nomeUsuario', NomeUsuario);
             localStorage.setItem('CodEmpresa', Empresa);
             localStorage.setItem('Login', "Logado");
-            window.location.href = "indexMatriz.html";
+            window.location.href = "/indexMatriz_Teste";
         } else {
             UsuarioNegado.textContent = "Informações de login inválidas!";
         }
