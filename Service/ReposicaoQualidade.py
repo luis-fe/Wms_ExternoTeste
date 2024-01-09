@@ -570,7 +570,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     conn = ConexaoCSW.Conexao()
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
-    cores = pd.read_sql("SELECT codigoCor as 2-sortimentosCores , descricao  FROM Ppcpt_Gen_Ttg.TabGenClasseCor c "
+    cores = pd.read_sql("SELECT codigoCor as sortimentosCores , descricao  FROM Ppcpt_Gen_Ttg.TabGenClasseCor c "
                         "WHERE c.codEmpresa = 1 ")
     conn.close()
     engenharia = df['codProduto'][0]
@@ -623,9 +623,9 @@ def DetalhaQuantidadeOP(empresa, numeroop):
                          ,'Tamanho':'3-Tam'}, inplace=True)
 
     novo['1- codSortimento'] = novo['1- codSortimento'] .astype(int)
-
+    novo = pd.merge(novo, cores, on='sortimentosCores', how='left')
     novo = novo.sort_values(by='1- codSortimento', ascending=True)
-    novo = pd.merge(novo,cores,on='2-sortimentosCores',how='left')
+
     novo = novo
     data = {
         '1 -numeroOP': numeroop,
