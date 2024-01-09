@@ -8,7 +8,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = '/LoginTeste';
+    window.location.href = '/Login_Teste';
 }
 
 let MetaApi = "";
@@ -231,7 +231,7 @@ window.addEventListener('load', async ()  => {
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
-            window.location.href = '/LoginTeste';
+            window.location.href = '/Login_Teste';
         } else {
             await ChamadaApiEnderecos(ApiEnderecosMatriz, 1, 5),
                   ChamadaApiPedidos(ApiPedidosMatriz),
@@ -239,7 +239,7 @@ window.addEventListener('load', async ()  => {
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
-            window.location.href = '/LoginTeste';
+            window.location.href = '/Login_Teste';
         } else {
             await ChamadaApiEnderecos(ApiEnderecosFilial, 4, 5),
                   ChamadaApiPedidos(ApiPedidosFilial),
@@ -249,7 +249,7 @@ window.addEventListener('load', async ()  => {
     }
 });   
 
-const linkSair = document.querySelector('.right-menu-item li a[href="/LoginTeste"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
