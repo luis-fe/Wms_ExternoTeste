@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = 'Login.html';
+    window.location.href = '/Login_Teste';
 }
 
 const ApiConsultaChamadosMatriz = "http://192.168.0.183:5000/api/chamados";
@@ -292,14 +292,14 @@ console.log(dataFormatada);
         if (Empresa === "1") {
             if (VerificaLogin !== "Logado") {
     
-                window.location.href = 'Login.html';
+                window.location.href = '/Login_Teste';
             } else {
                 await ChamadaApi(ApiConsultaChamadosMatriz); 
                       criarTabelaChamados(dadosApi)
             }
         } else if (Empresa === "4") {
             if (VerificaLogin !== "Logado") {
-                window.location.href = 'Login.html';
+                window.location.href = '/Login_Teste';
             } else {
                 await ChamadaApi(ApiConsultaChamadosFilial); 
                       criarTabelaChamados(dadosApi);
@@ -477,7 +477,7 @@ function CheckboxSelecionada() {
 }
 
 
-const linkSair = document.querySelector('.right-menu-item li a[href="Login.html"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
