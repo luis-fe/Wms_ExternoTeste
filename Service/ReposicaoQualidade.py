@@ -571,7 +571,7 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     df = pd.read_sql('SELECT op.numeroOP as numeroop , op.codProduto, op.sortimentosCores, op.codSortimento  FROM tco.OrdemProd op '
                            'where numeroOP ='+" '"+numeroop+"' "+ 'and codempresa ='+" '"+empresa+"'",conn)
     cores = pd.read_sql("SELECT codigoCor as sortimentosCores , descricao  FROM Ppcpt_Gen_Ttg.TabGenClasseCor c "
-                        "WHERE c.codEmpresa = 1 ")
+                        "WHERE c.codEmpresa = 1 ",conn)
     conn.close()
     engenharia = df['codProduto'][0]
     # Dividir as strings e transformar em listas
