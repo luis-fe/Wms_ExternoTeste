@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = 'Login.html';
+    window.location.href = '/Login_Teste';
 }
 
 
@@ -90,7 +90,7 @@ async function InserirCaixa(api) {
 
         if (VerificaLogin !== "Logado") {
             // Se não houver token, redirecione para a página de login
-            window.location.href = 'Login.html';
+            window.location.href = '/Login_Teste';
         }
         else 
         if (Empresa === "1") {
@@ -215,7 +215,7 @@ document.getElementById('FecharModalCadastro').addEventListener('click', () => {
     document.getElementById('ModalCadastroEmbalagem').style.display = 'none'
 })
 
-const linkSair = document.querySelector('.right-menu-item li a[href="Login.html"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
