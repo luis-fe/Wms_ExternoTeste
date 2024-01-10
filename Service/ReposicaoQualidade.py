@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2 import Error
 import datetime
 import pytz
-from configuracoes import  empresaConfigurada
+from Service.configuracoes import  empresaConfigurada
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
