@@ -63,7 +63,7 @@ def imprimir_pdf(pdf_file):
     conn = cups.Connection()
     #printers = conn.getPrinters()
     #printer_name = list(printers.keys())[0]
-    printer_name = "ZM400"
+    printer_name = "ZM400" # Aqui teremos que criar uma funcao para imprimir as etiquetas de cianorte
     job_id = conn.printFile(printer_name,pdf_file,"Etiqueta",{'PageSize': 'Custom.10x0.25cm', 'FitToPage': 'True', 'Scaling': '100','Orientation':'3'})
     print(f"ID {job_id} enviado para impressão")
 
