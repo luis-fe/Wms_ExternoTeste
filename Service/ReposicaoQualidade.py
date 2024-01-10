@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2 import Error
 import datetime
 import pytz
-
+from configuracoes import  empresaConfigurada
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -66,6 +66,7 @@ def InculirDados(dataframe):
 
         conn.close()
 def EncontrarEPC(caixa,endereco,empresa):
+    emp = empresaConfigurada.EmpresaEscolhida()
     # Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     conn = ConexaoPostgreMPL.conexao()
     consulta = pd.read_sql('select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
@@ -88,7 +89,7 @@ def EncontrarEPC(caixa,endereco,empresa):
     else:
         # Use parâmetro de substituição na consulta SQL
         epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
-                "FROM tcr.SeqLeituraFase t WHERE t.codempresa = 1 and t.numeroOP IN "+resultado,conn)
+                "FROM tcr.SeqLeituraFase t WHERE t.codempresa = "+emp+ "and t.numeroOP IN "+resultado,conn)
 
         epc = epc.drop_duplicates(subset=['codbarrastag'])
 
