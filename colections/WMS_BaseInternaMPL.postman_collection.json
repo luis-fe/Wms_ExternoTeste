@@ -54,6 +54,50 @@
 					"response": []
 				},
 				{
+					"name": "Usuarios Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Atualizar_Usuario",
 					"request": {
 						"auth": {
@@ -103,6 +147,55 @@
 					"response": []
 				},
 				{
+					"name": "Atualizar_Usuario Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"codigo\":\"2103\",\r\n\"nome\":\"Bruna Hellen🏆\"\r\n}"
+						},
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/Usuarios/2103",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios",
+								"2103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "InserirUsuario",
 					"request": {
 						"auth": {
@@ -140,6 +233,54 @@
 								"168",
 								"0",
 								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"Usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InserirUsuario Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"codigo\":2563,\r\n\"nome\":\"Everiton Junior\",\r\n\"funcao\":\"REPOSITOR\",\r\n\"situacao\":\"Ativo\",\r\n\"senha\":\"Master100\"\r\n}"
+						},
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/Usuarios",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
 							],
 							"port": "5000",
 							"path": [
@@ -205,6 +346,60 @@
 					"response": []
 				},
 				{
+					"name": "UsuarioSenha Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/UsuarioSenha?codigo=1414&senha=123@4",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"UsuarioSenha"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "1414"
+								},
+								{
+									"key": "senha",
+									"value": "123@4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "UsuarioSenhaRestricao",
 					"request": {
 						"auth": {
@@ -238,6 +433,50 @@
 								"168",
 								"0",
 								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"UsuarioSenhaRestricao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UsuarioSenhaRestricao Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/UsuarioSenhaRestricao",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
 							],
 							"port": "5000",
 							"path": [
@@ -290,6 +529,56 @@
 										"168",
 										"0",
 										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaCodBarras"
+									],
+									"query": [
+										{
+											"key": "codbarras",
+											"value": "01000066521501000063"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DetalhaCodBarras Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/DetalhaCodBarras?codbarras=01000066521501000063",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
 									],
 									"port": "5000",
 									"path": [
@@ -361,7 +650,119 @@
 							"response": []
 						},
 						{
+							"name": "FilaReposicaoOP Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaReposicaoOP"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "DetalhaOP",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaOP?empresa=1&natureza=5&numeroOP=124903-001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaOP"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										},
+										{
+											"key": "numeroOP",
+											"value": "124903-001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DetalhaOP Cianorte",
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -475,6 +876,65 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "DetalhaOPxSKU Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/DetalhaOPxSKU?natureza=5&numeroOP=016827-001",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaOPxSKU"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										},
+										{
+											"key": "numeroOP",
+											"value": "016827-001"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -535,6 +995,271 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "DetalhaCodBarras Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/DetalhaCodBarras?codbarras=04000055910304002887",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaCodBarras"
+									],
+									"query": [
+										{
+											"key": "codbarras",
+											"value": "04000055910304002887"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ApontamentoReposicao",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"01000050140701006637\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"1\",\r\n\"estornar\":true\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/ApontamentoReposicao",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ApontamentoReposicao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ApontamentoReposicao Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056220903000189\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\",\r\n\"estornar\":true\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ApontamentoReposicao"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Apont.Reposicao Cianorte",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056155903000081\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontamentoReposicao"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.6.9"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Jan 2024 17:28:19 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": true,\n    \"status\": \"Salvo com Sucesso\"\n}"
+						},
+						{
+							"name": "Apont.Reposicao Cianorte (estorno)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056220903000189\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\",\r\n\"estornar\":true\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontamentoReposicao"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.6.9"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 10 Jan 2024 17:30:05 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"codigoBarras 04000056220903000189 estornado!\"\n}"
 						}
 					]
 				}
@@ -673,7 +1398,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\"pedido\":\"307992-1\"\r\n}"
+									"raw": "{\"pedido\":\"309673-1\"\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/imprimirEtiqueta",
@@ -782,7 +1507,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/DetalharPedido?codPedido=312607-1",
+									"raw": "http://192.168.0.183:5000/api/DetalharPedido?codPedido=312502-1",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -798,7 +1523,7 @@
 									"query": [
 										{
 											"key": "codPedido",
-											"value": "312607-1"
+											"value": "312502-1"
 										}
 									]
 								}
@@ -868,6 +1593,64 @@
 					"response": []
 				},
 				{
+					"name": "Separadores Relatorio",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/RelatorioSeparacao?DataInicial=2023-11-18&DataFinal=2023-11-20&usuario=2485",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"RelatorioSeparacao"
+							],
+							"query": [
+								{
+									"key": "DataInicial",
+									"value": "2023-11-18"
+								},
+								{
+									"key": "DataFinal",
+									"value": "2023-11-20"
+								},
+								{
+									"key": "usuario",
+									"value": "2485"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Repositores",
 					"request": {
 						"auth": {
@@ -928,196 +1711,296 @@
 			"name": "Inventario",
 			"item": [
 				{
-					"name": "RegistarInventario",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "Relatorio",
+					"item": [
+						{
+							"name": "RelatorioInventario",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "dataincio",
+											"value": "2023-01-01",
+											"type": "text"
+										},
+										{
+											"key": "datafinal",
+											"value": "2023-01-01",
+											"type": "text"
+										},
+										{
+											"key": "natureza",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RelatorioInventario?natureza=&datainicio=2023-09-30&datafinal=2023-12-31&emitirRelatorio",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RelatorioInventario"
+									],
+									"query": [
+										{
+											"key": "natureza",
+											"value": ""
+										},
+										{
+											"key": "datainicio",
+											"value": "2023-09-30"
+										},
+										{
+											"key": "datafinal",
+											"value": "2023-12-31"
+										},
+										{
+											"key": "emitirRelatorio",
+											"value": null
+										}
+									]
 								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"data\":\"xxxx\",\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/RegistrarInventario",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"RegistrarInventario"
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "ApontarTagInventario_Estornando",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+					"name": "Processo Inventario",
+					"item": [
+						{
+							"name": "RegistarInventario",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\",\r\n\"Prosseguir\":true\r\n\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"ApontarTagInventario"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ApontarTagInventario Copy",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"data\":\"xxxx\",\r\n\"endereço\" :\"19-04-12\"\r\n\r\n}"
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RegistrarInventario",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RegistrarInventario"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
-						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"ApontarTagInventario"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "FinalizarInventario",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
+						{
+							"name": "ApontarTagInventario_Estornando",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\",\r\n\"Prosseguir\":true\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontarTagInventario"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n\"endereço\" :\"12-80-10\"\r\n\r\n}"
+						{
+							"name": "ApontarTagInventario Copy",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000064732702000522\",\r\n\"endereço\" :\"19-04-12\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontarTagInventario"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/FinalizarInventario",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"FinalizarInventario"
-							]
+						{
+							"name": "FinalizarInventario",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"endereço\" :\"08-49-18\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/FinalizarInventario",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FinalizarInventario"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -1169,6 +2052,147 @@
 					"response": []
 				},
 				{
+					"name": "CaixasCadastradas",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/CaixasCadastradas",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"CaixasCadastradas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CadastrarCaixa",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codcaixa\":\"xxx\",\r\n\"nomecaixa\":\"xxx\",\r\n\"tamanhocaixa\":\"xxxx\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/CadastrarCaixa",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"CadastrarCaixa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AtualizarCaixa",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"codcaixa\":\"831200111\",\r\n\"nomecaixa\":\"CAIXA DE PAPELAO M (650X420X200MM)\",\r\n\"tamanhocaixa\":\"caixa M\"\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/AtualizarCaixa/831200111",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"AtualizarCaixa",
+								"831200111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "FinalizarPedido",
 					"request": {
 						"auth": {
@@ -1196,7 +2220,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"pedido\":\"308572-1\",\r\n\"dataFinalizacao\":\"2023-09-18 08:00:00\",\r\n\"Modelo de caixa\":[\"caixaM\",\"caixaG\"],\r\n\"consumos\":[1,1]\r\n\r\n}"
+							"raw": "{\r\n\"pedido\":\"308526-1\",\r\n\"dataFinalizacao\":\"2023-01-10 08:00:00\",\r\n\"Modelo de caixa\":[\"caixa P\",\"caixa G\",\"caixa PP\"],\r\n\"consumos\":[1,1,3]\r\n\r\n}"
 						},
 						"url": {
 							"raw": "http://192.168.0.183:5000/api/FinalizarPedido",
@@ -1264,70 +2288,9 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "dashboard",
-			"item": [
-				{
-					"name": "Informacoes",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/RelatorioTotalFila",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"RelatorioTotalFila"
-							],
-							"query": [
-								{
-									"key": "dataInicio",
-									"value": "2023-09-20",
-									"disabled": true
-								},
-								{
-									"key": "dataFim",
-									"value": "2023-09-20",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
 				},
 				{
-					"name": "DisponibilidadeEndereco",
+					"name": "RedistribuirPedido",
 					"request": {
 						"auth": {
 							"type": "apikey",
@@ -1353,7 +2316,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://192.168.0.183:5000/api/DisponibilidadeEnderecos?empresa=1&natureza=5",
+							"raw": "http://192.168.0.183:5000/api/RedistribuirPedido?pedido=313272-1&produto=636123&natureza=5",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -1364,12 +2327,16 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"DisponibilidadeEnderecos"
+								"RedistribuirPedido"
 							],
 							"query": [
 								{
-									"key": "empresa",
-									"value": "1"
+									"key": "pedido",
+									"value": "313272-1"
+								},
+								{
+									"key": "produto",
+									"value": "636123"
 								},
 								{
 									"key": "natureza",
@@ -1381,7 +2348,7 @@
 					"response": []
 				},
 				{
-					"name": "statuspedidos",
+					"name": "necessidadeReposicaoDisponivel",
 					"request": {
 						"auth": {
 							"type": "apikey",
@@ -1407,7 +2374,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://192.168.0.183:5000/api/statuspedidos",
+							"raw": "http://192.168.0.183:5000/api/NecessidadeReposicaoDisponivel?natureza=5",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -1418,69 +2385,356 @@
 							"port": "5000",
 							"path": [
 								"api",
-								"statuspedidos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Faturamento",
-					"request": {
-						"auth": {
-							"type": "apikey",
-							"apikey": [
-								{
-									"key": "value",
-									"value": "a40016aabcx9",
-									"type": "string"
-								},
-								{
-									"key": "key",
-									"value": "Authorization",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-01&dataFim=2023-09-29",
-							"protocol": "http",
-							"host": [
-								"192",
-								"168",
-								"0",
-								"183"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"Faturamento"
+								"NecessidadeReposicaoDisponivel"
 							],
 							"query": [
 								{
-									"key": "empresa",
-									"value": "1"
-								},
-								{
-									"key": "dataInicio",
-									"value": "2023-09-01"
-								},
-								{
-									"key": "dataFim",
-									"value": "2023-09-29"
+									"key": "natureza",
+									"value": "5"
 								}
 							]
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "dashboard",
+			"item": [
+				{
+					"name": "ConsumoCaixas",
+					"item": [
+						{
+							"name": "relatorioCaixas",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/relatorioCaixas?dataInicio=2023-10-06&dataFim=2023-10-06",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"relatorioCaixas"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-10-06"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-10-06"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "InformarcoesWMS",
+					"item": [
+						{
+							"name": "Informacoes",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RelatorioTotalFila",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RelatorioTotalFila"
+									],
+									"query": [
+										{
+											"key": "dataInicio",
+											"value": "2023-09-20",
+											"disabled": true
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-20",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DisponibilidadeEndereco",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DisponibilidadeEnderecos?empresa=1&natureza=5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DisponibilidadeEnderecos"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "statuspedidos",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/statuspedidos",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"statuspedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Faturamento",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/Faturamento?empresa=1&dataInicio=2023-09-01&dataFim=2023-09-29",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Faturamento"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "dataInicio",
+											"value": "2023-09-01"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-29"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "testeFaturamento",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/testeFaturamento?empresa=1&dataInicio=2023-09-01&dataFim=2023-09-29",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"testeFaturamento"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "dataInicio",
+											"value": "2023-09-01"
+										},
+										{
+											"key": "dataFim",
+											"value": "2023-09-29"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -2209,6 +3463,60 @@
 							"response": []
 						},
 						{
+							"name": "DetalhaSkuPedido",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaSkuPedido?empresa=1&pedido=308567-1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaSkuPedido"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "pedido",
+											"value": "308567-1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "ExclusaoPedidosFat",
 							"request": {
 								"auth": {
@@ -2252,6 +3560,119 @@
 										{
 											"key": "empresa",
 											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "atualizaStatusRetorna",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/atualizaStatusRetorna?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"atualizaStatusRetorna"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RelatoriosTags",
+					"item": [
+						{
+							"name": "LimparTagsSaidaForaWms",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/LimparTagsSaidaForaWms?emprersa=1&situacao=3,8&natureza=5",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"LimparTagsSaidaForaWms"
+									],
+									"query": [
+										{
+											"key": "emprersa",
+											"value": "1"
+										},
+										{
+											"key": "situacao",
+											"value": "3,8"
+										},
+										{
+											"key": "natureza",
+											"value": "5"
 										}
 									]
 								}
@@ -2320,6 +3741,68 @@
 					"response": []
 				},
 				{
+					"name": "ReservaEndenrecos",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/ReservaEndenrecos?empresa=1&natureza=5&ordem=asc&repeticao=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"ReservaEndenrecos"
+							],
+							"query": [
+								{
+									"key": "empresa",
+									"value": "1"
+								},
+								{
+									"key": "natureza",
+									"value": "5"
+								},
+								{
+									"key": "ordem",
+									"value": "asc"
+								},
+								{
+									"key": "repeticao",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "EstornarReservasEnderecos",
 					"request": {
 						"auth": {
@@ -2362,6 +3845,765 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Endereco",
+			"item": [
+				{
+					"name": "EnderecoAtacado",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"ruaInicial\":\"1\",\r\n\"ruaFinal\":\"1\",\r\n\"modulo\":\"12\",\r\n\"moduloFinal\":\"12\",\r\n\"posicao\":\"18 \",\r\n\"posicaoFinal\":\"18 \",\r\n\"tipo\":\"COLECAO \",\r\n\"natureza\":\"5 \",\r\n\"empresa\":\"1 \",\r\n\"imprimir\":true\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/EnderecoAtacado",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"EnderecoAtacado"
+							],
+							"query": [
+								{
+									"key": "dataInicio",
+									"value": "2023-09-20",
+									"disabled": true
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GerarCaixa",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"QuantidadeImprimir\":4,\r\n\"usuario\":\"1\",\r\n\"salvaEtiqueta\":true\r\n\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.0.183:5000/api/GerarCaixa",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"0",
+								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"GerarCaixa"
+							],
+							"query": [
+								{
+									"key": "dataInicio",
+									"value": "2023-09-20",
+									"disabled": true
+								},
+								{
+									"key": "dataFim",
+									"value": "2023-09-20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reposicao_Qualidade",
+			"item": [
+				{
+					"name": "Portal Garantia",
+					"item": [
+						{
+							"name": "RelacaoDeOPs",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RelacaoDeOPs?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RelacaoDeOPs"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DetalhaOPQuantidade",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/DetalhaOPQuantidade?empresa=1&numeroop=127750-001",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaOPQuantidade"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "numeroop",
+											"value": "127750-001"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reposicao Caixa",
+					"item": [
+						{
+							"name": "ReporCaixaLivre",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"empresa\":\"1\",\r\n\"codbarras\":\"01000071665003000556\",\r\n\"natureza\":\"5\",\r\n\"NCaixa\":\"00006\",\r\n\"usuario\":\"1\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ReporCaixaLivre",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ReporCaixaLivre"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "natureza",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "codbarras",
+											"value": "01000020081502012168",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecarrearEndereco",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"endereco\":\"01-01-01\",\r\n\"Ncaixa\":\"00644\",\r\n\"usuario\":\"1\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/RecarrearEndereco",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RecarrearEndereco"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "Ncaixa",
+											"value": "00644",
+											"disabled": true
+										},
+										{
+											"key": "endereco",
+											"value": "01-90-01",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ExcluirCaixa",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\"NCaixa\":\"00005\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ExcluirCaixa",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ExcluirCaixa"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "natureza",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "codbarras",
+											"value": "01000020081502012168",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ConsultarCaixa",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ConsultaCaixa?Ncaixa=00512",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ConsultaCaixa"
+									],
+									"query": [
+										{
+											"key": "Ncaixa",
+											"value": "00512"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PesquisaOPSKU_tag",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/PesquisaOPSKU_tag?codbarras=01000068423103001902",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"PesquisaOPSKU_tag"
+									],
+									"query": [
+										{
+											"key": "codbarras",
+											"value": "01000068423103001902"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PesquisarCodbarrastag",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/PesquisarCodbarrastag",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"PesquisarCodbarrastag"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CaixasAbertasGeral",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/CaixasAbertasGeral?empresa=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"CaixasAbertasGeral"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CaixasAbertasUsuario",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"Ncaixa\":\"06\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/CaixasAbertasUsuario?empresa=1&codUsuario=1",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"CaixasAbertasUsuario"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1"
+										},
+										{
+											"key": "codUsuario",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
