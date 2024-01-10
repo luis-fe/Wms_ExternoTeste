@@ -441,7 +441,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
         consulta['1 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
     else:
         print("Usuario ainda nao comeco a repor")
-    consulta['1 - status']= "0/0"
+        consulta['1 - status']= "0/0"
 
 
     conn.close()
