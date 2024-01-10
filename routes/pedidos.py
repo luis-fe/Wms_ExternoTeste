@@ -2,6 +2,7 @@ from Service import pedidosModel, imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
+from  Service.configuracoes import empresaConfigurada
 
 pedidos_routes = Blueprint('pedidos', __name__)
 
@@ -15,11 +16,13 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
         return jsonify({'message': 'Acesso negado'}), 401
 
     return decorated_function
+
+# Nessa Api é listado os pedidos em aberto
 @pedidos_routes.route('/api/FilaPedidos', methods=['GET'])
 @token_required
 def get_FilaPedidos():
-
-    Pedidos = pedidosModel.FilaPedidos()
+    empresa = empresaConfigurada.EmpresaEscolhida()
+    Pedidos = pedidosModel.FilaPedidos(empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -34,8 +37,9 @@ def get_FilaPedidos():
 @pedidos_routes.route('/api/FilaPedidosUsuario', methods=['GET'])
 @token_required
 def get_FilaPedidosUsuario():
+    empresa = empresaConfigurada.EmpresaEscolhida()
     codUsuario = request.args.get('codUsuario')
-    Pedidos = pedidosModel.FilaAtribuidaUsuario(codUsuario)
+    Pedidos = pedidosModel.FilaAtribuidaUsuario(codUsuario, empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -70,8 +74,9 @@ def get_DetalharPedido():
 def get_FilaPedidosClassificacao():
     coluna = request.args.get('coluna','01-CodPedido')
     tipo = request.args.get('tipo','desc')
+    empresa = empresaConfigurada.EmpresaEscolhida()
 
-    Pedidos = pedidosModel.ClassificarFila(coluna, tipo)
+    Pedidos = pedidosModel.ClassificarFila(coluna, tipo, empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

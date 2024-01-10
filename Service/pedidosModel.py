@@ -13,7 +13,7 @@ def obterHoraAtual():
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
 
-def FilaPedidos():
+def FilaPedidos(empresa):
     conn = ConexaoPostgreMPL.conexao()
     pedido = pd.read_sql(
         ' select f.codigopedido , f.vlrsugestao, f.codcliente , f.desc_cliente, f.cod_usuario, f.cidade, f.estado, '
@@ -37,7 +37,7 @@ def FilaPedidos():
         conn2 = ConexaoCSW.Conexao()
         transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
                                  ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
-                                 ' WHERE t.Empresa = 1 ',conn2)
+                                 ' WHERE t.Empresa ='+empresa,conn2)
         conn2.close()
         pedido = pd.merge(pedido, transporta, on=["cidade", "estado"], how='left')
 
@@ -105,8 +105,8 @@ def FilaPedidos():
 
 
 
-def FilaAtribuidaUsuario(codUsuario):
-    x = FilaPedidos()
+def FilaAtribuidaUsuario(codUsuario, empresa):
+    x = FilaPedidos(empresa)
     codUsuario = str(codUsuario)
     x = x[x['10-codUsuarioAtribuido'] == codUsuario]
     x = x.sort_values(by=['prioridade',"04-codcliente"], ascending=False)
@@ -187,8 +187,8 @@ def DetalhaPedido(codPedido):
 
     return [data]
 
-def ClassificarFila(coluna, tipo):
-    fila = FilaPedidos()
+def ClassificarFila(coluna, tipo, empresa):
+    fila = FilaPedidos(empresa)
     fila['12-vlrsugestao'] = fila['12-vlrsugestao'].str.replace("R\$", "").astype(float)
 
     if tipo == 'desc':
