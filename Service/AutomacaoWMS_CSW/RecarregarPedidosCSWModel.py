@@ -24,7 +24,6 @@ def obter_notaCsw():
 
 def RecarregarPedidos(empresa):
 
-    #try:
         tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
         conn = ConexaoCSW.Conexao()
         SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  "
@@ -39,6 +38,7 @@ def RecarregarPedidos(empresa):
 
         SugestoesAbertos = pd.merge(SugestoesAbertos, PedidosSituacao, on='codPedido', how='left')
 
+        # Nessa Etapa é realizado uma consuta Sql para obter os pedidos que estão em prontos para faturar , conhecido popularmente como "RETORNA".
         CapaPedido = pd.read_sql("select top 100000 codPedido as codPedido2, convert(varchar(10),codCliente ) as codCliente, "
                                  "(select c.nome from fat.Cliente c WHERE c.codEmpresa = '1' and p.codCliente = c.codCliente) as desc_cliente, "
                                  "(select r.nome from fat.Representante  r WHERE r.codEmpresa = '1' and r.codRepresent = p.codRepresentante) as desc_representante, "
