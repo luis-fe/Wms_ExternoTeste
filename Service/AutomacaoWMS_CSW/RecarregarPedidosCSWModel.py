@@ -45,8 +45,9 @@ def RecarregarPedidos(empresa):
                                  '(select c.nomeCidade from fat.Cliente  c WHERE c.codEmpresa = 1 and c.codCliente = p.codCliente) as cidade, '
                                  '(select c.nomeEstado from fat.Cliente  c WHERE c.codEmpresa = 1 and c.codCliente = p.codCliente) as estado, '
                                  ' codRepresentante , codTipoNota, CondicaoDeVenda as condvenda  from ped.Pedido p  '
-                                       ' WHERE p.codEmpresa ='+empresa+
+                                       ' WHERE p.codEmpresa = 1 '
                                  ' order by codPedido desc ',conn)
+
         SugestoesAbertos = pd.merge(SugestoesAbertos,CapaPedido,on= 'codPedido2', how = 'left')
         SugestoesAbertos.rename(columns={'codPedido': 'codigopedido', 'vlrSugestao': 'vlrsugestao'
             , 'dataGeracao': 'datageracao','situacaoSugestao':'situacaosugestao','dataFaturamentoPrevisto':'datafaturamentoprevisto',

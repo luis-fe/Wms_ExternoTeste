@@ -172,8 +172,10 @@ def ConsultaCaixa(NCaixa, empresa):
         }
         return [data]
 
+#Nessa Funcao é realizado a Consulta das OPs que se encontram no setor de Garantia ("pos costura)
 def OPsAliberar(empresa):
     conn = ConexaoCSW.Conexao()
+    #Nessa etapa é realizado a consulta via SQL para obter as OPs da Garantia + o status da conferencia de recebimento via tag Iniciado x NãoIniciado
     consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto,"
                            " (select l.descricao FROM  tcl.Lote l WHERE op.codempresa = l.codempresa and op.codLote = l.codlote) as lote, "
                            "(SELECT t.codtipo||'-'||t.nome FROM tcp.TipoOP t WHERE t.empresa = op.codempresa and t.codtipo=op.codTipoOP ) as tipoOP, "
@@ -183,11 +185,17 @@ def OPsAliberar(empresa):
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
                            'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 ) '
                            'order by numeroOP desc', conn)
+
+    # Nessas 2 etapas é acrescentado o status "Nao Iniciado"  para as ops que nao começou a etapa de conferencia.
     consulta.fillna('Nao Iniciado', inplace=True)
     consulta['status_Recebimento'] = consulta.apply(lambda row: 'Iniciado' if row['status_Recebimento'] != 'Nao Iniciado' else row['status_Recebimento'] ,
                                        axis=1)
 
-    totalOPs = consulta['status_Recebimento'].count()
+
+
+    totalOPs = consulta['status_Recebimento'].count()# Nessa etapa é realizado a contagem da quantidade de OPs
+
+    # Ja nessa etapa é realizado a contagem das OP's com o status "iniciado" na conferencia de recebimento
     totalOPs_iniciado = consulta[consulta['status_Recebimento'] == 'Iniciado']
     totalOPs_iniciado = totalOPs_iniciado['status_Recebimento'].count()
 
