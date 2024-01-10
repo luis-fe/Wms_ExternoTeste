@@ -435,7 +435,10 @@ def CaixasAbertasUsuario(empresa, codusuario):
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
     consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
-    consulta, boleano = Get_quantidadeOP_Sku(consulta, empresa, '0')
+    if not consulta.empty:
+        consulta, boleano = Get_quantidadeOP_Sku(consulta, empresa, '0')
+    else:
+        print("Usuario ainda nao comeco a repor")
     consulta['1 - status']= consulta["bipado_sku_op"].astype(str)
     consulta['1 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
 

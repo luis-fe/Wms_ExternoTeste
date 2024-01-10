@@ -166,6 +166,7 @@ def CaixasAbertasGeral():
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
 
+# API para consultar as CaixasEmAberto por usuario
 @reposicao_qualidadeRoute.route('/api/CaixasAbertasUsuario', methods=['GET'])
 @token_required
 def CaixasAbertasUsuario():
