@@ -20,7 +20,7 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):
     conn = ConexaoPostgreMPL.conexao()
     codbarras = "'"+codbarras+"'"
 
-    pesquisa = pd.read_sql('select * from "Reposicao".off.filareposicaoof where codbarrastag= '+codbarras+' and p.codempresa ='+empresa,conn)
+    pesquisa = pd.read_sql('select * from "Reposicao".off.filareposicaoof where codbarrastag= '+codbarras+' and codempresa = '+empresa,conn)
     conn.close()
     pesquisa['usuario'] = usuario
     pesquisa['caixa'] = Ncaixa
