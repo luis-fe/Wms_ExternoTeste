@@ -40,12 +40,12 @@ def RecarregarPedidos(empresa):
 
         # Nessa Etapa é realizado uma consuta Sql para obter os pedidos que estão em prontos para faturar , conhecido popularmente como "RETORNA".
         CapaPedido = pd.read_sql("select top 100000 codPedido as codPedido2, convert(varchar(10),codCliente ) as codCliente, "
-                                 "(select c.nome from fat.Cliente c WHERE c.codEmpresa = '1' and p.codCliente = c.codCliente) as desc_cliente, "
-                                 "(select r.nome from fat.Representante  r WHERE r.codEmpresa = '1' and r.codRepresent = p.codRepresentante) as desc_representante, "
-                                 "(select c.nomeCidade from fat.Cliente  c WHERE c.codEmpresa = '1' and c.codCliente = p.codCliente) as cidade, "
-                                 "(select c.nomeEstado from fat.Cliente  c WHERE c.codEmpresa = '1' and c.codCliente = p.codCliente) as estado, "
+                                 "(select c.nome from fat.Cliente c WHERE c.codEmpresa = "+empresa +"and p.codCliente = c.codCliente) as desc_cliente, "
+                                 "(select r.nome from fat.Representante  r WHERE r.codEmpresa = "+empresa +"and r.codRepresent = p.codRepresentante) as desc_representante, "
+                                 "(select c.nomeCidade from fat.Cliente  c WHERE c.codEmpresa = "+empresa +" and c.codCliente = p.codCliente) as cidade, "
+                                 "(select c.nomeEstado from fat.Cliente  c WHERE c.codEmpresa = "+empresa +" and c.codCliente = p.codCliente) as estado, "
                                  ' codRepresentante , codTipoNota, CondicaoDeVenda as condvenda  from ped.Pedido p  '
-                                       " WHERE p.codEmpresa = '1' "
+                                       " WHERE p.codEmpresa = "+empresa +" "
                                  ' order by codPedido desc ',conn)
 
         SugestoesAbertos = pd.merge(SugestoesAbertos,CapaPedido,on= 'codPedido2', how = 'left')

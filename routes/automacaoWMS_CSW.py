@@ -3,6 +3,7 @@ from Service.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, Recarre
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
+from Service.configuracoes import empresaConfigurada
 
 AutomacaoWMS_CSW_routes = Blueprint('AutomacaoWMS_CSW', __name__)
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
@@ -103,10 +104,12 @@ def ReservaEndenrecos():
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
 
+# Nessa Api ocorre a recarcarga dos pedidos
 @AutomacaoWMS_CSW_routes.route('/api/RecarregarPedidos', methods=['GET'])
 @token_required
 def RecarregarPedidos():
-    empresa = request.args.get('empresa','1')
+    emp = empresaConfigurada.EmpresaEscolhida()
+    empresa = request.args.get('empresa',emp)
     natureza = request.args.get('natureza','5')
     consideraSobra = request.args.get('consideraSobra',False)
     ordem = request.args.get('ordem', 'asc')
