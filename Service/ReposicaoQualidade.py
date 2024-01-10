@@ -513,6 +513,7 @@ def TotalBipado(empresa, numeroop, reduzido, agrupado = True):
         print(consulta)
         return consulta, totalBipadoOP
 def InformacoesOPsGarantia(empresa, dataframe):
+    emp = empresaConfigurada.EmpresaEscolhida()
     novo = dataframe[['numeroop']]
     novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -521,14 +522,16 @@ def InformacoesOPsGarantia(empresa, dataframe):
 
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql("SELECT r.codOP as numeroop , r.dataEmissao , r.codFaccio,  "
-                           "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = 1 and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
+                           "(SELECT f.nome from Tcg.Faccionista f WHERE f.Empresa = "+emp+" and f.codFaccionista = r.codFaccio) as nomeFaccionista, "
                            "r.quantidade, "
                            "r.codFase  FROM tct.RetSimbolicoNFERetorno r "
-                           "WHERE r.Empresa = 1 and  r.codOP IN "+resultado, conn)
+                           "WHERE r.Empresa = "+emp+" and  r.codOP IN "+resultado, conn)
     conn.close()
 
     return consulta
 def FaccionistaMei(empresa, dataframe):
+    emp = empresaConfigurada.EmpresaEscolhida()
+
     novo = dataframe[['numeroop']]
     novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -536,9 +539,9 @@ def FaccionistaMei(empresa, dataframe):
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql("SELECT f.numeroOP as numeroop, "
-                           "(SELECT f2.nome from Tcg.Faccionista f2 WHERE f2.Empresa = 1 and f2.codFaccionista = f.codFaccionista) as nomeFaccionistaMei "
+                           "(SELECT f2.nome from Tcg.Faccionista f2 WHERE f2.Empresa = "+emp+" and f2.codFaccionista = f.codFaccionista) as nomeFaccionistaMei "
                            "  FROM tco.MovimentacaoOPFase f "
-                           "WHERE f.codEmpresa = 1 and f.codFase in (54, 50, 430, 431) and codFaccionista > 0 "
+                           "WHERE f.codEmpresa = "+emp+" and f.codFase in (54, 50, 430, 431) and codFaccionista > 0 "
                            "and f.numeroOP in "+resultado,conn)
 
     conn.close()
@@ -547,6 +550,7 @@ def FaccionistaMei(empresa, dataframe):
 
 
 def QuantidadeOP(empresa, dataframe, agrupado = True):
+    emp = empresaConfigurada.EmpresaEscolhida()
     novo = dataframe[['numeroop']]
     novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -557,7 +561,7 @@ def QuantidadeOP(empresa, dataframe, agrupado = True):
     consulta = pd.read_sql('SELECT CONVERT(varchar(11), ot.numeroop) as numeroop, ot.codSortimento as codSortimento,  '
                            '(select t.descricao from tcp.Tamanhos  t WHERE t.codempresa = 1 and t.sequencia = ot.seqTamanho) as tamanho , '
                            'ot.qtdePecas1Qualidade as quantidade , qtdePecasProgramadas  from tco.OrdemProdTamanhos ot '
-                           'WHERE ot.codEmpresa = 1 and numeroOP in '+resultado,conn)
+                           'WHERE ot.codEmpresa = '+emp+' and numeroOP in '+resultado,conn)
     conn.close()
     consulta.fillna('-', inplace=True)
     consulta['quantidade'] = consulta.apply(lambda row: row['qtdePecasProgramadas'] if row['quantidade'] == '-' else row['quantidade'] ,

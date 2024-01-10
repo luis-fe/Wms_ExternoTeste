@@ -216,7 +216,8 @@ def RelacaoDeOPs():
 @token_required
 def DetalhaOPQuantidade():
     try:
-        empresa = request.args.get('empresa','1')
+        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        empresa = request.args.get('empresa',emp)
         numeroop = request.args.get('numeroop')
 
 
