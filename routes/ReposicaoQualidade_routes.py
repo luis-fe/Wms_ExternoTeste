@@ -1,3 +1,4 @@
+import Service.configuracoes.empresaConfigurada
 from Service import ReposicaoQualidade
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -21,10 +22,11 @@ def restart_server():
 @token_required
 def ReporCaixaLivre():
     try:
+        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
         # Obtenha os dados do corpo da requisição
         novo_usuario = request.get_json()
         # Extraia os valores dos campos do novo usuário
-        empresa = novo_usuario.get('empresa','1')
+        empresa = novo_usuario.get('empresa',emp)
         natureza = novo_usuario.get('natureza','5')
         codbarras = novo_usuario.get('codbarras', '5')
         NCaixa = novo_usuario.get('NCaixa', '')
