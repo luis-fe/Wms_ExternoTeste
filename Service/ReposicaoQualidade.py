@@ -88,18 +88,14 @@ def EncontrarEPC(caixa,endereco,empresa):
         return pd.DataFrame({'mensagem':['caixa vazia'],'status':False})
     else:
         # Use parâmetro de substituição na consulta SQL
-        try:
-            conn = ConexaoCSW.Conexao()
-            epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
+
+        conn = ConexaoCSW.Conexao()
+        epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
                 "FROM tcr.SeqLeituraFase t WHERE t.codempresa = "+emp+ " and t.numeroOP IN "+resultado,conn)
 
-            epc = epc.drop_duplicates(subset=['codbarrastag'])
-            result = pd.merge(caixaNova, epc, on=('codbarrastag', 'numeroop'), how='left')
-            conn.close()
-
-        except:
-            result = caixaNova
-            result['epc'] = 'Conexao CSW Caiu'
+        epc = epc.drop_duplicates(subset=['codbarrastag'])
+        result = pd.merge(caixaNova, epc, on=('codbarrastag', 'numeroop'), how='left')
+        conn.close()
 
 
         result.fillna('-', inplace=True)

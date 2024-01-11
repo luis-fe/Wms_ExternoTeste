@@ -55,24 +55,29 @@ def ReporCaixaLivre():
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required
 def RecarrearEndereco():
-    # Obtenha os dados do corpo da requisição
-    dados = request.get_json()
+    try:
+        # Obtenha os dados do corpo da requisição
+        dados = request.get_json()
 
-    # Extraia os valores dos campos do novo usuário
-    Ncaixa = dados['Ncaixa']
-    endereco = dados['endereco']
-    print(Ncaixa)
-    FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
-    # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    enderecos_data = []
-    for index, row in FilaReposicaoOP.iterrows():
-        enderecos_dict = {}
-        for column_name in column_names:
-            enderecos_dict[column_name] = row[column_name]
-        enderecos_data.append(enderecos_dict)
-    return jsonify(enderecos_data)
+        # Extraia os valores dos campos do novo usuário
+        Ncaixa = dados['Ncaixa']
+        endereco = dados['endereco']
+        print(Ncaixa)
+        FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
+        # Obtém os nomes das colunas
+        column_names = FilaReposicaoOP.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        enderecos_data = []
+        for index, row in FilaReposicaoOP.iterrows():
+            enderecos_dict = {}
+            for column_name in column_names:
+                enderecos_dict[column_name] = row[column_name]
+            enderecos_data.append(enderecos_dict)
+        return jsonify(enderecos_data)
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify({"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])
 @token_required
