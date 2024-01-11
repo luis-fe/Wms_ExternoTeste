@@ -1316,6 +1316,50 @@
 							"response": []
 						},
 						{
+							"name": "FilaPedidos Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/FilaPedidos",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaPedidos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "FilaPedidosUsuario",
 							"request": {
 								"auth": {
@@ -1364,6 +1408,56 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "FilaPedidosUsuario Cinorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/FilaPedidosUsuario?codUsuario=2102",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"FilaPedidosUsuario"
+									],
+									"query": [
+										{
+											"key": "codUsuario",
+											"value": "2102"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1371,7 +1465,7 @@
 					"name": "ImprimirPedido",
 					"item": [
 						{
-							"name": "post_imprimirEtiqueta Copy",
+							"name": "post_imprimirEtiqueta",
 							"request": {
 								"auth": {
 									"type": "apikey",
@@ -1408,6 +1502,54 @@
 										"168",
 										"0",
 										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"imprimirEtiqueta"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "post_imprimirEtiqueta Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"pedido\":\"309673-1\"\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/imprimirEtiqueta",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
 									],
 									"port": "5000",
 									"path": [
@@ -1461,6 +1603,54 @@
 										"168",
 										"0",
 										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Prioriza"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Definir Prioridade Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"pedidos\":[\"307816-2\"]\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/Prioriza",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
 									],
 									"port": "5000",
 									"path": [
@@ -1529,6 +1719,56 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "DetalharPedido Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/DetalharPedido?codPedido=34129-1",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalharPedido"
+									],
+									"query": [
+										{
+											"key": "codPedido",
+											"value": "34129-1"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1571,6 +1811,61 @@
 								"168",
 								"0",
 								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"TagsSeparacao",
+								"Resumo"
+							],
+							"query": [
+								{
+									"key": "DataInicial",
+									"value": "2023-09-29"
+								},
+								{
+									"key": "DataFinal",
+									"value": "2023-09-29"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Separadores Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-29&DataFinal=2023-09-29",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
 							],
 							"port": "5000",
 							"path": [
@@ -1651,6 +1946,64 @@
 					"response": []
 				},
 				{
+					"name": "Separadores Relatorio Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/RelatorioSeparacao?DataInicial=2023-11-18&DataFinal=2023-11-20&usuario=2485",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"RelatorioSeparacao"
+							],
+							"query": [
+								{
+									"key": "DataInicial",
+									"value": "2023-11-18"
+								},
+								{
+									"key": "DataFinal",
+									"value": "2023-11-20"
+								},
+								{
+									"key": "usuario",
+									"value": "2485"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Repositores",
 					"request": {
 						"auth": {
@@ -1684,6 +2037,61 @@
 								"168",
 								"0",
 								"183"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"TagsReposicao",
+								"Resumo"
+							],
+							"query": [
+								{
+									"key": "DataInicial",
+									"value": "2023-09-18"
+								},
+								{
+									"key": "DataFinal",
+									"value": "2023-09-18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Repositores Cianorte",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "a40016aabcx9",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://177.221.240.74:5000/api/TagsReposicao/Resumo?DataInicial=2023-09-18&DataFinal=2023-09-18",
+							"protocol": "http",
+							"host": [
+								"177",
+								"221",
+								"240",
+								"74"
 							],
 							"port": "5000",
 							"path": [
@@ -1802,6 +2210,96 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "RelatorioInventario Cianorte",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "dataincio",
+											"value": "2023-01-01",
+											"type": "text"
+										},
+										{
+											"key": "datafinal",
+											"value": "2023-01-01",
+											"type": "text"
+										},
+										{
+											"key": "natureza",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/RelatorioInventario?natureza=&datainicio=2023-09-30&datafinal=2023-12-31&emitirRelatorio",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RelatorioInventario"
+									],
+									"query": [
+										{
+											"key": "natureza",
+											"value": ""
+										},
+										{
+											"key": "datainicio",
+											"value": "2023-09-30"
+										},
+										{
+											"key": "datafinal",
+											"value": "2023-12-31"
+										},
+										{
+											"key": "emitirRelatorio",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1857,6 +2355,54 @@
 							"response": []
 						},
 						{
+							"name": "RegistarInventario Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"data\":\"xxxx\",\r\n\"endereço\" :\"19-04-12\"\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/RegistrarInventario",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RegistrarInventario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "ApontarTagInventario_Estornando",
 							"request": {
 								"auth": {
@@ -1888,6 +2434,54 @@
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/ApontarTagInventario",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontarTagInventario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ApontarTagInventario_Estor Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\",\r\n\"Prosseguir\":true\r\n\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/ApontarTagInventario",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -3463,6 +4057,56 @@
 							"response": []
 						},
 						{
+							"name": "RecarregarPedidos Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/RecarregarPedidos?empresa=4",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"RecarregarPedidos"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "DetalhaSkuPedido",
 							"request": {
 								"auth": {
@@ -4150,6 +4794,71 @@
 										"168",
 										"0",
 										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ReporCaixaLivre"
+									],
+									"query": [
+										{
+											"key": "empresa",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "natureza",
+											"value": "5",
+											"disabled": true
+										},
+										{
+											"key": "codbarras",
+											"value": "01000020081502012168",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ReporCaixaLivre Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\"empresa\":\"1\",\r\n\"codbarras\":\"01000071665003000556\",\r\n\"natureza\":\"5\",\r\n\"NCaixa\":\"00006\",\r\n\"usuario\":\"1\"\r\n}"
+								},
+								"url": {
+									"raw": "http://177.221.240.74:5000/api/ReporCaixaLivre",
+									"protocol": "http",
+									"host": [
+										"177",
+										"221",
+										"240",
+										"74"
 									],
 									"port": "5000",
 									"path": [

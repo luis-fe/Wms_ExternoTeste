@@ -81,19 +81,27 @@ def EncontrarEPC(caixa,endereco,empresa):
     # Passo 3: Transformar o dataFrame em lista
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in ops1['numeroop']]))
 
-    conn = ConexaoCSW.Conexao()
+
 
     if consulta.empty:
 
         return pd.DataFrame({'mensagem':['caixa vazia'],'status':False})
     else:
         # Use parâmetro de substituição na consulta SQL
-        epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
+        try:
+            conn = ConexaoCSW.Conexao()
+            epc = pd.read_sql('SELECT t.codBarrasTag AS codbarrastag, numeroOP as numeroop, (SELECT epc.id FROM Tcr_Rfid.NumeroSerieTagEPC epc WHERE epc.codTag = t.codBarrasTag) AS epc '
                 "FROM tcr.SeqLeituraFase t WHERE t.codempresa = "+emp+ "and t.numeroOP IN "+resultado,conn)
 
-        epc = epc.drop_duplicates(subset=['codbarrastag'])
+            epc = epc.drop_duplicates(subset=['codbarrastag'])
+            result = pd.merge(caixaNova, epc, on=('codbarrastag', 'numeroop'), how='left')
+            conn.close()
 
-        result = pd.merge(caixaNova,epc,on=('codbarrastag','numeroop'), how='left')
+        except:
+            result = caixaNova
+            result['epc'] = 'Conexao CSW Caiu'
+
+
         result.fillna('-', inplace=True)
 
         #Avaliar se a op da tag foi baixada
