@@ -40,8 +40,12 @@ def relatorioTotalFila(empresa, natureza):
         Percentual = query3['contagem'][0] / total
         Nao_reposto = query2["contagem"][0]
         Nao_reposto = "{:,.0f}".format(Nao_reposto)
+        Nao_reposto = str(Nao_reposto)
+        Nao_reposto = Nao_reposto.replace(',', '.')
         RepostoOK = query3["contagem"][0]
         RepostoOK = "{:,.0f}".format(RepostoOK)
+        RepostoOK = str(RepostoOK)
+        RepostoOK = RepostoOK.replace(',', '.')
 
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+Inventario["codreduzido"][0]
