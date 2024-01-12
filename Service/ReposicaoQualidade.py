@@ -457,10 +457,10 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
 
 def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
-    conn = ConexaoCSW.Conexao()
+
 
     if not ops1.empty :
-
+        conn = ConexaoCSW.Conexao()
         novo = ops1[['numeroop']]
         novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -473,7 +473,8 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
                           "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
                           "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
                           "FROM tco.OrdemProdTamanhos op "
-                          "WHERE op.codEmpresa = "+ empresa + "and op.numeroOP IN "+resultado,conn)
+                          "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+resultado,conn)
+        conn.close()
 
         if numeroop_ != '0':
             totalGeral = get["total_pcs"].sum()
