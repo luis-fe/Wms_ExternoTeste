@@ -11,7 +11,7 @@ if (Empresa === "1") {
 }
 
 const ApiFilaMatriz = 'http://192.168.0.183:5000/api/NecessidadeReposicao';
-const ApiFilaFilial = 'http://177.221.240.74:5000/api/NecessidadeReposicao'
+const ApiFilaFilial = 'http://192.168.0.184:5000/api/NecessidadeReposicao'
 const Token = "a40016aabcx9"
 let dadosApi = ""
 

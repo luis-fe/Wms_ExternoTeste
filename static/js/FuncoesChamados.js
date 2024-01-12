@@ -11,13 +11,13 @@ if (Empresa === "1") {
 }
 
 const ApiConsultaChamadosMatriz = "http://192.168.0.183:5000/api/chamados";
-const ApiConsultaChamadosFilial = "http://177.221.240.74:5000/api/chamados";
+const ApiConsultaChamadosFilial = "http://192.168.0.184:5000/api/chamados";
 const ApiConsultaAreaChamadosMatriz = "http://192.168.0.183:5000/api/area";
-const ApiConsultaAreaChamadosFilial = "http://177.221.240.74:5000/api/area";
+const ApiConsultaAreaChamadosFilial = "http://192.168.0.184:5000/api/area";
 const ApiNovoChamadoMatriz = "http://192.168.0.183:5000/api/NovoChamado";
-const ApiNovoChamadoFilial = "http://177.221.240.74:5000/api/NovoChamado";
+const ApiNovoChamadoFilial = "http://192.168.0.184:5000/api/NovoChamado";
 const ApiImagemMatriz = "http://192.168.0.183:5000/api/upload";
-const ApiImagemFilial = "http://177.221.240.74:5000/api/upload";
+const ApiImagemFilial = "http://192.168.0.184:5000/api/upload";
 const Token = "a40016aabcx9";
 let IdChamado = ""
 let dadosApi = "";

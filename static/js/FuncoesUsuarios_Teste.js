@@ -11,7 +11,7 @@ if (Empresa === "1") {
 }
 
 const ApiUsuariosMatriz = "http://192.168.0.183:5000/api/Usuarios"
-const ApiUsuariosFilial = "http://177.221.240.74:5000/api/Usuarios"
+const ApiUsuariosFilial = "http://192.168.0.184:5000/api/Usuarios"
 let Usuario = document.getElementById("")
 let UsuarioSelecionadoTabela;
 let NomeSelecionadoTabela;

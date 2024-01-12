@@ -12,8 +12,8 @@ if (Empresa === "1") {
 
 
 const apiCadastroMatriz= 'http://192.168.0.183:5000/api/CadastrarCaixa';
-const apiCadastroFilial = 'http://177.221.240.74:5000/api/CadastrarCaixa';
-const apiConsultaFilial = "http://177.221.240.74:5000/api/relatorioCaixas";
+const apiCadastroFilial = 'http://192.168.0.184:5000/api/CadastrarCaixa';
+const apiConsultaFilial = "http://192.168.0.184:5000/api/relatorioCaixas";
 const apiConsultaMatriz = "http://192.168.0.183:5000/api/relatorioCaixas";
 const Token = "a40016aabcx9";
 
