@@ -39,7 +39,9 @@ def relatorioTotalFila(empresa, natureza):
         total =  query3['contagem'][0] +  query2['contagem'][0]
         Percentual = query3['contagem'][0] / total
         Nao_reposto = query2["contagem"][0]
+        Nao_reposto = "{:,.0f}".format(Nao_reposto)
         RepostoOK = query3["contagem"][0]
+        RepostoOK = "{:,.0f}".format(RepostoOK)
 
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+Inventario["codreduzido"][0]
@@ -57,14 +59,17 @@ def relatorioTotalFila(empresa, natureza):
     reposto = "{:,.0f}".format(reposto)
     reposto = str(reposto)
     reposto = reposto.replace(',', '.')
-
+    pc_Inv = Inventario["codreduzido"][0]
+    pc_Inv = "{:,.0f}".format(pc_Inv)
+    pc_Inv = str(pc_Inv)
+    pc_Inv = pc_Inv.replace(',', '.')
     conn.close()
     data = {
         '1.0':f' Informacoes Gerais do Estoque natureza: {natureza}',
         '1.1-Total de Peças Nat. 5':   f'{totalPecas} pçs',
         '1.2-Saldo na Fila':   f'{saldo_str} pçs',
         '1.3-Peçs Repostas':   f'{reposto} pçs',
-        '1.4-Peçs em Inventario':   f'{Inventario["codreduzido"][0]} pçs',
+        '1.4-Peçs em Inventario':   f'{pc_Inv} pçs',
         '2.0':' Informacoes dos pedidos',
         '2.1- Total de Skus nos Pedidos em aberto ': f'{total2} pçs',
         '2.2-Qtd de Enderecos Nao Reposto em Pedido': f'{Nao_reposto}',
