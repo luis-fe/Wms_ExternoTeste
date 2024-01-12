@@ -80,7 +80,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/Usuarios",
+							"raw": "http://192.168.0.184:5000/api/Usuarios",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -177,7 +177,7 @@
 							"raw": "{\"codigo\":\"2103\",\r\n\"nome\":\"Bruna Hellen🏆\"\r\n}"
 						},
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/Usuarios/2103",
+							"raw": "http://192.168.0.184:5000/api/Usuarios/2103",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -274,7 +274,7 @@
 							"raw": "{\"codigo\":2563,\r\n\"nome\":\"Everiton Junior\",\r\n\"funcao\":\"REPOSITOR\",\r\n\"situacao\":\"Ativo\",\r\n\"senha\":\"Master100\"\r\n}"
 						},
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/Usuarios",
+							"raw": "http://192.168.0.184:5000/api/Usuarios",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -372,7 +372,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/UsuarioSenha?codigo=1414&senha=123@4",
+							"raw": "http://192.168.0.184:5000/api/UsuarioSenha?codigo=1414&senha=123@4",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -470,7 +470,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/UsuarioSenhaRestricao",
+							"raw": "http://192.168.0.184:5000/api/UsuarioSenhaRestricao",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -572,7 +572,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/DetalhaCodBarras?codbarras=01000066521501000063",
+									"raw": "http://192.168.0.184:5000/api/DetalhaCodBarras?codbarras=01000066521501000063",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -676,7 +676,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
+									"raw": "http://192.168.0.184:5000/api/FilaReposicaoOP?empresa=1&natureza=5",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -904,7 +904,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/DetalhaOPxSKU?natureza=5&numeroOP=016827-001",
+									"raw": "http://192.168.0.184:5000/api/DetalhaOPxSKU?natureza=5&numeroOP=016827-001",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1023,7 +1023,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/DetalhaCodBarras?codbarras=04000055910304002887",
+									"raw": "http://192.168.0.184:5000/api/DetalhaCodBarras?codbarras=04000055910304002887",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1127,7 +1127,7 @@
 							"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056220903000189\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\",\r\n\"estornar\":true\r\n\r\n}"
 						},
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+							"raw": "http://192.168.0.184:5000/api/ApontamentoReposicao",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -1159,7 +1159,7 @@
 									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056155903000081\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\"\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+									"raw": "http://192.168.0.184:5000/api/ApontamentoReposicao",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1218,7 +1218,7 @@
 									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarra\":\"04000056220903000189\",\r\n\"endereco\" :\"02-21-17\",\r\n\"dataHora\":\"2023-12-04\",\r\n\"natureza\":\"5\",\r\n\"empresa\":\"4\",\r\n\"estornar\":true\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/ApontamentoReposicao",
+									"raw": "http://192.168.0.184:5000/api/ApontamentoReposicao",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1342,7 +1342,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/FilaPedidos",
+									"raw": "http://192.168.0.184:5000/api/FilaPedidos",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1436,7 +1436,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/FilaPedidosUsuario?codUsuario=2102",
+									"raw": "http://192.168.0.184:5000/api/FilaPedidosUsuario?codUsuario=2102",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1543,7 +1543,7 @@
 									"raw": "{\"pedido\":\"309673-1\"\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/imprimirEtiqueta",
+									"raw": "http://192.168.0.184:5000/api/imprimirEtiqueta",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1644,7 +1644,7 @@
 									"raw": "{\"pedidos\":[\"307816-2\"]\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/Prioriza",
+									"raw": "http://192.168.0.184:5000/api/Prioriza",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1747,7 +1747,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/DetalharPedido?codPedido=34129-1",
+									"raw": "http://192.168.0.184:5000/api/DetalharPedido?codPedido=34129-1",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -1859,7 +1859,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-29&DataFinal=2023-09-29",
+							"raw": "http://192.168.0.184:5000/api/TagsSeparacao/Resumo?DataInicial=2023-09-29&DataFinal=2023-09-29",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -1972,7 +1972,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/RelatorioSeparacao?DataInicial=2023-11-18&DataFinal=2023-11-20&usuario=2485",
+							"raw": "http://192.168.0.184:5000/api/RelatorioSeparacao?DataInicial=2023-11-18&DataFinal=2023-11-20&usuario=2485",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -2085,7 +2085,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://177.221.240.74:5000/api/TagsReposicao/Resumo?DataInicial=2023-09-18&DataFinal=2023-09-18",
+							"raw": "http://192.168.0.184:5000/api/TagsReposicao/Resumo?DataInicial=2023-09-18&DataFinal=2023-09-18",
 							"protocol": "http",
 							"host": [
 								"177",
@@ -2266,7 +2266,7 @@
 									]
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/RelatorioInventario?natureza=&datainicio=2023-09-30&datafinal=2023-12-31&emitirRelatorio",
+									"raw": "http://192.168.0.184:5000/api/RelatorioInventario?natureza=&datainicio=2023-09-30&datafinal=2023-12-31&emitirRelatorio",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -2385,7 +2385,7 @@
 									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"data\":\"xxxx\",\r\n\"endereço\" :\"19-04-12\"\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/RegistrarInventario",
+									"raw": "http://192.168.0.184:5000/api/RegistrarInventario",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -2481,7 +2481,7 @@
 									"raw": "{\r\n\"codUsuario\":\"1\",\r\n\"codbarras\":\"01000066471801000039\",\r\n\"endereço\" :\"12-80-10\",\r\n\"Prosseguir\":true\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/ApontarTagInventario",
+									"raw": "http://192.168.0.184:5000/api/ApontarTagInventario",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -4083,7 +4083,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/RecarregarPedidos?empresa=4",
+									"raw": "http://192.168.0.184:5000/api/RecarregarPedidos?empresa=4",
 									"protocol": "http",
 									"host": [
 										"177",
@@ -4852,7 +4852,7 @@
 									"raw": "{\r\n\"empresa\":\"1\",\r\n\"codbarras\":\"01000071665003000556\",\r\n\"natureza\":\"5\",\r\n\"NCaixa\":\"00006\",\r\n\"usuario\":\"1\"\r\n}"
 								},
 								"url": {
-									"raw": "http://177.221.240.74:5000/api/ReporCaixaLivre",
+									"raw": "http://192.168.0.184:5000/api/ReporCaixaLivre",
 									"protocol": "http",
 									"host": [
 										"177",
