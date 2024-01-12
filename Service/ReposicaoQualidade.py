@@ -149,7 +149,9 @@ def ConsultaCaixa(NCaixa, empresa):
         cor = consultar['cor'][0]
         eng = consultar['engenharia'][0]
         tam = consultar['tamanho'][0]
+        consultar.fillna('Nao Iniciado', inplace=True)
         totalPcSku = consultar['total_pcs'][0]
+
         consultar.drop(['numeroop','codempresa','codreduzido','descricao','cor','engenharia','tamanho',
                         'total_pcs']
                        , axis=1, inplace=True)
