@@ -53,14 +53,17 @@ def relatorioTotalFila(empresa, natureza):
     total = "{:,.0f}".format(total)
     total = str(total)
     total2 = total.replace(',', '.')
-
+    reposto = Reposto["codreduzido"][0]
+    reposto = "{:,.0f}".format(reposto)
+    reposto = str(reposto)
+    reposto = reposto.replace(',', '.')
 
     conn.close()
     data = {
         '1.0':f' Informacoes Gerais do Estoque natureza: {natureza}',
         '1.1-Total de Peças Nat. 5':   f'{totalPecas} pçs',
         '1.2-Saldo na Fila':   f'{saldo_str} pçs',
-        '1.3-Peçs Repostas':   f'{Reposto["codreduzido"][0]} pçs',
+        '1.3-Peçs Repostas':   f'{reposto} pçs',
         '1.4-Peçs em Inventario':   f'{Inventario["codreduzido"][0]} pçs',
         '2.0':' Informacoes dos pedidos',
         '2.1- Total de Skus nos Pedidos em aberto ': f'{total2} pçs',
