@@ -84,7 +84,7 @@ def Usuarios_Teste():
 
 @portal_routes.route('/CadastroDeEnderecos_Teste') # Aqui é o link da pagina incial do Portal da Garantia
 def CadastroDeEnderecos_Teste():
-    return render_template('CadastoDeEnderecos_Teste.html')
+    return render_template('CadastroDeEnderecos_Teste.html')
 
 @portal_routes.route('/CadastroQrCaixas_Teste') # Aqui é o link da pagina incial do Portal da Garantia
 def CadastroQrCaixas_Teste():
