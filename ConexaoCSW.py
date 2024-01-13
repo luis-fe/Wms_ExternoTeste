@@ -1,6 +1,6 @@
 import jaydebeapi
 import pandas as pd
-import Service.configuracoes.empresaConfigurada as emp
+import Service.configuracoes.empresaConfigurada
 
 
 
@@ -98,10 +98,11 @@ def VerificarConexao():
 
 def pesquisaTagCSW(codbarras):
     try:
+        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
         codbarras = "'"+codbarras+"'"
         conn = Conexao()
         data = pd.read_sql(" select codBarrasTag , codNaturezaAtual , situacao  FROM Tcr.TagBarrasProduto p"
-                           " WHERE p.codBarrasTag = "+ codbarras , conn)
+                           " WHERE p.codBarrasTag = "+ codbarras +' codempresa = '+emp, conn)
         conn.close()
         data['stauts conexao'] = True
         return data
