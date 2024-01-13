@@ -226,28 +226,33 @@ function CriarGrafico() {
 
 
 window.addEventListener('load', async ()  => {
+    const NomeUsuario = localStorage.getItem('nomeUsuario');
     const VerificaLogin = localStorage.getItem('Login');
+    const linkUsuario = document.querySelector('.right-menu-item a');
+  
     console.log(Empresa)
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             await ChamadaApiEnderecos(ApiEnderecosMatriz, 1, 5),
                   ChamadaApiPedidos(ApiPedidosMatriz),
                   ChamadaApi(ApiMatriz, CriarGrafico)
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             await ChamadaApiEnderecos(ApiEnderecosFilial, 4, 5),
                   ChamadaApiPedidos(ApiPedidosFilial),
                   ChamadaApi(ApiFilial, CriarGrafico)
 
         }
     }
-});   
+}); 
 
 const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
