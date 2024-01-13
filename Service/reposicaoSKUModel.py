@@ -39,7 +39,6 @@ def DetalhaTag(codbarras):
                                     ' where codbarrastag = %s ', conn, params=(codbarras,))
             if not consulta3.empty:
                 return consulta3
-
             else:
                 consulta4 = ConexaoCSW.pesquisaTagCSW(codbarras)
                 if not consulta4.empty and consulta4['situacao'][0] == 3:
