@@ -92,7 +92,7 @@ async function InserirCaixa(api) {
 
         if (VerificaLogin !== "Logado") {
             // Se não houver token, redirecione para a página de login
-            window.location.href = 'Login.html';
+            window.location.href = '/Login_Teste';
         }
         else 
         if (Empresa === "1") {
