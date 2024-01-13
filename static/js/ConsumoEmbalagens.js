@@ -86,27 +86,23 @@ async function InserirCaixa(api) {
         document.getElementById("DataInicial").value = formattedDate;
         document.getElementById("DataFinal").value = formattedDate;
 
+        const NomeUsuario = localStorage.getItem('nomeUsuario');
         const VerificaLogin = localStorage.getItem('Login');
+        const linkUsuario = document.querySelector('.right-menu-item a')
 
         if (VerificaLogin !== "Logado") {
             // Se não houver token, redirecione para a página de login
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
         }
         else 
         if (Empresa === "1") {
             obterInformacoesCaixas( apiConsultaMatriz,document.getElementById("DataInicial").value, document.getElementById("DataFinal").value);
+            linkUsuario.textContent = NomeUsuario;
         } else if (Empresa === "4") {
             obterInformacoesCaixas(apiConsultaFilial, document.getElementById("DataInicial").value, document.getElementById("DataFinal").value);
+            linkUsuario.textContent = NomeUsuario;
         }
-
-
-    
- 
-
-    
-    
 });
-
 document.getElementById('btnCadastrar').addEventListener('click', () => {
     document.getElementById('ModalCadastroEmbalagem').style.display = 'flex';
     console.log('TESTE'); // Corrigido o erro de digitação aqui (era "conseole.log")
