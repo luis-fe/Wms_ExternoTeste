@@ -297,7 +297,7 @@ console.log(dataFormatada);
     
                 window.location.href = '/Login_Teste';
             } else {
-                window.location.href = '/Login_Teste';
+                linkUsuario.textContent = NomeUsuario;
                 await ChamadaApi(ApiConsultaChamadosMatriz); 
                       criarTabelaChamados(dadosApi)
             }
@@ -305,13 +305,13 @@ console.log(dataFormatada);
             if (VerificaLogin !== "Logado") {
                 window.location.href = '/Login_Teste';
             } else {
-                window.location.href = '/Login_Teste';
+                linkUsuario.textContent = NomeUsuario;
                 await ChamadaApi(ApiConsultaChamadosFilial); 
                       criarTabelaChamados(dadosApi);
 
             }
         }
-    });    
+    });   
 
 
 
