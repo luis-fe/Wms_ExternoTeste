@@ -122,18 +122,22 @@ function FecharModalLoading() {
 
 
 window.addEventListener('load', async ()  => {
+    const NomeUsuario = localStorage.getItem('nomeUsuario');
     const VerificaLogin = localStorage.getItem('Login');
+    const linkUsuario = document.querySelector('.right-menu-item a');
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             await UsuariosWMS(ApiUsuariosMatriz)
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             await UsuariosWMS(ApiUsuariosFilial)
 
         }
