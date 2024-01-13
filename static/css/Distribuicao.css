@@ -306,7 +306,7 @@ white-space: nowrap; /* Impede a quebra de texto */
         margin: 8% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 0%;
+        width: 90%;
         z-index: 3;
     }
     #Usuarios{
