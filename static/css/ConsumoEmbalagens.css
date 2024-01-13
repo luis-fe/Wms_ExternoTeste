@@ -19,9 +19,9 @@
 }
 
 .Menu {
-    width: 100%; /* Ocupar toda a largura da tela */
+    width: 100%;
     display: flex;
-    justify-content: space-between; /* Distribui os elementos uniformemente */
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -32,10 +32,10 @@
     display: flex;
     align-items: center;
 }
-.right-menu-item {
-    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
-}
 
+.right-menu-item {
+    margin-left: auto;
+}
 
 .TituloPrograma {
     margin-top: 15px;
@@ -72,7 +72,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15vh;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
 .DataInicio, .DataFim {
@@ -90,6 +91,7 @@
     border-radius: 10px;
     font-size: 16px;
     padding: 5px;
+    width: 100%;
 }
 
 /* Estilo dos botões */
@@ -118,7 +120,7 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-    
+    z-index: 2;
 }
 
 .ModalCadastroEmbalagem-content {
@@ -129,12 +131,16 @@
     border: 1px solid #888;
     width: 60%;
     max-width: 500px;
-    z-index: 2;
-    height: 45%;
+    z-index: 3;
+    overflow: hidden;
 }
 
+.ModalCadastroEmbalagem-content > * {
+    box-sizing: border-box;
+    max-width: 100%;
+}
 
-.ModalCadastroEmbalagem-content h3{
+.ModalCadastroEmbalagem-content h3 {
     position: absolute;
     top: 0;
     left: 0;
@@ -146,13 +152,13 @@
     font-family: Arial;
     border: 5px;
     margin: 0;
-    z-index: 1;
+    z-index: 4;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--cor2);
+    color: var(--cor4);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -171,15 +177,7 @@ input {
     border-radius: 4px;
 }
 
-select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.ModalCadastroEmbalagem-content #CodigoCaixa{
+.ModalCadastroEmbalagem-content #CodigoCaixa {
     display: block;
     margin-top: 60px;
 }
@@ -193,8 +191,6 @@ select {
     color: var(--cor1);
     z-index: 1000;
 }
-
-
 /* Estilo da Caixa de Confirmação */
 .confirmation-box {
     display: none;
@@ -212,6 +208,7 @@ select {
 }
 
 .confirmation-box h2 {
+    color: white;
     margin: 0;
     font-size: 18px;
     margin-bottom: 10px;
@@ -232,27 +229,38 @@ select {
 
 /* Estilo das Tabelas */
 .TabelasCaixas {
-    border-collapse: collapse;
-    border: 2px solid darkgray;
-    margin-left: 25%;
-    width: 50%;
-    max-width: 1550px;
-    text-align: center;
-    margin-top: 10px;
-    overflow: auto;
+    overflow-x: auto;
 }
 
-.TabelasCaixas .TabelaCaixa {
-    font-size: 20px;
-    border-collapse: collapse;
-    border: 2px solid darkgray;
+.TabelaCaixa {
     width: 100%;
+    border-collapse: collapse;
 }
 
-.TabelasCaixas .TabelaCaixa th {
-    background-color: var(--cor2);
-    color: var(--cor4);
-    max-height: 20px;
+.TabelaCaixa th, .TabelaCaixa td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
 }
 
-/* ... (Você pode continuar com outros estilos, se necessário) */
+/* Estilo para telas menores */
+@media only screen and (max-width: 768px) {
+    .Filtros {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .DataInicio, .DataFim {
+        margin-bottom: 10px;
+    }
+
+    .DataInicio input, .DataFim input {
+        width: 100%;
+    }
+
+    .TabelasCaixas {
+        margin-top: 30px;
+    }
+}
