@@ -302,14 +302,19 @@ BotaoPersistir1.addEventListener('click', () => {
    
 
     window.addEventListener('load', async () => {
-
+        const NomeUsuario = localStorage.getItem('nomeUsuario');
         const VerificaLogin = localStorage.getItem('Login');
+        const linkUsuario = document.querySelector('.right-menu-item a');
+        
 
         if (VerificaLogin !== "Logado") {
             // Se não houver token, redirecione para a página de login
-            window.location.href = '/Login_Teste';
+            window.location.href = 'Login.html';
+        } else {
+            linkUsuario.textContent = NomeUsuario;
         }
     });
+
 
     const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
