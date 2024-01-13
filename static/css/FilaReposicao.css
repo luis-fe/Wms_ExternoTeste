@@ -67,7 +67,7 @@
     align-items: center;
 }
 
-.TituloPrograma label {
+.TituloPrograma h2 {
     color: var(--cor4);
     font-weight: bold;
 }
