@@ -62,7 +62,7 @@ window.addEventListener('load', async () => {
 
     if (VerificaLogin !== "Logado") {
         // Se não houver token, redirecione para a página de login
-        window.location.href = 'Login.html';
+        window.location.href = '/Login_Teste';
     } else {
         linkUsuario.textContent = NomeUsuario;
     }
