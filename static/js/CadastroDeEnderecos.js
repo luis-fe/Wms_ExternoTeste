@@ -218,9 +218,9 @@ BotaoPersistir1.addEventListener('click', () => {
 
     document.getElementById('confirmButtonImpressao').addEventListener('click', () => {
             if (Empresa === "1") {
-                CadastrarEnderecos(CadastrarEnderecosMatriz,"PUT", false);
+                CadastrarEnderecos(CadastrarEnderecosMatriz,"PUT", true);
             } else if (Empresa === "4") {
-                CadastrarEnderecos(CadastrarEnderecosFilial,"PUT", false);
+                CadastrarEnderecos(CadastrarEnderecosFilial,"PUT", true);
             }
             document.getElementById('Imprimir').style.display = 'none'
 
