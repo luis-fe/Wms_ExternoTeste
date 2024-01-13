@@ -10,15 +10,23 @@ if (Empresa === "1") {
     window.location.href = '/Login_Teste';
 }
 
-const Api = 'http://192.168.0.183:5000/api/RelatorioInventario?';
-    const Token1= 'a40016aabcx9';
+const ApiMatriz = 'http://192.168.0.183:5000/api/RelatorioInventario?';
+const ApiFilial = 'http://192.168.0.184:5000/api/RelatorioInventario?';
+  const Token1= 'a40016aabcx9';
 
     document.getElementById('BotaoConsultar').addEventListener('click', async () => {
         
         const Natureza = document.getElementById('SelectNaturezas').value;
         const DataInicio = document.getElementById('InputDataInicio').value;
         const DataFim = document.getElementById('InputDataFim').value;
-        await ChamadaApiInventarios(Api, Natureza, DataInicio, DataFim);
+        if (Empresa === "1") {
+          await ChamadaApiInventarios(ApiMatriz, Natureza, DataInicio, DataFim);
+      } else if (Empresa === "4") {
+        await ChamadaApiInventarios(ApiFilial, Natureza, DataInicio, DataFim);
+      } else {
+          window.location.href = 'Login.html';
+      }
+        
         console.log(Natureza);
         console.log(DataInicio);
         console.log(DataFim);
@@ -30,14 +38,22 @@ const Api = 'http://192.168.0.183:5000/api/RelatorioInventario?';
         const Natureza = document.getElementById('SelectNaturezas').value;
         const DataInicio = document.getElementById('InputDataInicio').value;
         const DataFim = document.getElementById('InputDataFim').value;
+        if (Empresa === "1") {
+          await ChamadaApiInventariosExel(ApiMatriz, Natureza, DataInicio, DataFim, "True");
+      } else if (Empresa === "4") {
+        await ChamadaApiInventariosExel(ApiFilial, Natureza, DataInicio, DataFim, "True");
+      } else {
+          window.location.href = 'Login.html';
+      }
         
-        await ChamadaApiInventariosExel(Api, Natureza, DataInicio, DataFim, "True");
+        
         console.log(Natureza);
         console.log(DataInicio);
         console.log(DataFim);
         
 
     })
+
 
 
 
