@@ -1,11 +1,10 @@
 
+/* Mantendo as configurações gerais */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
-
 
 /* Paleta de cores para Empresa A */
 :root.palheta-empresa-a {
@@ -23,40 +22,29 @@
     --cor4: black;
 }
 
-.Corpo{
+/* Estilo para o corpo */
+.Corpo {
     background-color: var(--cor2);
 }
 
+/* Estilo para o menu principal */
 .Menu {
-    width: 100%; /* Ocupar toda a largura da tela */
+    width: 100%;
     display: flex;
-    justify-content: space-between; /* Distribui os elementos uniformemente */
+    justify-content: space-between;
     align-items: center;
 }
 
-.left-menu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-}
-.right-menu-item {
-    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
-}
-
-
+/* Estilização dos menus e submenus */
 .Menu ul {
     font-size: 15px;
     background-color: var(--cor2);
-    margin-top: 0;
     padding: 0;
 }
 
 .Menu ul li {
     display: inline;
     position: relative;
-    margin: 0;
 }
 
 .Menu ul li a {
@@ -70,11 +58,9 @@
     background-color: var(--cor3);
 }
 
-
 .Menu ul ul {
     display: none;
     position: absolute;
-    left: 0;
     width: 250px;
     background-color: var(--cor3);
 }
@@ -85,20 +71,13 @@
     background-color: var(--cor2);
 }
 
-.Menu ul ul li a {
-    display: flex;
-    color: var(--cor4);
-    justify-content: left;
-}
-
+/* Estilo para o título do programa */
 .TituloPrograma {
     margin-top: 15px;
     font-size: 25px;
     background-color: var(--cor2);
     width: 100%;
-    justify-content: center;
     text-align: center;
-    align-items: center;
 }
 
 .TituloPrograma label {
@@ -106,11 +85,13 @@
     font-weight: bold;
 }
 
+/* Estilos para o gerenciamento e indicadores */
 .Gerenciamento {
     display: flex;
     justify-content: space-between;
-    border: 2px solid black;
-    
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .Indicador {
@@ -118,43 +99,10 @@
     border: 1px solid #000000;
     padding: 10px;
     margin: 5px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     background-color: lightgray;
 }
 
-.Legenda {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-/* Estilo para os títulos acima dos indicadores */
-.TituloIndicador {
-    font-size: 18px;
-    font-weight: bold;
-    color: rgb(17, 45, 126);
-}
-
-/* Estilo para as divs Reposicao e Separacao */
-.Reposicao,
-.Separacao,
-.Enderecos,
-.PedidosCompletos {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    height: auto;
-    width: 50%;
-    margin-top: 20px;
-}
-
-/* Estilo para os medidores dentro de Reposicao e Separacao */
+/* Estilização dos medidores */
 #medidorReposicao,
 #medidorSeparacao,
 #medidorEnderecos,
@@ -167,7 +115,7 @@
     margin-bottom: 10px;
 }
 
-/* Estilo para as etiquetas (labels) dos indicadores */
+/* Estilos para as etiquetas dos indicadores */
 .Reposicao label,
 .Separacao label,
 .Enderecos label,
@@ -177,7 +125,6 @@
     margin-top: 10px;
 }
 
-/* Estilo para as informações de legenda */
 .MetaReposicao,
 .PecasRepostas,
 .MetaPecas,
@@ -186,10 +133,14 @@
 .EnderecosRealizados,
 .TotalPedidosRetorna,
 .PedidosCompleto {
+    width: 100%;
+    max-width: 100%; /* Definindo um máximo para evitar expansão */
     display: flex;
     align-items: center;
-}
+    text-align: center;
+    justify-content: center;
 
+}
 /* Estilo para os botões de cor nas informações de legenda */
 .MetaReposicao button,
 .PecasRepostas button,
@@ -205,7 +156,7 @@
     margin-left: 10px;
 }
 
-/* Estilo para as etiquetas (labels) nas informações de legenda */
+/* Estilo para as etiquetas nas informações de legenda */
 .MetaReposicao label,
 .PecasRepostas label,
 .MetaPecas label,
@@ -215,10 +166,55 @@
 .TotalPedidosRetorna label,
 .PedidosCompleto label {
     margin-left: 10px;
-    font-size: 20px;
+    font-size: 2.3vh;
     font-weight: bold;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (max-width: 900px) {
 
+    /* Mudar o layout das divs principais e fazer com que ocupem 100% da largura */
+    .Gerenciamento {
+        flex-direction: column; /* Empilha as divs uma abaixo da outra */
+        width: 98%; /* Ocupa a largura total */
+    }
+
+    /* Ajuste de largura para ocupar 100% da largura */
+    .Indicador {
+        width: 100%; 
+        box-sizing: border-box; /* Garante que padding e borda não expandam a div além de 100% */
+        padding: 10px; /* Exemplo de padding, ajuste conforme necessário */
+        margin-bottom: 20px; /* Espaçamento entre as divs */
+    }
+
+    /* Ajuste para o medidor */
+    #medidorReposicao,
+    #medidorSeparacao,
+    #medidorEnderecos,
+    #medidorPedidos {
+        width: 80%; 
+        margin: 0 auto; 
+    }
+
+    /* Ajustes para a legenda */
+    .Legenda {
+        flex-direction: column; /* Mostra a legenda abaixo das barras de progresso */
+    }
+
+    /* Ajuste de tamanho de fonte para títulos */
+    .Indicador h3 {
+        font-size: 18px; 
+    }
+    .MetaReposicao label,
+.PecasRepostas label,
+.MetaPecas label,
+.PecasRealizadas label,
+.MetaEnderecos label,
+.EnderecosRealizados label,
+.TotalPedidosRetorna label,
+.PedidosCompleto label {
+    margin-left: 10px;
+    font-size: 2.5vh;
+    font-weight: bold;
+    
+}
 }
