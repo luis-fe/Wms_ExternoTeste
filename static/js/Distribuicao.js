@@ -723,11 +723,13 @@ function capturarPedidoVerificacao() {
     return PedidosSelecionados;
 }
 
+const ApiMatrizFalta = `http://192.168.0.183:5000/api/DetalharPedido?codPedido=`
+const ApiFilialFalta = `http://192.168.0.184:5000/api/DetalharPedido?codPedido=`
 
-function PecasFaltantes() {
+function PecasFaltantes(api) {
     const PedidosSelecionados = capturarPedidoVerificacao();
     AbrirModalLoading()
-    fetch(`http://192.168.0.183:5000/api/DetalharPedido?codPedido=${PedidosSelecionados}`, {
+    fetch(`${api}${PedidosSelecionados}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -783,7 +785,16 @@ fecharModalBtn.addEventListener('click', () => {
 const BotaoFalta = document.getElementById("VerificarPecasFaltando");
 
 BotaoFalta.addEventListener('click', () => {
-    PecasFaltantes();
+    BotaoFalta.addEventListener('click', () => {
+    if (Empresa === "1") {
+        PecasFaltantes(ApiMatrizFalta);
+    } else if (Empresa === "4") {
+        PecasFaltantes(ApiFilialFalta);
+    } else {
+        window.location.href = 'Login.html';
+    }
+    
+});
 });
 
 function criarTabelaInformacoes(listaInformacoes) {
