@@ -6,11 +6,11 @@ import Service.configuracoes.empresaConfigurada
 
 
 
-empresa = emp.EmpresaEscolhida()
+empresa = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
 print(empresa)
 
 def Conexao():
-    empresa = emp.EmpresaEscolhida()
+    empresa = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
 
     if empresa == '1':
         x1 = ConexaoInternoMPL()
