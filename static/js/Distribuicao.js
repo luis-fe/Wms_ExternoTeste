@@ -375,21 +375,28 @@ function CarregarUsuarios(api) {
         
 
 window.addEventListener('load', async () => {
-    const VerificaLogin = localStorage.getItem('Login');
+    const NomeUsuario = localStorage.getItem('nomeUsuario');
+  const VerificaLogin = localStorage.getItem('Login');
+  const linkUsuario = document.querySelector('.right-menu-item a');
+
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
             window.location.href = '/Login_Teste';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             await AtualizarDados(ApiRecarregarPedidosMatriz, '1');
             CarregarDados(ApiDistribuicaoMatriz);
+            
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
             window.location.href = '/Login_Teste';
         } else {
-            await AtualizarDados(ApiRecarregarPedidosFilial, '1');
+            linkUsuario.textContent = NomeUsuario;
+            await AtualizarDados(ApiRecarregarPedidosFilial, '4');
             CarregarDados(ApiDistribuicaoFilial);
+            
         }
     }
 });
