@@ -127,18 +127,23 @@ document.getElementById('exportButton').addEventListener('click', function () {
 
 
 window.addEventListener('load', () => {
-    const VerificaLogin = localStorage.getItem('Login');
+    
+  const NomeUsuario = localStorage.getItem('nomeUsuario');
+  const VerificaLogin = localStorage.getItem('Login');
+  const linkUsuario = document.querySelector('.right-menu-item a');
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
             window.location.href = '/Login_Teste';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             ChamadaApi(ApiFilaMatriz);
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
             window.location.href = '/Login_Teste';
         } else {
+            linkUsuario.textContent = NomeUsuario;
             ChamadaApi(ApiFilaFilial)
         }
     }
