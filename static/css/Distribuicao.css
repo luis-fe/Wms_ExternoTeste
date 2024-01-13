@@ -202,29 +202,54 @@ white-space: nowrap; /* Impede a quebra de texto */
     overflow: auto; /* Adiciona rolagem se necessário */
 }
 
-/* Estilos para o conteúdo da modal */
+
 .ModalPeçasFaltantes-content {
-    background-color: #fefefe; /* Cor de fundo branca */
-    margin: 15% auto; /* Centraliza a modal verticalmente e define uma margem em relação às laterais */
+        position: relative;
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        max-width: 500px;
+        z-index: 3;
+    }
+
+    .ModalPeçasFaltantes-content h3{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     padding: 20px;
-    border: 1px solid #888; /* Borda cinza */
-    width: 70%; /* Largura da modal */
-    max-width: 500px; /* Largura máxima da modal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para efeito de elevação */
+    background-color: var(--cor2);
+    text-align: center;
+    font-size: 20px;
+    font-family: Arial;
+    border: 5px;
+    margin: 0;
+    z-index: 4;
 }
 
-/* Estilos para o botão de fechar */
+.ModalPeçasFaltantes-content  #ListaPeçasFaltantes {
+    display: block;
+    margin-top: 70px;
+}
+
+
+
 .close {
-    color: #aaa; /* Cor do ícone */
-    float: right; /* Flutua para a direita */
-    font-size: 28px; /* Tamanho da fonte */
-    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--cor1);
+    z-index: 1000;
 }
 
 .close:hover, .close:focus {
-    color: black; /* Cor ao passar o mouse ou focar */
-    text-decoration: none; /* Remove a sublinhado */
-    cursor: pointer; /* Mostra o cursor como um ponteiro */
+    color: black; 
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Estilos para o título da modal */
@@ -243,5 +268,55 @@ white-space: nowrap; /* Impede a quebra de texto */
 #ListaPeçasFaltantes li {
     margin-bottom: 10px; /* Espaçamento entre os itens */
 }
+
+/* Ajustes para telas menores */
+@media only screen and (max-width: 768px) {
+    .Busca {
+        flex-direction: column; /* Coloca a barra de busca e o botão de busca em coluna */
+        align-items: flex-start; /* Alinha-os à esquerda */
+    }
+
+    .InputBusca {
+        width: 100%; /* Ocupa toda a largura disponível */
+        margin-bottom: 10px; /* Adiciona um espaço abaixo */
+    }
+
+    .Usuarios {
+        flex-direction: column; /* Ajusta a disposição dos botões e seletores em coluna */
+        align-items: center; /* Centraliza-os */
+    }
+
+    button {
+        width: 40%; /* Ocupa toda a largura disponível */
+        margin-bottom: 10px; /* Adiciona um espaço abaixo */
+    }
+
+    .TabelaContainer, .TabelaInformacoes {
+        width: 100%; /* Ocupa toda a largura disponível */
+        margin-left: 0; /* Remove a margem esquerda */
+    }
+
+    .TabelaTabelaDistribuicao, .TabelaInformacao {
+        font-size: 12px; /* Reduz o tamanho da fonte para caber melhor */
+    }
+
+    .ModalPeçasFaltantes-content {
+        position: relative;
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 0%;
+        z-index: 3;
+    }
+    #Usuarios{
+        border: 1px solid black;
+        height: 40px;
+        width: 80%;
+    }
+
+}
+
+
 
 
