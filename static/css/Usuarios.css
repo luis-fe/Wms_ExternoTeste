@@ -217,3 +217,16 @@ select {
     color: var(--cor1);
     z-index: 1000;
 }
+
+@media screen and (max-width: 758px) {
+    .ModalNovoUsuario-content, .ModaoEditarUsuarios-content {
+        position: relative;
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        z-index: 3;
+    }
+
+}
