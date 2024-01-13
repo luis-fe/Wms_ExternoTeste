@@ -109,9 +109,10 @@ def pesquisaTagCSW(codbarras):
             return data
         else:
             data['situacao'] = 0
+
             return data
     except:
-        return pd.DataFrame([{'stautus': False, 'situacao':0}])
+        return pd.DataFrame([{'stautus': False, 'situacao':False}])
 
 
 ####### TESTE NO INICIO DA APLICACAO,
