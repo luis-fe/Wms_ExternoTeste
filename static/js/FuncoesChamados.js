@@ -288,12 +288,16 @@ console.log(dataFormatada);
     
 
     window.addEventListener('load', async ()  => {
+        
+        const NomeUsuario = localStorage.getItem('nomeUsuario');
         const VerificaLogin = localStorage.getItem('Login');
+        const linkUsuario = document.querySelector('.right-menu-item a');
         if (Empresa === "1") {
             if (VerificaLogin !== "Logado") {
     
                 window.location.href = '/Login_Teste';
             } else {
+                window.location.href = '/Login_Teste';
                 await ChamadaApi(ApiConsultaChamadosMatriz); 
                       criarTabelaChamados(dadosApi)
             }
@@ -301,12 +305,13 @@ console.log(dataFormatada);
             if (VerificaLogin !== "Logado") {
                 window.location.href = '/Login_Teste';
             } else {
+                window.location.href = '/Login_Teste';
                 await ChamadaApi(ApiConsultaChamadosFilial); 
                       criarTabelaChamados(dadosApi);
 
             }
         }
-    });   
+    });    
 
 
 
