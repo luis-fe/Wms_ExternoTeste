@@ -27,7 +27,11 @@ def relatorioTotalFila(empresa, natureza):
     query['saldo'] = query['saldo'].sum()
     query2['contagem'] = query2['qtdesugerida'].sum()
     query3['contagem'] = query3['qtdesugerida'].sum()
-    Inventario['codreduzido'] = Inventario['codreduzido'].count()
+    if not Inventario.empty:
+        Inventario['codreduzido'] = Inventario['codreduzido'].count()
+        pc_Inv = Inventario["codreduzido"][0]
+    else:
+        pc_Inv = 0
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
     if  query3.empty:
         total = 0
@@ -63,7 +67,7 @@ def relatorioTotalFila(empresa, natureza):
     reposto = "{:,.0f}".format(reposto)
     reposto = str(reposto)
     reposto = reposto.replace(',', '.')
-    pc_Inv = Inventario["codreduzido"][0]
+
     pc_Inv = "{:,.0f}".format(pc_Inv)
     pc_Inv = str(pc_Inv)
     pc_Inv = pc_Inv.replace(',', '.')
