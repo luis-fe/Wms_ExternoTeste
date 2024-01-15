@@ -60,9 +60,10 @@
 
 .Menu ul ul {
     display: none;
+    left: 0;
     position: absolute;
-    width: 250px;
     background-color: var(--cor3);
+
 }
 
 .Menu ul li:hover ul {
@@ -70,6 +71,19 @@
     z-index: 9999;
     background-color: var(--cor2);
 }
+
+.Menu ul ul {
+    width: 250px;
+
+}
+
+
+.Menu ul ul li a {
+    display: flex;
+    color: var(--cor4);
+    justify-content: left;
+}
+
 
 /* Estilo para o título do programa */
 .TituloPrograma {
