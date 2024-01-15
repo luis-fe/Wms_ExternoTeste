@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = '/Login_Teste';
+    window.location.href = '/Teste_Login';
 }
 
 const ApiDistribuicaoMatriz = 'http://192.168.0.183:5000/api/FilaPedidos';
@@ -382,7 +382,7 @@ window.addEventListener('load', async () => {
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
-            window.location.href = '/Login_Teste';
+            window.location.href = '/Teste_Login';
         } else {
             linkUsuario.textContent = NomeUsuario;
             await AtualizarDados(ApiRecarregarPedidosMatriz, '1');
@@ -391,7 +391,7 @@ window.addEventListener('load', async () => {
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
-            window.location.href = '/Login_Teste';
+            window.location.href = '/Teste_Login';
         } else {
             linkUsuario.textContent = NomeUsuario;
             await AtualizarDados(ApiRecarregarPedidosFilial, '4');
@@ -792,16 +792,14 @@ fecharModalBtn.addEventListener('click', () => {
 const BotaoFalta = document.getElementById("VerificarPecasFaltando");
 
 BotaoFalta.addEventListener('click', () => {
-    BotaoFalta.addEventListener('click', () => {
     if (Empresa === "1") {
         PecasFaltantes(ApiMatrizFalta);
     } else if (Empresa === "4") {
         PecasFaltantes(ApiFilialFalta);
     } else {
-        window.location.href = 'Login.html';
+        window.location.href = '/Teste_Login';
     }
     
-});
 });
 
 function criarTabelaInformacoes(listaInformacoes) {
@@ -918,7 +916,24 @@ async function AtualizarDados(api, Empresa) {
     }
 }
 
-const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
+const botaoatualizar = document.getElementById("Atualizar");
+
+botaoatualizar.addEventListener('click', async() => {
+    if (Empresa === "1") {
+        await AtualizarDados(ApiRecarregarPedidosMatriz, "1");
+        CarregarDados(ApiDistribuicaoMatriz);
+    } else if (Empresa === "4") {
+        await AtualizarDados(ApiRecarregarPedidosFilial, "4");
+        CarregarDados(ApiDistribuicaoFilial);
+    } else {
+        window.location.href = '/Teste_Login';
+    }
+   
+});
+
+
+
+const linkSair = document.querySelector('.right-menu-item li a[href="/Teste_Login"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
