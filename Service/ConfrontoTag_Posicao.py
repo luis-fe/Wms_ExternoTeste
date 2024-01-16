@@ -11,11 +11,11 @@ def Confronto():
                           "where d.codNatureza = 5 and codEmpresa = "+emp+" and estoqueAtual > 0 ", conn)
 
     em_Conferencia = pd.read_sql("SELECT codReduzido as reduzido, COUNT(codBarrasTag) as em_conferencia FROM tcr.TagBarrasProduto t "
-                                 "WHERE t.codEmpresa = 4 and t.situacao = 4 and codNaturezaAtual = 5 "
+                                 "WHERE t.codEmpresa = "+emp+" and t.situacao = 4 and codNaturezaAtual = 5 "
                                  "group by codReduzido ", conn)
 
     wms = pd.read_sql("SELECT codReduzido as reduzido, COUNT(codBarrasTag) as situacao3 FROM tcr.TagBarrasProduto t "
-                                 "WHERE t.codEmpresa = 4 and t.situacao = 3 and codNaturezaAtual = 5 "
+                                 "WHERE t.codEmpresa = "+emp+ " and t.situacao = 3 and codNaturezaAtual = 5 "
                                  "group by codReduzido ", conn)
 
 
