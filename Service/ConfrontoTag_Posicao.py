@@ -28,6 +28,7 @@ def Confronto():
         totalConferido = em_Conferencia['em_conferencia'].sum()
 
     emEstoque = wms['situacao3'].sum()
+    posicaoEstoque = posicao['posicao_estoque'].sum()
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
     em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
     wms['situacao3'] = wms['situacao3'].astype(int)
@@ -46,8 +47,9 @@ def Confronto():
 
     data = {
 
-        '1- Total em Conferencia ': totalConferido ,
-        '2 - Em estoque:':emEstoque,
+        '1- Tags em Conferencia ': totalConferido ,
+        '2 - Tags Em estoque:':emEstoque,
+        '3 - No PosicaoCSW': posicaoEstoque,
         '4- Detalhamento ': consulta.to_dict(orient='records')
     }
     return pd.DataFrame([data])
