@@ -1,6 +1,5 @@
 import ConexaoCSW
 import pandas as pd
-
 import Service.configuracoes.empresaConfigurada
 
 
@@ -15,7 +14,7 @@ def Confronto():
                                  "WHERE t.codEmpresa = 4 and t.situacao = 4 and codNaturezaAtual = 5 "
                                  "group by codReduzido ", conn)
 
-    wms = pd.read_sql("SELECT codReduzido as reduzido, COUNT(codBarrasTag) as em_estoque FROM tcr.TagBarrasProduto t "
+    wms = pd.read_sql("SELECT codReduzido as reduzido, COUNT(codBarrasTag) as situacao3 FROM tcr.TagBarrasProduto t "
                                  "WHERE t.codEmpresa = 4 and t.situacao = 3 and codNaturezaAtual = 5 "
                                  "group by codReduzido ", conn)
 
@@ -24,16 +23,18 @@ def Confronto():
 
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
     em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
-    wms['em_estoque'] = wms['em_estoque'].astype(int)
+    wms['situacao3'] = wms['situacao3'].astype(int)
 
     consulta = pd.merge(posicao, em_Conferencia, on="reduzido", how="left")
 
     consulta = consulta.sort_values(by='posicao_estoque', ascending=False,
                                 ignore_index=True)
-    consulta.fillna('-', inplace=True)
+    consulta.fillna(0, inplace=True)
 
     consulta = pd.merge(consulta, wms, on="reduzido", how="left")
-
+    consulta['diferenca'] = consulta['posicao_estoque'] - (consulta['em_conferencia'] + consulta['situacao3'])
+    consulta = consulta.sort_values(by='diferenca', ascending=False,
+                                ignore_index=True)
     return consulta
 
 
