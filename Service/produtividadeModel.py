@@ -4,6 +4,9 @@ import pandas as pd
 import locale
 import datetime
 
+import Service.configuracoes.empresaConfigurada
+
+
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -161,13 +164,23 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         TagReposicao = pd.merge(TagReposicao, ritmo2,on='usuario',how='left')
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
-        record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde, '
+
+        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        if emp == '1':
+            record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde, '
                              'COUNT(DISTINCT codpedido) as mediapedidos '
                              'from "Reposicao"."ProducaoSeparadores"'
                              " where tempo < '17:31:00'"
                              ' group by usuario, dataseparacao', conn)
 
+        else:
+            record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde, '
+                                 'COUNT(DISTINCT codpedido) as mediapedidos '
+                                 'from "Reposicao"."ProducaoSeparadores"'
+                                 " where tempo < '18:01:00'"
+                                 ' group by usuario, dataseparacao', conn)
 
+        conn.close()
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
         record['mediaPedidos2'] = record["qtde"]/record["mediapedidos"]
@@ -181,6 +194,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
         record1 = record1.replace(',','.')
 
         Atualizado = obterHoraAtual()
+
 
         data = {
             '0- Atualizado:': f'{Atualizado}',
