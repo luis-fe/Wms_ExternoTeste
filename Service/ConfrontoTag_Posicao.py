@@ -36,6 +36,11 @@ def Confronto():
 
 
     posicaoEstoque = posicao['posicao_estoque'].sum()
+    posicaoEstoque = "{:,.0f}".format(posicaoEstoque)
+    posicaoEstoque = str(posicaoEstoque)
+    posicaoEstoque = posicaoEstoque.replace(',', '.')
+
+
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
     em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
     wms['situacao3'] = wms['situacao3'].astype(int)
