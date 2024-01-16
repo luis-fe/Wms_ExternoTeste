@@ -57,7 +57,7 @@ def Confronto():
 
     consulta = consulta[consulta['diferenca'] != 0]
 
-    totalWMS = emEstoque + posicaoEstoque + totalConferido
+    totalWMS = emEstoque  + totalConferido
 
     emEstoque = "{:,.0f}".format(emEstoque)
     posicaoEstoque = "{:,.0f}".format(posicaoEstoque)
