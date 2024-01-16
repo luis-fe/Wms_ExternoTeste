@@ -29,9 +29,10 @@ def Confronto():
 
     consulta = consulta.sort_values(by='posicao_estoque', ascending=False,
                                 ignore_index=True)
-    consulta.fillna(0, inplace=True)
+
 
     consulta = pd.merge(consulta, wms, on="reduzido", how="left")
+    consulta.fillna(0, inplace=True)
     consulta['diferenca'] = consulta['posicao_estoque'] - (consulta['em_conferencia'] + consulta['situacao3'])
     consulta = consulta.sort_values(by='diferenca', ascending=True,
                                 ignore_index=True)
