@@ -1,0 +1,407 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --cor1: rgb(200, 200, 200);
+    --cor2: rgb(17, 45, 126);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--cor1);
+}
+
+.Titulo {
+    height: 50px;
+    width: 100%;
+    background-color: var(--cor2);
+    text-align: center;
+    color: white;
+}
+
+/* Estilos para telas maiores (maior que 992px) */
+@media screen and (min-width: 992px) {
+    .Filtros {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--cor1);
+        padding: 10px;
+        border-bottom: 2px solid var(--cor2);
+    }
+
+    .Teste {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .DataInicio,
+    .DataFim {
+        flex: 1;
+        margin-right: 10px;
+        box-sizing: border-box;
+    }
+
+    .Botao {
+        flex-shrink: 0;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: var(--cor2);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .Retorna,
+    .Faturado {
+        font-size: 1.8vw;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin: 0 20px;
+    }
+    
+    .RetornaPcs,
+    .Retorna1,
+    .Faturado,
+    .Faturado1 {
+
+        width: 100%;
+        display: flex;
+    }
+    
+    .Retorna label,
+    .Faturado label {
+        width: 100%;
+        margin-bottom: 3px;
+        color: var(--cor2);
+        font-weight: bold;
+        font-size: 1.35vw;
+    }
+    
+    /* Para as labels do RetornaPcs ocuparem todo o espaço sem quebrar o texto */
+    .RetornaPcs label {
+        flex: 1;
+        white-space: nowrap; /* Impede a quebra de palavras */
+    }
+
+    
+    
+
+    .Produtividade {
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        height: 60vh;
+    }
+
+    .linha {
+        background-color: black;
+        width: 2px;
+        height: 79.5vh;
+    }
+
+    .ProdutividadeRepositor,
+    .ProdutividadeSeparador {
+        width: 50%;
+        background-color: white;
+        height: 79.5vh;
+        text-align: center;
+        font-size: 2.5vh;
+    }
+
+    .TabelaContainer {
+        width: 100%;
+        height: 96%;
+        text-align: center;
+        margin-top: 10px;
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .TabelaContainer2 {
+        margin-left: 40px;
+        width: 90%;
+        height: 81%;
+        text-align: center;
+        margin-top: 10px;
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--cor1);
+    }
+
+    #TAbelaRepositor,
+    #TAbelaSeparador {
+        width: 100%;
+        font-size: 30px;
+        border-collapse: collapse;
+        border: 2px solid var(--cor1);
+    }
+
+    #TAbelaRepositor th,
+    #TAbelaSeparador th {
+        background-color: var(--cor2);
+        max-height: 50px;
+        color: white;
+    }
+
+    #TAbelaRepositor tr,
+    #TAbelaSeparador tr {
+        height: 40px;
+    }
+
+    #TAbelaRepTAbelaSeparadorositor td,
+    #TAbelaRepositor td {
+        vertical-align: middle;
+        overflow: hidden;
+    }
+
+    .TotalReposicao,
+    .TotalSeparacao {
+        margin-left: 40px;
+        width: 90%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: left;
+        height: 8vh;
+        background-color: var(--cor2);
+    }
+
+    .TotalReposicao i,
+    .TotalSeparacao i {
+        margin-left: 10px;
+        font-size: 5vh;
+        margin-top: 1vh;
+        color: yellow;
+    }
+
+    .TotalReposicao label,
+    .TotalSeparacao label {
+        margin-left: 2.5vh;
+        font-size: 3vh;
+        margin-top: 2.6vh;
+        color: white;
+        font-weight: bold;
+    }
+
+    #LabelReposto {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    #LabelTotalReposto {
+        font-weight: bold;
+    }
+
+    #LabelSeparado {
+        font-weight: bold;
+        margin-left: 8px;
+    }
+
+    #LabelTotalSeparado {
+        font-weight: bold;
+    }
+}
+
+/* Estilos para telas menores (menor que 992px) */
+@media screen and (max-width: 991px) {
+
+    .Filtros {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .DataInicio,
+    .DataFim {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0;
+    }
+
+    .Retorna,
+    .Faturado {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: darkblue;
+        margin-top: 10px;
+    }
+
+    .DataInicio label,
+    .DataFim label,
+    .Retorna label,
+    .Faturado label {
+        margin-top: 10px;
+        margin-bottom: 3px;
+        font-size: 2.5vw;
+        font-weight: bold;
+    }
+
+    .DataInicio input,
+    .DataFim input {
+        text-align: center;
+        border: 2px solid var(--cor2);
+        border-radius: 10px;
+        font-size: 3vw;
+        padding: 4px;
+    }
+
+    #btnFiltrar {
+        background-color: var(--cor2);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px;
+        font-size: 3vw;
+        cursor: pointer;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    #btnFiltrar:hover {
+        background-color: #0056b3;
+    }
+
+    .Produtividade {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .linha {
+        background-color: black;
+        width: 100%;
+        height: 0.5vh;
+    }
+
+    .ProdutividadeRepositor,
+    .ProdutividadeSeparador {
+        width: 100%;
+        background-color: white;
+        height: 70vh;
+        text-align: center;
+    }
+
+    .TabelaContainer {
+        width: 100%;
+        height: 90%;
+        text-align: center;
+        margin-top: 10px;
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .TabelaContainer2 {
+        width: 100%;
+        height: 80%;
+        text-align: center;
+        margin-top: 10px;
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--cor1);
+    }
+
+    #TAbelaRepositor,
+    #TAbelaSeparador {
+        width: 100%;
+        font-size: 15px;
+        border-collapse: collapse;
+        border: 2px solid var(--cor1);
+    }
+
+    #TAbelaRepositor th,
+    #TAbelaSeparador th {
+        background-color: var(--cor2);
+        max-height: 50px;
+        color: white;
+    }
+
+    #TAbelaRepositor tr,
+    #TAbelaSeparador tr {
+        height: 40px;
+    }
+
+    #TAbelaRepositor td,
+    #TAbelaSeparador td {
+        vertical-align: middle;
+        overflow: hidden;
+    }
+
+    .TotalReposicao,
+    .TotalSeparacao {
+        width: 100%;
+        margin-top: 10px;
+        display: flex;
+        justify-content: left;
+        height: 8vh;
+        background-color: var(--cor2);
+    }
+
+    .TotalReposicao i,
+    .TotalSeparacao i {
+        margin-left: 10px;
+        font-size: 5vh;
+        margin-top: 1vh;
+        color: yellow;
+    }
+
+    .TotalReposicao label,
+    .TotalSeparacao label {
+        margin-left: 2.5vh;
+        font-size: 2vh;
+        margin-top: 2.6vh;
+        color: white;
+        font-weight: bold;
+    }
+
+    #LabelReposto {
+        font-weight: bold;
+        margin-left: 15px;
+    }
+
+    #LabelTotalReposto {
+        font-weight: bold;
+    }
+
+    #LabelSeparado {
+        font-weight: bold;
+        margin-left: 8px;
+    }
+
+    #LabelTotalSeparado {
+        font-weight: bold;
+    }
+}
