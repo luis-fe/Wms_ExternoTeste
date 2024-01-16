@@ -1,3 +1,4 @@
+import Service.ConfrontoTag_Posicao
 from Service import dashboardModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -51,3 +52,22 @@ def get_statuspedidos():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+@dashboard_routes.route('/api/confrontoTags', methods=['GET'])
+@token_required
+def confrontoTags():
+    # Obtém os dados do corpo da requisição (JSON)
+
+    Endereco_det = Service.ConfrontoTag_Posicao.Confronto()
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
+
