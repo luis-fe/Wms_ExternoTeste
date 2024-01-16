@@ -21,6 +21,12 @@ def Confronto():
 
     conn.close()
 
+    if not em_Conferencia.empty:
+        em_Conferencia = em_Conferencia
+        totalConferido = em_Conferencia['reduzido'].count()
+    else:
+        totalConferido = em_Conferencia['reduzido'].count()
+
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
     em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
     wms['situacao3'] = wms['situacao3'].astype(int)
@@ -36,7 +42,13 @@ def Confronto():
     consulta['diferenca'] = consulta['posicao_estoque'] - (consulta['em_conferencia'] + consulta['situacao3'])
     consulta = consulta.sort_values(by='diferenca', ascending=True,
                                 ignore_index=True)
-    return consulta
+
+    data = {
+
+        '1- Total Conferencia ': totalConferido ,
+        '2- Detalhamento ': consulta.to_dict(orient='records')
+    }
+    return pd.DataFrame([data])
 
 
 
