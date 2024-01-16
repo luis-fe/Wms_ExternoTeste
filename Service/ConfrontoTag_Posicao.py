@@ -23,6 +23,8 @@ def Confronto():
     conn.close()
 
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
+    em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
+    wms['em_estoque'] = wms['em_estoque'].astype(int)
 
     consulta = pd.merge(posicao, em_Conferencia, on="reduzido", how="left")
 
