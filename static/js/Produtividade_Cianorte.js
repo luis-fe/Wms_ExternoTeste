@@ -75,7 +75,7 @@ function formatarMoeda(valor) {
 
 async function DadosFaturamento(dataInicio, dataFim) {
     try {
-        const response = await fetch(`http://192.168.0.184:5000/api/Faturamento?empresa=1&dataInicio=${dataInicio}&dataFim=${dataFim}`, {
+        const response = await fetch(`http://192.168.0.184:5000/api/Faturamento?empresa=4&dataInicio=${dataInicio}&dataFim=${dataFim}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
