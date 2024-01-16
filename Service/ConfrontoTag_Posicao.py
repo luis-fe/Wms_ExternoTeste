@@ -45,6 +45,8 @@ def Confronto():
     consulta = consulta.sort_values(by='diferenca', ascending=True,
                                 ignore_index=True)
 
+    consulta = consulta[consulta['diferenca'] != 0]
+
     data = {
 
         '1- Tags em Conferencia ': totalConferido ,
