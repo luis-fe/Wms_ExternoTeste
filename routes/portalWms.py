@@ -30,6 +30,10 @@ def Usuarios():
 def Produtividade():
     return render_template('Produtividade.html')
 
+@portal_routes.route('/ProdutividadeCianorte')
+def ProdutividadeCianorte():
+    return render_template('Produtividade_Cianorte.html')
+
 @portal_routes.route('/Enderecos')
 def Enderecos():
     return render_template('TelaEnderecos.html')
