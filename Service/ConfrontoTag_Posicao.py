@@ -33,7 +33,7 @@ def Confronto():
 
     consulta = pd.merge(consulta, wms, on="reduzido", how="left")
     consulta['diferenca'] = consulta['posicao_estoque'] - (consulta['em_conferencia'] + consulta['situacao3'])
-    consulta = consulta.sort_values(by='diferenca', ascending=False,
+    consulta = consulta.sort_values(by='diferenca', ascending=True,
                                 ignore_index=True)
     return consulta
 
