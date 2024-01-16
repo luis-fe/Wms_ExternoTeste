@@ -31,14 +31,13 @@ def Confronto():
     emEstoque = wms['situacao3'].sum()
     emEstoque = emEstoque.round(0)
     emEstoque = "{:,.0f}".format(emEstoque)
-    emEstoque = str(emEstoque)
-    emEstoque = emEstoque.replace(',', '.')
+
+
 
 
     posicaoEstoque = posicao['posicao_estoque'].sum()
     posicaoEstoque = "{:,.0f}".format(posicaoEstoque)
-    posicaoEstoque = str(posicaoEstoque)
-    posicaoEstoque = posicaoEstoque.replace(',', '.')
+
 
 
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
@@ -59,11 +58,21 @@ def Confronto():
 
     consulta = consulta[consulta['diferenca'] != 0]
 
+    totalWMS = emEstoque + posicaoEstoque + totalConferido
+
+    emEstoque = str(emEstoque)
+    emEstoque = emEstoque.replace(',', '.')
+    posicaoEstoque = str(posicaoEstoque)
+    posicaoEstoque = posicaoEstoque.replace(',', '.')
+    totalWMS = str(totalWMS)
+    totalWMS = totalWMS.replace(',', '.')
+
     data = {
 
-        '1- Tags em Conferencia ': totalConferido ,
-        '2 - Tags Em estoque:':emEstoque,
-        '3 - No PosicaoCSW': posicaoEstoque,
+        '1.1- Tags em Conferencia ': totalConferido ,
+        '1.2 - Tags Em estoque:':emEstoque,
+        '2 - No PosicaoCSW': posicaoEstoque,
+        '1.3 - Total no WMS':totalWMS,
         '4- Detalhamento ': consulta.to_dict(orient='records')
     }
     return pd.DataFrame([data])
