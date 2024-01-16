@@ -15,6 +15,10 @@ def Confronto():
                                  "WHERE t.codEmpresa = 4 and t.situacao = 4 and codNaturezaAtual = 5 "
                                  "group by codReduzido ", conn)
 
+    wms = pd.read_sql("SELECT codReduzido as reduzido, COUNT(codBarrasTag) as em_estoque FROM tcr.TagBarrasProduto t "
+                                 "WHERE t.codEmpresa = 4 and t.situacao = 3 and codNaturezaAtual = 5 "
+                                 "group by codReduzido ", conn)
+
 
     conn.close()
 
@@ -23,6 +27,9 @@ def Confronto():
     consulta = consulta.sort_values(by='posicao_estoque', ascending=False,
                                 ignore_index=True)
     consulta.fillna('-', inplace=True)
+
+    consulta = pd.merge(consulta, wms, on="reduzido", how="left")
+
     return consulta
 
 
