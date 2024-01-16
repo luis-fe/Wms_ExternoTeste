@@ -30,13 +30,12 @@ def Confronto():
 
     emEstoque = wms['situacao3'].sum()
     emEstoque = emEstoque.round(0)
-    emEstoque = "{:,.0f}".format(emEstoque)
+
 
 
 
 
     posicaoEstoque = posicao['posicao_estoque'].sum()
-    posicaoEstoque = "{:,.0f}".format(posicaoEstoque)
 
 
 
@@ -59,6 +58,9 @@ def Confronto():
     consulta = consulta[consulta['diferenca'] != 0]
 
     totalWMS = emEstoque + posicaoEstoque + totalConferido
+
+    emEstoque = "{:,.0f}".format(emEstoque)
+    posicaoEstoque = "{:,.0f}".format(posicaoEstoque)
 
     emEstoque = str(emEstoque)
     emEstoque = emEstoque.replace(',', '.')
