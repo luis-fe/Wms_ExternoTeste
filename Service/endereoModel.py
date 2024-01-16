@@ -173,7 +173,7 @@ def ImportEnderecoDeletar(rua, ruaLimite, modulo, moduloLimite, posicao, posicao
                 select = pd.read_sql('select "Endereco" from "Reposicao".tagsreposicao where "Endereco" = %s ', conn,
                                      params=(codendereco,))
                 if  select.empty:
-                    cursor.execute(query, ( ruaAtual, moduloAtual, posicaoAtual, codempresa,))
+                    cursor.execute(query, ( ruaAtual, moduloAtual, posicaoAtual,))
                     conn.commit()
                     cursor.close()
                 else:
