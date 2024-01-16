@@ -24,10 +24,12 @@ def Confronto():
     if not em_Conferencia.empty:
         em_Conferencia = em_Conferencia
         totalConferido = em_Conferencia['em_conferencia'].sum()
+        totalConferido = totalConferido.round(0)
     else:
         totalConferido = em_Conferencia['em_conferencia'].sum()
 
     emEstoque = wms['situacao3'].sum()
+    emEstoque = emEstoque.round(0)
     posicaoEstoque = posicao['posicao_estoque'].sum()
     posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
     em_Conferencia['em_conferencia'] = em_Conferencia['em_conferencia'].astype(int)
