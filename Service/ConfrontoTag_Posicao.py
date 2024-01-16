@@ -22,6 +22,8 @@ def Confronto():
 
     conn.close()
 
+    posicao['posicao_estoque'] = posicao['posicao_estoque'].astype(int)
+
     consulta = pd.merge(posicao, em_Conferencia, on="reduzido", how="left")
 
     consulta = consulta.sort_values(by='posicao_estoque', ascending=False,
