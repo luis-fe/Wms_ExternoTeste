@@ -92,13 +92,13 @@ async function DadosFaturamento(dataInicio, dataFim) {
             const RetornaMplusPcs = data[0]['Pcs Retorna Mplus'];
             const ProntaEntrega = data[0]['Pç Pronta Entrega'];
             const ProntaEntregaR$ = data[0]['Retorna ProntaEntrega'];
-            document.getElementById("FaturadoR$").textContent = Faturado;
-            document.getElementById("RetornaPcs").textContent = RetornaPecas;
-            document.getElementById("RetornaValor").textContent = formatarMoeda(Retorna);
-            document.getElementById("RetornaMplus").textContent = RetornaMplusPcs;
-            document.getElementById("RetornaMplusR$").textContent = formatarMoeda(RetornaMplus);
-            document.getElementById("RetornaProntaEnt").textContent = ProntaEntrega;
-            document.getElementById("RetornaProntaEntR$").textContent = formatarMoeda(ProntaEntregaR$);
+            document.getElementById("FaturadoR$").textContent = `Faturado R$: ${Faturado}`  ;
+            document.getElementById("RetornaPcs").textContent = `Retorna Pçs: ${RetornaPecas}`;
+            document.getElementById("RetornaValor").textContent = `Retorna R$: ${formatarMoeda(Retorna)}`;
+            document.getElementById("RetornaMplus").textContent = `Retorna Mplus Pçs: ${RetornaMplusPcs}`;
+            document.getElementById("RetornaMplusR$").textContent = `Retorna Mplus R$: ${formatarMoeda(RetornaMplus)}`;
+            document.getElementById("RetornaProntaEnt").textContent = `Pronta Entrega Pcs: ${ProntaEntrega}`;
+            document.getElementById("RetornaProntaEntR$").textContent = `Pronta Entrega R$: ${formatarMoeda(ProntaEntregaR$)}`;
         } else {
             throw new Error("Erro na Atualização, Recarregue a página!\nSe o problema persistir, contate o Administrador!");
         }
