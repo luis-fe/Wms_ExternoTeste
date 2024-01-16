@@ -22,6 +22,7 @@ def Confronto():
 
     consulta = consulta.sort_values(by='posicao_estoque', ascending=False,
                                 ignore_index=True)
+    consulta.fillna('-', inplace=True)
     return consulta
 
 
