@@ -149,7 +149,7 @@ def ImportEnderecoDeletar(rua, ruaLimite, modulo, moduloLimite, posicao, posicao
 
     conn = ConexaoPostgreMPL.conexao()
     query = 'delete from "Reposicao".cadendereco ' \
-            'where rua = %s and modulo = %s and posicao = %s and codempresa = %s '
+            'where rua = %s and modulo = %s and posicao = %s'
 
 
 
