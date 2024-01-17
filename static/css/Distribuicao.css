@@ -173,6 +173,8 @@ button:hover {
     text-align: center;
 }
 
+
+
 .TabelaTabelaDistribuicao th{
 white-space: nowrap; /* Impede a quebra de texto */
     overflow: hidden; /* Esconde qualquer texto que possa transbordar do elemento */
@@ -189,19 +191,18 @@ white-space: nowrap; /* Impede a quebra de texto */
     color: var(--cor4);
 }
 
+
+
 /* Estilos para a modal */
-.modal {
+.modalClassificacao {
     display: none; /* Inicia escondida */
-    position: fixed; /* Posição fixa na janela do navegador */
+    position: static; /* Posição fixa na janela do navegador */
     top: 0;
     left: 0;
-    width: 100%; /* 100% da largura da janela */
-    height: 100%; /* 100% da altura da janela */
-    background-color: rgba(0, 0, 0, 0.7); /* Cor de fundo preta com transparência */
-    z-index: 1000; /* Z-index alto para sobrepor outros elementos */
-    overflow: auto; /* Adiciona rolagem se necessário */
+    background-color: white; /* Cor de fundo preta com transparência */
+    z-index: 1000; 
+    overflow: auto;
 }
-
 
 
 .ModalPeçasFaltantes-content {
@@ -319,5 +320,48 @@ white-space: nowrap; /* Impede a quebra de texto */
 }
 
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 
 
+
+  .CaixaClassificacao {
+    display: none;
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
