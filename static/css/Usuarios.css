@@ -9,7 +9,7 @@
 /* Paleta de cores para Empresa B */
 :root.palheta-empresa-b {
     --cor1: rgb(255, 255, 255);
-    --cor2: #00838F;
+    --cor2: black;
     --cor3: darkgray;
     --cor4: black;
 }
