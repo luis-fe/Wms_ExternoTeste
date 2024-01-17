@@ -113,3 +113,8 @@ def FilaReposicao_Teste():
 @portal_routes.route('/RelatorioInventario_Teste') # Aqui é o link da pagina incial do Portal da Garantia
 def RelatorioInventario_Teste():
     return render_template('RelatorioInventario_Teste.html')
+
+
+@portal_routes.route('/Tela_Comparativa') # Aqui é o link da pagina incial do Portal da Garantia
+def Tela_Comparativa():
+    return render_template('TelaComparativo.html')
