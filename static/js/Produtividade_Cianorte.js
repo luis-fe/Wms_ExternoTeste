@@ -73,7 +73,7 @@ function formatarMoeda(valor) {
 
 
 
-async function DadosFaturamento(dataInicio, dataFim) {
+async function DadosFaturamento(dataInicio, dataFim, ) {
     try {
         const response = await fetch(`http://192.168.0.184:5000/api/Faturamento?empresa=4&dataInicio=${dataInicio}&dataFim=${dataFim}`, {
             method: 'GET',
@@ -108,9 +108,9 @@ async function DadosFaturamento(dataInicio, dataFim) {
     }
 }
 
-async function tabelaProdutividade(Consulta, Tabela, dataIni, DataFim, NomeRecorde, QtdRecorde, Qtd, situacaoColuna) {
+async function tabelaProdutividade(Consulta, Tabela, dataIni, DataFim, NomeRecorde, QtdRecorde, Qtd,horaInicio, horaFim, situacaoColuna) {
     try {
-        const response = await fetch(`http://192.168.0.184:5000/api/${Consulta}/Resumo?DataInicial=${dataIni}&DataFinal==${DataFim}`, {
+        const response = await fetch(`http://192.168.0.184:5000/api/${Consulta}/Resumo?DataInicial=${dataIni}&DataFinal==${DataFim}&horarioInicial=${horaInicio}&horarioFinal=${horaFim}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -150,14 +150,22 @@ botaoFiltrar.addEventListener('click', () => {
     document.getElementById("btnFiltrar").disabled = true;
 })
 
+let horarioInicioInput;
+let horarioFinalInput;
 window.addEventListener('load', () => {
     const currentDate = new Date();
     const formattedDate = getFormattedDate(currentDate);
+    horarioInicioInput = document.getElementById("HorarioInicio");
+    horarioFinalInput = document.getElementById("HorarioFinal");
 
-    tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto", false);
-    tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", true);
+
+    horarioInicioInput.value = "07:30";
+    horarioFinalInput.value = "18:00";
+
+    tabelaProdutividade("TagsReposicao", "TAbelaRepositor", formattedDate, formattedDate, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto",horarioInicioInput.value, horarioFinalInput.value, false);
+    tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", formattedDate, formattedDate, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", horarioInicioInput.value, horarioFinalInput.value, true);
     DadosFaturamento(formattedDate, formattedDate);
-
+    console.log(horarioFinalInput.value)
     document.getElementById("DataInicial").value = formattedDate
     document.getElementById("DataFinal").value = formattedDate
     setTimeout(atualizarTabelas, 10000);
@@ -169,8 +177,8 @@ async function atualizarTabelas() {
 
     try {
         await Promise.all([
-            tabelaProdutividade("TagsReposicao", "TAbelaRepositor", DataIni, DataFin, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto", false),
-            tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", DataIni, DataFin, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado", true)
+            tabelaProdutividade("TagsReposicao", "TAbelaRepositor", DataIni, DataFin, "NomeRecordeRep", "ValorRecordeRep", "LabelTotalReposto",horarioInicioInput.value, horarioFinalInput.value, false),
+            tabelaProdutividade("TagsSeparacao", "TAbelaSeparador", DataIni, DataFin, "NomeRecordeSep", "ValorRecordeSep", "LabelTotalSeparado",horarioInicioInput.value, horarioFinalInput.value, true)
         ]);
         criarTabelasProdutividade(dataReposicao, "TAbelaRepositor", false);
         criarTabelasProdutividade(dataSeparacao, "TAbelaSeparador", true);
