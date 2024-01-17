@@ -104,7 +104,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0' , horarioInicial 
         }
         return [data]
 
-def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
+def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0', horarioInicial = '01:00:00', horarioFinal ='23:59:00'):
     conn = ConexaoPostgreMPL.conexao()
 
     if dataInicial == '0' and dataFInal == '0':
@@ -125,8 +125,8 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0'):
     else:
 
         TagReposicao = pd.read_sql('SELECT usuario, count(dataseparacao) as Qtde, count(distinct codpedido) as "Qtd Pedido" from "Reposicao"."ProducaoSeparadores" '
-                                   'where dataseparacao >= %s and dataseparacao <= %s '
-                                   'group by usuario ', conn, params=(dataInicial,dataFInal,))
+                                   'where dataseparacao >= %s and dataseparacao <= %s and horario >= %s and horario <= %s '
+                                   'group by usuario ', conn, params=(dataInicial,dataFInal,horarioInicial, horarioFinal))
         TagReposicao = TagReposicao.sort_values(by='qtde', ascending=False)
         total = TagReposicao['qtde'].sum()  # Formula do valor Total
         TagReposicao['Méd pçs/ped.'] = TagReposicao['qtde']/TagReposicao['Qtd Pedido']

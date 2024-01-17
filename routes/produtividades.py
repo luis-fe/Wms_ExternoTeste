@@ -44,9 +44,12 @@ def get_TagsReposicao():
 def get_TagsSeparacao():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
     data_inicial = request.args.get('DataInicial','0')
-    data_final = request.args.get('DataFinal','0')
+    data_final = request.args.get('DataFinal','0'),
+    horarioInicial = request.args.get('horarioInicial', '01:00:00')
+    horarioFinal = request.args.get('horarioFinal', '23:59:00')
+
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = produtividadeModel.ProdutividadeSeparadores(data_inicial,data_final)
+    TagReposicao = produtividadeModel.ProdutividadeSeparadores(data_inicial,data_final, horarioInicial, horarioFinal)
     TagReposicao = pd.DataFrame(TagReposicao)
 
     # Obtém os nomes das colunas
