@@ -13,7 +13,7 @@ def obterHoraAtual():
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
 
-def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
+def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0' , horarioInicial = '01:00:00', horarioFinal ='23:59:00'):
     conn = ConexaoPostgreMPL.conexao()
     if dataInicial == '0' and dataFInal == '0':
         TagReposicao = pd.read_sql('select  "usuario", sum(count), "DataReposicao", "min" , "max"   from '
@@ -41,17 +41,17 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0'):
 
         TagReposicao = pd.read_sql(
             'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores" '
-            'where datareposicao >= %s and datareposicao <= %s '
-            'group by usuario ', conn, params=(dataInicial, dataFInal,))
+            'where datareposicao >= %s and datareposicao <= %s and horario >= %s and horario <= %s '
+            'group by usuario ', conn, params=(dataInicial, dataFInal, horarioInicial, horarioFinal))
         TagReposicao2 = pd.read_sql(
             'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores2" '
-            'where datareposicao >= %s and datareposicao <= %s '
-            'group by usuario ', conn, params=(dataInicial, dataFInal,))
+            'where datareposicao >= %s and datareposicao <= %s and horario >= %s and horario <= %s '
+            'group by usuario ', conn, params=(dataInicial, dataFInal,horarioInicial, horarioFinal))
 
         TagReposicao3 = pd.read_sql(
             'SELECT usuario, count(datatempo) as Qtde from "Reposicao"."ProducaoRepositores3" '
-            'where datareposicao >= %s and datareposicao <= %s '
-            'group by usuario ', conn, params=(dataInicial, dataFInal,))
+            'where datareposicao >= %s and datareposicao <= %s and horario >= %s and horario <= %s '
+            'group by usuario ', conn, params=(dataInicial, dataFInal,horarioInicial, horarioFinal))
 
         # Unir os DataFrames usando pd.concat()
         TagReposicao = pd.concat([TagReposicao, TagReposicao2, TagReposicao3])
