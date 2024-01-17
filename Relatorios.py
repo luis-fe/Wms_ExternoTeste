@@ -29,7 +29,7 @@ def EnderecosDisponiveis(natureza, empresa):
         ' ', conn, params=(natureza,))
     TaxaOcupacao = 1-(relatorioEndereço["codendereco"].size/relatorioEndereço2["codendereco"].size)
     TaxaOcupacao = round(TaxaOcupacao, 2) * 100
-    TaxaOcupacao = "{:,.0f}".format(TaxaOcupacao)
+    TaxaOcupacao = "{:,.2f}".format(TaxaOcupacao)
     TaxaOcupacao = str(TaxaOcupacao)
     TaxaOcupacao = TaxaOcupacao.replace(',', '.')
 
