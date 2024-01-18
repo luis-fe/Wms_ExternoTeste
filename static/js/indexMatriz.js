@@ -266,7 +266,7 @@ window.addEventListener('load', async ()  => {
     }
 });   
 
-const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
