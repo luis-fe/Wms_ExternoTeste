@@ -78,7 +78,7 @@
 
 }
 
-#TabelaComparativo th {
+#TabelaComparativo th, #TabelaComparativo td {
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
