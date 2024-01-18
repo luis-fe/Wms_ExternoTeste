@@ -17,9 +17,9 @@
 /* Paleta de cores para Empresa B */
 :root.palheta-empresa-b {
     --cor1: rgb(255, 255, 255);
-    --cor2: black;
+    --cor2: #00838F;
     --cor3: darkgray;
-    --cor4: white;
+    --cor4: black;
 }
 
 /* Estilo para o corpo */
@@ -146,7 +146,11 @@
 .MetaEnderecos,
 .EnderecosRealizados,
 .TotalPedidosRetorna,
-.PedidosCompleto {
+.PedidosCompleto,
+.Diferenca,
+.DiferencaRealizada,
+.DiferencaEnderecos,
+.DiferencaPedidos {
     width: 100%;
     max-width: 100%; /* Definindo um máximo para evitar expansão */
     display: flex;
@@ -163,7 +167,11 @@
 .MetaEnderecos button,
 .EnderecosRealizados button,
 .TotalPedidosRetorna button,
-.PedidosCompleto button {
+.PedidosCompleto button, 
+.Diferenca button,
+.DiferencaRealizada button,
+.DiferencaEnderecos button,
+.DiferencaPedidos button {
     background-size: 10%;
     width: 20px;
     height: 20px;
@@ -178,7 +186,11 @@
 .MetaEnderecos label,
 .EnderecosRealizados label,
 .TotalPedidosRetorna label,
-.PedidosCompleto label {
+.PedidosCompleto label,
+.Diferenca label,
+.DiferencaRealizada label,
+.DiferencaEnderecos label,
+.DiferencaPedidos label {
     margin-left: 10px;
     font-size: 2.3vh;
     font-weight: bold;
@@ -225,7 +237,11 @@
 .MetaEnderecos label,
 .EnderecosRealizados label,
 .TotalPedidosRetorna label,
-.PedidosCompleto label {
+.PedidosCompleto label,
+.Diferenca label,
+.DiferencaRealizada label,
+.DiferencaEnderecos label,
+.DiferencaPedidos label {
     margin-left: 10px;
     font-size: 2.5vh;
     font-weight: bold;
