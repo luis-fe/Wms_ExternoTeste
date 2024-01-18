@@ -147,6 +147,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 
 
     elif validacao == 12: # 12 Caso a TAG venha da prateleira e o endereco seja duplo
+        print(f'endereco duplo {codpedido} ')
         if Necessidade <= 0:
             return pd.DataFrame(
                 {'Mensagem': [f'o produto {Reduzido} já foi totalmente bipado. Deseja estornar ?']})
