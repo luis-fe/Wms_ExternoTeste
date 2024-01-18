@@ -76,13 +76,16 @@ body {
     }
 
     button {
+        font-weight: bold;
         width: 100%;
         padding: 10px;
-        background-color: var(--cor2);
-        color: white;
-        border: none;
+        background-color: yellow;
+        color: black;
+        border: 1px solid white;
         border-radius: 4px;
         cursor: pointer;
+        font-size: 25px;
+        margin-top: 14px;
     }
 
     button:hover {
