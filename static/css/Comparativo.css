@@ -78,7 +78,7 @@
 
 }
 
-#TabelaComparativo th, #TabelaComparativo td {
+#TabelaComparativo th {
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
@@ -90,6 +90,7 @@
 #TabelaComparativo thead {
     background-color: var(--cor2);
     font-weight: bold;
+    color: var(--cor4)
 }
 
 /* Estilos para tornar a tabela responsiva em telas menores */
