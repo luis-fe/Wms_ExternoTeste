@@ -19,6 +19,39 @@
     --cor4: white;
 }
 
+.Corpo{
+    background-color: var(--cor2);
+}
+
+.Menu {
+    width: 100%; /* Ocupar toda a largura da tela */
+    display: flex;
+    justify-content: space-between; /* Distribui os elementos uniformemente */
+    align-items: center;
+}
+
+.left-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+.right-menu-item {
+    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
+}
+
+
+
+.TituloPrograma {
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: var(--cor2);
+    width: 100%;
+    text-align: center;
+    color: var(--cor4);
+}
+
 
 #TabelaComparativo {
     width: 100%;
@@ -40,6 +73,8 @@
     background-color: #fff;
     border: 1px solid black;
     overflow-y: scroll;
+    margin-top: 10px
+    
 
 }
 
@@ -47,6 +82,7 @@
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
+    color: var(--cor4);
 }
 
 #TabelaComparativo thead {
