@@ -1,411 +1,250 @@
+
+/* Mantendo as configurações gerais */
 * {
-    padding: 0;
+    box-sizing: border-box;
     margin: 0;
-}
-:root {
-    --cor1: rgb(200, 200, 200);
-    --cor2: rgb(0, 131 , 143);
+    padding: 0;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: black;
+/* Paleta de cores para Empresa A */
+:root.palheta-empresa-a {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
 }
 
-.Titulo {
-    height: 50px;
-    width: 100%;
+/* Paleta de cores para Empresa B */
+:root.palheta-empresa-b {
+    --cor1: rgb(255, 255, 255);
+    --cor2: #00838F;
+    --cor3: darkgray;
+    --cor4: black;
+}
+
+/* Estilo para o corpo */
+.Corpo {
     background-color: var(--cor2);
+}
+
+/* Estilo para o menu principal */
+.Menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilização dos menus e submenus */
+.Menu ul {
+    font-size: 15px;
+    background-color: var(--cor2);
+    padding: 0;
+}
+
+.Menu ul li {
+    display: inline;
+    position: relative;
+}
+
+.Menu ul li a {
+    color: var(--cor4);
+    text-decoration: none;
+    padding: 10px;
+    display: inline-block;
+}
+
+.Menu ul li a:hover {
+    background-color: var(--cor3);
+}
+
+.Menu ul ul {
+    display: none;
+    left: 0;
+    position: absolute;
+    background-color: var(--cor3);
+
+}
+
+.Menu ul li:hover ul {
+    display: block;
+    z-index: 9999;
+    background-color: var(--cor2);
+}
+
+.Menu ul ul {
+    width: 250px;
+
+}
+
+
+.Menu ul ul li a {
+    display: flex;
+    color: var(--cor4);
+    justify-content: left;
+}
+
+
+/* Estilo para o título do programa */
+.TituloPrograma {
+    margin-top: 15px;
+    font-size: 25px;
+    background-color: var(--cor2);
+    width: 100%;
     text-align: center;
-    color: white;
 }
 
-/* Estilos para telas maiores (maior que 992px) */
-@media screen and (min-width: 992px) {
-    .Filtros {
-        
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: var(--cor1);
-        padding: 10px;
-        border-bottom: 2px solid var(--cor2);
-    }
-
-    .Teste {
-
-        width: 100%;
-        color: white    ;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 20px 0;
-    }
-
-    .DataInicio,
-    .DataFim,
-    .HorarioInicial,
-    .HorarioFinal {
-        width: 40%;
-        margin-right: 10px;
-        box-sizing: border-box;
-    }
-
-    .Botao {
-        flex-shrink: 0;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px;
-    }
-
-    input {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-        margin-bottom: 10px;
-    }
-
-    button {
-        width: 100%;
-        padding: 10px;
-        background-color: var(--cor2);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    .Retorna,
-    .Faturado {
-        font-size: 1.8vw;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: left;
-        margin: 0 20px;
-    }
-    
-    .RetornaPcs,
-    .Retorna1,
-    .Faturado,
-    .Faturado1 {
-
-        width: 100%;
-        display: flex;
-    }
-    
-    .Retorna label,
-    .Faturado label {
-        width: 100%;
-        margin-bottom: 3px;
-        color: white;
-        font-weight: bold;
-        font-size: 1.35vw;
-    }
-    
-    /* Para as labels do RetornaPcs ocuparem todo o espaço sem quebrar o texto */
-    .RetornaPcs label {
-        flex: 1;
-        white-space: nowrap; /* Impede a quebra de palavras */
-    }
-
-    
-    
-
-    .Produtividade {
-        display: flex;
-        justify-content: left;
-        width: 100%;
-        height: 60vh;
-    }
-
-    .linha {
-        background-color: black;
-        width: 2px;
-        height: 79.5vh;
-    }
-
-    .ProdutividadeRepositor,
-    .ProdutividadeSeparador {
-        width: 50%;
-        background-color: white;
-        height: 79.5vh;
-        text-align: center;
-        font-size: 2.5vh;
-    }
-
-    .TabelaContainer {
-        width: 100%;
-        height: 96%;
-        text-align: center;
-        margin-top: 10px;
-        overflow: auto;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .TabelaContainer2 {
-        margin-left: 40px;
-        width: 90%;
-        height: 81%;
-        text-align: center;
-        margin-top: 10px;
-        overflow: auto;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--cor1);
-    }
-
-    #TAbelaRepositor,
-    #TAbelaSeparador {
-        width: 100%;
-        font-size: 30px;
-        border-collapse: collapse;
-        border: 2px solid var(--cor1);
-    }
-
-    #TAbelaRepositor th,
-    #TAbelaSeparador th {
-        background-color: var(--cor2);
-        max-height: 50px;
-        color: white;
-    }
-
-    #TAbelaRepositor tr,
-    #TAbelaSeparador tr {
-        height: 40px;
-    }
-
-    #TAbelaRepTAbelaSeparadorositor td,
-    #TAbelaRepositor td {
-        vertical-align: middle;
-        overflow: hidden;
-    }
-
-    .TotalReposicao,
-    .TotalSeparacao {
-        margin-left: 40px;
-        width: 90%;
-        margin-top: 10px;
-        display: flex;
-        justify-content: left;
-        height: 8vh;
-        background-color: var(--cor2);
-    }
-
-    .TotalReposicao i,
-    .TotalSeparacao i {
-        margin-left: 10px;
-        font-size: 4vh;
-        margin-top: 1vh;
-        color: yellow;
-    }
-
-    .TotalReposicao label,
-    .TotalSeparacao label {
-        margin-left: 2.5vh;
-        font-size: 2.5vh;
-        margin-top: 2.6vh;
-        color: white;
-        font-weight: bold;
-    }
-
-    #LabelReposto {
-        font-weight: bold;
-        margin-left: 15px;
-    }
-
-    #LabelTotalReposto {
-        font-weight: bold;
-    }
-
-    #LabelSeparado {
-        font-weight: bold;
-        margin-left: 8px;
-    }
-
-    #LabelTotalSeparado {
-        font-weight: bold;
-    }
+.TituloPrograma label {
+    color: var(--cor4);
+    font-weight: bold;
 }
 
-/* Estilos para telas menores (menor que 992px) */
-@media screen and (max-width: 991px) {
+/* Estilos para o gerenciamento e indicadores */
+.Gerenciamento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
-    .Filtros {
-        flex-direction: column;
-        align-items: center;
+.Indicador {
+    width: 50%;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin: 5px;
+    background-color: lightgray;
+}
+
+/* Estilização dos medidores */
+#medidorReposicao,
+#medidorSeparacao,
+#medidorEnderecos,
+#medidorPedidos {
+    width: 35%;
+    position: relative;
+    max-width: 35%;
+    margin-left: 32%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Estilos para as etiquetas dos indicadores */
+.Reposicao label,
+.Separacao label,
+.Enderecos label,
+.PedidosCompletos label {
+    font-size: 2vh;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.MetaReposicao,
+.PecasRepostas,
+.MetaPecas,
+.PecasRealizadas,
+.MetaEnderecos,
+.EnderecosRealizados,
+.TotalPedidosRetorna,
+.PedidosCompleto,
+.Diferenca,
+.DiferencaRealizada,
+.DiferencaEnderecos,
+.DiferencaPedidos {
+    width: 100%;
+    max-width: 100%; /* Definindo um máximo para evitar expansão */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+}
+/* Estilo para os botões de cor nas informações de legenda */
+.MetaReposicao button,
+.PecasRepostas button,
+.MetaPecas button,
+.PecasRealizadas button,
+.MetaEnderecos button,
+.EnderecosRealizados button,
+.TotalPedidosRetorna button,
+.PedidosCompleto button, 
+.Diferenca button,
+.DiferencaRealizada button,
+.DiferencaEnderecos button,
+.DiferencaPedidos button {
+    background-size: 10%;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Estilo para as etiquetas nas informações de legenda */
+.MetaReposicao label,
+.PecasRepostas label,
+.MetaPecas label,
+.PecasRealizadas label,
+.MetaEnderecos label,
+.EnderecosRealizados label,
+.TotalPedidosRetorna label,
+.PedidosCompleto label,
+.Diferenca label,
+.DiferencaRealizada label,
+.DiferencaEnderecos label,
+.DiferencaPedidos label {
+    margin-left: 10px;
+    font-size: 2.3vh;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 900px) {
+
+    /* Mudar o layout das divs principais e fazer com que ocupem 100% da largura */
+    .Gerenciamento {
+        flex-direction: column; /* Empilha as divs uma abaixo da outra */
+        width: 98%; /* Ocupa a largura total */
     }
 
-    .DataInicio,
-    .DataFim {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 10px 0;
+    /* Ajuste de largura para ocupar 100% da largura */
+    .Indicador {
+        width: 100%; 
+        box-sizing: border-box; /* Garante que padding e borda não expandam a div além de 100% */
+        padding: 10px; /* Exemplo de padding, ajuste conforme necessário */
+        margin-bottom: 20px; /* Espaçamento entre as divs */
     }
 
-    .Retorna,
-    .Faturado {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        color: darkblue;
-        margin-top: 10px;
+    /* Ajuste para o medidor */
+    #medidorReposicao,
+    #medidorSeparacao,
+    #medidorEnderecos,
+    #medidorPedidos {
+        width: 80%; 
+        margin: 0 auto; 
     }
 
-    .DataInicio label,
-    .DataFim label,
-    .Retorna label,
-    .Faturado label {
-        margin-top: 10px;
-        margin-bottom: 3px;
-        font-size: 2.5vw;
-        font-weight: bold;
+    /* Ajustes para a legenda */
+    .Legenda {
+        flex-direction: column; /* Mostra a legenda abaixo das barras de progresso */
     }
 
-    .DataInicio input,
-    .DataFim input {
-        text-align: center;
-        border: 2px solid var(--cor2);
-        border-radius: 10px;
-        font-size: 3vw;
-        padding: 4px;
+    /* Ajuste de tamanho de fonte para títulos */
+    .Indicador h3 {
+        font-size: 18px; 
     }
-
-    #btnFiltrar {
-        background-color: var(--cor2);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 5px 10px;
-        font-size: 3vw;
-        cursor: pointer;
-        margin-top: 20px;
-        width: 100%;
-    }
-
-    #btnFiltrar:hover {
-        background-color: #0056b3;
-    }
-
-    .Produtividade {
-        margin-top: 50px;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .linha {
-        background-color: black;
-        width: 100%;
-        height: 0.5vh;
-    }
-
-    .ProdutividadeRepositor,
-    .ProdutividadeSeparador {
-        width: 100%;
-        background-color: white;
-        height: 70vh;
-        text-align: center;
-    }
-
-    .TabelaContainer {
-        width: 100%;
-        height: 90%;
-        text-align: center;
-        margin-top: 10px;
-        overflow: auto;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .TabelaContainer2 {
-        width: 100%;
-        height: 80%;
-        text-align: center;
-        margin-top: 10px;
-        overflow: auto;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--cor1);
-    }
-
-    #TAbelaRepositor,
-    #TAbelaSeparador {
-        width: 100%;
-        font-size: 15px;
-        border-collapse: collapse;
-        border: 2px solid var(--cor1);
-    }
-
-    #TAbelaRepositor th,
-    #TAbelaSeparador th {
-        background-color: var(--cor2);
-        max-height: 50px;
-        color: white;
-    }
-
-    #TAbelaRepositor tr,
-    #TAbelaSeparador tr {
-        height: 40px;
-    }
-
-    #TAbelaRepositor td,
-    #TAbelaSeparador td {
-        vertical-align: middle;
-        overflow: hidden;
-    }
-
-    .TotalReposicao,
-    .TotalSeparacao {
-        width: 100%;
-        margin-top: 10px;
-        display: flex;
-        justify-content: left;
-        height: 8vh;
-        background-color: var(--cor2);
-    }
-
-    .TotalReposicao i,
-    .TotalSeparacao i {
-        margin-left: 10px;
-        font-size: 5vh;
-        margin-top: 1vh;
-        color: yellow;
-    }
-
-    .TotalReposicao label,
-    .TotalSeparacao label {
-        margin-left: 2.5vh;
-        font-size: 2vh;
-        margin-top: 2.6vh;
-        color: white;
-        font-weight: bold;
-    }
-
-    #LabelReposto {
-        font-weight: bold;
-        margin-left: 15px;
-    }
-
-    #LabelTotalReposto {
-        font-weight: bold;
-    }
-
-    #LabelSeparado {
-        font-weight: bold;
-        margin-left: 8px;
-    }
-
-    #LabelTotalSeparado {
-        font-weight: bold;
-    }
+    .MetaReposicao label,
+.PecasRepostas label,
+.MetaPecas label,
+.PecasRealizadas label,
+.MetaEnderecos label,
+.EnderecosRealizados label,
+.TotalPedidosRetorna label,
+.PedidosCompleto label,
+.Diferenca label,
+.DiferencaRealizada label,
+.DiferencaEnderecos label,
+.DiferencaPedidos label {
+    margin-left: 10px;
+    font-size: 2.5vh;
+    font-weight: bold;
+    
+}
 }
