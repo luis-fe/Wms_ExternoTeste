@@ -147,7 +147,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 
 
     elif validacao == 12: # 12 Caso a TAG venha da prateleira e o endereco seja duplo
-        print(f'endereco duplo {codpedido} ')
+
         if Necessidade <= 0:
             return pd.DataFrame(
                 {'Mensagem': [f'o produto {Reduzido} já foi totalmente bipado. Deseja estornar ?']})
@@ -173,6 +173,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                                codbarra,))
             conn.commit()
             cursor.close()
+            print(f'endereco duplo {codpedido} e {ValorUnit} ')
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
                            'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq = %s ;'
