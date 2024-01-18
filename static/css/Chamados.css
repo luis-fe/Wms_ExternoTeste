@@ -183,6 +183,7 @@
     border: 5px;
     margin: 0;
     z-index: 3;
+    color: var(--cor4);
 }
 
 .ModalNovoChamado-content #DescricaoChamado {
@@ -191,6 +192,7 @@
 }
 
 .fechar {
+    color: var(--cor4);
     position: absolute;
     top: 10px;
     right: 10px;
