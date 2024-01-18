@@ -183,7 +183,7 @@ white-space: nowrap; /* Impede a quebra de texto */
     text-align: left;
 }
 
-.TabelaTabelaDistribuicao thead {
+.TabelaTabelaDistribuicao thead, TabelaInformacao thead {
     position: sticky;
     top: 0;
     z-index: 10;
