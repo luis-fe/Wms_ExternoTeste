@@ -663,7 +663,7 @@ def ValidarExisteSkuDiferente(endereco):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql('select distinct "Endereco" where "Reposicao".tagsreposicao '
+    consulta = pd.read_sql('select distinct "Endereco" from "Reposicao".tagsreposicao '
                            'where "Endereco" = %s',conn,params=(endereco,))
 
     conn.close()
