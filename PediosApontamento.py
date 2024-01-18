@@ -174,18 +174,36 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn.commit()
             cursor.close()
 
-            uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+            if ValorUnit == None:
+
+                uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq = %s ;'
-            Necessidade = Necessidade - 1
-            cursor = conn.cursor()
-            cursor.execute(uptadePedido
+                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq is null ;'
+                Necessidade = Necessidade - 1
+                cursor = conn.cursor()
+                cursor.execute(uptadePedido
                            , (
-                               Necessidade, Reduzido, codpedido, endereco, ValorUnit))
-            conn.commit()
-            # Obtendo o número de linhas afetadas
-            num_linhas_afetadas = cursor.rowcount
-            print(f'endereco duplo {codpedido} / e {ValorUnit} , afetando {num_linhas_afetadas} linhas')
+                               Necessidade, Reduzido, codpedido, endereco))
+                conn.commit()
+                # Obtendo o número de linhas afetadas
+                num_linhas_afetadas = cursor.rowcount
+                print(f'endereco duplo {codpedido} / e {ValorUnit} , afetando {num_linhas_afetadas} linhas')
+
+            else:
+                uptadePedido = 'UPDATE "Reposicao".pedidossku' \
+                               ' SET necessidade= %s ' \
+                               'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq = %s ;'
+                Necessidade = Necessidade - 1
+                cursor = conn.cursor()
+                cursor.execute(uptadePedido
+                               , (
+                                   Necessidade, Reduzido, codpedido, endereco, ValorUnit))
+                conn.commit()
+                # Obtendo o número de linhas afetadas
+                num_linhas_afetadas = cursor.rowcount
+                print(f'endereco duplo {codpedido} / e {ValorUnit} , afetando {num_linhas_afetadas} linhas')
+
+
             cursor.close()
 
             # atualizando a necessidade
