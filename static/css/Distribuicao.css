@@ -183,13 +183,14 @@ white-space: nowrap; /* Impede a quebra de texto */
     text-align: left;
 }
 
-.TabelaChamados thead, .TabelaInformacao thead {
+.TabelaTabelaDistribuicao thead {
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: var(--cor2);
     color: var(--cor4);
 }
+
 
 
 
