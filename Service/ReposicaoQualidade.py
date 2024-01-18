@@ -668,7 +668,7 @@ def ValidarExisteSkuDiferente(endereco):
 
     conn.close()
 
-    if not consulta.empty :
+    if  consulta.empty :
         return True
 
     else:
