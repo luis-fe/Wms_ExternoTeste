@@ -173,7 +173,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                                codbarra,))
             conn.commit()
             cursor.close()
-            print(f'endereco duplo {codpedido} / e {ValorUnit} ')
+
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
                            'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq = %s ;'
@@ -183,6 +183,9 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                            , (
                                Necessidade, Reduzido, codpedido, endereco, ValorUnit))
             conn.commit()
+            # Obtendo o número de linhas afetadas
+            num_linhas_afetadas = cursor.rowcount
+            print(f'endereco duplo {codpedido} / e {ValorUnit} , afetando {num_linhas_afetadas} linhas')
             cursor.close()
 
             # atualizando a necessidade
