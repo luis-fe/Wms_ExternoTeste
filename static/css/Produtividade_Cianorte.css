@@ -4,7 +4,7 @@
 }
 :root {
     --cor1: rgb(200, 200, 200);
-    --cor2: rgb(0, 131 , 143);
+    --cor2: black;
 }
 
 body {
@@ -46,9 +46,17 @@ body {
     .DataFim,
     .HorarioInicial,
     .HorarioFinal {
+        
         width: 40%;
         margin-right: 10px;
         box-sizing: border-box;
+    }
+
+    #DataInicial,
+    #DataFinal,
+    #HorarioInicio,
+    #HorarioFinal{
+        font-size: 25px;
     }
 
     .Botao {
@@ -95,13 +103,15 @@ body {
     .Retorna1,
     .Faturado,
     .Faturado1 {
-
+        
+        border: 1px solid white;
         width: 100%;
         display: flex;
     }
     
     .Retorna label,
     .Faturado label {
+        margin-left: 10px;
         width: 100%;
         margin-bottom: 3px;
         color: white;
