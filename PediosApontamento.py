@@ -146,7 +146,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             return pd.DataFrame({'Mensagem': [f'tag {codbarra} apontada!'], 'status': [True]})
 
 
-    elif validacao == 12: # 12 Caso a
+    elif validacao == 12: # 12 Caso a TAG venha da prateleira e o endereco seja duplo
         if Necessidade <= 0:
             return pd.DataFrame(
                 {'Mensagem': [f'o produto {Reduzido} já foi totalmente bipado. Deseja estornar ?']})
@@ -432,7 +432,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
         return pd.DataFrame({'Mensagem': [f'tag nao pertence ao endereco selecionado']})
 
 
-
+# ESSA FUNCAO VERIFICA DE ONDE O CODIGO DE BARRAS ESTÁ SAINDO
 def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
     conn = ConexaoPostgreMPL.conexao()
 

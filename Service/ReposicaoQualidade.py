@@ -659,6 +659,22 @@ def DetalhaQuantidadeOP(empresa, numeroop):
     }
     return pd.DataFrame([data])
 
+def ValidarExisteSkuDiferente(endereco):
+
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select distinct "Endereco" where "Reposicao".tagsreposicao '
+                           'where "Endereco" = %s',conn,params=(endereco,))
+
+    conn.close()
+
+    if not consulta.empty :
+        return True
+
+    else:
+        return False
+
+
 
 
 

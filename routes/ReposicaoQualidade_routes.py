@@ -63,17 +63,28 @@ def RecarrearEndereco():
         Ncaixa = dados['Ncaixa']
         endereco = dados['endereco']
         print(Ncaixa)
-        FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
-        # Obtém os nomes das colunas
-        column_names = FilaReposicaoOP.columns
-        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-        enderecos_data = []
-        for index, row in FilaReposicaoOP.iterrows():
-            enderecos_dict = {}
-            for column_name in column_names:
-                enderecos_dict[column_name] = row[column_name]
-            enderecos_data.append(enderecos_dict)
-        return jsonify(enderecos_data)
+
+        ExisteSku = ReposicaoQualidade.ValidarExisteSkuDiferente(endereco)
+
+        if ExisteSku == True:
+
+            FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
+
+            # Obtém os nomes das colunas
+            column_names = FilaReposicaoOP.columns
+            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+            enderecos_data = []
+            for index, row in FilaReposicaoOP.iterrows():
+                enderecos_dict = {}
+                for column_name in column_names:
+                    enderecos_dict[column_name] = row[column_name]
+                enderecos_data.append(enderecos_dict)
+            return jsonify(enderecos_data)
+            
+        else:
+            return jsonify({"mensagem":"Ja existe outros sku reposto nesse endereco", 'status':False})
+
+
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
