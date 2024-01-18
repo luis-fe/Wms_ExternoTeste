@@ -1,3 +1,10 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: var(--cor2);
+}
+
 :root.palheta-empresa-a {
     --cor1: rgb(255, 255, 255);
     --cor2: rgb(17, 45, 126);
