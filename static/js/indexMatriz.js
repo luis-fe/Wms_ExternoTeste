@@ -35,6 +35,11 @@ const EnderecosTotal = document.getElementById("EnderecosCadastrados");
 const EnderecosUtilizado = document.getElementById("EnderecosUtilizados");
 const PedidoRetorna = document.getElementById("PedidosRetorna");
 const PedidoCompleto = document.getElementById("TotalPedidosCompletos");
+const DiferencaReposicao = document.getElementById("DiferencaReposicao");
+const DiferencaPecasPedidos = document.getElementById("DiferencaPecasPedidos");
+const DiferencaPedidosCompletos = document.getElementById("DiferencaPedidosCompletos");
+const DiferencaEnderecos = document.getElementById("DiferencaEnderecos");
+
 
 
 async function ChamadaApi(api, callback) {
@@ -66,6 +71,10 @@ async function ChamadaApi(api, callback) {
             PecasRepostas.textContent = parseInt(RealizadoApi).toLocaleString('pt-BR');
             PecasFase1.textContent = parseInt(PecasFase).toLocaleString('pt-BR');
             PecasRepostas1.textContent = parseInt(PecasRepostasApi).toLocaleString('pt-BR');
+            DiferencaReposicao.textContent = (parseInt(PecasFase)-parseInt(PecasRepostasApi)).toLocaleString('pt-BR');
+            DiferencaPecasPedidos.textContent = (parseInt(MetaApi)-parseInt(RealizadoApi)).toLocaleString('pt-BR');
+            
+            
             console.log(MetaApi)
             console.log(RealizadoApi)
 
@@ -105,6 +114,8 @@ async function ChamadaApiEnderecos(api,Empresa, Natureza) {
             EnderecosUtilizados = EnderecosTotais - EnderecosUtilizados;
             EnderecosTotal.textContent = parseInt(EnderecosTotais).toLocaleString('pt-BR');
             EnderecosUtilizado.textContent = parseInt(EnderecosUtilizados).toLocaleString('pt-BR');
+            DiferencaEnderecos.textContent = (parseInt(EnderecosTotais)-parseInt(EnderecosUtilizados)).toLocaleString('pt-BR');
+             
             console.log(MetaApi)
             console.log(RealizadoApi)
         } else {
@@ -133,6 +144,7 @@ async function ChamadaApiPedidos(api) {
             PedidosCompletos = PedidosCompletos.replace(/\./, '');
             PedidoCompleto.textContent = parseInt(PedidosCompletos).toLocaleString('pt-BR');
             PedidoRetorna.textContent = parseInt(PedidosRetorna).toLocaleString('pt-BR');
+            DiferencaPedidosCompletos.textContent = (parseInt(PedidosRetorna)-parseInt(PedidosCompletos)).toLocaleString('pt-BR');
         } else {
             throw new Error('Erro No Retorno');
         }
@@ -234,7 +246,7 @@ window.addEventListener('load', async ()  => {
     if (Empresa === "1") {
         if (VerificaLogin !== "Logado") {
 
-            window.location.href = 'Login.html';
+            window.location.href = '/Login_Teste';
         } else {
             linkUsuario.textContent = NomeUsuario;
             await ChamadaApiEnderecos(ApiEnderecosMatriz, 1, 5),
@@ -243,7 +255,7 @@ window.addEventListener('load', async ()  => {
         }
     } else if (Empresa === "4") {
         if (VerificaLogin !== "Logado") {
-            window.location.href = 'Login.html';
+            window.location.href = '/Login_Teste';
         } else {
             linkUsuario.textContent = NomeUsuario;
             await ChamadaApiEnderecos(ApiEnderecosFilial, 4, 5),
@@ -252,9 +264,9 @@ window.addEventListener('load', async ()  => {
 
         }
     }
-}); 
+});   
 
-const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste"]');
+const linkSair = document.querySelector('.right-menu-item li a[href="/Login_Teste
 
 linkSair.addEventListener("click" , async () => {
   localStorage.clear();
