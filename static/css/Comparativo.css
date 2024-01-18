@@ -82,7 +82,9 @@
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
-    color: var(--cor4);
+    color: var(--cor2);
+    background-color: var(--cor4);
+    font-size: 25px
 }
 
 #TabelaComparativo thead {
