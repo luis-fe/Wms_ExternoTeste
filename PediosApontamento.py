@@ -174,7 +174,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn.commit()
             cursor.close()
 
-            if ValorUnit == None:
+            if ValorUnit != 0:
 
                 uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
