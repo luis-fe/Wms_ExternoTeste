@@ -174,12 +174,12 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             cursor.close()
             uptadePedido = 'UPDATE "Reposicao".pedidossku' \
                            ' SET necessidade= %s ' \
-                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 ;'
+                           'where "produto" = %s and codpedido= %s and endereco = %s and necessidade >0 and valorunitarioliq = %s ;'
             Necessidade = Necessidade - 1
             cursor = conn.cursor()
             cursor.execute(uptadePedido
                            , (
-                               Necessidade, Reduzido, codpedido, endereco))
+                               Necessidade, Reduzido, codpedido, endereco, ValorUnit))
             conn.commit()
             cursor.close()
 
