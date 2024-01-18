@@ -1,12 +1,3 @@
-
-/* Mantendo as configurações gerais */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* Paleta de cores para Empresa A */
 :root.palheta-empresa-a {
     --cor1: rgb(255, 255, 255);
     --cor2: rgb(17, 45, 126);
@@ -14,7 +5,6 @@
     --cor4: #fff;
 }
 
-/* Paleta de cores para Empresa B */
 :root.palheta-empresa-b {
     --cor1: rgb(255, 255, 255);
     --cor2: #00838F;
@@ -22,229 +12,356 @@
     --cor4: black;
 }
 
-/* Estilo para o corpo */
-.Corpo {
+.Corpo{
     background-color: var(--cor2);
 }
 
-/* Estilo para o menu principal */
 .Menu {
-    width: 100%;
+    width: 100%; /* Ocupar toda a largura da tela */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribui os elementos uniformemente */
     align-items: center;
 }
 
-/* Estilização dos menus e submenus */
-.Menu ul {
-    font-size: 15px;
-    background-color: var(--cor2);
+.left-menu {
+    list-style-type: none;
     padding: 0;
-}
-
-.Menu ul li {
-    display: inline;
-    position: relative;
-}
-
-.Menu ul li a {
-    color: var(--cor4);
-    text-decoration: none;
-    padding: 10px;
-    display: inline-block;
-}
-
-.Menu ul li a:hover {
-    background-color: var(--cor3);
-}
-
-.Menu ul ul {
-    display: none;
-    left: 0;
-    position: absolute;
-    background-color: var(--cor3);
-
-}
-
-.Menu ul li:hover ul {
-    display: block;
-    z-index: 9999;
-    background-color: var(--cor2);
-}
-
-.Menu ul ul {
-    width: 250px;
-
-}
-
-
-.Menu ul ul li a {
+    margin: 0;
     display: flex;
-    color: var(--cor4);
-    justify-content: left;
+    align-items: center;
+}
+.right-menu-item {
+    margin-left: auto; /* Isso empurrará o item "Nome do Usuário" para a direita */
 }
 
 
-/* Estilo para o título do programa */
+
+#loader {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.ModalLoading {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 .TituloPrograma {
     margin-top: 15px;
     font-size: 25px;
     background-color: var(--cor2);
     width: 100%;
     text-align: center;
+    color: var(--cor4);
+    color: var(--cor4);
 }
 
 .TituloPrograma label {
-    color: var(--cor4);
     font-weight: bold;
 }
 
-/* Estilos para o gerenciamento e indicadores */
-.Gerenciamento {
+.Busca {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.Indicador {
-    width: 50%;
-    border: 1px solid #000000;
     padding: 10px;
-    margin: 5px;
     background-color: lightgray;
+    border-bottom: 1px solid #ddd;
 }
 
-/* Estilização dos medidores */
-#medidorReposicao,
-#medidorSeparacao,
-#medidorEnderecos,
-#medidorPedidos {
-    width: 35%;
-    position: relative;
-    max-width: 35%;
-    margin-left: 32%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.InputBusca {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 70%;
 }
 
-/* Estilos para as etiquetas dos indicadores */
-.Reposicao label,
-.Separacao label,
-.Enderecos label,
-.PedidosCompletos label {
-    font-size: 2vh;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.MetaReposicao,
-.PecasRepostas,
-.MetaPecas,
-.PecasRealizadas,
-.MetaEnderecos,
-.EnderecosRealizados,
-.TotalPedidosRetorna,
-.PedidosCompleto,
-.Diferenca,
-.DiferencaRealizada,
-.DiferencaEnderecos,
-.DiferencaPedidos {
-    width: 100%;
-    max-width: 100%; /* Definindo um máximo para evitar expansão */
+/* Botões e seletores */
+.Usuarios {
     display: flex;
-    align-items: center;
-    text-align: center;
     justify-content: center;
-
-}
-/* Estilo para os botões de cor nas informações de legenda */
-.MetaReposicao button,
-.PecasRepostas button,
-.MetaPecas button,
-.PecasRealizadas button,
-.MetaEnderecos button,
-.EnderecosRealizados button,
-.TotalPedidosRetorna button,
-.PedidosCompleto button, 
-.Diferenca button,
-.DiferencaRealizada button,
-.DiferencaEnderecos button,
-.DiferencaPedidos button {
-    background-size: 10%;
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-/* Estilo para as etiquetas nas informações de legenda */
-.MetaReposicao label,
-.PecasRepostas label,
-.MetaPecas label,
-.PecasRealizadas label,
-.MetaEnderecos label,
-.EnderecosRealizados label,
-.TotalPedidosRetorna label,
-.PedidosCompleto label,
-.Diferenca label,
-.DiferencaRealizada label,
-.DiferencaEnderecos label,
-.DiferencaPedidos label {
-    margin-left: 10px;
-    font-size: 2.3vh;
+button {
+    padding: 10px 20px;
+    background-color: var(--cor2);
+    color: var(--cor4);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.botaoProduto, 
+.botaoUsuario, 
+.botaoNota, 
+.botaoData, 
+.botaoQuantidade,
+.botaoReposto,
+.botaoSeparado,
+.botaoValor {
+    background-color: white; /* cor de fundo azul */
+    border: none;
+    padding: 3px 6px; /* reduzindo o padding */
+    cursor: pointer;
+    border-radius: 3px; /* bordas arredondadas */
+    font-size: 5px; /* ajuste o tamanho da fonte conforme necessário */
+}
+
+
+.botaoProduto img,
+.botaoUsuario img,
+.botaoNota img,
+.botaoData img,
+.botaoQuantidade img,
+.botaoReposto img,
+.botaoSeparado img,
+.botaoValor img {
+    width: 10px; /* reduzindo o tamanho do ícone */
+    height: 10px;
+    margin-left: 3px; /* reduzindo o espaço entre o ícone e o texto (se houver) */
+    color: white;
+}
+
+
+
+
+.TabelaContainer {
+    width: 100%;
+    height: 78vh;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+.TabelaInformacoes {
+    width: 80%;
+    height: 50vh;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 1px solid black;
+    overflow-y: scroll;
+    margin-left: 11%;
+}
+
+.TabelaTabelaDistribuicao, .TabelaInformacao {
+    width: 100%;
+    border-collapse: collapse;
+    height: 100%;
+}
+
+.TabelaTabelaDistribuicao th, .TabelaTabelaDistribuicao td, .TabelaInformacao th, .TabelaInformacao td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+
+
+.TabelaTabelaDistribuicao th{
+white-space: nowrap; /* Impede a quebra de texto */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    max-width: 200px;
+    text-align: left;
+}
+
+.TabelaTabelaDistribuicao thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--cor2);
+    color: var(--cor4);
+}
+
+
+
+/* Estilos para a modal */
+.modalClassificacao {
+    display: none; /* Inicia escondida */
+    position: static; /* Posição fixa na janela do navegador */
+    top: 0;
+    left: 0;
+    background-color: white; /* Cor de fundo preta com transparência */
+    z-index: 1000; 
+    overflow: auto;
+}
+
+
+.ModalPeçasFaltantes-content {
+        position: relative;
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        max-width: 500px;
+        z-index: 3;
+    }
+
+    .ModalPeçasFaltantes-content h3{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--cor2);
+    text-align: center;
+    font-size: 20px;
+    font-family: Arial;
+    border: 5px;
+    margin: 0;
+    z-index: 4;
+}
+
+.ModalPeçasFaltantes-content  #ListaPeçasFaltantes {
+    display: block;
+    margin-top: 70px;
+}
+
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--cor1);
+    z-index: 1000;
+}
+
+.close:hover, .close:focus {
+    color: black; 
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para o título da modal */
+#TituloModal {
+    margin-top: 0; /* Remove a margem superior para alinhamento */
+    margin-bottom: 20px; /* Adiciona uma margem inferior */
+}
+
+/* Estilos para a lista de peças faltantes */
+#ListaPeçasFaltantes {
+    list-style-type: none; /* Remove os marcadores da lista */
+    padding: 0; /* Remove o padding padrão */
+}
+
+/* Estilo para os itens da lista */
+#ListaPeçasFaltantes li {
+    margin-bottom: 10px; /* Espaçamento entre os itens */
+}
+
+/* Ajustes para telas menores */
+@media only screen and (max-width: 768px) {
+    .Busca {
+        flex-direction: column; /* Coloca a barra de busca e o botão de busca em coluna */
+        align-items: flex-start; /* Alinha-os à esquerda */
+    }
+
+    .InputBusca {
+        width: 100%; /* Ocupa toda a largura disponível */
+        margin-bottom: 10px; /* Adiciona um espaço abaixo */
+    }
+
+    .Usuarios {
+        flex-direction: column; /* Ajusta a disposição dos botões e seletores em coluna */
+        align-items: center; /* Centraliza-os */
+    }
+
+    button {
+        width: 40%; /* Ocupa toda a largura disponível */
+        margin-bottom: 10px; /* Adiciona um espaço abaixo */
+    }
+
+    .TabelaContainer, .TabelaInformacoes {
+        width: 100%; /* Ocupa toda a largura disponível */
+        margin-left: 0; /* Remove a margem esquerda */
+    }
+
+    .TabelaTabelaDistribuicao, .TabelaInformacao {
+        font-size: 12px; /* Reduz o tamanho da fonte para caber melhor */
+    }
+
+    .ModalPeçasFaltantes-content {
+        position: relative;
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        z-index: 3;
+    }
+    #Usuarios{
+        border: 1px solid black;
+        height: 40px;
+        width: 80%;
+    }
+
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
     font-weight: bold;
-}
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 
-@media screen and (max-width: 900px) {
 
-    /* Mudar o layout das divs principais e fazer com que ocupem 100% da largura */
-    .Gerenciamento {
-        flex-direction: column; /* Empilha as divs uma abaixo da outra */
-        width: 98%; /* Ocupa a largura total */
-    }
 
-    /* Ajuste de largura para ocupar 100% da largura */
-    .Indicador {
-        width: 100%; 
-        box-sizing: border-box; /* Garante que padding e borda não expandam a div além de 100% */
-        padding: 10px; /* Exemplo de padding, ajuste conforme necessário */
-        margin-bottom: 20px; /* Espaçamento entre as divs */
-    }
-
-    /* Ajuste para o medidor */
-    #medidorReposicao,
-    #medidorSeparacao,
-    #medidorEnderecos,
-    #medidorPedidos {
-        width: 80%; 
-        margin: 0 auto; 
-    }
-
-    /* Ajustes para a legenda */
-    .Legenda {
-        flex-direction: column; /* Mostra a legenda abaixo das barras de progresso */
-    }
-
-    /* Ajuste de tamanho de fonte para títulos */
-    .Indicador h3 {
-        font-size: 18px; 
-    }
-    .MetaReposicao label,
-.PecasRepostas label,
-.MetaPecas label,
-.PecasRealizadas label,
-.MetaEnderecos label,
-.EnderecosRealizados label,
-.TotalPedidosRetorna label,
-.PedidosCompleto label,
-.Diferenca label,
-.DiferencaRealizada label,
-.DiferencaEnderecos label,
-.DiferencaPedidos label {
-    margin-left: 10px;
-    font-size: 2.5vh;
-    font-weight: bold;
-    
-}
+  .CaixaClassificacao {
+    display: none;
+    position: absolute;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
