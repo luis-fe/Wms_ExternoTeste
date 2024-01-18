@@ -73,6 +73,8 @@
     background-color: #fff;
     border: 1px solid black;
     overflow-y: scroll;
+    margin-top: 10px
+    
 
 }
 
@@ -80,6 +82,7 @@
     padding: 8px;
     text-align: center;
     border: 1px solid #ddd;
+    color: var(--cor4);
 }
 
 #TabelaComparativo thead {
