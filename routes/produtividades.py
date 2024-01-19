@@ -74,6 +74,7 @@ def DetalhaRitmoRepositor():
 
     #Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = produtividadeModel.DetalhaRitmoRepositor(usuario,data_inicial,data_final)
+    TagReposicao = pd.DataFrame(TagReposicao)
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns
