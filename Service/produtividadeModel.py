@@ -370,11 +370,11 @@ def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
 
     ritmo2 = pd.concat([ritmo2, ritmo2_2])
     ritmo2 = ritmo2.groupby(['usuario', 'dia', 'intervalo'])['ritmo'].sum().reset_index()
-    ritmo2['codusuario'] = ritmo2['usuario']
+    #ritmo2['codusuario'] = ritmo2['usuario']
 
-    ritmo2 = pd.merge(ritmo2, usuario,on='codusuario',how='left')
+    #ritmo2 = pd.merge(ritmo2, usuario,on='codusuario',how='left')
 
-    ritmo2 = ritmo2[ritmo2['codusuario'] == usuario]
+    #ritmo2 = ritmo2[ritmo2['codusuario'] == usuario]
 
     conn.close()
 
