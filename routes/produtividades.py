@@ -70,10 +70,10 @@ def DetalhaRitmoRepositor():
     data_final = request.args.get('DataFinal','0'),
     horarioInicial = request.args.get('horarioInicial', '01:00:00')
     horarioFinal = request.args.get('horarioFinal', '23:59:00')
-    usuarioNome = request.args.get('usuarioNome','-')
+    usuario = request.args.get('usuario','-')
 
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = produtividadeModel.DetalhaRitmoRepositor(usuarioNome,data_inicial,data_final)
+    TagReposicao = produtividadeModel.DetalhaRitmoRepositor(usuario,data_inicial,data_final)
     TagReposicao = pd.DataFrame(TagReposicao)
 
     # Obtém os nomes das colunas
