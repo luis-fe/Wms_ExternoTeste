@@ -84,7 +84,11 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0' , horarioInicial 
             'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritimorepositor2 r '
             ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
 
-        ritmo2 = pd.concat([ritmo2, ritmo2_2])
+        ritmo2_3 = pd.read_sql(
+            'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritimorepositor3 r '
+            ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
+
+        ritmo2 = pd.concat([ritmo2, ritmo2_2, ritmo2_3])
         ritmo2 = ritmo2.groupby(['usuario','dia','intervalo'])['ritmo'].sum().reset_index()
 
         ritmo2['acum'] = ritmo2.groupby(['usuario', 'dia']).cumcount() + 1
