@@ -358,7 +358,7 @@ def RelatorioSeparacaoBI(empresa, dias):
 def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
     conn = ConexaoPostgreMPL.conexao()
     Usuarios = pd.read_sql('Select codigo as codusuario, nome from "Reposicao".cadusuarios ', conn)
-    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+    Usuarios['codusuario'] = Usuarios['codusuario'].astype(str)
 
     ritmo2 = pd.read_sql(
         'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritimorepositor r '
