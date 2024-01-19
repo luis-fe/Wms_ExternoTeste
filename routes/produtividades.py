@@ -96,6 +96,7 @@ def RelatorioSeparacao():
 
     #Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = produtividadeModel.RelatorioSeparacao('1',data_inicial,data_final,usuario)
+    TagReposicao = pd.DataFrame(TagReposicao)
 
     # Obtém os nomes das colunas
     column_names = TagReposicao.columns

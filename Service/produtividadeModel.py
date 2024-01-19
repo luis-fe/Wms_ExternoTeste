@@ -378,4 +378,6 @@ def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
 
     conn.close()
 
-    return ritmo2
+    data = { 'Ritmo': ritmo2.to_dict(orient='records')}
+
+    return [data]
