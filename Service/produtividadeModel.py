@@ -373,7 +373,7 @@ def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
 
     ritmo2 = pd.merge(ritmo2, usuario,on='usuario')
 
-    ritmo2 = ritmo2[ritmo2['usuario'] == usuario]
+    ritmo2 = ritmo2[ritmo2['nome'] == usuario]
 
     conn.close()
 

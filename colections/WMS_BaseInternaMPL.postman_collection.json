@@ -1271,6 +1271,59 @@
 			"name": "Pedidos",
 			"item": [
 				{
+					"name": "ApontamentosPedido",
+					"item": [
+						{
+							"name": "ApontamentoTagPedido Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"codUsuario\":\"1414\",\r\n\"codpedido\":\"33559-1\",\r\n\"endereço\":\"04-02-13\",\r\n\"codbarras\":\"04000068920602000294\",\r\n\"dataHoraBipágem\":\"2024-01-18 14:30:00\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.184:5000/api/ApontamentoTagPedido",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"184"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ApontamentoTagPedido"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "FilaSeparacao",
 					"item": [
 						{
@@ -5347,7 +5400,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\"endereco\":\"01-01-01\",\r\n\"Ncaixa\":\"00644\",\r\n\"usuario\":\"1\"\r\n}"
+									"raw": "{\r\n\"endereco\":\"05-69-01\",\r\n\"Ncaixa\":\"00644\",\r\n\"usuario\":\"1\"\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/RecarrearEndereco",
