@@ -85,7 +85,7 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0' , horarioInicial 
             ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
 
         ritmo2 = pd.concat([ritmo2, ritmo2_2])
-        TagReposicao = TagReposicao.groupby(['usuario','dia','intervalo'])['ritmo'].sum().reset_index()
+        ritmo2 = ritmo2.groupby(['usuario','dia','intervalo'])['ritmo'].sum().reset_index()
 
         ritmo2['acum'] = ritmo2.groupby(['usuario', 'dia']).cumcount() + 1
         ritmo2['acum'] = ritmo2['acum'] * (15 * 60)
