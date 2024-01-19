@@ -357,7 +357,7 @@ def RelatorioSeparacaoBI(empresa, dias):
 
 def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
     conn = ConexaoPostgreMPL.conexao()
-    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios = pd.read_sql('Select codigo as codusuario, nome from "Reposicao".cadusuarios ', conn)
     Usuarios['usuario'] = Usuarios['usuario'].astype(str)
 
     ritmo2 = pd.read_sql(
@@ -370,10 +370,11 @@ def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
 
     ritmo2 = pd.concat([ritmo2, ritmo2_2])
     ritmo2 = ritmo2.groupby(['usuario', 'dia', 'intervalo'])['ritmo'].sum().reset_index()
+    ritmo2['codusuario'] = ritmo2['usuario']
 
-    ritmo2 = pd.merge(ritmo2, usuario,on='usuario')
+    ritmo2 = pd.merge(ritmo2, usuario,on='codusuario',how='left')
 
-    ritmo2 = ritmo2[ritmo2['usuario'] == usuario]
+    ritmo2 = ritmo2[ritmo2['codusuario'] == usuario]
 
     conn.close()
 
