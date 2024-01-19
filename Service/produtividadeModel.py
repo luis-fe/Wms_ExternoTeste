@@ -353,4 +353,28 @@ def RelatorioSeparacaoBI(empresa, dias):
 
 
 
-        return TagReposicao
+        return
+
+def DetalhaRitmoRepositor(usuario, dataInicial, dataFInal):
+    conn = ConexaoPostgreMPL.conexao()
+    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+
+    ritmo2 = pd.read_sql(
+        'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritimorepositor r '
+        ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
+
+    ritmo2_2 = pd.read_sql(
+        'select count_tempo as ritmo, dia, usuario, data_intervalo_min as intervalo from "Reposicao"."Reposicao".ritimorepositor2 r '
+        ' WHERE r.dia >= %s and r.dia <= %s ', conn, params=(dataInicial, dataFInal,))
+
+    ritmo2 = pd.concat([ritmo2, ritmo2_2])
+    ritmo2 = ritmo2.groupby(['usuario', 'dia', 'intervalo'])['ritmo'].sum().reset_index()
+
+    ritmo2 = pd.merge(ritmo2, usuario,on='usuario')
+
+    ritmo2 = ritmo2[ritmo2['usuario'] == usuario]
+
+    conn.close()
+
+    return ritmo2
