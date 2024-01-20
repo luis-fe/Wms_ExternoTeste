@@ -1,6 +1,7 @@
 import datetime
 import pandas as pd
 import ConexaoPostgreMPL
+from psycopg2 import errors
 
 
 def obterHoraAtual():
@@ -44,11 +45,21 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
         insertInto = 'insert into "Reposicao".off."linhapadrado" ' \
                      '("Linha", operador1, operador2) values (%s, %s, %s)'
         cursor = conn.cursor()
-        cursor.execute(insertInto, (nomeLinha, operador1, operador2))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
+        try:
+            cursor.execute(insertInto, (nomeLinha, operador1, operador2))
+            conn.commit()
+            return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
+
+        except errors.ForeignKeyViolation as e:
+            # Se uma exceção de violação de chave estrangeira ocorrer, imprima a mensagem de erro ou faça o que for necessário
+            return pd.DataFrame([{'Mensagem': f'NÃO EXISTE O NOME DO OPERADOR 1: {operador1} no cadastro de usuarios do portal !'}])
+
+
+        except Exception as e:
+            # Lide com outras exceções aqui, se necessário
+            print(f"Erro inesperado: {e}")
+
+
 
     elif operador2 == '-':
         insertInto = 'insert into "Reposicao".off."linhapadrado" ' \
