@@ -33,7 +33,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
                  ' ("Linha",operador1, operador2, operador3) values (%s, %s, %s , %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1, operador2, operador3))
-        cursor.commit()
+        conn.commit()
         cursor.close()
         conn.close()
 
@@ -45,7 +45,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
                      '("Linha", operador1, operador2) values (%s, %s, %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1, operador2))
-        cursor.commit()
+        conn.commit()
         cursor.close()
         conn.close()
         return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
@@ -55,7 +55,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
                      '("Linha", operador1) values (%s, %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1))
-        cursor.commit()
+        conn.commit()
         cursor.close()
         conn.close()
 
