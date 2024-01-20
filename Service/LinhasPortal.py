@@ -22,4 +22,4 @@ def RetornarNomeLinha(linha):
 
     conn.close()
 
-    return linhas
+    return pd.DataFrame([{'Linha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0]}])
