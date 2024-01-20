@@ -51,11 +51,11 @@ def AtualizarInformacoes(novo_nome, nova_funcao, nova_situacao,  codigo):
     conn.close()
     return novo_nome
 
-def InserirUsuario(codigo, funcao, nome, senha, situacao, empresa):
+def InserirUsuario(codigo, funcao, nome, senha, situacao):
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO "Reposicao".off.usuariosportal (codigo, funcao, nome, senha, situacao, empresa) '
-                   'VALUES (%s, %s, %s, %s, %s, %s)',(codigo, funcao, nome, senha, situacao, empresa))
+    cursor.execute('INSERT INTO "Reposicao".off.usuariosportal (codigo, funcao, nome, senha, situacao) '
+                   'VALUES (%s, %s, %s, %s, %s )',(codigo, funcao, nome, senha, situacao))
 
     conn.commit()
     cursor.close()
