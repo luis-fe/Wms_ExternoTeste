@@ -82,7 +82,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
             # Se uma exceção de violação de chave estrangeira ocorrer, imprima a mensagem de erro ou faça o que for necessário
             cursor.close()
             conn.close()
-            print(f"Erro inesperado: {e}")
+            print(f"Erro inesperado nome operador1: {e}")
 
             return pd.DataFrame([{'Mensagem': f'NÃO EXISTE O NOME DO OPERADOR 1: {operador1} no cadastro de usuarios do portal !'}])
 
