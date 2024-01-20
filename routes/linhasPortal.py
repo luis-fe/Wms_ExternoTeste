@@ -36,7 +36,7 @@ def linhasPadrao():
 @linhas_routes.route('/api/NomesLinha', methods=['GET'])
 @token_required
 def NomesLinha():
-    linha = request.get('linha')
+    linha = request.args.get('linha')
     linhas = LinhasPortal.RetornarNomeLinha(linha)
     # Obtém os nomes das colunas
 
