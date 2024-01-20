@@ -51,7 +51,7 @@ def update_usuarioPortal(codigo):
     data = request.get_json()
     # Verifica se a coluna "funcao" está presente nos dados recebidos
     codigo = str(codigo)
-    nome_ant, funcao_ant, situacao_ant , empresa_ant = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
+    nome_ant, funcao_ant, situacao_ant  = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
     if 'funcao' in data:
         nova_funcao = data['funcao']
     else:
@@ -83,7 +83,7 @@ def criar_usuarioPortal():
     emp = empresaConfigurada.EmpresaEscolhida()
     empresa = novo_usuario.get('empresa',emp)
     # inserir o novo usuário no banco de dados
-    c, n, f, g = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
+    c, n, f = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
     if c != 0:
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} ja existe'}), 201
     else:
@@ -112,7 +112,7 @@ def check_user_password():
     if result == 1:
         # Consulta no banco de dados para obter informações adicionais do usuário
 
-        nome, funcao, situacao, empresa1 = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
+        nome, funcao, situacao = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
 
         # Verifica se foram encontradas informações adicionais do usuário
         if nome != 0:
@@ -123,9 +123,7 @@ def check_user_password():
                 "message": "Usuário e senha VALIDADOS!",
                 "nome": nome,
                 "funcao": funcao,
-                "situacao": situacao,
-                "empresa":empresa1
-            })
+                "situacao": situacao            })
         else:
             return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
     else:
