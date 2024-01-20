@@ -29,7 +29,8 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
 
     if operador3 != '-':
-        insertInto = 'insert into "Linha", operador1, operador2, operador3 values (%s, %s, %s , %s)'
+        insertInto = 'insert into "Reposicao".off."linhapadrado"' \
+                 ' ("Linha",operador1, operador2, operador3) values (%s, %s, %s , %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1, operador2, operador3))
         cursor.commit()
@@ -40,7 +41,8 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
 
     elif operador3 == '-' and operador2 != '-':
-        insertInto = 'insert into "Linha", operador1, operador2 values (%s, %s, %s)'
+        insertInto = 'insert into "Reposicao".off."linhapadrado" ' \
+                     '("Linha", operador1, operador2) values (%s, %s, %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1, operador2))
         cursor.commit()
@@ -49,7 +51,8 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
         return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
 
     elif operador2 == '-':
-        insertInto = 'insert into "Linha", operador1 values (%s, %s)'
+        insertInto = 'insert into "Reposicao".off."linhapadrado" ' \
+                     '("Linha", operador1) values (%s, %s)'
         cursor = conn.cursor()
         cursor.execute(insertInto, (nomeLinha, operador1))
         cursor.commit()
