@@ -55,7 +55,7 @@ def NomesLinha():
 @token_required
 def NovaLinha():
     data = request.get_json()
-    linha = data('linha')
+    linha = data['linha']
     oper1 = data('operador1')
     oper2 = data('operador2','-')
     oper3 = data('operador3','-')

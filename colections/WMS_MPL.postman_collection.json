@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "40139980-b34b-4310-9e60-9f44c908506e",
+		"_postman_id": "be8b04a3-9333-400e-a023-cbcc067e05f5",
 		"name": "WMS_MPL",
 		"description": "> NESSE DOCUMENTO É DEMONSTRADO AOS USUARIOS AS ETAPAS PARA INSTALACAO E MANUTENCAO DO WMS \n  \n\nAbaixo segue clausulas SQL especial para tratamento do banco de dados:\n\n##########################################################\n\n\\-> Para obter as tarefas do Banco SQL  \nPasso 1)\n\nSELECT \\* FROM pg_stat_activity\n\nWHERE state = 'active';\n\nPasso2)\n\nSELECT pg_terminate_backend();",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -6327,8 +6327,64 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Nova Linha",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/NomesLinha",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"NomesLinha"
+									],
+									"query": [
+										{
+											"key": "linha",
+											"value": "linha1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					]
+					],
+					"description": "> NESSE DIRETORIO É APRESENTADO AS API's RestFull que manipula a classe de Linha Garantia.  \nLinha Garantia -> são as linhas de trabalho da área de Garantia da Qualidade, onde cada linha forma uma equipe que executa as tarefas de Passadoria , Revisao e Embalamento das peças de vesturario."
 				}
 			]
 		}
