@@ -5986,6 +5986,152 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "usuario_Portal",
+					"item": [
+						{
+							"name": "UsuariosPortalGarantia",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/UsuariosPortal",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"UsuariosPortal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InserirUsuarioPortal",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"codigo\":\"2563\",\r\n\"nome\":\"Everiton Junior\",\r\n\"funcao\":\"Passador\",\r\n\"situacao\":\"Ativo\",\r\n\"senha\":\"Master100\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/UsuariosPortal",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"UsuariosPortal"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar_UsuarioPortal",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"codigo\":\"2485\",\r\n\"nome\":\"Bruna Hellen🏆\"\r\n}"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/Usuarios/2485",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"Usuarios",
+										"2485"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

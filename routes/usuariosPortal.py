@@ -50,6 +50,7 @@ def update_usuarioPortal(codigo):
     # Obtém os dados do corpo da requisição (JSON)
     data = request.get_json()
     # Verifica se a coluna "funcao" está presente nos dados recebidos
+    codigo = str(codigo)
     nome_ant, funcao_ant, situacao_ant , empresa_ant = usuariosGarantiaModel.PesquisarUsuariosCodigo(codigo)
     if 'funcao' in data:
         nova_funcao = data['funcao']
