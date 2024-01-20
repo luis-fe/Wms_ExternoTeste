@@ -31,6 +31,7 @@ def PesquisarSenha():
 
 def PesquisarUsuariosCodigo(codigo):
     conn = ConexaoPostgreMPL.conexao()
+    codigo = str(codigo)
     cursor = conn.cursor()
     cursor.execute('select codigo, nome, funcao, situacao from "Reposicao".off.usuariosportal c'
                    ' where codigo = %s',(codigo,))
