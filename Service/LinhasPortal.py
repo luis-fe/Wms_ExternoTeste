@@ -23,3 +23,39 @@ def RetornarNomeLinha(linha):
     conn.close()
 
     return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0]}])
+
+def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
+    conn = ConexaoPostgreMPL.conexao()
+
+
+    if operador3 != '-':
+        insertInto = 'insert into "Linha", operador1, operador2, operador3 values (%s, %s, %s , %s)'
+        cursor = conn.cursor()
+        cursor.execute(insertInto, (nomeLinha, operador1, operador2, operador3))
+        cursor.commit()
+        cursor.close()
+        conn.close()
+
+        return pd.DataFrame([{'Mensagem':'Linha cadastrado com sucesso'}])
+
+
+    elif operador3 == '-' and operador2 != '-':
+        insertInto = 'insert into "Linha", operador1, operador2 values (%s, %s, %s)'
+        cursor = conn.cursor()
+        cursor.execute(insertInto, (nomeLinha, operador1, operador2))
+        cursor.commit()
+        cursor.close()
+        conn.close()
+        return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
+
+    elif operador2 == '-':
+        insertInto = 'insert into "Linha", operador1 values (%s, %s)'
+        cursor = conn.cursor()
+        cursor.execute(insertInto, (nomeLinha, operador1))
+        cursor.commit()
+        cursor.close()
+        conn.close()
+
+
+        return pd.DataFrame([{'Mensagem':'Linha cadastrado com sucesso'}])
+

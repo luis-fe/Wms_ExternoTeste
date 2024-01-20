@@ -50,3 +50,24 @@ def NomesLinha():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+@linhas_routes.route('/api/NovaLinha', methods=['POST'])
+@token_required
+def NovaLinha():
+    linha = request.args.get('linha')
+    oper1 = request.args.get('operador1')
+    oper2 = request.args.get('operador2','-')
+    oper3 = request.args.get('operador3','-')
+    linhas = LinhasPortal.CadastrarLinha(linha,oper1, oper2, oper3)
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
