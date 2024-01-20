@@ -54,10 +54,11 @@ def NomesLinha():
 @linhas_routes.route('/api/NovaLinha', methods=['POST'])
 @token_required
 def NovaLinha():
-    linha = request.args.get('linha')
-    oper1 = request.args.get('operador1')
-    oper2 = request.args.get('operador2','-')
-    oper3 = request.args.get('operador3','-')
+    data = request.get_json()
+    linha = data('linha')
+    oper1 = data('operador1')
+    oper2 = data('operador2','-')
+    oper3 = data('operador3','-')
     linhas = LinhasPortal.CadastrarLinha(linha,oper1, oper2, oper3)
     # Obtém os nomes das colunas
 
