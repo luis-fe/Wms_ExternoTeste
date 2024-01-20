@@ -6113,7 +6113,7 @@
 									"raw": "{\"codigo\":\"2485\",\r\n\"nome\":\"Bruna Hellen🏆\"\r\n}"
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/Usuarios/2485",
+									"raw": "http://192.168.0.183:5000/api/UsuariosPortal/2485",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -6124,8 +6124,106 @@
 									"port": "5000",
 									"path": [
 										"api",
-										"Usuarios",
+										"UsuariosPortal",
 										"2485"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UsuarioSenhaPortal",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/UsuarioSenhaPortal?codigo=1414&senha=123@4",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"UsuarioSenhaPortal"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "1414"
+										},
+										{
+											"key": "senha",
+											"value": "123@4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UsuarioSenhaRestricao Portal",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/UsuarioSenhaRestricaoPortal",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"UsuarioSenhaRestricaoPortal"
 									]
 								}
 							},
