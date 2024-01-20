@@ -1,7 +1,8 @@
 {
 	"info": {
 		"_postman_id": "40139980-b34b-4310-9e60-9f44c908506e",
-		"name": "WMS_BaseInternaMPL",
+		"name": "WMS_MPL",
+		"description": "Abaixo segue clausulas SQL especial para tratamento do banco de dados:\n\n##########################################################\n\n\\-> Para obter as tarefas do Banco SQL  \nPasso 1)\n\nSELECT \\* FROM pg_stat_activity\n\nWHERE state = 'active';\n\nPasso2)\n\nSELECT pg_terminate_backend();",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27457186"
 	},
@@ -1833,6 +1834,69 @@
 			"name": "Produtividade",
 			"item": [
 				{
+					"name": "Ritmo",
+					"item": [
+						{
+							"name": "DetalhaRitmoRepositor Cianorte",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.184:5000/api/DetalhaRitmoRepositor?DataInicial=2024-01-19&DataFinal=2024-01-19&usuario=Ronaldo G.",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"184"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"DetalhaRitmoRepositor"
+									],
+									"query": [
+										{
+											"key": "DataInicial",
+											"value": "2024-01-19"
+										},
+										{
+											"key": "DataFinal",
+											"value": "2024-01-19"
+										},
+										{
+											"key": "usuario",
+											"value": "Ronaldo G."
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Separadores",
 					"request": {
 						"auth": {
@@ -2645,7 +2709,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\r\n\"endereço\" :\"08-49-18\"\r\n\r\n}"
+									"raw": "{\r\n\r\n\"endereço\" :\"05-49-23\"\r\n\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/FinalizarInventario",
