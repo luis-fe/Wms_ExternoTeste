@@ -47,7 +47,7 @@ def AtualizacaoFilaOFF_op(op):
 
     conn2 = ConexaoPostgreMPL.conexao()
 
-    delete = 'Delete from "Reposciao".off.filareposicaoof where numeroop = %s '
+    delete = 'Delete from "Reposicao".off.filareposicaoof where numeroop = %s '
 
     cursor = conn2.cursor()
     cursor.execute(delete
