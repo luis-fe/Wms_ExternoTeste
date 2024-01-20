@@ -5,6 +5,7 @@ routes_blueprint = Blueprint('routes', __name__)
 
 # Importe as rotas dos arquivos individuais
 from .usuarios import usuarios_routes
+from .usuariosPortal import usuariosPortal_routes
 from .inventario import inventario_routes
 from .endereco import endereco_routes
 from .reposicaoOP import reposicaoOP_routes
@@ -25,6 +26,8 @@ from .ReposicaoQualidade_routes import reposicao_qualidadeRoute
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
+routes_blueprint.register_blueprint(usuariosPortal_routes)
+
 routes_blueprint.register_blueprint(inventario_routes)
 routes_blueprint.register_blueprint(endereco_routes)
 routes_blueprint.register_blueprint(reposicaoOP_routes)
