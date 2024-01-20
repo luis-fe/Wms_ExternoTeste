@@ -74,9 +74,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
         try:
             cursor.execute(insertInto, (nomeLinha, operador1, operador2))
             conn.commit()
-            cursor.close()
-            conn.close()
-            return pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
+            mensagem = pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
 
         except errors.ForeignKeyViolation as e:
             # Se uma exceção de violação de chave estrangeira ocorrer, imprima a mensagem de erro ou faça o que for necessário
@@ -84,7 +82,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
             conn.close()
             print(f"Erro inesperado nome operador1: {e}")
 
-            return pd.DataFrame([{'Mensagem': f'NÃO EXISTE O NOME DO OPERADOR 1: {operador1} no cadastro de usuarios do portal !'}])
+            mensagem = pd.DataFrame([{'Mensagem': f'NÃO EXISTE O NOME DO OPERADOR 1: {operador1} no cadastro de usuarios do portal !'}])
 
 
         except Exception as e:
@@ -92,5 +90,10 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
             cursor.close()
             conn.close()
             print(f"Erro inesperado: {e}")
-            return pd.DataFrame(
+            mensagem = pd.DataFrame(
                 [{'Mensagem': f'NÃO EXISTE O NOME DO OPERADOR 1: {operador1} no cadastro de usuarios do portal !'}])
+
+        cursor.close()
+        conn.close()
+        return mensagem
+
