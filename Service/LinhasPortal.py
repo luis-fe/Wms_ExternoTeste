@@ -1,5 +1,5 @@
 import datetime
-
+import pandas as pd
 import ConexaoPostgreMPL
 
 
@@ -10,9 +10,8 @@ def obterHoraAtual():
 
 def PesquisarLinhaPadrao():
     conn = ConexaoPostgreMPL.conexao()
-    cursor = conn.cursor()
-    cursor.execute('select * from "Reposicao".off."linhapadrado" c order by "Linha" asc')
-    linhas = cursor.fetchall()
-    cursor.close()
+
+    linhas = pd.read_sql('select * from "Reposicao".off."linhapadrado" c order by "Linha" asc',conn)
+
     conn.close()
     return linhas
