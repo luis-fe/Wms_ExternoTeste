@@ -72,7 +72,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
                      '("Linha", operador1) values (%s, %s)'
         cursor = conn.cursor()
         try:
-            cursor.execute(insertInto, (nomeLinha, operador1, operador2))
+            cursor.execute(insertInto, (nomeLinha, operador1))
             conn.commit()
             mensagem = pd.DataFrame([{'Mensagem': 'Linha cadastrado com sucesso'}])
 
