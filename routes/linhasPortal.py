@@ -32,3 +32,21 @@ def linhasPadrao():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+
+@linhas_routes.route('/api/NomesLinha', methods=['GET'])
+@token_required
+def NomesLinha():
+    linha = request.get('linha')
+    linhas = LinhasPortal.RetornarNomeLinha(linha)
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)

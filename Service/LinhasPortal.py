@@ -15,3 +15,11 @@ def PesquisarLinhaPadrao():
 
     conn.close()
     return linhas
+def RetornarNomeLinha(linha):
+    conn = ConexaoPostgreMPL.conexao()
+
+    linhas = pd.read_sql('select * from "Reposicao".off."linhapadrado" c where "Linha" = %s ', conn, params=(linha,))
+
+    conn.close()
+
+    return linhas
