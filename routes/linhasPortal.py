@@ -57,7 +57,7 @@ def NovaLinha():
     data = request.get_json()
     linha = data['linha']
     oper1 = data['operador1']
-    oper2 = data['operador2','-']
+    oper2 = data('operador2','-')
     oper3 = data['operador3','-']
     linhas = LinhasPortal.CadastrarLinha(linha,oper1, oper2, oper3)
     # Obtém os nomes das colunas
