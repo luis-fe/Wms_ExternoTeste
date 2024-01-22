@@ -69,7 +69,7 @@ def EncontrarEPC(caixa,endereco,empresa):
     emp = empresaConfigurada.EmpresaEscolhida()
     # Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
     conn = ConexaoPostgreMPL.conexao()
-    consulta = pd.read_sql('select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
+    consulta = pd.read_sql('select rq.caixa, rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
                             ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
                             "where rq.caixa = %s ", conn, params=(caixa,))
     conn.close()
@@ -287,7 +287,7 @@ def IncrementarCaixa(endereco, dataframe):
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
                  '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
-        dataframe['proveniencia'] = 'Veio da Caixa'
+        dataframe['proveniencia'] = 'Veio da Caixa: '+ dataframe['caixa'][0]
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
