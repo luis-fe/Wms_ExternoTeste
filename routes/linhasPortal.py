@@ -59,6 +59,7 @@ def NovaLinha():
     oper1 = data['operador1']
     oper2 = data.get('operador2','-')
     oper3 = data.get('operador3','-')
+    print('usou a api nova linha ')
     linhas = LinhasPortal.CadastrarLinha(linha,oper1, oper2, oper3)
     # Obtém os nomes das colunas
 

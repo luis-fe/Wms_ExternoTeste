@@ -138,5 +138,36 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     obterLinha = RetornarNomeLinha(nomeLinha)
+    conn = ConexaoPostgreMPL.conexao()
+    if operador3 == '-' and operador2 == '-' :
+
+        uptade = 'update "Reposicao".off."linhapadrado" ' \
+             'set operador1 = %s ' \
+             'where Linha = %s'
+        cursor = conn.cursor()
+        cursor.execute(uptade, (nomeLinha, operador1))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+    elif operador3 == '-':
+        uptade = 'update "Reposicao".off."linhapadrado" ' \
+             'set operador1 = %s ' \
+             'where Linha = %s'
+        cursor = conn.cursor()
+        cursor.execute(uptade, (nomeLinha, operador1))
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+    else:
+        uptade = 'update "Reposicao".off."linhapadrado" ' \
+             'set operador1 = %s ' \
+             'where Linha = %s'
+        cursor = conn.cursor()
+        cursor.execute(uptade, (nomeLinha, operador1))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
 
