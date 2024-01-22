@@ -144,7 +144,7 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
         uptade = 'update "Reposicao".off."linhapadrado" ' \
              'set operador1 = %s ' \
-             'where Linha = %s'
+             'where "Linha" = %s'
         cursor = conn.cursor()
         cursor.execute(uptade, (operador1, nomeLinha))
         conn.commit()
@@ -155,7 +155,7 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
     elif operador3 == '-' and obterLinha['status'][0] == '1' and operador2 != '-':
         uptade = 'update "Reposicao".off."linhapadrado" ' \
              'set operador1 = %s, operador2 ' \
-             'where Linha = %s'
+             'where "Linha" = %s'
         cursor = conn.cursor()
         cursor.execute(uptade, (operador1,operador2, nomeLinha))
         conn.commit()
@@ -166,7 +166,7 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
     elif operador2 !='-' and obterLinha['status'][0] == '1':
         uptade = 'update "Reposicao".off."linhapadrado" ' \
              'set operador1 = %s, operador2 = %s , operador3 = %s ' \
-             'where Linha = %s'
+             'where "Linha" = %s'
         cursor = conn.cursor()
         cursor.execute(uptade, (operador1, operador2, operador3, nomeLinha))
         conn.commit()
