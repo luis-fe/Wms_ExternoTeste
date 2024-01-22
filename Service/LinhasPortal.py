@@ -163,7 +163,7 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
         conn.close()
         mensagem = 'Atualizado com sucesso !'
 
-    elif operador2 =='-' and obterLinha['status'][0] == '1':
+    elif operador2 !='-' and obterLinha['status'][0] == '1':
         uptade = 'update "Reposicao".off."linhapadrado" ' \
              'set operador1 = %s, operador2 = %s , operador3 = %s ' \
              'where Linha = %s'
@@ -174,8 +174,11 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
         conn.close()
         mensagem = 'Atualizado com sucesso !'
 
+
+
     else:
         mensagem = 'A Linha informada nao possui cadastro'
+
 
     return pd.DataFrame([{'Mensagem':mensagem}])
 
