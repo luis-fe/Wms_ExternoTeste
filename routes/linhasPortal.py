@@ -55,8 +55,8 @@ def NomesLinha():
 @token_required
 def NovaLinha():
     data = request.get_json()
-    linha = data['linha']
-    oper1 = data['operador1']
+    linha = data.get('linha')
+    oper1 = data.get('operador1')
     oper2 = data.get('operador2','-')
     oper3 = data.get('operador3','-')
     print('usou a api nova linha ')
