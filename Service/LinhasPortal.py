@@ -26,7 +26,7 @@ def RetornarNomeLinha(linha):
     if not linhas.empty:
         return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1'}])
     else:
-        return pd.DataFrame([{'Mensagem':'Nao existe essa linha informado', 'status':'2'}])
+        return pd.DataFrame([{'Mensagem':'Ja existe essa linha informada', 'status':'2'}])
 
 def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
