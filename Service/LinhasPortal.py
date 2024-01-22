@@ -138,6 +138,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     obterLinha = RetornarNomeLinha(nomeLinha)
+    print(obterLinha)
     conn = ConexaoPostgreMPL.conexao()
     if operador3 == '-' and operador2 == '-' and obterLinha['status'][0] == '1':
 
