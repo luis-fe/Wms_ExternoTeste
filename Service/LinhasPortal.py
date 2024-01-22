@@ -31,6 +31,7 @@ def RetornarNomeLinha(linha):
 def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
     consularLinha = RetornarNomeLinha(nomeLinha)
+    print(consularLinha)
     if consularLinha['status'] == '1':
         conn = ConexaoPostgreMPL.conexao()
 
