@@ -31,7 +31,7 @@ def linhasPadrao():
         for column_name in column_names:
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
-    return jsonify(end_data)
+    return jsonify(end_data), 200
 
 @linhas_routes.route('/api/NomesLinha', methods=['GET'])
 @token_required
@@ -49,7 +49,7 @@ def NomesLinha():
         for column_name in column_names:
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
-    return jsonify(end_data)
+    return jsonify(end_data),200
 
 @linhas_routes.route('/api/NovaLinha', methods=['POST'])
 @token_required
@@ -72,4 +72,4 @@ def NovaLinha():
         for column_name in column_names:
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
-    return jsonify(end_data)
+    return jsonify(end_data),200
