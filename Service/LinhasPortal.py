@@ -24,7 +24,7 @@ def RetornarNomeLinha(linha):
     conn.close()
 
     if not linhas.empty:
-        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1'}])
+        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1','Mensagem':'Ja Possui Linha Cadastrada'}])
     else:
         return pd.DataFrame([{'Mensagem':'nao existe essa linha', 'status':'2'}])
 
