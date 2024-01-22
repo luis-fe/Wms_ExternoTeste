@@ -23,7 +23,10 @@ def RetornarNomeLinha(linha):
     conn.close()
 
     if not linhas.empty:
-        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1','Mensagem':'Ja Possui Linha Cadastrada'}])
+        linhas.fillna('-', inplace=True)
+        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1',
+                              'Mensagem':'Ja Possui Linha Cadastrada', 'operador1':linhas['operador1'][0],
+                              'operador2':linhas['operador2'][0],'operador3':linhas['operador3'][0]}])
     else:
         return pd.DataFrame([{'Mensagem':'nao existe essa linha', 'status':'2'}])
 
@@ -131,3 +134,9 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
             return mensagem
     else:
         return consularLinha
+
+def AlterarLinha(nomeLinha, operador1, operador2, operador3):
+
+    obterLinha = RetornarNomeLinha(nomeLinha)
+
+
