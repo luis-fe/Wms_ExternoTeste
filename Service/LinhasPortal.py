@@ -24,14 +24,14 @@ def RetornarNomeLinha(linha):
     conn.close()
 
     if not linhas.empty:
-        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':True}])
+        return pd.DataFrame([{'OperadoresLinha':linhas['operador1'][0]+'/'+linhas['operador2'][0]+'/'+linhas['operador3'][0],'status':'1'}])
     else:
         return pd.DataFrame([{'Mesamge':'Nao existe essa linha informado', 'status':False}])
 
 def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
     consularLinha = RetornarNomeLinha(nomeLinha)
-    if consularLinha['status'] == True:
+    if consularLinha['status'] == '1':
         conn = ConexaoPostgreMPL.conexao()
 
 
