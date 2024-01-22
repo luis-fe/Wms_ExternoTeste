@@ -73,3 +73,26 @@ def NovaLinha():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data),200
+
+@linhas_routes.route('/api/AtualizarLinha', methods=['PUT'])
+@token_required
+def AtualizarLinha():
+    data = request.get_json()
+    linha = data.get('linha')
+    oper1 = data.get('operador1')
+    oper2 = data.get('operador2','-')
+    oper3 = data.get('operador3','-')
+    print('usou a api nova linha ')
+    linhas = LinhasPortal.AlterarLinha(linha,oper1, oper2, oper3)
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data),200

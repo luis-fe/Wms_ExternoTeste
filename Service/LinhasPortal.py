@@ -139,35 +139,43 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     obterLinha = RetornarNomeLinha(nomeLinha)
     conn = ConexaoPostgreMPL.conexao()
-    if operador3 == '-' and operador2 == '-' :
+    if operador3 == '-' and operador2 == '-' and obterLinha['status'][0] == '1':
 
         uptade = 'update "Reposicao".off."linhapadrado" ' \
              'set operador1 = %s ' \
              'where Linha = %s'
         cursor = conn.cursor()
-        cursor.execute(uptade, (nomeLinha, operador1))
+        cursor.execute(uptade, (operador1, nomeLinha))
         conn.commit()
         cursor.close()
         conn.close()
+        mensagem = 'Atualizado com sucesso !'
 
-    elif operador3 == '-':
+    elif operador3 == '-' and obterLinha['status'][0] == '1' and operador2 != '-':
         uptade = 'update "Reposicao".off."linhapadrado" ' \
-             'set operador1 = %s ' \
+             'set operador1 = %s, operador2 ' \
              'where Linha = %s'
         cursor = conn.cursor()
-        cursor.execute(uptade, (nomeLinha, operador1))
+        cursor.execute(uptade, (operador1,operador2, nomeLinha))
         conn.commit()
         cursor.close()
         conn.close()
+        mensagem = 'Atualizado com sucesso !'
+
+    elif operador2 =='-' and obterLinha['status'][0] == '1':
+        uptade = 'update "Reposicao".off."linhapadrado" ' \
+             'set operador1 = %s, operador2 = %s , operador3 = %s ' \
+             'where Linha = %s'
+        cursor = conn.cursor()
+        cursor.execute(uptade, (operador1, operador2, operador3, nomeLinha))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        mensagem = 'Atualizado com sucesso !'
 
     else:
-        uptade = 'update "Reposicao".off."linhapadrado" ' \
-             'set operador1 = %s ' \
-             'where Linha = %s'
-        cursor = conn.cursor()
-        cursor.execute(uptade, (nomeLinha, operador1))
-        conn.commit()
-        cursor.close()
-        conn.close()
+        mensagem = 'A Linha informada nao possui cadastro'
+
+    return pd.DataFrame([{'Mensagem':mensagem}])
 
 
