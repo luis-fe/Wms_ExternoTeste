@@ -6355,11 +6355,11 @@
 									}
 								],
 								"body": {
-									"mode": "urlencoded",
-									"urlencoded": []
+									"mode": "raw",
+									"raw": "    {\r\n        \"linha\":\"Linha 34\",\r\n        \"operador1\":\"Luis Fernando\",\r\n        \"operador2\":\"Dionatan\",\r\n        \"operador3\":\"Joao Victor\"\r\n    }"
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/NomesLinha",
+									"raw": "http://192.168.0.183:5000/api/NovaLinha",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -6370,7 +6370,62 @@
 									"port": "5000",
 									"path": [
 										"api",
-										"NomesLinha"
+										"NovaLinha"
+									],
+									"query": [
+										{
+											"key": "linha",
+											"value": "linha1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AtualizarLinha",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"linha\":\"Linha 1\",\r\n        \"operador1\":\"Luis Fernando\",\r\n        \"operador2\":\"Dionatan\",\r\n        \"operador3\":\"Joao Victor\"\r\n    }"
+								},
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/AtualizarLinha",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"AtualizarLinha"
 									],
 									"query": [
 										{
