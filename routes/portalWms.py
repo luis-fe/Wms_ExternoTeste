@@ -118,3 +118,8 @@ def RelatorioInventario_Teste():
 @portal_routes.route('/Tela_Comparativa') # Aqui é o link da pagina incial do Portal da Garantia
 def Tela_Comparativa():
     return render_template('TelaComparativo.html')
+
+@portal_routes.route('/DashboardComercial') # Aqui é o link da pagina incial do Portal da Garantia
+def DashboardComercial():
+    return render_template('DashboardComercial.html')
+
