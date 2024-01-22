@@ -32,7 +32,7 @@ def CadastrarLinha(nomeLinha, operador1, operador2, operador3):
 
     consularLinha = RetornarNomeLinha(nomeLinha)
     print(consularLinha)
-    if consularLinha['status'] == '1':
+    if consularLinha['status'][0] == '1':
         conn = ConexaoPostgreMPL.conexao()
 
 
