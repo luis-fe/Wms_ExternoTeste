@@ -58,11 +58,127 @@
             align-items: center;
         }
 
+        #Atualizar{
+            cursor: pointer;
+            font-size: 25PX;
+
+        }
+
+        .Finalizar{
+            width: 100%;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        #ButtonFinalizar{
+            font-size: 25px;
+            width: 20%;
+            box-sizing: border-box;
+            cursor: pointer;
+            background-color: var(--cor2);
+            color: white;
+        }
+
+        #ButtonFinalizar:hover{
+            background-color: rgb(16, 131, 255);
+        }
+
+
 .Informacoes label {
     display: block;
     margin-bottom: 10px;
     font-size: 18px;
     color: #333;
+}
+
+.ModalDefinirLinha {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+}
+
+.ModalDefinirLinha-content {
+    position: relative;
+    background-color: #fff;
+    margin: 8% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    max-width: 500px;
+    z-index: 3;
+}
+
+.ModalDefinirLinha-content h3 {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--cor2); /* Lembre-se de definir --cor2 no seu CSS global */
+    text-align: center;
+    font-size: 24px; /* Ajustei o tamanho do texto para 24px */
+    font-family: Arial;
+    color: #fff; /* Adicionei uma cor de texto para garantir visibilidade */
+    border: 5px;
+    margin: 0;
+    z-index: 3;
+}
+
+
+button {
+    padding: 10px 20px;
+    background-color: var(--cor2);
+    color: var(--cor4);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.ModalDefinirLinha-content #SelecaoLinha {
+    display: block;
+    margin-top: 60px;
+}
+
+.fechar {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--cor1);
+    z-index: 1000;
 }
 
     </style>
@@ -90,18 +206,55 @@
     </div>
 
     <div class="TituloRotina">
-        <h2>CONFERÊNCIA REPOSIÇÃO</h2>
-    </div>
+            <h2>CONFERÊNCIA REPOSIÇÃO</h2>
+        </div>
 
         <div class="Informacoes">
             <label for="text" id="LabelOp"></label>
             <label for="text" id="PecasLidas"></label>
-            <label for="text" id="PecasOps"></label>
+            <label for="text" id="PecasOps"></label>        
+            <i title="Atualizar Tag's" id="Atualizar" class="bi bi-arrow-clockwise"></i>
         </div>
-   
-        <div class="Tabela" >
+
+        <div class="Tabela">
             <table id="TabelaGrades"></table>
         </div>
+        
+        <div class="Finalizar">
+            <button id="ButtonFinalizar">FINALIZAR OP</button>
+        </div>
+
+        <div id="ModalDefinirLinha" class="ModalDefinirLinha">
+            <div class="ModalDefinirLinha-content">
+                <span id="FecharModalNovoUsuario" class="fechar">&times;</span>
+                <h3>Selecionar Linha</h3>
+                <label for="text" id="SelecaoLinha" class="SelecaoLinha">Selecione A Linha de Atribuição:</label>
+                <select id="SelectLinha">
+                    <option value="">Linha</option>
+                    <option value="ATIVO">Linha 1</option>
+                    <option value="INATIVO">Linha 2</option>
+                    <option value="INATIVO">Linha 3</option>
+                    <option value="INATIVO">Linha 4</option>
+                    <option value="INATIVO">Linha 5</option>
+                    <option value="INATIVO">Linha 6</option>
+                    <option value="INATIVO">Linha 7</option>
+                    <option value="INATIVO">Linha 8</option>
+                    <option value="INATIVO">Linha 9</option>
+                    <option value="INATIVO">Linha 10</option>
+                  </select>
+                  <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <button type="button" id="ButtonConfirmar">Confirmar</button>
+                    <button type="button" id="buttonCancelar">Cancelar</button>
+                </div>
+                <div class="NomesDaLinha" id="NomesDaLinha" style="display: none;">
+                    <Input id="InputOperadores" style="font-size: 25px; font-weight: bold;" readonly></Input>
+                    <button type="button" id="ButtonConfirmarOperadores">Confirmar Operadores?</button>
+                    <button type="button" id="EditarOperadores">Editar Operadores?</button>
+                    <button type="button" id="buttonCancelar2">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
         <script>
             let dadosApi = [];
 
