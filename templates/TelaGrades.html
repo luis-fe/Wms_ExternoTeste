@@ -71,16 +71,19 @@
             justify-content: center;
         }
 
-        #ButtonFinalizar{
-            font-size: 25px;
-            width: 20%;
+        #ButtonFinalizar,
+        #ButtonAtualizarOps{
+            font-size: 15px;
+            font-weight: bold;
+            width: 15%;
             box-sizing: border-box;
             cursor: pointer;
             background-color: var(--cor2);
             color: white;
         }
 
-        #ButtonFinalizar:hover{
+        #ButtonFinalizar:hover,
+        #ButtonAtualizarOps:hover{
             background-color: rgb(16, 131, 255);
         }
 
@@ -186,26 +189,26 @@ select {
 
 <body>
     <div class="CABECALHO">
-    <div class="Corpo">
-        <nav class="Menu">
-            <ul>
-                <li><a href="TelaPrincipal.html">Home</a></li>
-                <li><a href="#">Configurações</a>
-                    <ul>
-                        <li><a href="TelaUsuarios.html">Gerenciamento de Usuários</a></li>
-                        <li><a href="TelaControleFase.html">Gerenciamento de Fase</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Relatórios</a>
-                    <ul>
-                        <li><a href="/TelaLiberacao">Lista Op's</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        <div class="Corpo">
+            <nav class="Menu">
+                <ul>
+                    <li><a href="TelaPrincipal.html">Home</a></li>
+                    <li><a href="#">Configurações</a>
+                        <ul>
+                            <li><a href="CadastroUsuario.html">Gerenciamento de Usuários</a></li>
+                            <li><a href="GerenciamentoDeLinhas.html">Gerenciamento de Linhas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Relatórios</a>
+                        <ul>
+                            <li><a href="TelaLiberacao.html">Lista Op's</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-    <div class="TituloRotina">
+        <div class="TituloRotina">
             <h2>CONFERÊNCIA REPOSIÇÃO</h2>
         </div>
 
@@ -222,6 +225,7 @@ select {
         
         <div class="Finalizar">
             <button id="ButtonFinalizar">FINALIZAR OP</button>
+            <button id="ButtonAtualizarOps">ATUALIZAR TAG'S</button>
         </div>
 
         <div id="ModalDefinirLinha" class="ModalDefinirLinha">
@@ -358,9 +362,9 @@ select {
                 }
             });
 
-            async function ChamadaAtualizar() {
+            async function ChamadaAtualizar(Op) {
             try {
-                const response = await fetch(ApiAtualizar, {
+                const response = await fetch(`${ApiAtualizar}?op=${Op}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -390,6 +394,7 @@ select {
     const ButtonCancelar = document.getElementById('buttonCancelar');
     const ButtonCancelar1 = document.getElementById('buttonCancelar2');
     const NomesDaLinha = document.getElementById('NomesDaLinha');
+    const AtualizarOps = document.getElementById('ButtonAtualizarOps');
     
     
     
@@ -434,7 +439,14 @@ select {
     });
 
     AtualizarPagina.addEventListener('click', () =>{
-        ChamadaAtualizar();
+        const numeroOP = localStorage.getItem('numeroOP');
+                if (numeroOP) {
+                    Api(numeroOP);
+                } else {
+                    console.error('Número da OP não encontrado.');
+                    alert('Selecione uma Op para Prosseguir!');
+                    window.location.href = '/TelaLiberacao';
+                }
 
     });
 
@@ -442,6 +454,12 @@ select {
         InputOperadores.removeAttribute('readonly');
         InputOperadores.focus()
         });
+
+        AtualizarOps.addEventListener('click', () =>{
+            const numeroOP = localStorage.getItem('numeroOP');
+            ChamadaAtualizar(numeroOP)
+
+        })
 
 
            
