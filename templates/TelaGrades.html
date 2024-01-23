@@ -256,6 +256,9 @@ select {
         </div>
 
         <script>
+            const ApiAtualizar = "http://192.168.0.183:5000/api/AtualizacaoFilaOFF";
+            const Token = "a40016aabcx9";
+
             let dadosApi = [];
 
             async function Api(Op) {
@@ -287,7 +290,6 @@ select {
                 }
             }
 
-
             function criarTabela(dados) {
     const tabela = document.getElementById('TabelaGrades');
     tabela.innerHTML = '';
@@ -297,7 +299,7 @@ select {
     linhaCabecalho.insertCell().textContent = 'Cores';
 
     // Defina a ordem desejada para os tamanhos
-    const ordemTamanhos = ['PP', 'P', 'M', 'G', 'GG', 'XG', 'G1', 'G2', 'G3'];
+    const ordemTamanhos = ['2', '4', '6', '8', '10', '12', 'PP', 'P', 'M', 'G', 'GG', 'XG', 'XGG', 'G1', 'G2', 'G3'];
 
     ordemTamanhos.forEach(tamanho => {
         const th = document.createElement('th');
@@ -317,12 +319,21 @@ select {
             if (indice !== -1) {
                 const quantidade = item.quantidade[indice];
                 const [atual, total] = quantidade.split('/').map(Number);
-                if (atual < total) {
+
+                if (atual === 0) {
+                    celulaQuantidade.textContent = quantidade;
+                    celulaQuantidade.style.backgroundColor = 'white';
+                } else if (atual < total) {
                     celulaQuantidade.textContent = quantidade;
                     celulaQuantidade.style.backgroundColor = '#FA8072';
-                } else if (atual === total) {
+                }
+                else if (atual === total) {
                     celulaQuantidade.textContent = quantidade;
                     celulaQuantidade.style.backgroundColor = '#2E8B57';
+                }
+                else if (atual > total) {
+                    celulaQuantidade.textContent = quantidade;
+                    celulaQuantidade.style.backgroundColor = '#FFFF66';
                 } else {
                     celulaQuantidade.textContent = quantidade;
                 }
@@ -334,21 +345,106 @@ select {
 }
 
 
+
+
             window.addEventListener('load', () => {
-    const numeroOP = localStorage.getItem('numeroOP');
+                const numeroOP = localStorage.getItem('numeroOP');
+                if (numeroOP) {
+                    Api(numeroOP);
+                } else {
+                    console.error('Número da OP não encontrado.');
+                    alert('Selecione uma Op para Prosseguir!');
+                    window.location.href = '/TelaLiberacao';
+                }
+            });
 
-    // Verifique se o valor está presente
-    if (numeroOP) {
-        console.log(numeroOP);
-        Api(numeroOP);
-    } else {
-        console.error('Número da OP não encontrado.');
-        alert('Selecione uma Op para Prosseguir!');
-        window.location.href = '/TelaLiberacao'; // Redireciona para a página principal
-    }
-});
+            async function ChamadaAtualizar() {
+            try {
+                const response = await fetch(ApiAtualizar, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': Token
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                } else {
+                    throw new Error('Erro No Retorno');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
 
 
+    const AtualizarPagina = document.getElementById('Atualizar');
+    const ButtonFinalizarOp = document.getElementById('ButtonFinalizar');
+    const ModalDefinirLinha = document.getElementById('ModalDefinirLinha');
+    const FecharModal = document.getElementById('FecharModalNovoUsuario');
+    const InputOperadores = document.getElementById('InputOperadores');
+    const EditarOperadores = document.getElementById('EditarOperadores');
+    const ButtonConfirmar = document.getElementById('ButtonConfirmar');
+    const ButtonCancelar = document.getElementById('buttonCancelar');
+    const ButtonCancelar1 = document.getElementById('buttonCancelar2');
+    const NomesDaLinha = document.getElementById('NomesDaLinha');
+    
+    
+    
+    
+
+    ButtonConfirmar.addEventListener('click', () =>{
+        NomesDaLinha.style.display = 'block';
+        ButtonConfirmar.style.display = 'none';
+        ButtonCancelar.style.display = 'none';
+        
+        
+    });
+
+    ButtonCancelar.addEventListener('click', () =>{
+        NomesDaLinha.style.display = 'none';
+        ModalDefinirLinha.style.display = 'none';
+        InputOperadores.value = "";
+
+    });
+
+    ButtonCancelar1.addEventListener('click', () =>{
+        NomesDaLinha.style.display = 'none';
+        ModalDefinirLinha.style.display = 'none';
+        InputOperadores.value = "";
+
+    });
+    
+
+    FecharModal.addEventListener('click', () =>{
+        NomesDaLinha.style.display = 'none';
+        ModalDefinirLinha.style.display = 'none';
+        InputOperadores.value = "";
+
+    });
+
+    ButtonFinalizarOp.addEventListener('click', () =>{
+        ModalDefinirLinha.style.display = 'block';
+        ButtonConfirmar.style.display = 'flex';
+        ButtonCancelar.style.display = 'flex';
+        InputOperadores.value = "Dionatan/ Maria/ Francielle";
+        
+    });
+
+    AtualizarPagina.addEventListener('click', () =>{
+        ChamadaAtualizar();
+
+    });
+
+    EditarOperadores.addEventListener('click', () =>{
+        InputOperadores.removeAttribute('readonly');
+        InputOperadores.focus()
+        });
+
+
+           
         </script>
     </div>
 </body>
