@@ -353,7 +353,6 @@ def PesquisarTag(codbarrastag, caixa):
             return 2
         else:
          return consulta['caixa'][0]
-
 def EstornarTag(codbarrastag):
     conn = ConexaoPostgreMPL.conexao()
     delete = 'delete from "off".reposicao_qualidade ' \
