@@ -367,12 +367,12 @@ def EstornarTag(codbarrastag):
 
 def ExcluirCaixa(Ncaixa):
     delete = 'uptade  from "off".reposicao_qualidade' \
-             'set situacao = "Reposto" ' \
+             'set situacao = %s ' \
              'where caixa  = %s '
 
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute(delete,(Ncaixa,))
+    cursor.execute(delete,('Reposto',Ncaixa,))
     conn.commit()
     cursor.close()
     conn.close()
