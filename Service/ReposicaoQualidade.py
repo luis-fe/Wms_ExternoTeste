@@ -106,17 +106,31 @@ def EncontrarEPC(caixa,endereco,empresa):
         result['mensagem'] = result.apply(lambda row: 'OP em estoque' if row['epc']!='-' else 'OP nao entrou em estoque',axis=1)
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
         inserir = result[result['mensagem']=='OP em estoque']
-        inserir = IncrementarCaixa(endereco,inserir)
+
 
         QtdtotalCaixa = result['codbarrastag'].count()
         Qtde_noEstoque = inserir['codbarrastag'].count()
 
 
         if QtdtotalCaixa == Qtde_noEstoque:
-            ExcluirCaixa(caixa, endereco)
+
+            IncrementarCaixa(endereco, inserir)
+            ExcluirCaixa(caixa, endereco,'reposto')
             return pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
         else:
+
+
+            IncrementarCaixa(endereco, inserir)
+            ExcluirCaixa(caixa, endereco,'reposto')
             NaoEntrou = result[result['mensagem'] == 'OP nao entrou em estoque']
+
+            if not NaoEntrou.empty:
+                for i in range(NaoEntrou['codbarrastag'].size):
+                    codigoBarr = NaoEntrou['codbarrastag'][i]
+                    AtualizaSituacaoTagReposicao('nao entrou no estoque',codigoBarr)
+            else:
+                print('o')
+
 
             NaoEntrou = NaoEntrou[['codbarrastag', 'numeroop']]
 
@@ -365,14 +379,14 @@ def EstornarTag(codbarrastag):
 
     return pd.DataFrame([{'status':True,'Mensagem':'tag estornada! '}])
 
-def ExcluirCaixa(Ncaixa ,endereco = '-'):
+def ExcluirCaixa(Ncaixa ,endereco = '-', situacaoCaixa = '-'):
     delete = 'update "off".reposicao_qualidade ' \
              'set situacao = %s, "Endereco" = %s ' \
              'where caixa  = %s '
 
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute(delete,('Reposto',endereco,Ncaixa,))
+    cursor.execute(delete,(situacaoCaixa,endereco,Ncaixa,))
     conn.commit()
     cursor.close()
     conn.close()
@@ -674,7 +688,15 @@ def ValidarExisteSkuDiferente(endereco):
         return False
 
 
-
+def AtualizaSituacaoTagReposicao(codbarras, situacao):
+    conn =ConexaoPostgreMPL.conexao()
+    update = 'update "Reposicao".off.reposicao_qualidade '\
+             'situacao = %s'\
+             'where codbarrastag = %s '
+    cursor = conn.cursor()
+    cursor.execute(update,(situacao,codbarras,))
+    conn.commit()
+    conn.close()
 
 
 
