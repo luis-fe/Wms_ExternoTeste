@@ -380,7 +380,6 @@ def ExcluirCaixa(Ncaixa):
 
     return pd.DataFrame([{'status':True,'Mensagem':'Caixa Excluida com sucesso! '}])
 
-
 def PesquisaOPSKU_tag(codbarras):
     conn = ConexaoCSW.Conexao()
     codbarras = "'" + codbarras + "'"
