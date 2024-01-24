@@ -366,7 +366,7 @@ def EstornarTag(codbarrastag):
     return pd.DataFrame([{'status':True,'Mensagem':'tag estornada! '}])
 
 def ExcluirCaixa(Ncaixa):
-    delete = 'uptade * from "off".reposicao_qualidade' \
+    delete = 'uptade  from "off".reposicao_qualidade' \
              'set situacao = "Reposto" ' \
              'where caixa  = %s '
 
