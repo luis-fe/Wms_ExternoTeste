@@ -107,7 +107,7 @@ def EncontrarEPC(caixa,endereco,empresa):
         #Filtrar somente as OPs que entraram no estoque, verificar se a prateleira ta livre, inserir na tagsreposicao e excluir da reposicaoqualidade
         inserir = result[result['mensagem']=='OP em estoque']
         inserir = IncrementarCaixa(endereco,inserir)
-        ExcluirCaixa(caixa)
+        ExcluirCaixa(caixa, endereco)
 
         QtdtotalCaixa = result['codbarrastag'].count()
         Qtde_noEstoque = inserir['codbarrastag'].count()
@@ -365,14 +365,14 @@ def EstornarTag(codbarrastag):
 
     return pd.DataFrame([{'status':True,'Mensagem':'tag estornada! '}])
 
-def ExcluirCaixa(Ncaixa):
+def ExcluirCaixa(Ncaixa ,endereco = '-'):
     delete = 'update "off".reposicao_qualidade ' \
-             'set situacao = %s ' \
+             'set situacao = %s, "Endereco" = %s ' \
              'where caixa  = %s '
 
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute(delete,('Reposto',Ncaixa,))
+    cursor.execute(delete,('Reposto',endereco,Ncaixa,))
     conn.commit()
     cursor.close()
     conn.close()
