@@ -19,7 +19,6 @@ def AtualizaFilaGarantia():
         ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = ' + emp + ' and '
                                                                      ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = ' + emp + ' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433 ) and situacao = 3) ',
         conn)
-
     conn.close()
 
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'replace')
