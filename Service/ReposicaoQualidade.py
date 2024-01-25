@@ -49,6 +49,7 @@ def ApontarTag(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):
 
 
 def InculirDados(dataframe):
+
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
@@ -57,7 +58,7 @@ def InculirDados(dataframe):
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'],row['descricao']
                    ,row['natureza'],row['codempresa'],row['cor'],row['tamanho'],row['numeroop'], row['caixa'],row['usuario'], row['DataReposicao'] ) for index, row in dataframe.iterrows()]
-
+        print(dataframe)
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
         cursor.close()  # Feche o cursor
