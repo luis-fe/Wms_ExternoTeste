@@ -111,17 +111,14 @@ def EncontrarEPC(caixa,endereco,empresa):
         QtdtotalCaixa = result['codbarrastag'].count()
         Qtde_noEstoque = inserir['codbarrastag'].count()
 
-
+        IncrementarCaixa(endereco, inserir)
+        ExcluirCaixa(caixa, endereco, 'reposto')
         if QtdtotalCaixa == Qtde_noEstoque:
 
-            IncrementarCaixa(endereco, inserir)
-            ExcluirCaixa(caixa, endereco,'reposto')
             return pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
         else:
 
 
-            IncrementarCaixa(endereco, inserir)
-            ExcluirCaixa(caixa, endereco,'reposto')
             NaoEntrou = result[result['mensagem'] == 'OP nao entrou em estoque']
 
             if not NaoEntrou.empty:
