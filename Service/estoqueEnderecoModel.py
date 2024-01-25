@@ -5,7 +5,7 @@ import pandas as pd
 def Estoque_endereco(endereco,empresa, natureza):
     conn = ConexaoPostgreMPL.conexao()
     consultaSql = 'select count(codbarrastag) as "Saldo" from "Reposicao"."tagsreposicao" e ' \
-                  'where "Endereco" = %s and natureza = %s' \
+                  'where "Endereco" = %s and natureza = %s ' \
                   'group by "Endereco"'
     cursor = conn.cursor()
     cursor.execute(consultaSql, (endereco,natureza,))
@@ -21,11 +21,8 @@ def SituacaoEndereco(endereco, empresa, natureza):
     select = 'select * from "Reposicao"."cadendereco" ce ' \
              'where codendereco = %s ' \
              'and natureza = %s ' #ocultado ata o Sergio arrumar no front essa opcao !! na reposicao
-    cursor = conn.cursor()
-    cursor.execute(select, (endereco,natureza, ))
-    resultado = cursor.fetchall()
-    cursor.close()
-    if not resultado:
+    resultado = pd.read_sql(select, conn, params=(endereco,natureza,))
+    if  resultado.empty:
         conn.close()
         print(f'3 endereco {endereco} selecionado')
         return pd.DataFrame({'Status Endereco': [False], 'Mensagem': [f'endereco {endereco} nao existe na natureza {natureza}!']})
