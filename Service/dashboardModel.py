@@ -25,31 +25,34 @@ def relatorioTotalFila(empresa, natureza):
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
     query['saldo'] = query['saldo'].sum()
-    query2['contagem'] = query2['qtdesugerida'].sum()
-    query3['contagem'] = query3['qtdesugerida'].sum()
-    if not Inventario.empty:
-        Inventario['codreduzido'] = Inventario['codreduzido'].count()
-        pc_Inv = Inventario["codreduzido"][0]
-    else:
-        pc_Inv = 0
-    Reposto['codreduzido'] = Reposto['codreduzido'].count()
-    if  query3.empty:
-        total = 0
-        Percentual = 0
-        Nao_reposto = 0
-        RepostoOK = 0
+    #query2['contagem'] = query2['qtdesugerida'].sum()
+    query2['contagem'] = VerificandoVazio(query2,'qtdesugerida').sum()
+    #query3['contagem'] = query3['qtdesugerida'].sum()
+    query2['contagem'] = VerificandoVazio(query3, 'qtdesugerida').sum()
+    #Inventario['codreduzido'] = Inventario['codreduzido'].count()
+    Inventario['codreduzido'] = VerificandoVazio(Inventario,'codreduzido').count()
 
-    else:
-        total =  query3['contagem'][0] +  query2['contagem'][0]
-        Percentual = query3['contagem'][0] / total
-        Nao_reposto = query2["contagem"][0]
-        Nao_reposto = "{:,.0f}".format(Nao_reposto)
-        Nao_reposto = str(Nao_reposto)
-        Nao_reposto = Nao_reposto.replace(',', '.')
-        RepostoOK = query3["contagem"][0]
-        RepostoOK = "{:,.0f}".format(RepostoOK)
-        RepostoOK = str(RepostoOK)
-        RepostoOK = RepostoOK.replace(',', '.')
+    pc_Inv = Inventario["codreduzido"][0]
+
+    Reposto['codreduzido'] = Reposto['codreduzido'].count()
+    Reposto['codreduzido'] = VerificandoVazio(Reposto,'codreduzido').count()
+
+
+
+
+
+    total =  query3['contagem'][0] +  query2['contagem'][0]
+    Percentual = query3['contagem'][0] / total
+    Nao_reposto = query2["contagem"][0]
+    Nao_reposto = "{:,.0f}".format(Nao_reposto)
+    Nao_reposto = str(Nao_reposto)
+    Nao_reposto = Nao_reposto.replace(',', '.')
+    RepostoOK = query3["contagem"][0]
+    RepostoOK = "{:,.0f}".format(RepostoOK)
+    RepostoOK = str(RepostoOK)
+    RepostoOK = RepostoOK.replace(',', '.')
+
+
 
     Percentual = round(Percentual, 2) * 100
     totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+pc_Inv
@@ -122,3 +125,10 @@ def Pedidos_fecha100():
         '2.1 lista de Pedidos': query.to_dict(orient='records')
     }
     return [data]
+
+def VerificandoVazio(datafame, coluna):
+    if datafame.empty:
+        datafame = pd.DataFrame([{coluna: 0}])
+        return datafame
+    else:
+        return datafame[coluna]
