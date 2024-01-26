@@ -32,11 +32,13 @@ async function ChamadaApi(api, callback) {
         });
 
         if (response.ok) {
-            const data = await response.json();
+             const data = await response.json();
             MetaApi = data[0]["2.1- Total de Skus nos Pedidos em aberto "];
             MetaApi = MetaApi.replace(/\./, '');
             MetaApi = MetaApi.replace(/\ pçs/, '');
             RealizadoApi = data[0]["2.3-Qtd de Enderecos OK Reposto nos Pedido"];
+            RealizadoApi = RealizadoApi.replace(/\./, '');
+            RealizadoApi = RealizadoApi.replace(/\ pçs/, '');
             PecasFase = data[0]["1.1-Total de Peças Nat. 5"];
             PecasFase = PecasFase.replace(/\./, '');
             PecasFase = PecasFase.replace(/\ pçs/, '');
@@ -47,9 +49,11 @@ async function ChamadaApi(api, callback) {
             PecasFila = PecasFila.replace(/\./, '');
             PecasFila = PecasFila.replace(/\ pçs/, '');
             PecasRetorna.textContent = parseInt(MetaApi).toLocaleString('pt-BR');
-            PecasRepostas.textContent = parseFloat(RealizadoApi)
+            PecasRepostas.textContent = parseInt(RealizadoApi).toLocaleString('pt-BR');
             PecasFase1.textContent = parseInt(PecasFase).toLocaleString('pt-BR');
             PecasRepostas1.textContent = parseInt(PecasRepostasApi).toLocaleString('pt-BR');
+            DiferencaReposicao.textContent = (parseInt(PecasFase)-parseInt(PecasRepostasApi)).toLocaleString('pt-BR');
+            DiferencaPecasPedidos.textContent = (parseInt(MetaApi)-parseInt(RealizadoApi)).toLocaleString('pt-BR');
             console.log(MetaApi)
             console.log(RealizadoApi)
 
