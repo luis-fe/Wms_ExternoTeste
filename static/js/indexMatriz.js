@@ -61,7 +61,7 @@ async function ChamadaApi(api, callback) {
             PecasFase = data[0]["1.1-Total de Peças Nat. 5"];
             PecasFase = PecasFase.replace(/\./, '');
             PecasFase = PecasFase.replace(/\ pçs/, '');
-            PecasRepostasApi = data[0]["1.3-Peçs Repostas"];
+            PecasRepostasApi = data[0]["2.3-Qtd de Enderecos OK Reposto nos Pedido"];
             PecasRepostasApi = PecasRepostasApi.replace(/\./, '');
             PecasRepostasApi = PecasRepostasApi.replace(/\ pçs/, '');
             PecasFila = data[0]["1.2-Saldo na Fila"];
