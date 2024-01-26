@@ -47,7 +47,7 @@ async function ChamadaApi(api, callback) {
             PecasFila = PecasFila.replace(/\./, '');
             PecasFila = PecasFila.replace(/\ pçs/, '');
             PecasRetorna.textContent = parseInt(MetaApi).toLocaleString('pt-BR');
-            PecasRepostas.textContent = parseInt(RealizadoApi).toLocaleString('pt-BR');
+            PecasRepostas.textContent = parseFloat(RealizadoApi)
             PecasFase1.textContent = parseInt(PecasFase).toLocaleString('pt-BR');
             PecasRepostas1.textContent = parseInt(PecasRepostasApi).toLocaleString('pt-BR');
             console.log(MetaApi)
