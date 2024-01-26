@@ -28,7 +28,7 @@ def relatorioTotalFila(empresa, natureza):
     #query2['contagem'] = query2['qtdesugerida'].sum()
     query2['contagem'] = VerificandoVazio(query2,'qtdesugerida').sum()
     #query3['contagem'] = query3['qtdesugerida'].sum()
-    query2['contagem'] = VerificandoVazio(query3, 'qtdesugerida').sum()
+    query3['contagem'] = VerificandoVazio(query3, 'qtdesugerida').sum()
     #Inventario['codreduzido'] = Inventario['codreduzido'].count()
     Inventario['codreduzido'] = VerificandoVazio(Inventario,'codreduzido').count()
 
