@@ -52,8 +52,6 @@ async function ChamadaApi(api, callback) {
             PecasRepostas.textContent = parseInt(RealizadoApi).toLocaleString('pt-BR');
             PecasFase1.textContent = parseInt(PecasFase).toLocaleString('pt-BR');
             PecasRepostas1.textContent = parseInt(PecasRepostasApi).toLocaleString('pt-BR');
-            DiferencaReposicao.textContent = (parseInt(PecasFase)-parseInt(PecasRepostasApi)).toLocaleString('pt-BR');
-            DiferencaPecasPedidos.textContent = (parseInt(MetaApi)-parseInt(RealizadoApi)).toLocaleString('pt-BR');
             console.log(MetaApi)
             console.log(RealizadoApi)
 
