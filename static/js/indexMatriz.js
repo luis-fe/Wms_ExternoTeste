@@ -35,10 +35,7 @@ const EnderecosTotal = document.getElementById("EnderecosCadastrados");
 const EnderecosUtilizado = document.getElementById("EnderecosUtilizados");
 const PedidoRetorna = document.getElementById("PedidosRetorna");
 const PedidoCompleto = document.getElementById("TotalPedidosCompletos");
-const DiferencaReposicao = document.getElementById("DiferencaReposicao");
-const DiferencaPecasPedidos = document.getElementById("DiferencaPecasPedidos");
-const DiferencaPedidosCompletos = document.getElementById("DiferencaPedidosCompletos");
-const DiferencaEnderecos = document.getElementById("DiferencaEnderecos");
+
 
 
 
