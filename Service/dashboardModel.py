@@ -84,7 +84,7 @@ def relatorioTotalFila(empresa, natureza):
         '2.0':' Informacoes dos pedidos',
         '2.1- Total de Skus nos Pedidos em aberto ': f'{total2} pçs',
         '2.2-Qtd de Enderecos Nao Reposto em Pedido': f'{Nao_reposto}',
-        '2.3-Qtd de Enderecos OK Reposto nos Pedido': f'{RepostoOK}',
+        '2.3-Qtd de Enderecos OK Reposto nos Pedido': f'{RepostoOK} pçs',
         '2.4- Percentual Reposto':f'{Percentual}%'
     }
     return [data]
