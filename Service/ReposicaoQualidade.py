@@ -719,4 +719,5 @@ def LimpandoDuplicidadeFilaOFF():
 
         cursor.execute(delete_query, (caixa_pattern,))
         conn.commit()
+        conn.close()
 
