@@ -711,6 +711,6 @@ def LimpandoDuplicidadeFilaOFF():
         'select distinct substring(t.proveniencia,16)  from "Reposicao"."Reposicao".tagsreposicao t '\
         "where t.proveniencia like 'Veio da Caixa%')"
     cursor = conn.cursor()
-    cursor.execute(delete,())
+    cursor.execute(delete,)
     conn.commit()
     conn.close()
