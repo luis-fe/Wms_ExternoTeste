@@ -5528,7 +5528,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\"endereco\":\"01-01-01\",\r\n\"Ncaixa\":\"008888\",\r\n\"usuario\":\"1\"\r\n}"
+									"raw": "{\r\n\"endereco\":\"12-02-04\",\r\n\"Ncaixa\":\"006500\",\r\n\"usuario\":\"1\"\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/RecarrearEndereco",
@@ -5596,7 +5596,7 @@
 									"raw": "{\r\n\r\n\"NCaixa\":\"00005\"\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/LimparCaixa?caixa=0001",
+									"raw": "http://192.168.0.183:5000/api/LimparCaixa?caixa=005320",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -5612,7 +5612,7 @@
 									"query": [
 										{
 											"key": "caixa",
-											"value": "0001"
+											"value": "005320"
 										},
 										{
 											"key": "natureza",
