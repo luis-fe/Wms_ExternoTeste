@@ -108,6 +108,23 @@ def PesquisarCodbarrastag():
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
 
+@reposicao_qualidadeRoute.route('/api/LimparCaixa', methods=['DELETE'])
+@token_required
+def LimparCaixa():
+    caixa = request.args.get('caixa','5')
+
+    FilaReposicaoOP = ReposicaoQualidade.LimparCaixa(caixa)
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
+
 @reposicao_qualidadeRoute.route('/api/PesquisaOPSKU_tag', methods=['GET'])
 @token_required
 def PesquisaOPSKU_tag():

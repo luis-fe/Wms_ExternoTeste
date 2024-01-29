@@ -696,5 +696,12 @@ def AtualizaSituacaoTagReposicao(codbarras, situacao):
     conn.commit()
     conn.close()
 
-
+def LimparCaixa(caixa):
+    conn =ConexaoPostgreMPL.conexao()
+    delete = 'delete from "Reposicao".off.reposicao_qualidade where caixa = %s '
+    cursor = conn.cursor()
+    cursor.execute(delete,(caixa,))
+    conn.commit()
+    conn.close()
+    return pd.DataFrame([{'Mensagem':f'Caixa {caixa} limpada !'}])
 
