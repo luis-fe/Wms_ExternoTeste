@@ -123,3 +123,7 @@ def Tela_Comparativa():
 def DashboardComercial():
     return render_template('DashboardComercial.html')
 
+@portal_routes.route('/TelaCaixas') # Aqui é o link da pagina incial do Portal da Garantia
+def TelaCaixas():
+    return render_template('TelaCaixas.html')
+
