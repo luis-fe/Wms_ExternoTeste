@@ -157,12 +157,16 @@
 
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+                console.log(data);
+                alert(`Tag's da Caixa ${NumeroCaixa.value} apagados com Sucesso!`);
+                NumeroCaixa.value = ""
             } else {
                 throw new Error('Erro No Retorno');
+                alert(`Não foi possível apagar os dados`);
             }
         } catch (error) {
             console.error(error);
+            alert(`Não foi possível apagar os dados`);
         }
     }
 
