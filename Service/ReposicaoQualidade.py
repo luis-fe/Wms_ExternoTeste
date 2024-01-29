@@ -706,11 +706,17 @@ def LimparCaixa(caixa):
     return pd.DataFrame([{'Mensagem':f'Caixa {caixa} limpada !'}])
 
 def LimpandoDuplicidadeFilaOFF():
-    conn =ConexaoPostgreMPL.conexao()
-    delete = 'delete from "Reposicao"."off".reposicao_qualidade rq where rq.caixa in ('\
-        'select distinct substring(t.proveniencia,16)  from "Reposicao"."Reposicao".tagsreposicao t '\
-        "where t.proveniencia like 'Veio da Caixa%')"
-    cursor = conn.cursor()
-    cursor.execute(delete,)
-    conn.commit()
-    conn.close()
+        conn = ConexaoPostgreMPL.conexao()
+        cursor = conn.cursor()
+
+        # Usando placeholders para evitar injeção de SQL
+        delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq WHERE rq.caixa IN ('\
+            'SELECT DISTINCT SUBSTRING(t.proveniencia, 16) FROM "Reposicao"."Reposicao".tagsreposicao t '\
+            'WHERE t.proveniencia LIKE %s)'
+
+        # Parâmetros para o placeholder %s
+        caixa_pattern = 'Veio da Caixa%'
+
+        cursor.execute(delete_query, (caixa_pattern,))
+        conn.commit()
+
