@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="static/css/Cabecalho.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --cor1: rgb(255, 255, 255);
+            --cor2: rgb(17, 45, 126);
+            --cor3: rgb(93, 140, 233);
+            --cor4: #fff;
+        }
+
+
+        .Corpo {
+            background-color: var(--cor2);
+        }
+
+
+
+        .TituloPrograma {
+            margin-top: 15px;
+            font-size: 25px;
+            background-color: var(--cor2);
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            color: var(--cor4);
+        }
+
+        .TituloPrograma label {
+            color: var(--cor4);
+            font-weight: bold;
+        }
+
+
+        .SelecaoEnderecos {
+            background-color: var(--cor2);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+            margin-top: 100px;
+        }
+
+        .SelecaoEnderecos label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--cor4);
+        }
+
+        .SelecaoEnderecos input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .SelecaoEnderecos button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .SelecaoEnderecos button:hover {
+            background-color: #0056b3;
+        }
+
+
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .SelecaoEnderecos {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .Menu ul li {
+                display: block;
+                padding: 10px 0;
+                text-align: center;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="CABECALHO">
+        <div class="Corpo">
+            <nav class="Menu">
+                <ul>
+                    <li><a href="TelaPrincipal.html">Home</a></li>
+                    <li><a href="#">Configurações</a>
+                        <ul>
+                            <li><a href="CadastroUsuario.html">Gerenciamento de Usuários</a></li>
+                            <li><a href="GerenciamentoDeLinhas.html">Gerenciamento de Linhas</a></li>
+                            <li><a href="TelaCaixas.html">Gerenciamento de Linhas</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Relatórios</a>
+                        <ul>
+                            <li><a href="TelaLiberacao.html">Lista Op's</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="TituloPrograma">
+            <h2>Gerenciamento de Caixa</h2>
+        </div>
+
+
+        <div class="SelecaoEnderecos">
+            <label for="text" id="LabelQuantidade">Nº da Caixa</label>
+            <input type="text" id="InputNumero">
+            <button id="BotaoLimpar">Limpar</button>
+        </div>
+
+
+</body>
+
+<script>
+    const NumeroCaixa = document.getElementById('InputNumero');
+    const ApiApagar = 'http://192.168.0.183:5000/api/LimparCaixa';
+    const Token = 'a40016aabcx9';
+    const BotaoLimpar = document.getElementById('BotaoLimpar');
+
+    BotaoLimpar.addEventListener('click', async () => {
+        DeletarCaixa(ApiApagar, NumeroCaixa.value)
+    })
+
+    async function DeletarCaixa(Api, Caixa) {
+
+        try {
+            const response = await fetch(`${Api}?caixa=${Caixa}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': Token
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data)
+            } else {
+                throw new Error('Erro No Retorno');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+</script>
+
+</html>
