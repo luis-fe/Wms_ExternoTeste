@@ -5596,7 +5596,7 @@
 									"raw": "{\r\n\r\n\"NCaixa\":\"00005\"\r\n\r\n}"
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/ExcluirCaixa",
+									"raw": "http://192.168.0.183:5000/api/LimparCaixa?caixa=0001",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -5607,13 +5607,12 @@
 									"port": "5000",
 									"path": [
 										"api",
-										"ExcluirCaixa"
+										"LimparCaixa"
 									],
 									"query": [
 										{
-											"key": "empresa",
-											"value": "1",
-											"disabled": true
+											"key": "caixa",
+											"value": "0001"
 										},
 										{
 											"key": "natureza",

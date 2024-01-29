@@ -705,3 +705,12 @@ def LimparCaixa(caixa):
     conn.close()
     return pd.DataFrame([{'Mensagem':f'Caixa {caixa} limpada !'}])
 
+def LimpandoDuplicidadeFilaOFF():
+    conn =ConexaoPostgreMPL.conexao()
+    delete = 'delete from "Reposicao"."off".reposicao_qualidade rq where rq.caixa in ('\
+        'select distinct substring(t.proveniencia,16)  from "Reposicao"."Reposicao".tagsreposicao t '\
+        "where t.proveniencia like 'Veio da Caixa%')"
+    cursor = conn.cursor()
+    cursor.execute(delete,())
+    conn.commit()
+    conn.close()

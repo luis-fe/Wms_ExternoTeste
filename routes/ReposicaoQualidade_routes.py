@@ -69,6 +69,7 @@ def RecarrearEndereco():
         if ExisteSku == True:
 
             FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
+            ReposicaoQualidade.LimpandoDuplicidadeFilaOFF()
 
             # Obtém os nomes das colunas
             column_names = FilaReposicaoOP.columns
