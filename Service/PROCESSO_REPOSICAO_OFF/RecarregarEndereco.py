@@ -38,7 +38,7 @@ def ValidarSituacaoOPCSW(numeroOP):
     if consulta['situacao'][0] == '2':
         return pd.DataFrame([{'status': True}])
     else:
-        return pd.DataFrame([{'status': False, 'Mesagem':f'A OP {numeroOP} nao está baixada'}])
+        return pd.DataFrame([{'status': False, 'Mesagem':f'ERRRO ! A OP {numeroOP} nÃo está baixada'}])
 
 
 
