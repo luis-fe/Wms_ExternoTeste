@@ -334,9 +334,9 @@ def IncrementarCaixa(endereco, dataframe):
             return dataframe
 
 
-def PesquisarTagCsw(codbarras, empresa):
+def PesquisarTagCsw(codbarras2, empresa):
     conn = ConexaoCSW.Conexao()
-    codbarras = "'" + codbarras + "'"
+    codbarras = "'" + codbarras2 + "'"
 
     pesquisa = pd.read_sql(
         'select p.codBarrasTag as codbarrastag , p.codReduzido as codreduzido, p.codEngenharia as engenharia, '
@@ -349,7 +349,7 @@ def PesquisarTagCsw(codbarras, empresa):
 
     conn2 = ConexaoPostgreMPL.conexao()
 
-    pesquisa2  = pd.read_sql('SELECT caixa, codbarrastag FROM "Reposicao"."off"."reposicao_qualidade" where codbarrastag = %s ',conn2,params=(codbarras,))
+    pesquisa2  = pd.read_sql('SELECT caixa, codbarrastag FROM "Reposicao"."off"."reposicao_qualidade" where codbarrastag = %s ',conn2,params=(codbarras2,))
     conn2.close()
 
     if pesquisa2.empty:
