@@ -1,9 +1,11 @@
 import Service.configuracoes.empresaConfigurada
 from Service import ReposicaoQualidade
+from Service.PROCESSO_REPOSICAO_OFF import RecarregarEndereco
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
 import subprocess
+
 reposicao_qualidadeRoute = Blueprint('reposicao_qualidadeRoute', __name__)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
@@ -90,6 +92,54 @@ def RecarrearEndereco():
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})
+
+
+@reposicao_qualidadeRoute.route('/api/RecarrearEnderecoTeste', methods=['POST'])
+@token_required
+def RecarrearEnderecoTeste():
+    try:
+        # Obtenha os dados do corpo da requisição
+        dados = request.get_json()
+
+        # Extraia os valores dos campos do novo usuário
+        Ncaixa = dados['Ncaixa']
+        endereco = dados['endereco']
+
+        # Avalia se no endereco a repor esta vazio:
+        StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
+
+        if StatusEndereco['status'][0] == False:
+            Retorno = StatusEndereco
+            # Obtém os nomes das colunas
+            column_names = Retorno.columns
+            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+            enderecos_data = []
+            for index, row in Retorno.iterrows():
+                enderecos_dict = {}
+                for column_name in column_names:
+                    enderecos_dict[column_name] = row[column_name]
+                enderecos_data.append(enderecos_dict)
+            return jsonify(enderecos_data)
+        else:
+
+            Retorno = StatusEndereco
+            # Obtém os nomes das colunas
+            column_names = Retorno.columns
+            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+            enderecos_data = []
+            for index, row in Retorno.iterrows():
+                enderecos_dict = {}
+                for column_name in column_names:
+                    enderecos_dict[column_name] = row[column_name]
+                enderecos_data.append(enderecos_dict)
+            return jsonify(enderecos_data)
+
+
+    except Exception as e:
+        print(f"Erro detectado: {str(e)}")
+        restart_server()
+        return jsonify(
+            {"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])
 @token_required

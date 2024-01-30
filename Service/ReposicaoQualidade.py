@@ -66,6 +66,8 @@ def InculirDados(dataframe):
 
 
         conn.close()
+
+
 def EncontrarEPC(caixa,endereco,empresa):
     emp = empresaConfigurada.EmpresaEscolhida()
     # Passo1: Pesquisar em outra funcao um dataframe que retorna a coluna numeroop
