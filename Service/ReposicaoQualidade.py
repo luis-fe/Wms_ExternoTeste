@@ -708,6 +708,9 @@ def AtualizaSituacaoTagReposicao(codbarras, situacao):
     conn.commit()
     conn.close()
 
+
+#ESSA FUNCAO É UTILIZADA PARA LIMPAR UMA DETERMINADA CAIXA ESPECIFICA , QUE INICIOU A BIPAGEM NA R
+# *****REPOSICAO OFF *** RECOMECANDO O PROCESSO DE BIPAGEM NOVAMENTE
 def LimparCaixa(caixa):
     conn =ConexaoPostgreMPL.conexao()
     delete = 'delete from "Reposicao".off.reposicao_qualidade where caixa = %s '
@@ -719,7 +722,8 @@ def LimparCaixa(caixa):
 
 
 
-#ESSA FUNCAO É UTILIZADA PARA REALIZAR LIMPREZA NA ****FILA DE REPOSICAO OF ***, somente nas caixas que foram repostas com sucesso
+#ESSA FUNCAO É UTILIZADA PARA REALIZAR LIMPREZA NA ****FILA DE REPOSICAO OF ***,
+# somente nas caixas que foram repostas com sucesso
 def LimpandoDuplicidadeFilaOFF():
         conn = ConexaoPostgreMPL.conexao()
         cursor = conn.cursor()
