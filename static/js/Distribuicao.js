@@ -314,7 +314,7 @@ async function CarregarDados(api) {
                 PassarInformacoes(ApiIndicadorDistribuicaoMatriz);
             } else if (Empresa === "4") {
                 CarregarUsuarios(ApiUsuariosFilial);
-                PassarInformacoes(ApiIndicadorDistribuicaoMatriz);
+                PassarInformacoes(ApiIndicadorDistribuicaoFilial);
             }
             
             
