@@ -111,20 +111,7 @@ def RecarrearEnderecoTeste():
         # Etapa 2 :Avalia se no endereco a repor esta vazio:
         StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
 
-        if StatusEndereco['status'][0] == False and reduzido == StatusEndereco['codreduzido'][0]:
-            Retorno = StatusEndereco
-            # Obtém os nomes das colunas
-            column_names = Retorno.columns
-            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-            enderecos_data = []
-            for index, row in Retorno.iterrows():
-                enderecos_dict = {}
-                for column_name in column_names:
-                    enderecos_dict[column_name] = row[column_name]
-                enderecos_data.append(enderecos_dict)
-            return jsonify(enderecos_data)
-
-        elif StatusEndereco['status'][0] == False:
+        if StatusEndereco['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
             Retorno = StatusEndereco
             # Obtém os nomes das colunas
             column_names = Retorno.columns
