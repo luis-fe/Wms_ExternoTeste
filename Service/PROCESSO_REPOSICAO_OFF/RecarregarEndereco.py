@@ -52,7 +52,7 @@ def InfoCaixa(caixa):
     conn1.close() # Fechado a Conexao com o Postgre WMS
 
     if consulta.empty:
-        return pd.DataFrame([{'caixa':'vazia'}])
+        return pd.DataFrame([{'caixa':'vazia','codreduzido':'-'}])
 
     else:
 

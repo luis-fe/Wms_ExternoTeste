@@ -107,7 +107,7 @@ def RecarrearEnderecoTeste():
         InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
 
 
-        codreduzido = InfoCaixa['codreduzido'][0]
+        reduzido = InfoCaixa['codreduzido'][0]
         # Etapa 2 :Avalia se no endereco a repor esta vazio:
         StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
 
