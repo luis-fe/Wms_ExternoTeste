@@ -25,7 +25,7 @@ def EnderecoOculpado(endereco_Repor):
         return pd.DataFrame([{'Mensagem':f'Endereco está cheio, com o sequinte sku {consulta["codreduzido"][0]}', 'status':False ,
                               'codreduzido':f'{consulta["codreduzido"][0]}'}])
     else:
-        return pd.DataFrame([{'status':'OK! Pronto para usar'}])
+        return pd.DataFrame([{'status':'OK! Pronto para usar','codreduzido':'-'}])
 
 ## Regra 2 - Validar se a OP foi encerrada no CSW
 
