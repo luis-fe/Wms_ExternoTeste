@@ -97,7 +97,7 @@ def RecarrearEndereco():
 @reposicao_qualidadeRoute.route('/api/RecarrearEnderecoTeste', methods=['POST'])
 @token_required
 def RecarrearEnderecoTeste():
-    try:
+   # try:
         # Obtenha os dados do corpo da requisição
         dados = request.get_json()
 
@@ -135,11 +135,11 @@ def RecarrearEnderecoTeste():
             return jsonify(enderecos_data)
 
 
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify(
-            {"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})
+   # except Exception as e:
+    #    print(f"Erro detectado: {str(e)}")
+       ## restart_server()
+       ## return jsonify(
+         ###   {"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})''
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])
 @token_required
