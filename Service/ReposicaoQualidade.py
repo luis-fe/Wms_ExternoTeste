@@ -349,7 +349,7 @@ def PesquisarTagCsw(codbarras, empresa):
 
     conn2 = ConexaoPostgreMPL.conexao()
 
-    pesquisa2  = pd.read_sql('SELECT caixa FROM "Reposicao"."off"."reposicao_qualidade" where codbarrastag = %s',conn2,params=(codbarras,))
+    pesquisa2  = pd.read_sql('SELECT caixa FROM "Reposicao"."off"."reposicao_qualidade" where codbarrastag = %s ',conn2,params=(codbarras,))
     conn2.close()
 
     if pesquisa2.empty:
