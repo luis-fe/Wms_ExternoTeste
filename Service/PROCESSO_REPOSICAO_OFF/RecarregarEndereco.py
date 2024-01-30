@@ -36,9 +36,9 @@ def ValidarSituacaoOPCSW(numeroOP):
                            ' and numeroop = ' +"'"+numeroOP+"'",conn)
     ## avaliando a situacao da OP:
     if consulta['situacao'][0] == '2':
-        return pd.DataFrame([{'status': 'OK! OP Baixada'}])
+        return pd.DataFrame([{'status': True}])
     else:
-        return pd.DataFrame([{'status': 'Atencao! Op da caixa Nao esta baixada'}])
+        return pd.DataFrame([{'status': False, 'Mesagem':f'A OP {numeroOP} nao está baixada'}])
 
 
 

@@ -125,20 +125,36 @@ def RecarrearEnderecoTeste():
                     enderecos_dict[column_name] = row[column_name]
                 enderecos_data.append(enderecos_dict)
             return jsonify(enderecos_data)
-
+        # Etapa 3 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
         else:
+            codigoOP = InfoCaixa['numeroop'][0]
+            StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
 
-            Retorno = StatusEndereco
-            # Obtém os nomes das colunas
-            column_names = Retorno.columns
-            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-            enderecos_data = []
-            for index, row in Retorno.iterrows():
-                enderecos_dict = {}
-                for column_name in column_names:
-                    enderecos_dict[column_name] = row[column_name]
-                enderecos_data.append(enderecos_dict)
-            return jsonify(enderecos_data)
+            if StatusOP['status'][0] == False:
+
+                Retorno = StatusOP
+                # Obtém os nomes das colunas
+                column_names = Retorno.columns
+                # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+                enderecos_data = []
+                for index, row in Retorno.iterrows():
+                    enderecos_dict = {}
+                    for column_name in column_names:
+                        enderecos_dict[column_name] = row[column_name]
+                    enderecos_data.append(enderecos_dict)
+                return jsonify(enderecos_data)
+            else:
+                Retorno = StatusOP
+                # Obtém os nomes das colunas
+                column_names = Retorno.columns
+                # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+                enderecos_data = []
+                for index, row in Retorno.iterrows():
+                    enderecos_dict = {}
+                    for column_name in column_names:
+                        enderecos_dict[column_name] = row[column_name]
+                    enderecos_data.append(enderecos_dict)
+                return jsonify(enderecos_data)
 
 
    # except Exception as e:
