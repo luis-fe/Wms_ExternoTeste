@@ -111,7 +111,7 @@ def RecarrearEnderecoTeste():
         # Etapa 2 :Avalia se no endereco a repor esta vazio:
         StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
 
-        if StatusEndereco['status'][0] == False and reduzido == StatusEndereco['codendereco'][0]:
+        if StatusEndereco['status'][0] == False and reduzido == StatusEndereco['codreduzido'][0]:
             Retorno = StatusEndereco
             # Obtém os nomes das colunas
             column_names = Retorno.columns
