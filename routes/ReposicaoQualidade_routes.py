@@ -112,7 +112,9 @@ def RecarrearEnderecoTeste():
         StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
 
         if StatusEndereco['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
-            Retorno = StatusEndereco[['mensagem']]
+            Retorno = StatusEndereco
+            Retorno.drop('codreduzido', axis=1, inplace=True)
+
             # Obtém os nomes das colunas
             column_names = Retorno.columns
             # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
