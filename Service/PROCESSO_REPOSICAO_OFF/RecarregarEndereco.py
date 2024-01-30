@@ -17,7 +17,7 @@ def EnderecoOculpado(endereco_Repor):
     conn = ConexaoPostgreMPL.conexao()
     consulta = 'select distinct codreduzido from "Reposicao"."Reposicao".tagsreposicao '\
                 ' where "Endereco" = %s '
-    consulta = pd.read_sql(consulta,conn,parms=(endereco_Repor,))
+    consulta = pd.read_sql(consulta,conn,params=(endereco_Repor,))
     conn.close()
 
     ## avaliando se está vazio:
