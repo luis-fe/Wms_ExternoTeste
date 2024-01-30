@@ -41,7 +41,6 @@ def ValidarSituacaoOPCSW(numeroOP):
         return pd.DataFrame([{'status': False, 'Mesagem':f'ERRRO ! A OP {numeroOP} nÃo está baixada'}])
 
 
-
 ##### Os Processos abaixo exceculta o recarregamento dos enderecos
 ## Processo 1 - Retorna as Informacoes do Ncaixa selecionada:
 def InfoCaixa(caixa):
