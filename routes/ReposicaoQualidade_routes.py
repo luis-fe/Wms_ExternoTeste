@@ -98,14 +98,15 @@ def RecarrearEndereco():
 @token_required
 def RecarrearEnderecoTeste():
    # try:
-        # Obtenha os dados do corpo da requisição
-        dados = request.get_json()
 
-        # Extraia os valores dos campos do novo usuário
-        Ncaixa = dados['Ncaixa']
+        dados = request.get_json()# Obtenha os dados do corpo da requisição
+        Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
 
-        # Avalia se no endereco a repor esta vazio:
+        # Estapa 1 : Extrai Informacos da caixa
+        InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+
+        # Etapa 2 :Avalia se no endereco a repor esta vazio:
         StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
 
         if StatusEndereco['status'][0] == False:

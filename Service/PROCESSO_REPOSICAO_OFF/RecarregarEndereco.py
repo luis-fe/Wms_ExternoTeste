@@ -50,7 +50,12 @@ def InfoCaixa(caixa):
                             "where rq.caixa = %s ", conn1, params=(caixa,))
     conn1.close() # Fechado a Conexao com o Postgre WMS
 
-    return consulta
+    if consulta.empty:
+        return pd.DataFrame([{'caixa':'vazia'}])
+
+    else:
+
+        return consulta
 
 
 ## Processo 2 - Buscando os EPC no Csw  (Esse estratégia se dá devido ao fato de ser uma tabela pessada no CSW, optou-se por utilizar nessa etapa)
