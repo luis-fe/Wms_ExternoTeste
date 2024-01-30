@@ -22,7 +22,8 @@ def EnderecoOculpado(endereco_Repor):
 
     ## avaliando se está vazio:
     if not consulta.empty:
-        return pd.DataFrame([{'Mensagem':f'Endereco está cheio, com o sequinte sku {consulta["codreduzido"][0]}', 'status':False}])
+        return pd.DataFrame([{'Mensagem':f'Endereco está cheio, com o sequinte sku {consulta["codreduzido"][0]}', 'status':False ,
+                              'codreduzido':f'{consulta["codreduzido"][0]}'}])
     else:
         return pd.DataFrame([{'status':'OK! Pronto para usar'}])
 
