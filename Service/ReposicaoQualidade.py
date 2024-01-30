@@ -717,14 +717,19 @@ def LimparCaixa(caixa):
     conn.close()
     return pd.DataFrame([{'Mensagem':f'Caixa {caixa} limpada !'}])
 
+
+
+#ESSA FUNCAO É UTILIZADA PARA REALIZAR LIMPREZA NA ****FILA DE REPOSICAO OF ***, somente nas caixas que foram repostas com sucesso
 def LimpandoDuplicidadeFilaOFF():
         conn = ConexaoPostgreMPL.conexao()
         cursor = conn.cursor()
 
         # Usando placeholders para evitar injeção de SQL
-        delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq WHERE rq.caixa IN ('\
+        delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq ' \
+                       'WHERE rq.caixa IN ('\
             'SELECT DISTINCT SUBSTRING(t.proveniencia, 16) FROM "Reposicao"."Reposicao".tagsreposicao t '\
-            'WHERE t.proveniencia LIKE %s)'
+            'WHERE t.proveniencia LIKE %s ' \
+                       ')'
 
         # Parâmetros para o placeholder %s
         caixa_pattern = 'Veio da Caixa%'
