@@ -347,6 +347,18 @@ def PesquisarTagCsw(codbarras, empresa):
         ' WHERE p.codBarrasTag = ' + codbarras + ' and p.codempresa =' + empresa, conn)
     conn.close()
 
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    pesquisa2  = pd.read_sql('SELECT caixa FROM "Reposicao"."off"."reposicao_qualidade" where codbarrastag = %s',conn2,params=(codbarras,))
+    conn2.close()
+
+    if pesquisa2.empty:
+        pesquisa['caixa'] = 'Nao encontrado em nenhuma caixa'
+
+    else:
+        pesquisa = pd.merge(pesquisa,pesquisa2,on='codbarrastag',how='left')
+
+
     return pesquisa
 
 
