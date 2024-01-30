@@ -355,9 +355,9 @@ def PesquisarTagCsw(codbarras2, empresa):
     if pesquisa2.empty:
         pesquisa['caixa'] = 'Nao encontrado em nenhuma caixa'
 
+
     else:
         pesquisa = pd.merge(pesquisa,pesquisa2,on='codbarrastag',how='left')
-
 
     return pesquisa
 
