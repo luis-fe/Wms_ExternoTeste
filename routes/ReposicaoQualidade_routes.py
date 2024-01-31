@@ -168,8 +168,8 @@ def RecarrearEnderecoTeste():
                         enderecos_data.append(enderecos_dict)
                     return jsonify(enderecos_data)
                 else:
-                    RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
-                    RecarregarEndereco.IncrementarCaixa(endereco,Ncaixa)
+                    epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
+                    RecarregarEndereco.IncrementarCaixa(endereco,epc)
                     RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
 
                     # Obtém os nomes das colunas
