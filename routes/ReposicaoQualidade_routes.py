@@ -113,7 +113,6 @@ def RecarrearEnderecoTeste():
         if StatusEndereco['status'][0] == False:
 
             Retorno = StatusEndereco
-            Retorno.drop('codreduzido', axis=1, inplace=True)
 
             # Obtém os nomes das colunas
             column_names = Retorno.columns
