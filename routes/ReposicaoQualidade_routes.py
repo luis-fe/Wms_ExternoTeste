@@ -54,47 +54,9 @@ def ReporCaixaLivre():
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
 
 
+
+
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
-@token_required
-def RecarrearEndereco():
-    try:
-        # Obtenha os dados do corpo da requisição
-        dados = request.get_json()
-
-        # Extraia os valores dos campos do novo usuário
-        Ncaixa = dados['Ncaixa']
-        endereco = dados['endereco']
-        print(Ncaixa)
-
-        ExisteSku = ReposicaoQualidade.ValidarExisteSkuDiferente(endereco)
-
-        if ExisteSku == True:
-
-            FilaReposicaoOP = ReposicaoQualidade.EncontrarEPC(Ncaixa, endereco, '1')
-            ReposicaoQualidade.LimpandoDuplicidadeFilaOFF()
-
-            # Obtém os nomes das colunas
-            column_names = FilaReposicaoOP.columns
-            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-            enderecos_data = []
-            for index, row in FilaReposicaoOP.iterrows():
-                enderecos_dict = {}
-                for column_name in column_names:
-                    enderecos_dict[column_name] = row[column_name]
-                enderecos_data.append(enderecos_dict)
-            return jsonify(enderecos_data)
-            
-        else:
-            return jsonify({"mensagem":"Ja existe outros sku reposto nesse endereco", 'status':False})
-
-
-    except Exception as e:
-        print(f"Erro detectado: {str(e)}")
-        restart_server()
-        return jsonify({"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})
-
-
-@reposicao_qualidadeRoute.route('/api/RecarrearEnderecoTeste', methods=['POST'])
 @token_required
 def RecarrearEnderecoTeste():
    # try:
