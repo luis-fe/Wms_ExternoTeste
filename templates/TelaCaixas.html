@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WMS GERENCIAL</title>
+    <title>SGQ (Gestão da Qualidade)L</title>
     <link rel="stylesheet" href="static/css/Cabecalho.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
@@ -221,6 +221,15 @@
                 display: flex;
                 align-items: center;
             }
+            
+            .Informacoes{
+                display: block;
+                flex-direction: column;
+            }
+
+            .Informacoes label{
+                margin-bottom: 10px;
+            }
         }
     </style>
 
@@ -266,6 +275,12 @@
             </div>
         </div>
 
+        <div class="Informacoes" style=" display: flex; text-align: center; margin: 20px auto; width: 60%; justify-content: space-around;">
+            <label for="text" id="LabelOp" style="margin-left: 10px; text-align: center; font-weight: bold; font-size: 20px;"></label>
+            <label for="text" id="LabelProduto" style="margin-left: 10px; text-align: center; font-weight: bold; font-size: 20px;"></label>
+            <label for="text" id="LabelDescricao" style="margin-left: 10px; text-align: center; font-weight: bold; font-size: 20px;"></label>
+        </div>
+
 
         <div class="Tabela" id="Tabela" style="display: none;">
             <table id="TabelaTags" class="display" style="width: 100%; min-width: 100%;">
@@ -295,11 +310,14 @@
     const Token = 'a40016aabcx9';
     const BotaoConsultarCaixa = document.getElementById('BotaoConsultarCaixa');
     const DivTabela = document.getElementById('Tabela');
-    const seuBotao = document.getElementById('seuBotao'); // substitua 'seuBotao' pelo ID do seu botão
+    const seuBotao = document.getElementById('seuBotao'); 
     const modal = document.getElementById('myModal');
     const closeModal = document.getElementsByClassName('close')[0];
     const BotaoConsultarTag = document.getElementById('BotaoConsultarTag');
     const Conteudo = document.getElementById('Conteudo');
+    const LabelOp = document.getElementById('LabelOp');
+    const LabelProduto = document.getElementById('LabelProduto');
+    const LabelDescricao = document.getElementById('LabelDescricao');
 
     BotaoConsultarTag.addEventListener('click', async () => {
         ConsultarTag(ApiConsultarTag, document.getElementById('InputTag').value);
@@ -367,6 +385,11 @@
                     alert("Caixa está Vazia");
 
                 } else {
+                    console.log(data[0]['03- numeroOP'])
+                    LabelOp.innerHTML = `OP:<br>${data[0]['03- numeroOP']}`;
+                    LabelProduto.innerHTML = `Engenharia:<br>${data[0]['06- engenharia']}`;
+                    LabelDescricao.innerHTML = `Descrição:<br>${data[0]['08- descricao']}`;
+
                     await criarTabelaTags(data[0]["13- Tags da Caixa "]);
                     DivTabela.style.display = 'flex'
                 }
