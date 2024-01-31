@@ -103,15 +103,11 @@ def RecarrearEnderecoTeste():
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
 
-        # Estapa 1 : Extrai Informacos da caixa
-        InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+        # Etapa 1 : Valida o Endereco
+        StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
 
+        if StatusEndereco['status'] == False:
 
-        reduzido = InfoCaixa['codreduzido'][0]
-        # Etapa 2 :Avalia se no endereco a repor esta vazio:
-        StatusEndereco = RecarregarEndereco.EnderecoOculpado(endereco)
-
-        if StatusEndereco['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
             Retorno = StatusEndereco
             Retorno.drop('codreduzido', axis=1, inplace=True)
 
@@ -125,14 +121,21 @@ def RecarrearEnderecoTeste():
                     enderecos_dict[column_name] = row[column_name]
                 enderecos_data.append(enderecos_dict)
             return jsonify(enderecos_data)
-        # Etapa 3 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
         else:
-            codigoOP = InfoCaixa['numeroop'][0]
-            StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
 
-            if StatusOP['status'][0] == False:
 
-                Retorno = StatusOP
+            # Estapa 2 : Extrai Informacos da caixa
+            InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+
+
+            reduzido = InfoCaixa['codreduzido'][0]
+            # Etapa 3 :Avalia se no endereco a repor esta vazio:
+            StatusEnderecoOculpacao = RecarregarEndereco.EnderecoOculpado(endereco)
+
+            if StatusEndereco['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
+                Retorno = StatusEnderecoOculpacao
+                Retorno.drop('codreduzido', axis=1, inplace=True)
+
                 # Obtém os nomes das colunas
                 column_names = Retorno.columns
                 # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -143,18 +146,40 @@ def RecarrearEnderecoTeste():
                         enderecos_dict[column_name] = row[column_name]
                     enderecos_data.append(enderecos_dict)
                 return jsonify(enderecos_data)
+            # Etapa 4 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
             else:
-                Retorno = StatusOP
-                # Obtém os nomes das colunas
-                column_names = Retorno.columns
-                # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-                enderecos_data = []
-                for index, row in Retorno.iterrows():
-                    enderecos_dict = {}
-                    for column_name in column_names:
-                        enderecos_dict[column_name] = row[column_name]
-                    enderecos_data.append(enderecos_dict)
-                return jsonify(enderecos_data)
+                codigoOP = InfoCaixa['numeroop'][0]
+                StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
+
+                if StatusOP['status'][0] == False:
+
+                    Retorno = StatusOP
+                    # Obtém os nomes das colunas
+                    column_names = Retorno.columns
+                    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+                    enderecos_data = []
+                    for index, row in Retorno.iterrows():
+                        enderecos_dict = {}
+                        for column_name in column_names:
+                            enderecos_dict[column_name] = row[column_name]
+                        enderecos_data.append(enderecos_dict)
+                    return jsonify(enderecos_data)
+                else:
+                    RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
+                    RecarregarEndereco.IncrementarCaixa(endereco,Ncaixa)
+                    RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                    # Obtém os nomes das colunas
+
+                    Retorno = pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
+                    column_names = Retorno.columns
+                    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+                    enderecos_data = []
+                    for index, row in Retorno.iterrows():
+                        enderecos_dict = {}
+                        for column_name in column_names:
+                            enderecos_dict[column_name] = row[column_name]
+                        enderecos_data.append(enderecos_dict)
+                    return jsonify(enderecos_data)
 
 
    # except Exception as e:

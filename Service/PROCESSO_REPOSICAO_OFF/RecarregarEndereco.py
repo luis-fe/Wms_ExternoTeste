@@ -11,7 +11,24 @@ import psycopg2
         Já o  Processo é a funcao que execulta o servico de RECARREGAR ENDERECOS
 '''''
 
-### Regra 1 - Validar se o Endereço esta desoculpado
+## Regra 2 - Validar Endereco
+
+def ValidaEndereco(endereco):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = 'select codendereco  FROM "Reposicao"."Reposicao".cadendereco c  '\
+                ' where "codendereco" = %s '
+    consulta = pd.read_sql(consulta,conn,params=(endereco,))
+    conn.close()
+
+    if not consulta.empty:
+        return pd.DataFrame([{'Mensagem':f'Erro! O endereco {endereco} nao esta cadastrado, contate o supervisor.', 'status':False }])
+    else:
+        return pd.DataFrame([{'status':True}])
+
+
+
+
+### Regra 3 - Validar se o Endereço esta desoculpado
 
 def EnderecoOculpado(endereco_Repor):
     conn = ConexaoPostgreMPL.conexao()
@@ -27,7 +44,7 @@ def EnderecoOculpado(endereco_Repor):
     else:
         return pd.DataFrame([{'status':'OK! Pronto para usar','codreduzido':'-'}])
 
-## Regra 2 - Validar se a OP foi encerrada no CSW
+## Regra 3 - Validar se a OP foi encerrada no CSW
 
 def ValidarSituacaoOPCSW(numeroOP):
     emp = empresaConfigurada.EmpresaEscolhida() # Aqui aponta-se de qual empresa está requerendo a informacao
@@ -39,6 +56,7 @@ def ValidarSituacaoOPCSW(numeroOP):
         return pd.DataFrame([{'status': True}])
     else:
         return pd.DataFrame([{'status': False, 'Mesagem':f'Erro! A OP {numeroOP} da caixa ainda nao foi encerrada'}])
+
 
 
 ##### Os Processos abaixo exceculta o recarregamento dos enderecos
@@ -128,3 +146,22 @@ def IncrementarCaixa(endereco, dataframe): # Informamos como parametro o enderco
             dataframe['mensagem'] = "Erro inesperado:", e
 
             return dataframe
+
+# Processo 4 : Limpando a caixa na tabela FilaOFF para melhorar o espaco de armazenamento da tabela:
+def LimpandoDuplicidadeFilaOFF():
+        conn = ConexaoPostgreMPL.conexao()
+        cursor = conn.cursor()
+
+        # Usando placeholders para evitar injeção de SQL
+        delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq ' \
+                       'WHERE rq.caixa IN (' \
+                       'SELECT DISTINCT SUBSTRING(t.proveniencia, 16) FROM "Reposicao"."Reposicao".tagsreposicao t ' \
+                       'WHERE t.proveniencia LIKE %s ' \
+                       ')'
+
+        # Parâmetros para o placeholder %s
+        caixa_pattern = 'Veio da Caixa%'
+
+        cursor.execute(delete_query, (caixa_pattern,))
+        conn.commit()
+        conn.close()
