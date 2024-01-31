@@ -102,9 +102,13 @@ def RecarrearEnderecoTeste():
         dados = request.get_json()# Obtenha os dados do corpo da requisição
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
+        # Funcao de contingencia para casos  que derem errado:
+        RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
+
 
         # Etapa 1 : Valida o Endereco
         StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
+
 
         if StatusEndereco['status'] == False:
 
@@ -168,6 +172,7 @@ def RecarrearEnderecoTeste():
                     RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                     RecarregarEndereco.IncrementarCaixa(endereco,Ncaixa)
                     RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+
                     # Obtém os nomes das colunas
 
                     Retorno = pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])

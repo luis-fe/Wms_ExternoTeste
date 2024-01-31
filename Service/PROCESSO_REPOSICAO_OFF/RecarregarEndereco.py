@@ -165,3 +165,17 @@ def LimpandoDuplicidadeFilaOFF():
         cursor.execute(delete_query, (caixa_pattern,))
         conn.commit()
         conn.close()
+# Processo 5: Funcao alternativa para atribuir a uma caixa na fila de reposicaoOFF o endereco reposto, ela ajuda nos casos de rastriabilidade de erros e será uma funcao de contingencia
+def UpdateEnderecoCAixa(Ncaixa ,endereco = '-', situacaoCaixa = '-'):
+    delete = 'update "off".reposicao_qualidade ' \
+             'set situacao = %s, "Endereco" = %s ' \
+             'where caixa  = %s '
+
+    conn = ConexaoPostgreMPL.conexao()
+    cursor = conn.cursor()
+    cursor.execute(delete,(situacaoCaixa,endereco,Ncaixa,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return pd.DataFrame([{'status':True,'Mensagem':'Caixa Excluida com sucesso! '}])
