@@ -106,7 +106,7 @@ def RecarrearEnderecoTeste():
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
 
 
-        # Etapa 1 : Valida o Endereco
+        # Etapa 1 : Valida se o Endereco existe
         StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
 
 
@@ -132,10 +132,11 @@ def RecarrearEnderecoTeste():
 
 
             reduzido = InfoCaixa['codreduzido'][0]
-            # Etapa 3 :Avalia se no endereco a repor esta vazio:
+
+        # Etapa 3 :Avalia se no endereco a repor esta vazio:
             StatusEnderecoOculpacao = RecarregarEndereco.EnderecoOculpado(endereco)
 
-            if StatusEndereco['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
+            if StatusEnderecoOculpacao['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
                 Retorno = StatusEnderecoOculpacao
                 Retorno.drop('codreduzido', axis=1, inplace=True)
 
