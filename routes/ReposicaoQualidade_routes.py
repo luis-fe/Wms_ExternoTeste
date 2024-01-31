@@ -110,7 +110,7 @@ def RecarrearEnderecoTeste():
         StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
 
 
-        if StatusEndereco['status'] == False:
+        if StatusEndereco['status'][0] == False:
 
             Retorno = StatusEndereco
             Retorno.drop('codreduzido', axis=1, inplace=True)
