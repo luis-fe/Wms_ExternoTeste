@@ -55,11 +55,11 @@ def ReporCaixaLivre():
 
 
 
-
+#### Essa api RecarrearEndereco utiliza como referencia o arquivo Service.PROCESSO_REPOSICAO_OFF.RecarregarEndereco deste projeto.
+#### Repeti na funcao algums processos para um melhor acoplamento.
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required
 def RecarrearEnderecoTeste():
-   # try:
 
         dados = request.get_json()# Obtenha os dados do corpo da requisição
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
@@ -148,12 +148,6 @@ def RecarrearEnderecoTeste():
                         enderecos_data.append(enderecos_dict)
                     return jsonify(enderecos_data)
 
-
-   # except Exception as e:
-    #    print(f"Erro detectado: {str(e)}")
-       ## restart_server()
-       ## return jsonify(
-         ###   {"error": "O servidor foi reiniciado devido a um erro em Recarregar Caixa na comunicacao com o CSW."})''
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])
 @token_required
