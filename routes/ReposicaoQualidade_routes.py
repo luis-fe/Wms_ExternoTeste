@@ -136,7 +136,7 @@ def RecarrearEnderecoTeste():
         # Etapa 3 :Avalia se no endereco a repor esta vazio:
             StatusEnderecoOculpacao = RecarregarEndereco.EnderecoOculpado(endereco)
 
-            if StatusEnderecoOculpacao['status'][0] == False and reduzido != StatusEndereco['codreduzido'][0]:
+            if StatusEnderecoOculpacao['status'][0] == False and reduzido != StatusEnderecoOculpacao['codreduzido'][0]:
                 Retorno = StatusEnderecoOculpacao
                 Retorno.drop('codreduzido', axis=1, inplace=True)
 
