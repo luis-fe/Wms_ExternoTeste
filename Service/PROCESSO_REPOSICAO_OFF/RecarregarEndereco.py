@@ -20,7 +20,7 @@ def ValidaEndereco(endereco):
     consulta = pd.read_sql(consulta,conn,params=(endereco,))
     conn.close()
 
-    if not consulta.empty:
+    if  consulta.empty:
         return pd.DataFrame([{'Mensagem':f'Erro! O endereco {endereco} nao esta cadastrado, contate o supervisor.', 'status':False }])
     else:
         return pd.DataFrame([{'status':True}])
