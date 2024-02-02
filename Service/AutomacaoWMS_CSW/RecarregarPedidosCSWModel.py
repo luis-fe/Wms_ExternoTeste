@@ -16,16 +16,16 @@ def criar_agrupamentos(grupo):
     return '/'.join(sorted(set(grupo)))
 
 def obter_notaCsw():
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() # Abrir conexao com o csw
     data = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", conn)
-    conn.close()
+    conn.close() # Encerrar conexao com o csw
 
     return data
 
 def RecarregarPedidos(empresa):
 
         tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
-        conn = ConexaoCSW.Conexao()
+        conn = ConexaoCSW.Conexao() # Abrir conexao com o csw
         SugestoesAbertos = pd.read_sql("SELECT codPedido||'-'||codsequencia as codPedido, codPedido as codPedido2, dataGeracao,  "
                                        "priorizar, vlrSugestao,situacaosugestao, dataFaturamentoPrevisto  from ped.SugestaoPed  "
                                        'WHERE codEmpresa ='+empresa+
@@ -62,7 +62,7 @@ def RecarregarPedidos(empresa):
         SugestoesAbertos = pd.merge(SugestoesAbertos, condicaopgto, on='condvenda', how='left')
 
         SugestoesAbertos.fillna('-', inplace=True)
-
+        conn.close() # Encerrar conexao com o csw
         # Procurando somente pedidos novos a incrementar
         conn2 = ConexaoPostgreMPL.conexao()
         validacao = pd.read_sql('select codigopedido, '+"'ok'"+' as "validador"  from "Reposicao".filaseparacaopedidos f ', conn2)
