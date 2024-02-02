@@ -14,7 +14,7 @@ def RecarregarTagFila(codbarras):
     valor = ConexaoCSW.pesquisaTagCSW(codbarras)
 
     if valor['stauts conexao'][0]==True:
-        conn = ConexaoCSW.Conexao2()
+        conn = ConexaoCSW.Conexao()
         codbarras = "'" + codbarras + "'"
 
         df_tags = pd.read_sql(
@@ -31,7 +31,7 @@ def RecarregarTagFila(codbarras):
         df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                                   'from tco.MovimentacaoOPFase WHERE codEmpresa = 1 and codFase = 236  '
                                   'and numeroOP like '+ numeroOP, conn)
-
+        conn.close()
         df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
         df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
         df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)

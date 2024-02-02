@@ -55,7 +55,7 @@ def ConsultaCaixa(NCaixa, empresa):
 
 #Nessa Funcao é realizado a Consulta das OPs que se encontram no setor de Garantia ("pos costura)
 def OPsAliberar(empresa):
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() # Abrir a Conexao Com o Csw
     #Nessa etapa é realizado a consulta via SQL para obter as OPs da Garantia + o status da conferencia de recebimento via tag Iniciado x NãoIniciado
     consulta = pd.read_sql("SELECT op.numeroOP as numeroop , op.codProduto,"
                            " (select l.descricao FROM  tcl.Lote l WHERE op.codempresa = l.codempresa and op.codLote = l.codlote) as lote, "
@@ -66,6 +66,7 @@ def OPsAliberar(empresa):
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
                            'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 , 423, 433, 452) '
                            'order by numeroOP desc', conn)
+    conn.close() # Fechando a conexao com o Csw
 
     # Nessas 2 etapas é acrescentado o status "Nao Iniciado"  para as ops que nao começou a etapa de conferencia.
     consulta.fillna('Nao Iniciado', inplace=True)
