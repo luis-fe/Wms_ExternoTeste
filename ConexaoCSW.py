@@ -34,18 +34,20 @@ def ConexaoCianorte():
 
 # Função de conectar com o CSW, com 2 opções de conexao:
 def ConexaoInternoMPL():
-   # try:
+    conn = None
+    try:
         conn = jaydebeapi.connect(
-    'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
-    {'user': '_system', 'password': 'ccscache'},
-    'CacheDB_root.jar'
-    )
+            'com.intersys.jdbc.CacheDriver',
+            'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+            {'user': '_system', 'password': 'ccscache'},
+            'CacheDB_root.jar'
+        )
         return conn
-  #  except:
-   #     conn2 = Conexao2()
-    #    return conn2
-
+    except Exception as e:
+        print(f"Erro na conexão: {e}")
+    finally:
+        if conn:
+            conn.close()
 def Conexao2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
