@@ -9,7 +9,7 @@ from Service.configuracoes import empresaConfigurada
 def AtualizaFilaGarantia():
     emp = empresaConfigurada.EmpresaEscolhida()
 
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() # Abrir conexao com o csw
 
     consulta = pd.read_sql(
         'SELECT p.codBarrasTag as codbarrastag , p.codReduzido as codreduzido, p.codEngenharia as engenharia,'
@@ -19,7 +19,7 @@ def AtualizaFilaGarantia():
         ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = ' + emp + ' and '
                                                                      ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = ' + emp + ' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 452, 437 ) and situacao = 3) ',
         conn)
-    conn.close()
+    conn.close() # encerrar conexao com o csw
 
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'replace')
 
@@ -31,7 +31,7 @@ def AtualizacaoFilaOFF_op(op):
     numeroop = op
     op = "'"+op+"'"
 
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() # Abrir conexao com o csw
 
     consulta = pd.read_sql(
         'SELECT p.codBarrasTag as codbarrastag , p.codReduzido as codreduzido, p.codEngenharia as engenharia,'
@@ -42,7 +42,7 @@ def AtualizacaoFilaOFF_op(op):
                                                                      ' p.numeroOP = '+op,
         conn)
 
-    conn.close()
+    conn.close() # encerrar conexao com o csw
 
     conn2 = ConexaoPostgreMPL.conexao()
 

@@ -4,6 +4,8 @@ import numpy
 import datetime
 import pytz
 
+import ConexaoPostgreMPL
+
 
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
@@ -14,7 +16,7 @@ def RecarregarTagFila(codbarras):
     valor = ConexaoCSW.pesquisaTagCSW(codbarras)
 
     if valor['stauts conexao'][0]==True:
-        conn = ConexaoCSW.Conexao()
+        conn = ConexaoCSW.Conexao() # Abrir conexao com o csw
         codbarras = "'" + codbarras + "'"
 
         df_tags = pd.read_sql(
@@ -31,7 +33,7 @@ def RecarregarTagFila(codbarras):
         df_opstotal = pd.read_sql('SELECT top 200000 numeroOP as numeroop , totPecasOPBaixadas as totalop  '
                                   'from tco.MovimentacaoOPFase WHERE codEmpresa = 1 and codFase = 236  '
                                   'and numeroOP like '+ numeroOP, conn)
-        conn.close()
+        conn.close()# Encerrar conexao com o csw
         df_tags = pd.merge(df_tags, df_opstotal, on='numeroop', how='left')
         df_tags['totalop'] = df_tags['totalop'].replace('', numpy.nan).fillna('0')
         df_tags['codnaturezaatual'] = df_tags['codnaturezaatual'].astype(str)
@@ -51,20 +53,20 @@ def RecarregarTagFila(codbarras):
 
 
 def LerEPC(codbarras):
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao()#abrir conexao o csw
     codbarras = codbarras
 
     consulta = pd.read_sql('select epc.id as epc, t.codBarrasTag as codbarrastag from tcr.SeqLeituraFase  t '
                            'join Tcr_Rfid.NumeroSerieTagEPC epc on epc.codTag = t.codBarrasTag '
                            'WHERE codBarrasTag = '+ codbarras ,conn)
-    conn.close()
+    conn.close()#encerrar conexao com o csw
 
     return consulta
 
 
 def InserirTagAvulsa(codbarras, codnaturezaatual, engenharia, codreduzido, descricao,
                      numeroop, cor , tamanho, epc, DataHora, totalop, codempresa):
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoPostgreMPL.conexao()# Abrir conexao com o Postgre
 
     insert = 'insert into "Reposicao".filareposicaoportag f ' \
              '(codbarras, codnaturezaatual, engenharia, codreduzido, descricao, numeroop, cor , tamanho, epc, DataHora, totalop, codempresa) ' \

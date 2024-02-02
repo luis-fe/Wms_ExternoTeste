@@ -5,7 +5,7 @@ import Service.configuracoes.empresaConfigurada
 
 def Confronto():
     emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
-    conn = ConexaoCSW.Conexao()
+    conn = ConexaoCSW.Conexao() # Abrir conexao com o Csw
 
     posicao = pd.read_sql("SELECT d.codItem as reduzido, d.estoqueAtual as posicao_estoque FROM est.DadosEstoque d "
                           "where d.codNatureza = 5 and codEmpresa = "+emp+" and estoqueAtual > 0 ", conn)
@@ -19,7 +19,7 @@ def Confronto():
                                  "group by codReduzido ", conn)
 
 
-    conn.close()
+    conn.close() # Encerrar a conexao com o csw
 
     if not em_Conferencia.empty:
         em_Conferencia = em_Conferencia
