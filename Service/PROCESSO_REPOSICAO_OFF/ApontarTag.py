@@ -43,6 +43,9 @@ def PesquisarSeTagJaFoiBipada(codbarrastag, caixa):
 ## Funcao que isere os dados na tabela "Reposicao".off.reposicao_qualidade , persistindo os dados com as tags bipada na caixa
 def InculirTagCaixa(dataframe):
 
+        ## Removendo duplicatas do dataframe:
+        dataframe = dataframe.drop_duplicates(subset=['codbarrastag'])  ## Elimando as possiveis duplicatas
+
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
