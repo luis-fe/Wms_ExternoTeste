@@ -100,6 +100,10 @@ def ApontarTagCaixa(codbarras, Ncaixa, empresa, usuario, natureza, estornar = Fa
 
 
         if not consultaCsw.empty :
+            consultaCsw['usuario'] = usuario
+            consultaCsw['caixa'] = Ncaixa
+            consultaCsw['natureza'] = natureza
+            consultaCsw['DataReposicao'] = obterHoraAtual()
 
             InculirTagCaixa(consultaCsw)
             conn2.close()
