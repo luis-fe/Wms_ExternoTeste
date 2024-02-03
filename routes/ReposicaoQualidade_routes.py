@@ -1,6 +1,6 @@
 import Service.configuracoes.empresaConfigurada
 from Service import ReposicaoQualidade
-from Service.PROCESSO_REPOSICAO_OFF import RecarregarEndereco, ApontarTag
+from Service.Processo_Reposicao_OFF import RecarregarEndereco, ApontarTag
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -36,7 +36,7 @@ def ReporCaixaLivre():
         estornar = novo_usuario.get('estornar', False)
 
 
-        FilaReposicaoOP = Service.PROCESSO_REPOSICAO_OFF.ApontarTag.ApontarTagCaixa(codbarras,NCaixa ,empresa,usuario, natureza, estornar)
+        FilaReposicaoOP = Service.Processo_Reposicao_OFF.ApontarTag.ApontarTagCaixa(codbarras,NCaixa ,empresa,usuario, natureza, estornar)
         # Obtém os nomes das colunas
         column_names = FilaReposicaoOP.columns
         # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -55,7 +55,7 @@ def ReporCaixaLivre():
 
 
 
-#### Essa api RecarrearEndereco utiliza como referencia o arquivo Service.PROCESSO_REPOSICAO_OFF.RecarregarEndereco deste projeto.
+#### Essa api RecarrearEndereco utiliza como referencia o arquivo Service.Processo_Reposicao_OFF.RecarregarEndereco deste projeto.
 #### Repeti na funcao algums processos para um melhor acoplamento.
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required

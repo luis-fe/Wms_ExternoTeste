@@ -3,8 +3,10 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 
 
+########## Nesse arquivo é construido o relatorio de pesquisa dos skus x prateleiras repostas, a ser utlizado no portal para pesquisa e controle.
+
 def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-', limit = 100):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexao() # Inicia a Conexao com o Postgre
 
     totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                 'where codnaturezaatual = %s ', conn, params=(natureza,))
@@ -66,7 +68,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.read_sql(consulta, conn,params=(natureza,natureza,limit,))
 
 
-    conn.close()
+    conn.close() # Encerra a conexao com o postgre.
     data = {
 
         '1- Fila Reposicao ': f'{totalFila["saldopecas"][0]} pçs',
