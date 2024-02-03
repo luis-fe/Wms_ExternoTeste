@@ -1,6 +1,10 @@
+############# NESSE ARQUIVO É INSERIDO TODOS OS GRUPOS DE  ROTAS DE API's ,
+###### organizado por arquivos presente na subpasta "/routes" do projeto.
+##### trata-se de uma forma de orgranizar o sistema de forma intuitiva e didatica para manutencoes e ampliacoes.
+
 from flask import Blueprint
 
-# Crie um Blueprint para as rotas
+# Cria um Blueprint para as rotas
 routes_blueprint = Blueprint('routes', __name__)
 
 # Importe as rotas dos arquivos individuais
