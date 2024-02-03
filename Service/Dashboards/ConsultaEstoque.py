@@ -62,7 +62,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     conn.close()
     data = {
 
-        '1- Fila Reposicao ': f'{totalFila["SaldoPecas"][0]} pçs',
+        '1- Fila Reposicao ': f'{totalFila["saldopecas"][0]} pçs',
         '2- Em estoque': 'tamanho',
         '3- Detalhamento ': consulta.to_dict(orient='records')
     }
