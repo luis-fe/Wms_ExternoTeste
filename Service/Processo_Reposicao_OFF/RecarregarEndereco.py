@@ -112,19 +112,20 @@ def EPC_CSW_OP(consulta):# Passamos como parametro o dataframe com as informacoe
     return result
 
 #### PROCESSO 3: Incementando a caixa e salvando dados na tabela **"Reposicao".tagsreposicao do WMS
-def IncrementarCaixa(endereco, dataframe): # Informamos como parametro o enderco
+def IncrementarCaixa(endereco, dataframe ,usuario): # Informamos como parametro o enderco
 
     try: # é feito um tratamnto de excessao para barrar possiveis discrepancias na persistencia dos dados ao BANCO POSTGRE
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
-                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao") values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao", usuario_carga) values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , s% )'
         dataframe['proveniencia'] = 'Veio da Caixa: '+ dataframe['caixa'][0]
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
+        dataframe['usuario_carga'] = usuario
         values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                    , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
-                   row['usuario'],row['proveniencia'],row['DataReposicao']) for index, row in dataframe.iterrows()]
+                   row['usuario'],row['proveniencia'],row['DataReposicao'],row['usuario_carga']) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação

@@ -64,6 +64,8 @@ def RecarrearEnderecoTeste():
         dados = request.get_json()# Obtenha os dados do corpo da requisição
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
+        usuario = dados('usuario','-')
+
         # Funcao de contingencia para casos  que derem errado:
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
 
@@ -132,7 +134,7 @@ def RecarrearEnderecoTeste():
                     return jsonify(enderecos_data)
                 else:
                     epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
-                    RecarregarEndereco.IncrementarCaixa(endereco,epc)
+                    RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
                     RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
 
                     # Obtém os nomes das colunas
