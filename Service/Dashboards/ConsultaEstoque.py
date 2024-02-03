@@ -7,13 +7,21 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     conn = ConexaoPostgreMPL.conexao()
 
     if codreduzido != '-' :
-        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
+        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao '  \
                    'where natureza = %s '\
                 'and codreduzido = %s ' \
                    'group by "Endereco", codreduzido,  engenharia ' \
                    'order by "Endereco" asc  limit  %s '
 
+        InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  ' \
+                                'where codreduzido = %s '
+
         consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
+        InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codreduzido,))
+
+        consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
+
+
 
     elif codreduzido == '-' and codengenharia != '-' :
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
@@ -22,7 +30,16 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
                    'group by "Endereco", codreduzido,  engenharia ' \
                    'order by "Endereco" asc  limit  %s '
 
-        consulta = pd.read_sql(consulta, conn,params=(natureza,codengenharia,limit,))
+        InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  ' \
+                                'where codreduzido = %s '
+
+        consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
+
+
+        InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codreduzido,))
+
+        consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
+
 
     else:
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
