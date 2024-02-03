@@ -7,7 +7,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     conn = ConexaoPostgreMPL.conexao()
 
     if codreduzido != '-' :
-        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t'  \
+        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t '  \
                    'where natureza = %s '\
                 'and codreduzido = %s ' \
                    'group by "Endereco", codreduzido,  engenharia ' \
@@ -25,7 +25,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
     elif codreduzido == '-' and codengenharia != '-' :
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
-                   'where natureza = %s '\
+                   ' where natureza = %s '\
                 'and engenharia = %s ' \
                    'group by "Endereco", codreduzido,  engenharia ' \
                    'order by "Endereco" asc  limit  %s '
@@ -43,7 +43,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
     else:
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
-                   'where natureza = %s '\
+                   ' where natureza = %s '\
                 'and natureza = %s ' \
                    'group by "Endereco", codreduzido, engenharia ' \
                    'order by "Endereco" asc  limit  %s '
