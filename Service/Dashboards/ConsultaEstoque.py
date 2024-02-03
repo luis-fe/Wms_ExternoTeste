@@ -36,7 +36,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
 
 
-        InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codreduzido,))
+        InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codengenharia,))
 
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
