@@ -202,5 +202,7 @@ def get_image(idchamado):
     return jsonify({"Mensagem":"Arquivo não encontrado"}), 404
 
 
+### Aqui iniciando o main do projeto WMS:
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port) # A porta foi atribuida na variavel port
