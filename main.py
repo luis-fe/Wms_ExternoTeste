@@ -12,7 +12,7 @@ from flask_cors import CORS
 
 
 import os
-from functools import wraps
+from functools import wraps # Pacote que ajuda a criar o token das Api's
 import PediosApontamento
 import Relatorios
 import Reposicao
@@ -20,17 +20,18 @@ import ReposicaoSku
 from Service.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
-app = Flask(__name__)
-port = int(os.environ.get('PORT', 5000))
+app = Flask(__name__) ## Aqui é criado essa funcao para iniciar o Projeto
+port = int(os.environ.get('PORT', 5000)) # A porta escolhida para rodar a Aplicacao é a 5000.
 
 
-app.register_blueprint(routes_blueprint)
 #Aqui registo todas as rotas , url's DO PROJETO, para acessar bastar ir na pasta "routes",
 #duvidas o contato (62)99351-42-49 ou acessar a documentacao do projeto em:
+app.register_blueprint(routes_blueprint)
 
-CORS(app)
+CORS(app) # O Cors é uma funcao que permite ao FrontEnd realizar solicitacoes de API, com seguranca ausentando da necessidade do certificado
+# Https e sim do Http.
 
-# Decorator para verificar o token fixo
+# Decorator para verificar o token fixo: Aqui é cadastrado o token fixo para utilizar as apis
 def token_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
