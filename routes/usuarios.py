@@ -1,12 +1,14 @@
-
+##### Nesse arquivo é fornecido a Api das operacoes envolvendo o login e cadastro de usuarios do WMS
 from flask import Blueprint, jsonify, request
 from functools import wraps
 from Service import usuariosModel
 from Service.configuracoes import empresaConfigurada
 
-usuarios_routes = Blueprint('usuarios', __name__)
+usuarios_routes = Blueprint('usuarios', __name__) # Esse é o nome atribuido para o conjunto de rotas envolvendo usuario
 
-def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
+
+# TOKEN FIXO PARA ACESSO AO CONTEUDO
+def token_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         token = request.headers.get('Authorization')
@@ -16,6 +18,8 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 
     return decorated_function
 
+
+# URL para Informar todos os usuarios cadastrados no WMS
 @usuarios_routes.route('/api/Usuarios', methods=['GET'])
 @token_required
 def get_usuarios():
@@ -28,6 +32,7 @@ def get_usuarios():
         usuario_dict = dict(zip(column_names, row))
         usuarios_data.append(usuario_dict)
     return jsonify(usuarios_data)
+
 
 @usuarios_routes.route('/api/UsuarioSenhaRestricao', methods=['GET'])
 @token_required
