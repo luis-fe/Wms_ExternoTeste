@@ -9,6 +9,8 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                 'where codnaturezaatual = %s ', conn, params=(natureza,))
 
+    emEstoque = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".tagsreposicao where natureza = %s ',conn,params=(natureza,))
+
     if codreduzido != '-' :
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t '  \
                    'where natureza = %s '\
@@ -26,6 +28,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
         totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                                 'where codnaturezaatual = %s and codreduzido = %s ', conn, params=(natureza,codreduzido,))
+        emEstoque = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".tagsreposicao where natureza = %s and codreduzido = %s ',conn,params=(natureza,codreduzido,))
 
 
 
@@ -49,6 +52,9 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                                 'where codnaturezaatual = %s and engenharia = %s ', conn, params=(natureza,codengenharia,))
 
+        emEstoque = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".tagsreposicao where natureza = %s and engenharia = %s ',
+                                conn,params=(natureza,codengenharia,))
+
 
     else:
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
@@ -59,11 +65,12 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,natureza,limit,))
 
+
     conn.close()
     data = {
 
         '1- Fila Reposicao ': f'{totalFila["saldopecas"][0]} pçs',
-        '2- Em estoque': 'tamanho',
+        '2- Em estoque': f'{emEstoque["saldopecas"][0]} pçs',
         '3- Detalhamento ': consulta.to_dict(orient='records')
     }
     return pd.DataFrame([data])
