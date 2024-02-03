@@ -1,6 +1,16 @@
+#### Arquivo Principal do sistema, onde é o primeiro processo a ser executado.
+##### O WMS utiliza o frameWork Flask para controlar e disponibilizar serviços de Api's para o seu fronEnd.
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-import pandas as pd
+
+
+### 1.1 - Conexao com os bancos de Dados:
+###### A Conexao é feita em 2 bancos distintos: Intersystem Cache via JDBC utilizando o arquivo CacheDB.jar presente nesse projeto para
+# capturar os dados do sistema CSW e integrá-lo ao WMS;
+
+#### O segundo Banco , que é o official desse sistema é o PostgreSQL contendo as informacoes do WMS.
+
+
 import os
 from functools import wraps
 import PediosApontamento
