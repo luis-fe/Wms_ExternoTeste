@@ -7,7 +7,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     conn = ConexaoPostgreMPL.conexao()
 
     totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
-                'where natureza = %s ', conn, params=(natureza,))
+                'where codnaturezaatual = %s ', conn, params=(natureza,))
 
     if codreduzido != '-' :
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t '  \
@@ -25,7 +25,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
         totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
-                                'where natureza = %s and codreduzido = %s ', conn, params=(natureza,codreduzido,))
+                                'where codnaturezaatual = %s and codreduzido = %s ', conn, params=(natureza,codreduzido,))
 
 
 
@@ -47,7 +47,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
         totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
-                                'where natureza = %s and engenharia = %s ', conn, params=(natureza,codengenharia,))
+                                'where codnaturezaatual = %s and engenharia = %s ', conn, params=(natureza,codengenharia,))
 
 
     else:
