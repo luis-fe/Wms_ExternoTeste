@@ -6,7 +6,7 @@ import ConexaoCSW
 def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-', limit = 100):
     conn = ConexaoPostgreMPL.conexao()
 
-    totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+    totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                 'where natureza = %s ', conn, params=(natureza,))
 
     if codreduzido != '-' :
@@ -24,7 +24,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
-        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                                 'where natureza = %s and codreduzido = %s ', conn, params=(natureza,codreduzido,))
 
 
@@ -46,7 +46,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
-        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
                                 'where natureza = %s and engenharia = %s ', conn, params=(natureza,codengenharia,))
 
 
