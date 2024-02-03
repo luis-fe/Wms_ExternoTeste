@@ -3,6 +3,8 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 from Service.configuracoes import  empresaConfigurada
 import psycopg2
+import pytz
+import datetime
 
 '''''
         Nesse Documento é realizado o processo de Recarregar o endenreço com a caixa que foi reposta no processo 
@@ -117,15 +119,16 @@ def IncrementarCaixa(endereco, dataframe ,usuario): # Informamos como parametro 
     try: # é feito um tratamnto de excessao para barrar possiveis discrepancias na persistencia dos dados ao BANCO POSTGRE
         conn = ConexaoPostgreMPL.conexao()
         insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
-                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao", usuario_carga) values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , s% )'
+                 '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao", usuario_carga, datahora_carga) values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s, %s )'
         dataframe['proveniencia'] = 'Veio da Caixa: '+ dataframe['caixa'][0]
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
 
         dataframe['usuario_carga'] = usuario
+        dataframe['data_hora_carga'] = obterHoraAtual()
         values = [(endereco,row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                    , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
-                   row['usuario'],row['proveniencia'],row['DataReposicao'],row['usuario_carga']) for index, row in dataframe.iterrows()]
+                   row['usuario'],row['proveniencia'],row['DataReposicao'],row['usuario_carga'], row['data_hora_carga']) for index, row in dataframe.iterrows()]
 
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
@@ -180,3 +183,10 @@ def UpdateEnderecoCAixa(Ncaixa ,endereco = '-', situacaoCaixa = '-'):
     conn.close()
 
     return pd.DataFrame([{'status':True,'Mensagem':'Caixa Excluida com sucesso! '}])
+
+# Funcao de Obeter DataHora do sistema
+def obterHoraAtual():
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
+    return hora_str
