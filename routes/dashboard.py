@@ -3,6 +3,8 @@ from Service import dashboardModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
+from Service.Dashboards import ConsultaEstoque
+
 
 dashboard_routes = Blueprint('dashboard', __name__)
 
@@ -69,5 +71,25 @@ def confrontoTags():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
+@dashboard_routes.route('/api/ConsultaEstoqueWMS', methods=['GET'])
+@token_required
+def ConsultaEstoqueWMS():
+    # Obtém os dados do corpo da requisição (JSON)
+    natureza = request.args.get('natureza','-')
+    codengenharia = request.args.get('codengenharia','-')
+    endereco = request.args.get('endereco','-')
+    codreduzido = request.args.get('codreduzido','-')
+    numeroOP = request.args.get('numeroOP','-')
 
+    Endereco_det = ConsultaEstoque.ConsultaEnderecoReposto(natureza,codreduzido,codengenharia,numeroOP,endereco)
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
 

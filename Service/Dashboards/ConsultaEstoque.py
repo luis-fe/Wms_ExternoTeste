@@ -3,24 +3,33 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 
 
-def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-'):
+def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-'):
     conn = ConexaoPostgreMPL.conexao()
 
-    if codreduzido != '-':
-        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia where natureza = %s '\
-                'and codreduzido = %s '
+    if codreduzido != '-' and codengenharia == '-' and numeroOP == '-' and endereco == '-':
+        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia, count(codbarrastag) pçs from "Reposicao".tagsreposicao ' \
+                   'where natureza = %s '\
+                'and codreduzido = %s ' \
+                   'group by "Endereco", codreduzido, numeroop, codengenharia'
 
         consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
 
-    elif codengenharia != 'codengenharia':
-        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia where natureza = %s '\
-                'and codengenharia = %s '
-        consulta = pd.read_sql(consulta, conn,params=(codengenharia,))
+    elif codreduzido == '-' and codengenharia != '-' and numeroOP == '-' and endereco == '-':
+        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia, count(codbarrastag) pçs from "Reposicao".tagsreposicao ' \
+                   'where natureza = %s '\
+                'and codengenharia = %s ' \
+                   'group by "Endereco", codreduzido, numeroop, codengenharia'
+
+        consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
 
     else:
-        consulta
+        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia, count(codbarrastag) pçs from "Reposicao".tagsreposicao ' \
+                   'where natureza = %s '\
+                'and natureza = %s ' \
+                   'group by "Endereco", codreduzido, numeroop, codengenharia'
 
-
-
+        consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
 
     conn.close()
+
+    return consulta
