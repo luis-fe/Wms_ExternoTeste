@@ -27,7 +27,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
                    'where natureza = %s '\
                 'and natureza = %s ' \
                    'group by "Endereco", codreduzido, numeroop, engenharia ' \
-                   'order by "Endereco" asc  limit = %s '
+                   'order by "Endereco" asc  limit  %s '
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,natureza,limit,))
 
