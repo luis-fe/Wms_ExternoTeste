@@ -14,7 +14,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
                    'order by "Endereco" asc  limit  %s '
 
         InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  t' \
-                                'where codreduzido = %s '
+                                ' where codreduzido = %s '
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
         InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codreduzido,))
@@ -31,7 +31,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
                    'order by "Endereco" asc  limit  %s '
 
         InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  ' \
-                                'where codreduzido = %s '
+                                ' where engenharia = %s '
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
 
