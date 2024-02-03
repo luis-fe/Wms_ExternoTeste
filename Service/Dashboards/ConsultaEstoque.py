@@ -6,6 +6,9 @@ import ConexaoCSW
 def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-', limit = 100):
     conn = ConexaoPostgreMPL.conexao()
 
+    totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+                'where natureza = %s ', conn, params=(natureza,))
+
     if codreduzido != '-' :
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t '  \
                    'where natureza = %s '\
@@ -20,6 +23,9 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codreduzido,))
 
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
+
+        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+                                'where natureza = %s and codreduzido = %s ', conn, params=(natureza,codreduzido,))
 
 
 
@@ -40,6 +46,9 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
         consulta = pd.merge(consulta, InformacoesAdicionais,on='codreduzido',how='left')
 
+        totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaotag '
+                                'where natureza = %s and engenharia = %s ', conn, params=(natureza,codengenharia,))
+
 
     else:
         consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
@@ -51,6 +60,14 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.read_sql(consulta, conn,params=(natureza,natureza,limit,))
 
     conn.close()
-    consulta.fillna('-', inplace=True)
+    data = {
 
-    return consulta
+        '1- Fila Reposicao ': f'{totalFila["SaldoPecas"][0]} pçs',
+        '2- Em estoque': 'tamanho',
+        '3- Detalhamento ': consulta.to_dict(orient='records')
+    }
+    return pd.DataFrame([data])
+
+
+
+
