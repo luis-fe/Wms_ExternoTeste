@@ -7,13 +7,13 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     conn = ConexaoPostgreMPL.conexao()
 
     if codreduzido != '-' :
-        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao '  \
+        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t'  \
                    'where natureza = %s '\
                 'and codreduzido = %s ' \
                    'group by "Endereco", codreduzido,  engenharia ' \
                    'order by "Endereco" asc  limit  %s '
 
-        InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  ' \
+        InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  t' \
                                 'where codreduzido = %s '
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
