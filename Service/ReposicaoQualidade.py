@@ -64,7 +64,7 @@ def OPsAliberar(empresa):
                            " op.codFaseAtual ||'-'||op.nomeFaseAtual as faseAtual,"
                            " (SELECT r.situacao from tco.ControleReceb r WHERE r.codempresa = op.codEmpresa and r.numeroop = op.numeroop) as status_Recebimento  "
                            " FROM tco.OrdemProd op WHERE op.codEmpresa = 1 "
-                           'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 , 423, 433, 452) '
+                           'and op.situacao = 3 and op.codFaseAtual in (210, 320, 56, 432, 441 , 423, 433, 452, 437) '
                            'order by numeroOP desc', conn)
     conn.close() # Fechando a conexao com o Csw
 
