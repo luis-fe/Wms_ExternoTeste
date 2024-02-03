@@ -3,7 +3,7 @@ import ConexaoPostgreMPL
 import ConexaoCSW
 
 
-def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-'):
+def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-', limit = 100):
     conn = ConexaoPostgreMPL.conexao()
 
     if codreduzido != '-' and codengenharia == '-' and numeroOP == '-' and endereco == '-':
@@ -23,12 +23,13 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
 
     else:
-        consulta = 'Select "Endereco", codreduzido, numeroop, codengenharia, count(codbarrastag) pçs from "Reposicao".tagsreposicao ' \
+        consulta = 'Select  "Endereco", codreduzido, numeroop, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
                    'where natureza = %s '\
                 'and natureza = %s ' \
-                   'group by "Endereco", codreduzido, numeroop, codengenharia'
+                   'group by "Endereco", codreduzido, numeroop, engenharia ' \
+                   'order by "Endereco" asc  limit = %s '
 
-        consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
+        consulta = pd.read_sql(consulta, conn,params=(natureza,natureza,limit,))
 
     conn.close()
 
