@@ -33,7 +33,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         InformacoesAdicionais = 'select codreduzido, descricao, tamanho, cor  from "Reposicao".tagsreposicao  ' \
                                 ' where engenharia = %s '
 
-        consulta = pd.read_sql(consulta, conn,params=(natureza,codreduzido,limit,))
+        consulta = pd.read_sql(consulta, conn,params=(natureza,codengenharia,limit,))
 
 
         InformacoesAdicionais = pd.read_sql(InformacoesAdicionais, conn , params=(codengenharia,))
