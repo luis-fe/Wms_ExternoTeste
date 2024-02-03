@@ -18,4 +18,10 @@ def ProdutividadeCarregarEndereco(dataInico, dataFim , horaInicio, horaFim):
 
     conn = ConexaoPostgreMPL.conexao() # Abrindo a conexao do Banco Postgre do WMS
 
+    ## consultado a produtividade de carregar endereco
+    consulta = pd.read_sql('select usuario, datareposicao, datatempo, horario '
+    'from "Reposicao"."Reposicao"."ProducaoCargaEndereco" pce',conn)
+
     conn.close() #Encerrando a conexao do Banco Postgre do WMS
+
+    return consulta
