@@ -15,10 +15,10 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
         consulta = pd.read_sql(consulta, conn,params=(codreduzido,))
 
     elif codreduzido == '-' and codengenharia != '-' and numeroOP == '-' and endereco == '-':
-        consulta = 'Select  "Endereco", codreduzido, numeroop, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
+        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo from "Reposicao".tagsreposicao t ' \
                    'where natureza = %s '\
                 'and engenharia = %s ' \
-                   'group by "Endereco", codreduzido, numeroop, engenharia ' \
+                   'group by "Endereco", codreduzido,  engenharia ' \
                    'order by "Endereco" asc  limit  %s '
 
         consulta = pd.read_sql(consulta, conn,params=(natureza,codengenharia,limit,))
