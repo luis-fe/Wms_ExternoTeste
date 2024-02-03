@@ -64,7 +64,7 @@ def RecarrearEnderecoTeste():
         dados = request.get_json()# Obtenha os dados do corpo da requisição
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
-        usuario = dados('usuario','-')
+        usuario = dados.get('usuario','-')
 
         # Funcao de contingencia para casos  que derem errado:
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
