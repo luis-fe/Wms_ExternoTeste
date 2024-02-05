@@ -135,7 +135,8 @@ def RecarrearEnderecoTeste():
                 else:
                     epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                     RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
-                    RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                    ## Limpeza retirada ate achar o erro
+                    #RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
 
                     # Obtém os nomes das colunas
 
