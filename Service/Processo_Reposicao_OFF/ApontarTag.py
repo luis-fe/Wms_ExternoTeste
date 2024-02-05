@@ -8,8 +8,8 @@ import pytz
 from Service.configuracoes import  empresaConfigurada
 
 
-####### Nesse arquivo ApontarTag.py é realizado o processo (regra de negocios) para a bipagem das tag's nas Caixas no processo
-### conhecido como "ReposicaoOFF". Esse processo ocorre no Setor de Garantia da Qualidade antes das Op's entrarem no esotque.
+####### Nesse arquivo ApontarTag.py é realizado o processo (regra de negócios) para a bipagem das tag's nas Caixas no processo
+#conhecido como "ReposicaoOFF". Esse processo ocorre no Setor de Garantia da Qualidade antes das Op's entrarem no esotque.
 
 # Passo1: Funcoes que serao utilizadas na funcao principal:
 
@@ -40,7 +40,7 @@ def PesquisarSeTagJaFoiBipada(codbarrastag, caixa):
 
             return consulta['caixa'][0] # Optei por retorna valores ao inves de booleano
 
-## Funcao que isere os dados na tabela "Reposicao".off.reposicao_qualidade , persistindo os dados com as tags bipada na caixa
+## Funcao que insere os dados na tabela "Reposicao".off.reposicao_qualidade , persistindo os dados com as tags bipada na caixa
 def InculirTagCaixa(dataframe):
 
         ## Removendo duplicatas do dataframe:
@@ -55,7 +55,6 @@ def InculirTagCaixa(dataframe):
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                    , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
                    row['usuario'], row['DataReposicao']) for index, row in dataframe.iterrows()]
-        print(dataframe)
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
         cursor.close()  # Feche o cursor
