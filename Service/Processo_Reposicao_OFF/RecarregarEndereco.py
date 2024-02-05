@@ -165,7 +165,6 @@ def LimpandoDuplicidadeFilaOFF():
                        'SELECT DISTINCT SUBSTRING(t.proveniencia, 16) FROM "Reposicao"."Reposicao".tagsreposicao t ' \
                        'WHERE t.proveniencia LIKE %s ' \
                        ')'
-
         # Parâmetros para o placeholder %s
         caixa_pattern = 'Veio da Caixa%'
 
