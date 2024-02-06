@@ -206,9 +206,9 @@ def QuantidadeImprimir(quantidade, usuario = '', salvaEtiqueta = False):
         codigo3 = inicial2+3
         inicial2 = codigo3
 
-        codigo1 = '00'+str(codigo1)
-        codigo2 = '00'+str(codigo2)
-        codigo3 = '00'+str(codigo3)
+        codigo1 = ''+str(codigo1)
+        codigo2 = ''+str(codigo2)
+        codigo3 = ''+str(codigo3)
 
         if salvaEtiqueta == False:
             nometeste = 'caixa_'+str('')+".pdf"
