@@ -80,9 +80,13 @@ def ConsultaEstoqueWMS():
     endereco = request.args.get('endereco','-')
     codreduzido = request.args.get('codreduzido','-')
     numeroOP = request.args.get('numeroOP','-')
+    rua = request.args.get('rua','-')
+    modulo = request.args.get('modulo','-')
+    posicao = request.args.get('posicao','-')
+
     limit  = request.args.get('limit',10000)
 
-    Endereco_det = ConsultaEstoque.ConsultaEnderecoReposto(natureza,codreduzido,codengenharia,numeroOP,endereco,limit)
+    Endereco_det = ConsultaEstoque.ConsultaEnderecoReposto(natureza,codreduzido,codengenharia,numeroOP,rua, modulo , posicao, limit)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

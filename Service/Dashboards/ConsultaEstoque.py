@@ -5,7 +5,7 @@ import ConexaoCSW
 
 ########## Nesse arquivo é construido o relatorio de pesquisa dos skus x prateleiras repostas, a ser utlizado no portal para pesquisa e controle.
 
-def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', endereco = '-', limit = 100):
+def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', numeroOP = '-', rua = '-', modulo='-', posicao ='-', limit = 100):
     conn = ConexaoPostgreMPL.conexao() # Inicia a Conexao com o Postgre
 
     totalFila = pd.read_sql('select count(codbarrastag) as SaldoPecas from "Reposicao".filareposicaoportag '
@@ -69,6 +69,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
 
     conn.close() # Encerra a conexao com o postgre.
+    consulta = FiltroEndereco(consulta,rua, modulo , posicao)
     data = {
 
         '1- Fila Reposicao ': f'{totalFila["saldopecas"][0]} pçs',
@@ -77,6 +78,29 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
     }
     return pd.DataFrame([data])
 
+
+### Funcao para filtrar dataFrame
+def FiltroEndereco(dataframe, rua, modulo, posicao):
+
+    if  rua != '-':
+        dataframe = dataframe[dataframe["Endereco"].str.startswith(rua)]
+
+    else:
+        dataframe = dataframe
+
+    if modulo != '-':
+        modulo = "-"+modulo+"-"
+        dataframe = dataframe[dataframe['Endereco'].str.contains(modulo)]
+    else:
+        dataframe = dataframe
+
+    if posicao != '-':
+        posicao = "-"+modulo+"-"
+        dataframe = dataframe[dataframe['Endereco'].str.endswith(posicao)]
+    else:
+        dataframe = dataframe
+
+    return dataframe
 
 
 
