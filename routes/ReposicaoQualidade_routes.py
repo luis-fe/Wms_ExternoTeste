@@ -149,7 +149,7 @@ def RecarrearEnderecoTeste():
                         for column_name in column_names:
                             enderecos_dict[column_name] = row[column_name]
                         enderecos_data.append(enderecos_dict)
-                    return jsonify(enderecos_data)
+                    return jsonify({'status':True,'Mensagem':'Endereco carregado com sucesso!'})
 
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])
