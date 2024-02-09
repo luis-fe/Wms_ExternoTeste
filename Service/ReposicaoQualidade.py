@@ -282,8 +282,8 @@ def CaixasAbertas(empresa):
 
 def CaixasAbertasUsuario(empresa, codusuario):
     conn = ConexaoPostgreMPL.conexao()
-    consulta =  pd.read_sql('select  rq.caixa, numeroop, rq.codreduzido , descricao, count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
-                            'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.numeroop, rq.codreduzido, descricao  ',
+    consulta =  pd.read_sql('select  rq.caixa,  rq.codreduzido , count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
+                            'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.codreduzido  ',
                             conn, params=(empresa,codusuario,))
 
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  '
@@ -301,9 +301,6 @@ def CaixasAbertasUsuario(empresa, codusuario):
         consulta['1 - status']= consulta["bipado_sku_op"].astype(str)
         consulta['1 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
     else:
-
-
-
         print("Usuario ainda nao comeco a repor")
         consulta['1 - status']= "0/0"
 
