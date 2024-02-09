@@ -294,7 +294,8 @@ def CaixasAbertasUsuario(empresa, codusuario):
     consulta = consulta.groupby(['caixa', 'numeroop', 'codreduzido', 'descricao']).count().reset_index()
 
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  '
-                            'group by codreduzido, numeroop ',conn)
+                            'where numeroop in (select numeroop from "Reposicao"."off".reposicao_qualidade rq where rq.usuario = %s) '
+                            'group by codreduzido, numeroop ',conn,params=(codusuario,))
 
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido', 'numeroop'), how='left')
 
