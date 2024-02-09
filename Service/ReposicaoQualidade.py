@@ -289,6 +289,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  '
                             'group by codreduzido, numeroop ',conn)
 
+    consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido', 'numeroop'), how='left')
 
     if not consulta.empty:
 
@@ -300,7 +301,6 @@ def CaixasAbertasUsuario(empresa, codusuario):
         Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
         Usuarios['usuario'] = Usuarios['usuario'].astype(str)
         consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
-        consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido', 'numeroop'), how='left')
 
 
 
