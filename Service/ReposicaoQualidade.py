@@ -282,11 +282,35 @@ def CaixasAbertas(empresa):
 
 def CaixasAbertasUsuario(empresa, codusuario):
     conn = ConexaoPostgreMPL.conexao()
+    consulta =  pd.read_sql('select  rq.caixa, rq.usuario, numeroop, rq.codreduzido , count(caixa) N_bipado from "Reposicao"."off".reposicao_qualidade rq '
+                            'where rq.codempresa  = %s and rq.usuario = %s  group by rq.caixa, rq.usuario, rq.numeroop, rq.codreduzido  ',
+                            conn, params=(empresa,codusuario,))
+    BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  '
+                            'group by codreduzido, numeroop ',conn)
+
+    Usuarios = pd.read_sql('Select codigo as usuario, nome from "Reposicao".cadusuarios ', conn)
+    Usuarios['usuario'] = Usuarios['usuario'].astype(str)
+    consulta = pd.merge(consulta, Usuarios, on='usuario', how='left')
+    consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido','numeroop'), how='left')
+    if not consulta.empty:
+        consulta, boleano = Get_quantidadeOP_Sku(consulta, empresa, '0')
+        consulta['1 - status']= consulta["bipado_sku_op"].astype(str)
+        consulta['1 - status']=  consulta['1 - status'] + '/' + consulta["total_pcs"].astype(str)
+    else:
+        print("Usuario ainda nao comeco a repor")
+        consulta['1 - status']= "0/0"
+
+
+    conn.close()
+    return consulta
+
+def CaixasAbertasUsuarioCenarioNovo(empresa, codusuario):
+    conn = ConexaoPostgreMPL.conexao()
     consulta = pd.read_sql(
         'SELECT rq.caixa, rq.numeroop, rq.codreduzido, descricao '
         'FROM "Reposicao"."off".reposicao_qualidade rq '
-        'WHERE rq.codempresa = %s AND rq.usuario = %s',
-        conn, params=(empresa, codusuario)
+        'WHERE rq.usuario = %s',
+        conn, params=(codusuario,)
     )
 
     # Realizando o agrupamento no Pandas
@@ -294,7 +318,7 @@ def CaixasAbertasUsuario(empresa, codusuario):
     consulta = consulta.groupby(['caixa', 'numeroop', 'codreduzido', 'descricao']).count().reset_index()
 
     BipadoSKU = pd.read_sql('select numeroop, codreduzido, count(rq.codreduzido) as bipado_sku_OP from "Reposicao"."off".reposicao_qualidade rq  '
-                            'where numeroop in (select numeroop from "Reposicao"."off".reposicao_qualidade rq where rq.usuario = %s) '
+                            'where numeroop in (select distinct numeroop from "Reposicao"."off".reposicao_qualidade rq where rq.usuario = %s) '
                             'group by codreduzido, numeroop ',conn,params=(codusuario,))
 
     consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido', 'numeroop'), how='left')
@@ -315,7 +339,6 @@ def CaixasAbertasUsuario(empresa, codusuario):
 
     conn.close()
     return consulta
-
 
 
 def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
