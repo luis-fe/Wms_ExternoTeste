@@ -344,9 +344,10 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
             return get, totalGeral
 
         else:
+            get.fillna(0,inplace=True)
+
             get = get.groupby(['codreduzido']).sum().reset_index()
             numeroop_ ='0'
-            get.fillna(0,inplace=True)
             get = pd.merge(ops1, get , on='codreduzido', how='left')
 
 
