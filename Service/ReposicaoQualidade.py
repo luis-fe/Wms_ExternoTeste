@@ -331,7 +331,7 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
         # Passo 3: Transformar o dataFrame em lista
         resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
 
-        get = pd.read_sql('SELECT  codreduzido, total_pcs'
+        get = pd.read_sql('SELECT  codreduzido, total_pcs '
                           'FROM "Reposicao".off.ordemprod '
                           "WHERE numeroop IN "+resultado,conn)
         conn.close()
