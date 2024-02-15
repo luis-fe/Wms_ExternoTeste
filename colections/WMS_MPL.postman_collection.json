@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "be8b04a3-9333-400e-a023-cbcc067e05f5",
 		"name": "WMS_MPL",
-		"description": "> NESSE DOCUMENTO É DEMONSTRADO AOS USUARIOS AS ETAPAS PARA INSTALACAO E MANUTENCAO DO WMS \n  \n\n\\----------------------------------------------------------------------------------------\n\n1) INFORMAÇÕES DO PROGRAMA:\n\n- Arquitetura -BackEnd, FrontEnd , Banco de Dados\n    \n\n1.1 )BackEnd - Linguagem Python hospedagem no Servidor Interno:\n\nMatriz - 192.168.0.183 (LinuxUnbutu)\n\nFilial - 192.168.0.184 (LinuxUnbutu)\n\nFramework utilizados:\n\n- Flask : Pacote em Python com a funcao de disponibilizar o servidor online e as rotas de api.\n- JDK - O Projeto utiliza o Java para realizar o processo de conexao via JDBC com o banco de dados CSW, sendo instalado nos servidores.\n- GitHub do Projeto: [https://github.com/luis-fe/Wms_InternoMPL.git](https://github.com/luis-fe/Wms_InternoMPL.git)\n    \n\n---\n\n2) PROCESSO DE DEPLOY NO SERVIDOR LINUX\n\n2.1 - Usuario e Senha:  \nUser: grupompl  \nSenha: 4u3\\*qZ8KI@h2\n\n2.2 - Implantando o codigo:\n\n> Passo 1 comando: `screen`  \nSeguido de \"espaço\" para criar uma screen (que é uma especie de tela congelada que o deixa o codigo rodando) \n  \n> Passo 2 Apontar a pasta do Projeto: `cd /home/grupompl/Wms_InternoMPL` \n  \n> Passo 3: Iniciando o Serviço : sudo python3 main.py \n  \n> comando: `screen -ls`  \nCaso já exista alguma screen reservada, basta listar todas as screen ativas; \n  \n\n2.3 - Habilitando o Servidor para rodar na rede Wifi:\n\n> `sudo route add default gw 192.168.0.12`  \nEsse comando disponibilza o servidor na rede wifi da empresa \n  \n\n2.4 - Configurando a porta do gitHub no linux:\n\n---\n\n3) ROTINAS PARA MANUTENCAO DO SERVIDOR E BANCO\n\n3.1)Acompanhar e Encerar Processos no Postgre\n\n> Abaixo segue clausulas SQL especial para tratamento do banco de dados:  \nPasso 1) Para obter as tarefas do Banco SQL  \n`SELECT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* FROM pg_stat_activity WHERE state = 'active';` \n  \n> Passo2) Forcando o encerramento de um Processo no Postgre  \n`SELECT pg_terminate_backend(id processo);` \n  \n\n3.2) Forcando o Encerramento de uma Screen no Linux/Unbutu\n\n> `screen -X -S id_screen quit` \n  \n\n3.3)Excluindo uma Pasta no Linux/Unbutu\n\n> sudo rm -r nome_da_pasta",
+		"description": "> NESSE DOCUMENTO É DEMONSTRADO AOS USUARIOS AS ETAPAS PARA INSTALACAO E MANUTENCAO DO WMS \n  \n\n\\----------------------------------------------------------------------------------------\n\n1) INFORMAÇÕES DO PROGRAMA:\n\n- Arquitetura -BackEnd, FrontEnd , Banco de Dados\n    \n\n1.1 )BackEnd - Linguagem Python hospedagem no Servidor Interno:\n\nMatriz - 192.168.0.183 (LinuxUnbutu)\n\nFilial - 192.168.0.184 (LinuxUnbutu)\n\nFramework utilizados:\n\n- Flask : Pacote em Python com a funcao de disponibilizar o servidor online e as rotas de api.\n- JDK - O Projeto utiliza o Java para realizar o processo de conexao via JDBC com o banco de dados CSW, sendo instalado nos servidores.\n- GitHub do Projeto: [https://github.com/luis-fe/Wms_InternoMPL.git](https://github.com/luis-fe/Wms_InternoMPL.git)\n    \n\n---\n\n2) PROCESSO DE DEPLOY NO SERVIDOR LINUX\n\n2.1 - Usuario e Senha:  \nUser: grupompl  \nSenha: 4u3\\*qZ8KI@h2\n\n2.2 - Implantando o codigo:\n\n> Passo 1 comando: `screen`  \nSeguido de \"espaço\" para criar uma screen (que é uma especie de tela congelada que o deixa o codigo rodando) \n  \n> Passo 2 Apontar a pasta do Projeto: `cd /home/grupompl/Wms_InternoMPL` \n  \n> Passo 3: Iniciando o Serviço : sudo python3 main.py \n  \n> comando: `screen -ls`  \nCaso já exista alguma screen reservada, basta listar todas as screen ativas; \n  \n\n2.3 - Habilitando o Servidor para rodar na rede Wifi:\n\n> `sudo route add default gw 192.168.0.12`  \nEsse comando disponibilza o servidor na rede wifi da empresa \n  \n\n2.4 - Configurando a porta do gitHub no linux:\n\n---\n\n3) ROTINAS PARA MANUTENCAO DO SERVIDOR E BANCO\n\n3.1)Acompanhar e Encerar Processos no Postgre\n\n> Abaixo segue clausulas SQL especial para tratamento do banco de dados:  \nPasso 1) Para obter as tarefas do Banco SQL  \n`SELECT \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* FROM pg_stat_activity WHERE state = 'active';` \n  \n> Passo2) Forcando o encerramento de um Processo no Postgre  \n`SELECT pg_terminate_backend(id processo);` \n  \n\n3.2) Forcando o Encerramento de uma Screen no Linux/Unbutu\n\n> `screen -X -S id_screen quit` \n  \n\n3.3)Excluindo uma Pasta no Linux/Unbutu\n\n> sudo rm -r nome_da_pasta \n  \n\n3.4) Encerrando eventuais serviços abertos do flask via Linux/Unbutu\n\n> Abaixo segue o comando para listar todos os serviços aberto no servidor  \n`ps aux | grep flask   `  \nPara matar os serviços do python3  \n`sudo pkill -9 python3   `",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27457186"
 	},
@@ -489,7 +489,7 @@
 					"response": []
 				}
 			],
-			"description": "> Essa é uma classe do SIstema WMS que gerencia o cadastro de usuarios. \n  \n\n- No Projeto Backend o arquivo para as rotas de API é identificado como `routes/usuarios.py`\n    \n- No Projeto Backend o arquivo para a regra de Negocio que envolve os usuariso é identificado como `Service/usuariosModel.py`\n    \n- No Banco de Dados Postgre ela está na Tabela `\"Reposicao\".cadusuarios`"
+			"description": "> Essa é uma classe do SIstema WMS que gerencia o cadastro de usuarios. \n  \n\n- No Projeto Backend o arquivo para as rotas de API é identificado como `routes/usuarios.py`\n- No Projeto Backend o arquivo para a regra de Negocio que envolve os usuariso é identificado como `Service/usuariosModel.py`\n- No Banco de Dados Postgre ela está na Tabela `\"Reposicao\".cadusuarios`"
 		},
 		{
 			"name": "ReposicaoOP",
@@ -3784,6 +3784,65 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "ConsultaEstoqueWMS",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "a40016aabcx9",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "Authorization",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://192.168.0.183:5000/api/ConsultaEstoqueWMS?natureza=5&codengenharia=020242840-0",
+									"protocol": "http",
+									"host": [
+										"192",
+										"168",
+										"0",
+										"183"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"ConsultaEstoqueWMS"
+									],
+									"query": [
+										{
+											"key": "natureza",
+											"value": "5"
+										},
+										{
+											"key": "codreduzido",
+											"value": "680016",
+											"disabled": true
+										},
+										{
+											"key": "codengenharia",
+											"value": "020242840-0"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -5528,7 +5587,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\"endereco\":\"12-02-04\",\r\n\"Ncaixa\":\"006500\",\r\n\"usuario\":\"1\"\r\n}"
+									"raw": "{\r\n\"endereco\":\"06-76-23\",\r\n\"Ncaixa\":\"009255\",\r\n\"usuario\":\"1\"\r\n}"
 								},
 								"url": {
 									"raw": "http://192.168.0.183:5000/api/RecarrearEndereco",
@@ -5733,7 +5792,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://192.168.0.183:5000/api/ConsultaCaixa?Ncaixa=001590",
+									"raw": "http://192.168.0.183:5000/api/ConsultaCaixa?Ncaixa=006061",
 									"protocol": "http",
 									"host": [
 										"192",
@@ -5749,7 +5808,7 @@
 									"query": [
 										{
 											"key": "Ncaixa",
-											"value": "001590"
+											"value": "006061"
 										}
 									]
 								}
@@ -6576,7 +6635,7 @@
 					"description": "> NESSE DIRETORIO É APRESENTADO AS API's RestFull que manipula a classe de Linha Garantia.  \nLinha Garantia -> são as linhas de trabalho da área de Garantia da Qualidade, onde cada linha forma uma equipe que executa as tarefas de Passadoria , Revisao e Embalamento das peças de vesturario."
 				}
 			],
-			"description": "> Sobre o Modulo: ------------------------------------------------------------------------ Esse modulo é chamado também é chamado de ReposicaoOFF, o apelido se deve ao fato da reposicao ocorrer fora do ambiente da expedicao (ela ocorre no departeamento de Garantia da Qualidade). \n  \n\n1. Arquivos do Projeto BackEnd que utilizam o Modulo:\n    \n\n1.1) routes.ReposicaoQualidade_routes.py: Nesse arquivo é disponibilizado as rotas \"endPoint\" que disponibiliza as APi's para o modulo.\n\n1.2) service.Processo_Reposicao_OFF - Nessa subpasta tem as Regras de Negocio para o funcionamento do Modulo.\n\n________________________________________________________________________________________________\n\nconsultas sql's especiais:\n\n`-- Consultado se existe endereco com problemas na reposicao off ao RECARREGAR ENDERECO`\n\n> `SELECT distinct rq.\"Endereco\" from \"Reposicao\".\"off\".reposicao_qualidade rq`  \n`left join \"Reposicao\".\"Reposicao\".tagsreposicao t`  \n`on t.\"Endereco\" = rq.\"Endereco\"`  \n`where rq.\"Endereco\" is not null and t.\"Endereco\" is null`  \n`order by rq.\"Endereco\" desc`"
+			"description": "> Sobre o Modulo: ------------------------------------------------------------------------ Esse modulo é chamado também é chamado de ReposicaoOFF, o apelido se deve ao fato da reposicao ocorrer fora do ambiente da expedicao (ela ocorre no departeamento de Garantia da Qualidade). \n  \n\n1. Arquivos do Projeto BackEnd que utilizam o Modulo:\n    \n\n1.1) routes.ReposicaoQualidade_routes.py: Nesse arquivo é disponibilizado as rotas \"endPoint\" que disponibiliza as APi's para o modulo.\n\n1.2) service.PROCESSO_REPOSICAO_OFF - Nessa subpasta tem as Regras de Negocio para o funcionamento do Modulo.\n\n---\n\nconsultas sql's especiais:\n\n`-- Consultado se existe endereco com problemas na reposicao off ao RECARREGAR ENDERECO`\n\n> `SELECT distinct rq.\"Endereco\" from \"Reposicao\".\"off\".reposicao_qualidade rq`  \n`left join \"Reposicao\".\"Reposicao\".tagsreposicao t`  \n`on t.\"Endereco\" = rq.\"Endereco\"`  \n`where rq.\"Endereco\" is not null and t.\"Endereco\" is null`  \n`order by rq.\"Endereco\" desc`"
 		}
 	],
 	"auth": {

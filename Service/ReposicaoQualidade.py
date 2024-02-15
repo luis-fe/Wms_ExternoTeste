@@ -323,7 +323,7 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
 
 
     if not ops1.empty :
-        conn = ConexaoCSW.Conexao()
+        conn = ConexaoPostgreMPL.conexao()
         novo = ops1[['numeroop']]
         novo = novo.drop_duplicates(subset=['numeroop'])
 
@@ -331,12 +331,9 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
         # Passo 3: Transformar o dataFrame em lista
         resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
 
-        get = pd.read_sql('SELECT  '
-                          '(SELECT i.codItem  from cgi.Item2 i WHERE i.Empresa = 1 and i.codseqtamanho = op.seqTamanho '
-                          "and i.codsortimento = op.codSortimento and '0'||i.coditempai||'-0' = op.codproduto) as codreduzido, "
-                          "case WHEN op.qtdePecas1Qualidade is null then op.qtdePecasProgramadas else qtdePecas1Qualidade end total_pcs "
-                          "FROM tco.OrdemProdTamanhos op "
-                          "WHERE op.codEmpresa = "+ empresa + " and op.numeroOP IN "+resultado,conn)
+        get = pd.read_sql('SELECT  codreduzido, total_pcs'
+                          'FROM "Reposicao".off.ordemprod '
+                          "WHERE numeroop IN "+resultado,conn)
         conn.close()
 
         if numeroop_ != '0':
@@ -348,6 +345,7 @@ def Get_quantidadeOP_Sku(ops1, empresa, numeroop_ ='0'):
 
         else:
             numeroop_ ='0'
+            get.fillna('-',inplace=True)
             get = pd.merge(ops1, get , on='codreduzido', how='left')
 
 
