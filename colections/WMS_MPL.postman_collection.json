@@ -8,6 +8,11 @@
 	},
 	"item": [
 		{
+			"name": "Funcoes Especiais Python",
+			"item": [],
+			"description": "> **Documento contendo algumas informacoes sobre as principais bilbliotecas python do projeto backEnd** \n  \n\n1. Flask\n    \n\nFramework utilizado para disponibilizar as Api's no protocolo https e http . Ele segue um conjunto de regras e está presenta nos arquivos .py da subpasta \"routes\" do projeto."
+		},
+		{
 			"name": "Usuarios",
 			"item": [
 				{

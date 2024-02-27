@@ -182,4 +182,22 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     return pd.DataFrame([{'Mensagem':mensagem}])
 
+def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
+
+    conn = ConexaoPostgreMPL.conexao()
+
+    insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ) values (%s, %s , %s , %s ) '
+
+    cursor = conn.cursor()
+
+    cursor.execute(insert,(OP, operador1, operador2 , operador3,))
+    conn.commit()
+
+    cursor.close()
+
+    conn.close()
+
+    return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
+
+
 
