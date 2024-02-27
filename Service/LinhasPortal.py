@@ -202,7 +202,7 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
 
 # Produtividade Linha
 def ProdutividadeOperadorLinha(dataInicio, dataFim):
-    teste = dataInicio[10:12]+'-'+dataInicio[6:8]+ '-'+dataInicio[0:4]
+    teste = dataInicio[10:12]+'-'+ dataInicio[6:8]+ '-'+ dataInicio[0:4]
     conn = ConexaoPostgreMPL.conexao()
 
 
