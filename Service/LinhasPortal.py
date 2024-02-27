@@ -186,18 +186,36 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
 
     conn = ConexaoPostgreMPL.conexao()
 
-    insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ) values (%s, %s , %s , %s ) '
+    consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s  ',conn,params=(OP,))
 
-    cursor = conn.cursor()
+    if consulta.empty :
 
-    cursor.execute(insert,(OP, operador1, operador2 , operador3,))
-    conn.commit()
+        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ) values (%s, %s , %s , %s ) '
 
-    cursor.close()
+        cursor = conn.cursor()
 
-    conn.close()
+        cursor.execute(insert,(OP, operador1, operador2 , operador3,))
+        conn.commit()
 
-    return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
+        cursor.close()
+
+        conn.close()
+
+        return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
+
+    else:
+        update = 'update  "Reposicao".off.prodlinha set operador1 = %s , operador2 = %s , operador3 = %s ' \
+                 'where numeroop = %s '
+
+        cursor = conn.cursor()
+
+        cursor.execute(update, (operador1, operador2, operador3, OP,))
+        conn.commit()
+
+        cursor.close()
+
+        conn.close()
+        return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
 
 
 # Produtividade Linha
