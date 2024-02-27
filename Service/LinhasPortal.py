@@ -239,7 +239,7 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
 
     consultaNome1 = pd.merge(consulta, nomes1,on='numeroop', how='left' )
     consultaNome2 = pd.merge(consulta, nomes2,on='numeroop', how='left' )
-    consultaNome3 = pd.merge(consulta, nomes2,on='numeroop', how='left' )
+    consultaNome3 = pd.merge(consulta, nomes3,on='numeroop', how='left' )
 
     consulta = pd.concat([consultaNome1, consultaNome2, consultaNome3])
 
