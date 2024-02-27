@@ -200,4 +200,15 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
     return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
 
 
+# Produtividade Linha
+def ProdutividadeOperadorLinha(dataInicio, dataFim):
+    conn = ConexaoPostgreMPL.conexao()
 
+
+    consulta = pd.read_sql('select numeroop, "DataReposicao":: date from "Reposicao". "Reposicao".tagsreposicao t where t.numeroop in' 
+    ' (select p.numeroop from "Reposicao".off.prodlinha p) '
+    'and "DataReposicao" :: date >= "'"2024-02-21"'" ')
+
+    conn.close()
+
+    return consulta
