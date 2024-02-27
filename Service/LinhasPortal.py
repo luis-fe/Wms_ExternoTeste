@@ -246,7 +246,8 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
     conn.close()
     consulta['qtde'] = 1
     consulta = consulta.groupby('operador')['qtde'].sum().reset_index()
-
+    consulta = consulta.sort_values(by='qtde', ascending=False,
+                                ignore_index=True)
 
 
     return consulta
