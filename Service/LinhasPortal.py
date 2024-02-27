@@ -244,6 +244,9 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
     consulta = pd.concat([consultaNome1, consultaNome2, consultaNome3])
 
     conn.close()
+    consulta['qtde'] = 1
+    consulta = consulta.groupby('operador')['qtde'].sum().reset_index()
+
 
 
     return consulta
