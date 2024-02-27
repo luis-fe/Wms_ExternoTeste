@@ -202,14 +202,15 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
 
 # Produtividade Linha
 def ProdutividadeOperadorLinha(dataInicio, dataFim):
-    teste = dataInicio[10:12]+'-'+ dataInicio[6:8]+ '-'+ dataInicio[0:4]
+    teste = dataInicio[6:10]+'-'+ dataInicio[3:6]+ '-'+ dataInicio[0:2]
     conn = ConexaoPostgreMPL.conexao()
 
 
     consulta = pd.read_sql('select numeroop, "DataReposicao":: date from "Reposicao". "Reposicao".tagsreposicao t where t.numeroop in' 
     ' (select p.numeroop from "Reposicao".off.prodlinha p) '
     'and "DataReposicao" :: date >= '
-    "'"+dataInicio+"' " ,conn)
+    "'"+dataInicio+"' and "
+                   '"DataReposicao" :: date <='+"'"+dataFim+"'" ,conn)
 
     conn.close()
 
