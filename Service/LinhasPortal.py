@@ -232,9 +232,16 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
     "'"+dataInicio+"' and "
                    '"DataReposicao" :: date <='+"'"+dataFim+"'" ,conn)
 
-    nomes = pd.read_sql('select p.numeroop, p.operador1 from "Reposicao".off.prodlinha p', conn)
+    nomes1 = pd.read_sql('select p.numeroop, p.operador1 as operador from "Reposicao".off.prodlinha p', conn)
+    nomes2 = pd.read_sql('select p.numeroop, p.operador1 as operador from "Reposicao".off.prodlinha p', conn)
+    nomes3 = pd.read_sql('select p.numeroop, p.operador3 as operador from "Reposicao".off.prodlinha p', conn)
 
-    consulta = pd.merge(consulta, nomes,on='numeroop', how='left' )
+
+    consultaNome1 = pd.merge(consulta, nomes1,on='numeroop', how='left' )
+    consultaNome2 = pd.merge(consulta, nomes2,on='numeroop', how='left' )
+    consultaNome3 = pd.merge(consulta, nomes2,on='numeroop', how='left' )
+
+    consulta = pd.concat([consultaNome1, consultaNome2, consultaNome3])
 
     conn.close()
 
