@@ -207,7 +207,8 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
 
     consulta = pd.read_sql('select numeroop, "DataReposicao":: date from "Reposicao". "Reposicao".tagsreposicao t where t.numeroop in' 
     ' (select p.numeroop from "Reposicao".off.prodlinha p) '
-    'and "DataReposicao" :: date >= "'"2024-02-21"'" ',conn)
+    'and "DataReposicao" :: date >= '
+    "2024-02-21" ,conn)
 
     conn.close()
 
