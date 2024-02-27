@@ -232,8 +232,11 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
     "'"+dataInicio+"' and "
                    '"DataReposicao" :: date <='+"'"+dataFim+"'" ,conn)
 
+    nomes = ('select p.numeroop from "Reposicao".off.prodlinha p', conn)
+
+    consulta = pd.merge(consulta, nomes,on='numeroop', how='left' )
+
     conn.close()
 
-    print(dataFim)
 
     return consulta
