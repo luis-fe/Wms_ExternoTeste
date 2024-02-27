@@ -233,7 +233,7 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
                    '"DataReposicao" :: date <='+"'"+dataFim+"'" ,conn)
 
     nomes1 = pd.read_sql('select p.numeroop, p.operador1 as operador from "Reposicao".off.prodlinha p', conn)
-    nomes2 = pd.read_sql('select p.numeroop, p.operador1 as operador from "Reposicao".off.prodlinha p', conn)
+    nomes2 = pd.read_sql('select p.numeroop, p.operador2 as operador from "Reposicao".off.prodlinha p', conn)
     nomes3 = pd.read_sql('select p.numeroop, p.operador3 as operador from "Reposicao".off.prodlinha p', conn)
 
 
