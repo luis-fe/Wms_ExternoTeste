@@ -125,8 +125,9 @@ def SalvarProdutividadeLinha():
 @linhas_routes.route('/api/ProdutividadeOperadorLinha', methods=['GET'])
 @token_required
 def ProdutividadeOperadorLinha():
-    linha = request.args.get('linha')
-    linhas = LinhasPortal.ProdutividadeOperadorLinha(linha, linha)
+    dataInicio = request.args.get('dataInicio')
+    dataFinal = request.args.get('dataFinal','-')
+    linhas = LinhasPortal.ProdutividadeOperadorLinha(dataInicio, dataFinal)
     # Obtém os nomes das colunas
 
     # Obtém os nomes das colunas
