@@ -1,11 +1,19 @@
-from Service import necessidadeReposicaoModel
+from Service import necessidadeReposicaoModel, controle
 from Service.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, RecarregarPedidosCSWModel, AtualizarFilaGarantia
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
 from Service.configuracoes import empresaConfigurada
 
+
+
+
+
 AutomacaoWMS_CSW_routes = Blueprint('AutomacaoWMS_CSW', __name__)
+
+
+
+
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -206,13 +214,25 @@ def DetalhaSkuPedido():
 
     return jsonify(pedidos_data)
 
+
+# Rota utilizada para atualizar a fila de tags disponiveis na reposicao off
 @AutomacaoWMS_CSW_routes.route('/api/AtualizacaoFilaOFF', methods=['GET'])
 @token_required
 def AtualizacaoFilaOFF():
+    client_ip = request.remote_addr
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio,'atualiza tag off')
+    limite = 15 * 60 #(limite de 15 minutos , convertido para segundos)
+
     op = request.args.get('op', '-')
 
     if op == '-':
-        TagReposicao = AtualizarFilaGarantia.AtualizaFilaGarantia()
+        if tempo > limite:
+            TagReposicao = AtualizarFilaGarantia.AtualizaFilaGarantia()
+            controle.salvar('atualiza tag off',client_ip,datainicio)
+        else:
+            TagReposicao = pd.DataFrame([{'Status': True, 'mensagem':'tags atualizadas na Garantia com sucesso, atualizacao ta congelada  !'}])
+
     else:
         TagReposicao = AtualizarFilaGarantia.AtualizacaoFilaOFF_op(op)
 
