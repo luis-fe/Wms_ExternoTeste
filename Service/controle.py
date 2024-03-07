@@ -99,10 +99,10 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
 
     conn.close()
+    utimaAtualizacao = consulta['ultimaData'][0]
 
+    if utimaAtualizacao != None:
 
-    if not consulta.empty:
-        utimaAtualizacao = consulta['ultimaData'][0]
         print(utimaAtualizacao)
         # Converte as strings para objetos datetime
         data1_obj = datetime.strptime(dataHoraAtual, "%d/%m/%Y %H:%M:%S")
