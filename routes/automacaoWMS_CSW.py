@@ -222,7 +222,7 @@ def AtualizacaoFilaOFF():
     client_ip = request.remote_addr
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio,'atualiza tag off')
-    limite = 15 * 60 #(limite de 15 minutos , convertido para segundos)
+    limite = 5 * 60 #(limite de 5 minutos , convertido para segundos)
 
     op = request.args.get('op', '-')
 
