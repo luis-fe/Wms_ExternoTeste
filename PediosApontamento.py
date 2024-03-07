@@ -1,8 +1,10 @@
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
-
+import BuscasAvancadas
 import numpy as np
+from Service.configuracoes import empresaConfigurada
+
 
 
 def FilaPedidos():
@@ -23,9 +25,8 @@ def FilaPedidos():
 
     try:
         conn2 = ConexaoCSW.Conexao()
-        transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
-                                 ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
-                                 ' WHERE t.Empresa = 1 ',conn2)
+        empresa = empresaConfigurada.EmpresaEscolhida()
+        transporta = pd.read_sql(BuscasAvancadas.tranportadora(empresa),conn2)
         conn2.close()
         pedido = pd.merge(pedido, transporta, on=["cidade", "estado"], how='left')
     except:
