@@ -119,9 +119,9 @@ def RecarrearEnderecoTeste():
                 codigoOP = InfoCaixa['numeroop'][0]
                 datainicio = controle.obterHoraAtual()
                 client_ip = request.remote_addr
-                controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
 
                 StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
+                controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
 
                 if StatusOP['status'][0] == False:
 
