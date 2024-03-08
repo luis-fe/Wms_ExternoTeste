@@ -1,5 +1,5 @@
 import Service.configuracoes.empresaConfigurada
-from Service import ReposicaoQualidade
+from Service import ReposicaoQualidade, controle
 from Service.Processo_Reposicao_OFF import RecarregarEndereco, ApontarTag
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -117,6 +117,10 @@ def RecarrearEnderecoTeste():
             # Etapa 4 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
             else:
                 codigoOP = InfoCaixa['numeroop'][0]
+                datainicio = controle.obterHoraAtual()
+                client_ip = request.remote_addr
+                controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
+
                 StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
 
                 if StatusOP['status'][0] == False:

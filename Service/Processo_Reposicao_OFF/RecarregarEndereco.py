@@ -2,6 +2,7 @@ import pandas as pd
 import ConexaoPostgreMPL
 import ConexaoCSW
 from Service.configuracoes import  empresaConfigurada
+from Service import controle
 import psycopg2
 import pytz
 import datetime
@@ -53,6 +54,7 @@ def ValidarSituacaoOPCSW(numeroOP):
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql('Select numeroop, situacao from tco.ordemprod where codempresa = ' +emp+
                            ' and numeroop = ' +"'"+numeroOP+"'",conn)
+    conn.close()
     ## avaliando a situacao da OP:
     if consulta['situacao'][0] == '2':
         return pd.DataFrame([{'status': True}])
