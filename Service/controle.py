@@ -31,6 +31,7 @@ def salvar(rotina, ip,datahoraInicio):
     # Obtém a diferença total em segundos
     diferenca_total_segundos = diferenca.total_seconds()
     milissegundos = diferenca.microseconds / 1000
+    print(milissegundos)
     tempoProcessamento = float(diferenca_total_segundos + milissegundos /1000)
 
 
