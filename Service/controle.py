@@ -45,7 +45,7 @@ def salvar(rotina, ip,datahoraInicio):
     cursor.close()
 
     conn.close()
-
+    ExcluirHistorico(3)
 # Funcao que retorna a utima atualizacao
 def UltimaAtualizacao(classe, dataInicial):
 
@@ -79,7 +79,6 @@ def ExcluirHistorico(diasDesejados):
     conn = ConexaoPostgreMPL.conexao()
 
     deletar = "DELETE FROM pcp.controle_requisicao_csw crc " \
-              "WHERE rotina = 'Portal Consulta OP' " \
               "AND ((SUBSTRING(fim, 7, 4)||'-'||SUBSTRING(fim, 4, 2)||'-'||SUBSTRING(fim, 1, 2))::date - now()::date) < -%s"
 
     cursor = conn.cursor()
