@@ -297,7 +297,9 @@ def CaixasAbertasUsuario():
 def RelacaoDeOPs():
     empresa = request.args.get('empresa','1')
 
-
+    datainicio = controle.obterHoraAtual()
+    client_ip = request.remote_addr
+    controle.salvar('OPsAliberar', client_ip, datainicio)
     FilaReposicaoOP = ReposicaoQualidade.OPsAliberar(empresa)
     FilaReposicaoOP = pd.DataFrame(FilaReposicaoOP)
     # Obtém os nomes das colunas
