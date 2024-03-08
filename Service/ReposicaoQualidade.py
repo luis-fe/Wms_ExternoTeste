@@ -90,6 +90,7 @@ def OPsAliberar(empresa):
     Op_ReposicaoIniciada = consulta2['numeroop'].count()
     consulta = pd.merge(consulta, consulta2 ,on='numeroop', how= 'left')
     consulta.fillna('Nao Iniciado', inplace=True)
+
     faccionista = InformacoesOPsGarantia(empresa, consulta)
     faccionista_Costura = faccionista.loc[(faccionista['codFase'] == 55) | (faccionista['codFase'] == 429)]
     faccionista_CosturaAcab = faccionista.loc[(faccionista['codFase'] == 195) | (faccionista['codFase'] == 437)]
