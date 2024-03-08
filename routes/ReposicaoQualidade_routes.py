@@ -321,7 +321,9 @@ def DetalhaOPQuantidade():
         empresa = request.args.get('empresa',emp)
         numeroop = request.args.get('numeroop')
 
-
+        datainicio = controle.obterHoraAtual()
+        client_ip = request.remote_addr
+        controle.salvar('DetalhaQuantidadeOP', client_ip, datainicio)
         FilaReposicaoOP = ReposicaoQualidade.DetalhaQuantidadeOP(empresa, numeroop)
 
         # Obtém os nomes das colunas
