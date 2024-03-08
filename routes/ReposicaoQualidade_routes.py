@@ -299,8 +299,9 @@ def RelacaoDeOPs():
 
     datainicio = controle.obterHoraAtual()
     client_ip = request.remote_addr
-    controle.salvar('OPsAliberar', client_ip, datainicio)
     FilaReposicaoOP = ReposicaoQualidade.OPsAliberar(empresa)
+    controle.salvar('OPsAliberar', client_ip, datainicio)
+
     FilaReposicaoOP = pd.DataFrame(FilaReposicaoOP)
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
