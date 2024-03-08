@@ -79,7 +79,7 @@ def ExcluirHistorico(diasDesejados):
     conn = ConexaoPostgreMPL.conexao()
 
     deletar = "DELETE FROM pcp.controle_requisicao_csw crc " \
-              "AND ((SUBSTRING(fim, 7, 4)||'-'||SUBSTRING(fim, 4, 2)||'-'||SUBSTRING(fim, 1, 2))::date - now()::date) < -%s"
+              "where ((SUBSTRING(fim, 7, 4)||'-'||SUBSTRING(fim, 4, 2)||'-'||SUBSTRING(fim, 1, 2))::date - now()::date) < -%s"
 
     cursor = conn.cursor()
 
