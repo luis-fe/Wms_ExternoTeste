@@ -142,3 +142,27 @@ def TagDisponiveis(emp):
     ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = ' + emp + ' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 452, 437 ) and situacao = 3) '
 
     return tagsDisponivel
+#SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS , TESTE COM 1 ANO : velocidade 9 segundos (REGULAR)
+def MovimentacoesOps():
+        dados = 'SELECT codFase, mf.numeroOP, dataMov as data_entrada, horaMov, mf.seqRoteiro, (mf.seqRoteiro + 1) as seqAtual FROM'\
+                ' tco.MovimentacaoOPFase mf'\
+                ' WHERE mf.codempresa = 1 and dataBaixa <= CURRENT_TIMESTAMP AND  '\
+                " dataBaixa > DATEADD('day', -365, CURRENT_TIMESTAMP)"
+        return dados
+
+#SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS no dia : velocidade 0,33 segundos (otimo)
+def MovimentacoesOpsNodia():
+        dados = 'SELECT codFase, mf.numeroOP, dataMov as data_entrada, horaMov, mf.seqRoteiro, (mf.seqRoteiro + 1) as seqAtual FROM'\
+                ' tco.MovimentacaoOPFase mf'\
+                ' WHERE mf.codempresa = 1 and dataBaixa <= CURRENT_TIMESTAMP AND  '\
+                " dataBaixa > DATEADD('day', -1, CURRENT_TIMESTAMP)"
+        return dados
+#SQL DE BUSCA DAS QUALIDADES DAS TAGS ENTRE DATAS no dia : velocidade 2,00 segundos (REGULAR)
+def TagsSegundaQualidadePeriodo(datainicial, datafinal):
+
+        detalhado =   'SELECT codBarrasTag , codReduzido , codNaturezaAtual , numeroOP , motivo2Qualidade  FROM tcr.TagBarrasProduto t'\
+        '    WHERE t.codEmpresa = 1 and t.codNaturezaAtual in (7, 54, 53) and t.numeroOP in '\
+        '(SELECT op.numeroop from tco.OrdemProd op WHERE op.codempresa = 1 and op.situacao = 2 '\
+        "and op.datafim >= '"+datainicial+"' and op.datafim < '"+ datafinal+"' ) and motivo2Qualidade > 0 and situacao <> 1"
+
+        return detalhado
