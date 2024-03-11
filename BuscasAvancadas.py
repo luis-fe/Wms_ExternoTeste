@@ -166,3 +166,10 @@ def TagsSegundaQualidadePeriodo(datainicial, datafinal):
         "and op.datafim >= '"+datainicial+"' and op.datafim < '"+ datafinal+"' ) and motivo2Qualidade > 0 and situacao <> 1"
 
         return detalhado
+
+#SQL DE BUSCA DAo cadastro de motivos : velocidade 0,09 segundos (otimo)
+
+def Motivos():
+    motivos = 'SELECT codMotivo as motivo2Qualidade , nome FROM tcp.Mot2Qualidade m WHERE m.Empresa = 1'
+
+    return motivos

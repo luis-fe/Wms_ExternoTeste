@@ -10,8 +10,15 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     conn = ConexaoCSW.Conexao()
 
     tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda), conn)
+    motivos = pd.read_sql(BuscasAvancadas.Motivos(),conn)
+
+    tags = pd.merge(tags,motivos,on='motivo2Qualidade', how='left')
+
+    tags['motivo2Qualidade'] = tags['motivo2Qualidade'] +"-"+tags['nome']
 
     conn.close()
+
+
 
 
 
