@@ -23,7 +23,7 @@ def MotivosAgrupado(iniVenda, finalVenda):
     tags = TagSegundaQualidade(iniVenda,finalVenda)
     #Agrupamento do quantitativo
     tags['qtde'] = 1
-
+    tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
 
     return Agrupamento
