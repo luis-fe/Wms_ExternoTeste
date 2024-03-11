@@ -16,7 +16,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags = pd.merge(tags,motivos,on='motivo2Qualidade', how='left')
 
-    tags['motivo2Qualidade'] = tags['motivo2Qualidade'] +"-"+tags['nome']
+    tags['motivo2Qualidade'] = tags['nome']
 
     conn.close()
 
