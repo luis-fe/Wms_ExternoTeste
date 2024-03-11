@@ -1,7 +1,7 @@
 import BuscasAvancadas
 import ConexaoCSW
 import ConexaoPostgreMPL
-
+import pandas as pd
 
 
 def TagSegundaQualidade(iniVenda, finalVenda):
@@ -9,7 +9,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
     conn = ConexaoCSW.Conexao()
 
-    tags = BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda)
+    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda), conn)
 
     conn.close()
 
