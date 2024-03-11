@@ -55,7 +55,6 @@ def MotivosAgrupado():
     DataIncial = request.args.get('DataIncial','')
     DataFinal = request.args.get('DataFinal', '')
 
-
     Endereco_det = AcompanhamentoSegundaQual.MotivosAgrupado(DataIncial,DataFinal)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
