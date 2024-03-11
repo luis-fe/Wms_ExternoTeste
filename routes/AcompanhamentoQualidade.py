@@ -28,9 +28,9 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 
     return decorated_function
 
-@AcompanhamentoQual_routes.route('/api/chamados', methods=['GET'])
+@AcompanhamentoQual_routes.route('/api/AcompanhamentoQualidade', methods=['GET'])
 @token_required
-def get_chamados():
+def AcompanhamentoQualidade():
     # Obtém os dados do corpo da requisição (JSON)
     DataIncial = request.args.get('DataIncial','')
     DataFinal = request.args.get('DataFinal', '')
