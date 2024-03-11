@@ -13,4 +13,21 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     conn.close()
 
+
+
     return tags
+
+
+def MotivosAgrupado(iniVenda, finalVenda):
+
+    tags = TagSegundaQualidade(iniVenda,finalVenda)
+    #Agrupamento do quantitativo
+    tags['qtde'] = 1
+
+    Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
+
+    return Agrupamento
+
+
+
+
