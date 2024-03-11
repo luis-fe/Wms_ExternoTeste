@@ -11,6 +11,8 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda), conn)
     motivos = pd.read_sql(BuscasAvancadas.Motivos(),conn)
+    tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
+    motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
 
     tags = pd.merge(tags,motivos,on='motivo2Qualidade', how='left')
 
@@ -30,7 +32,6 @@ def MotivosAgrupado(iniVenda, finalVenda):
     tags = TagSegundaQualidade(iniVenda,finalVenda)
     #Agrupamento do quantitativo
     tags['qtde'] = 1
-    tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
     Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
