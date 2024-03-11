@@ -25,6 +25,8 @@ def MotivosAgrupado(iniVenda, finalVenda):
     tags['qtde'] = 1
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
+    Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
+                        ignore_index=True)  # escolher como deseja classificar
 
     return Agrupamento
 
