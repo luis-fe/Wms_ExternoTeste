@@ -27,7 +27,6 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     TotalPecas = tags['qtde'].sum()
     data = {
-
         '1- Peças com Motivo de 2Qual.': TotalPecas ,
         '2- Total Peças Baixadas periodo': TotalPCsBaixadas,
         '4- Detalhamento ': tags.to_dict(orient='records')
