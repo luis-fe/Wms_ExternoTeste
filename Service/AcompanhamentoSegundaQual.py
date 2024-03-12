@@ -22,9 +22,11 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
     ##Identificando a estamparia
-    OpsFaccinista = OpsFaccinista[OpsFaccinista['nomeFase'].str.contains('ESTA')]
+    ESTAMPARIA = OpsFaccinista[OpsFaccinista['nomeFase'].str.contains('ESTA')]
+    ESTAMPARIA['Estamp'] = ESTAMPARIA['nomeFaccicionista']
+    ESTAMPARIA.drop(['codFase', 'nomeFaccicionista','codFac'], axis=1, inplace=True)
 
-    tags = pd.merge(tags,OpsFaccinista,on='numeroOP', how='left')
+    tags = pd.merge(tags,ESTAMPARIA,on='numeroOP', how='left')
 
     TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
 
