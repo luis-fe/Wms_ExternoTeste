@@ -170,7 +170,9 @@ def TagsSegundaQualidadePeriodo(datainicial, datafinal):
 #SQL DE BUSCA DAo cadastro de motivos : velocidade 0,09 segundos (otimo)
 
 def Motivos():
-    motivos = 'SELECT codMotivo as motivo2Qualidade , nome FROM tcp.Mot2Qualidade m WHERE m.Empresa = 1'
+    motivos = ' SELECT codMotivo as motivo2Qualidade , nome, codOrigem,'\
+ '(SELECT o.nome from tcp.OrgSegQualidade o WHERE o.empresa = 1 and o.codorigem = m.codorigem) as nomeOrigem'\
+ ' FROM tcp.Mot2Qualidade m WHERE m.Empresa = 1 '
 
     return motivos
 
@@ -184,6 +186,7 @@ def OpsBaixadas(datainicial, datafinal):
 
     return opsBaixadas
 
+#Sql Obter as OPs Baixadas por faccionista no Periodo: velocidade 1,70 segundos (otimo)
 
 def OpsBaixadasFaccionista(datainicial, datafinal):
     opBaixadas = "  SELECT CONVERT(VARCHAR(10), R.codOP) AS numeroOP, R.codFase as codFase, R.codFac,"\
