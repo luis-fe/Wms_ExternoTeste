@@ -32,7 +32,6 @@ def TagSegundaQualidade(iniVenda, finalVenda):
         '2- Total Peças Baixadas periodo': TotalPCsBaixadas,
         '4- Detalhamento ': tags.to_dict(orient='records')
     }
-
     return pd.DataFrame([data])
 
 
