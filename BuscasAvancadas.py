@@ -173,3 +173,13 @@ def Motivos():
     motivos = 'SELECT codMotivo as motivo2Qualidade , nome FROM tcp.Mot2Qualidade m WHERE m.Empresa = 1'
 
     return motivos
+
+#Sql Obter as OPs Baixadas no Periodo: velocidade 0,70 segundos (otimo)
+
+def OpsBaixadas(datainicial, datafinal):
+    opsBaixadas = 'SELECT M.dataLcto , m.numDocto, m.qtdMovto, codNatureza1, m.codItem FROM est.Movimento m'\
+                    " WHERE codEmpresa = 1 and m.dataLcto >= '"+ datainicial +"'and m.dataLcto <= '"+datafinal+"'"\
+                    " and operacao1 = '+' and numDocto like 'OP%'"\
+                    " AND codNatureza1 IN (5,7)"
+
+    return opsBaixadas

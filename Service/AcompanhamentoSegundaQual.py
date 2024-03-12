@@ -18,12 +18,18 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags['motivo2Qualidade'] = tags['nome']
     tags['qtde'] = 1
+
+    PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
+    TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
+
+
     conn.close()
 
     TotalPecas = tags['qtde'].sum()
     data = {
 
         '1- Peças com Motivo de 2Qual.': f'{TotalPecas} ',
+        '2- Total Peças Baixadas periodo': f'{TotalPCsBaixadas}',
         '4- Detalhamento ': tags.to_dict(orient='records')
     }
 
