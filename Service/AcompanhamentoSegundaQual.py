@@ -23,6 +23,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
 
     tags = pd.merge(tags,OpsFaccinista,on='numeroOP', how='left')
+    tags.fill('-',inplace=True)
 
     TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
 
