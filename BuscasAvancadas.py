@@ -183,3 +183,20 @@ def OpsBaixadas(datainicial, datafinal):
                     " AND codNatureza1 IN (5,7)"
 
     return opsBaixadas
+
+
+def OpsBaixadasFaccionista(datainicial, datafinal):
+    opBaixadas = "  SELECT CONVERT(VARCHAR(10), R.codOP) AS numeroOP, R.codFase as codFase, R.codFac,"\
+  " (SELECT fase.nome FROM tcp.FasesProducao fase WHERE fase.codempresa = 1 and fase.codfase = R.codFase) as nomeFase,"\
+   " (SELECT nome  FROM tcg.Faccionista  f WHERE f.empresa = 1 and f.codfaccionista = r.codfac) as nomeFaccicionista"\
+  " FROM TCT.RemessaOPsDistribuicao R"\
+" INNER JOIN tco.OrdemProd op on"\
+     " op.codempresa = r.empresa and op.numeroop = CONVERT(VARCHAR(10), R.codOP)"\
+     " WHERE R.Empresa = 1 and r.situac = 2 and op.numeroop in "\
+     " ("\
+     " SELECT SUBSTRING(m.numDocto, 11,10) FROM est.Movimento m"\
+                     " WHERE codEmpresa = 1 and m.dataLcto >= '"+datainicial +"' and m.dataLcto <= '"+datafinal+"' "\
+                     " and operacao1 = '+' and numDocto like 'OP%'"\
+                     " AND codNatureza1 IN (5,7))'"
+
+    return opBaixadas
