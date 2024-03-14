@@ -65,6 +65,7 @@ def RecarrearEnderecoTeste():
         Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
         endereco = dados['endereco']
         usuario = dados.get('usuario','-')
+        datainicio = controle.obterHoraAtual()
 
         # Funcao de contingencia para casos  que derem errado:
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
@@ -117,7 +118,6 @@ def RecarrearEnderecoTeste():
             # Etapa 4 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
             else:
                 codigoOP = InfoCaixa['numeroop'][0]
-                datainicio = controle.obterHoraAtual()
                 client_ip = request.remote_addr
 
                 StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP)
