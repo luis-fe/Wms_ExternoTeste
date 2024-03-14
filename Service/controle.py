@@ -19,8 +19,8 @@ def salvar(rotina, ip,datahoraInicio):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S")
-    data2_obj = datetime.strptime(datahorafinal, "%d/%m/%Y %H:%M:%S")
+    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal, "%d/%m/%Y %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
