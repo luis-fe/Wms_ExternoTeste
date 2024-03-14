@@ -210,7 +210,9 @@ def OpsBaixadasFaccionista(datainicial, datafinal):
 #21- Sql Obter os itens substitutos dos ultimos 100 dias a nivel de op : velocidade 2,50 segundos (otimo)
 
 def RegistroSubstituto():
-    registro = "SELECT s.codRequisicao , r.numOPConfec as numeroOP , r.dtBaixa, s.codItemPrincipal, ri.nomeMaterial, s.codMaterial as subst,"\
+    registro = "SELECT s.codRequisicao , r.numOPConfec as numeroOP ," \
+               " (SELECT op.codProduto from tco.OrdemProd op WHERE op.codempresa = 1 and op.numeroop = r.numOPConfec ) as codProduto," \
+               " r.dtBaixa, s.codItemPrincipal, ri.nomeMaterial, s.codMaterial as subst,"\
                 " (select ri2.nomeMaterial from tcq.RequisicaoItem ri2 where s.codEmpresa = ri2.codEmpresa and s.codRequisicao = ri2.codRequisicao  and ri2.codMaterial = s.codMaterial)"\
                 " as nomeSub"\
                 " FROM TCQ.Requisicao R"\
@@ -218,3 +220,17 @@ def RegistroSubstituto():
                 " left join tcq.RequisicaoItem ri on s.codEmpresa = ri.codEmpresa and s.codRequisicao = ri.codRequisicao  and ri.codMaterial = s.codItemPrincipal "\
                 " WHERE R.codEmpresa = 1 and r.dtBaixa  > DATEADD('day', -100, CURRENT_TIMESTAMP)"
     return registro
+
+#22- Sql Obter o compontente de cadas sku nas engenharias , relativo as 10Mil primeiras OP : velocidade 36 segundos (lento)
+
+def ComponentesPrincipaisEngenharia():
+    consulta = 'SELECT c.codProduto, cv.codSortimento , cv.seqTamanho, c.CodComponente, c.codAplicacao,'\
+                " (SELECT i.codItem  FROM cgi.item2 i WHERE i.Empresa = 1 and i.codSortimento  > 0 and i.codsortimento = cv.codSortimento and cv.seqTamanho = i.codSeqTamanho "\
+                " and '0'||codItemPai||'-0' = cv.codProduto) as codreduzido "\
+                ' FROM tcp.CompVarSorGraTam cv '\
+                ' right join tcp.ComponentesVariaveis c on cv.codEmpresa = c.codEmpresa and c.codproduto = cv.codproduto and c.codSequencia = cv.sequencia '\
+                ' WHERE c.codEmpresa = 1 '\
+                ' and c.codProduto in ( '\
+                ' SELECT top 10000 op.codproduto from tco.OrdemProd op WHERE op.codempresa = 1 '\
+                ' order by numeroOP desc )'
+    return consulta
