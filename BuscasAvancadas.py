@@ -1,8 +1,11 @@
-##################################### ARQUIVO.py UTILIZADO PARA CATALOGAR OS CODIGOS SQL DE BUSCA NO CSW: #########################################################
+######## ARQUIVO.py UTILIZADO PARA CATALOGAR OS CODIGOS SQL DE BUSCA NO CSW: ##########################
 
 #Elaborado por : Luis Fernando Gonçalves de Lima Machado
 
-## SQL BUSCANDO AS ORDEM DE PRODUCAO EM ABERTO - velocidade media da consulta : 0,850 s (otima)
+
+
+
+#1 - SQL BUSCANDO AS ORDEM DE PRODUCAO EM ABERTO - velocidade media da consulta : 0,850 s (otima)
 
 def OP_Aberto():
 
@@ -17,7 +20,7 @@ def OP_Aberto():
 
 
 
-## SQL BUSCANDO AS " DATA/HORA DE MOVIMENTACAO DAS ORDEM DE PRODUCAO EM ABERTO " - velocidade media: 4,500 s (regular)
+#2- SQL BUSCANDO AS " DATA/HORA DE MOVIMENTACAO DAS ORDEM DE PRODUCAO EM ABERTO " - velocidade media: 4,500 s (regular)
 
 def DataMov(AREA):
 
@@ -32,7 +35,7 @@ def DataMov(AREA):
 
     return DataMov
 
-# SQL BUSCAR OS TIPO's DE OP DO CSW
+#3- SQL BUSCAR OS TIPO's DE OP DO CSW
 def TipoOP():
 
     TipoOP = 'SELECT t.codTipo as codTipoOP, t.nome as nomeTipoOp  FROM tcp.TipoOP t WHERE t.Empresa = 1'
@@ -40,20 +43,20 @@ def TipoOP():
     return TipoOP
 
 
-# Sql Buscando Pedidos Bloqueados NO CREDITO tempo 0,100 ms (otimo)
+#4- Sql Buscando Pedidos Bloqueados NO CREDITO tempo 0,100 ms (otimo)
 def BloqueiosCredito():
 
     BloqueiosCredito = "SELECT codPedido, 'BqCredito' as situacao  FROM Cre.PedidoCreditoBloq WHERE Empresa = 1 and situacao = 1 "
 
     return BloqueiosCredito
 
-# Sql Buscando Pedidos Bloqueados NO COMERCIAL tempo 0,050 ms (otimo)
+#5- Sql Buscando Pedidos Bloqueados NO COMERCIAL tempo 0,050 ms (otimo)
 def bloqueioComerical():
     bloqueioComerical = 'SELECT codPedido, situacaoBloq as situacao from ped.PedidoBloqComl c WHERE codEmpresa = 1 and situacaoBloq = 1 '
 
     return bloqueioComerical
 
-# SQL CAPA DOS PEDIDOS: Velocidade media : 1,5 s (ótimo - para o intervalo de 1 ano de pedidos)
+#6- SQL CAPA DOS PEDIDOS: Velocidade media : 1,5 s (ótimo - para o intervalo de 1 ano de pedidos)
 def CapaPedido (iniVenda, finalVenda, tiponota):
 
     CapaPedido = "SELECT dataEmissao, codPedido, "\
@@ -66,14 +69,14 @@ def CapaPedido (iniVenda, finalVenda, tiponota):
     return CapaPedido
 
 
-#SQL DE PEDIDOS NO NIVEL SKU - Velocidade Media 5 s para dados de 1 ano (regular)
+#7- SQL DE PEDIDOS NO NIVEL SKU - Velocidade Media 5 s para dados de 1 ano (regular)
 def pedidosNivelSKU (iniVenda, finalVenda, tiponota):
     pedidosNivelSKU = 'select codPedido, codProduto as reduzido, qtdeCancelada, qtdeFaturada, qtdePedida '\
                         'from ped.PedidoItemGrade  p where codEmpresa = 1 and p.codPedido in '\
                         "(select p.codPedido FROM Ped.Pedido p where codEmpresa = 1 and dataEmissao >= '" + iniVenda + "' and dataEmissao <= '" + finalVenda + ")"
 
     return pedidosNivelSKU
-#SQL DE BUSCA DE TERCEIRIZADOS POR OP E FASE - Velocidade Média: 0,700 s
+#8- SQL DE BUSCA DE TERCEIRIZADOS POR OP E FASE - Velocidade Média: 0,700 s
 
 def OPporTecerceirizado():
     OpTercerizados = 'SELECT CONVERT(VARCHAR(10), R.codOP) AS numeroOP, R.codFase as codFase, R.codFac,'\
@@ -85,7 +88,7 @@ def OPporTecerceirizado():
 
     return OpTercerizados
 
-#SQL DEPARA DA ENGENHARIA PAI X FILHO: velocidade Média : 0,20 segundos
+#9- SQL DEPARA DA ENGENHARIA PAI X FILHO: velocidade Média : 0,20 segundos
 
 def DeParaFilhoPaiCategoria():
 
@@ -96,7 +99,7 @@ def DeParaFilhoPaiCategoria():
 
     return dePara
 
-#SQL DE BUSCA DAS REQUISICOES DAS OPS : velocidade Média : 1,20 segundos
+#10- SQL DE BUSCA DAS REQUISICOES DAS OPS : velocidade Média : 1,20 segundos
 
 def RequisicoesOPs():
 
@@ -106,7 +109,7 @@ def RequisicoesOPs():
 
     return requisicoes
 
-#SQL DE BUSCA DAS PARTES DAS OPS : velocidade Média : 0,35 segundos (OTIMO)
+#11- SQL DE BUSCA DAS PARTES DAS OPS : velocidade Média : 0,35 segundos (OTIMO)
 
 def LocalizarPartesOP():
 
@@ -118,20 +121,20 @@ def LocalizarPartesOP():
 
     return partes
 
-#SQL DE BUSCA DAs cores : velocidade Média : 0,07 segundos (OTIMO)
+#12- SQL DE BUSCA DAs cores : velocidade Média : 0,07 segundos (OTIMO)
 def CoresVariantesCSW():
     cores = "SELECT codigoCor as sortimentosCores , descricao  FROM Ppcpt_Gen_Ttg.TabGenClasseCor c "\
                         "WHERE c.codEmpresa = 1 "
     return cores
 
-#SQL DE BUSCA DAs transportadoras cadastras no csw : velocidade Média : 0,200 segundos (OTIMO)
+#13- SQL DE BUSCA DAs transportadoras cadastras no csw : velocidade Média : 0,200 segundos (OTIMO)
 def tranportadora(empresa):
     tranportadora = 'SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'\
         ' join cad.Transportador  f on  f.codigo  = t.Transportador  '\
         ' WHERE t.Empresa = '+empresa
 
     return tranportadora
-#SQL DE BUSCA DAS TAG'S DISPONIVEIS PARA A PRODUCAO : velocidade Média : 31,4 segundos (lenta)
+#14- SQL DE BUSCA DAS TAG'S DISPONIVEIS PARA A PRODUCAO : velocidade Média : 31,4 segundos (lenta)
 def TagDisponiveis(emp):
 
     tagsDisponivel = 'SELECT p.codBarrasTag as codbarrastag , p.codReduzido as codreduzido, p.codEngenharia as engenharia,'\
@@ -142,7 +145,7 @@ def TagDisponiveis(emp):
     ' p.numeroOP in ( SELECT numeroOP  FROM tco.OrdemProd o WHERE codEmpresa = ' + emp + ' and codFaseAtual in (210, 320, 56, 432, 441, 452, 423, 433, 452, 437 ) and situacao = 3) '
 
     return tagsDisponivel
-#SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS , TESTE COM 1 ANO : velocidade 9 segundos (REGULAR)
+#15- SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS , TESTE COM 1 ANO : velocidade 9 segundos (REGULAR)
 def MovimentacoesOps():
         dados = 'SELECT codFase, mf.numeroOP, dataMov as data_entrada, horaMov, mf.seqRoteiro, (mf.seqRoteiro + 1) as seqAtual FROM'\
                 ' tco.MovimentacaoOPFase mf'\
@@ -150,14 +153,14 @@ def MovimentacoesOps():
                 " dataBaixa > DATEADD('day', -365, CURRENT_TIMESTAMP)"
         return dados
 
-#SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS no dia : velocidade 0,33 segundos (otimo)
+#16- SQL DE BUSCA DAS MOVIMENTACOES ENTRE DATAS no dia : velocidade 0,33 segundos (otimo)
 def MovimentacoesOpsNodia():
         dados = 'SELECT codFase, mf.numeroOP, dataMov as data_entrada, horaMov, mf.seqRoteiro, (mf.seqRoteiro + 1) as seqAtual FROM'\
                 ' tco.MovimentacaoOPFase mf'\
                 ' WHERE mf.codempresa = 1 and dataBaixa <= CURRENT_TIMESTAMP AND  '\
                 " dataBaixa > DATEADD('day', -1, CURRENT_TIMESTAMP)"
         return dados
-#SQL DE BUSCA DAS QUALIDADES DAS TAGS ENTRE DATAS no dia : velocidade 2,00 segundos (REGULAR)
+#17- SQL DE BUSCA DAS QUALIDADES DAS TAGS ENTRE DATAS no dia : velocidade 2,00 segundos (REGULAR)
 def TagsSegundaQualidadePeriodo(datainicial, datafinal):
 
         detalhado =   'SELECT codBarrasTag , codReduzido , codNaturezaAtual , numeroOP , motivo2Qualidade  FROM tcr.TagBarrasProduto t'\
@@ -167,7 +170,7 @@ def TagsSegundaQualidadePeriodo(datainicial, datafinal):
 
         return detalhado
 
-#SQL DE BUSCA DAo cadastro de motivos : velocidade 0,09 segundos (otimo)
+#18- SQL DE BUSCA DAo cadastro de motivos : velocidade 0,09 segundos (otimo)
 
 def Motivos():
     motivos = ' SELECT codMotivo as motivo2Qualidade , nome, codOrigem,'\
@@ -176,7 +179,7 @@ def Motivos():
 
     return motivos
 
-#Sql Obter as OPs Baixadas no Periodo: velocidade 0,70 segundos (otimo)
+#19- Sql Obter as OPs Baixadas no Periodo: velocidade 0,70 segundos (otimo)
 
 def OpsBaixadas(datainicial, datafinal):
     opsBaixadas = 'SELECT M.dataLcto , m.numDocto, m.qtdMovto, codNatureza1, m.codItem FROM est.Movimento m'\
@@ -186,7 +189,7 @@ def OpsBaixadas(datainicial, datafinal):
 
     return opsBaixadas
 
-#Sql Obter as OPs Baixadas por faccionista no Periodo: velocidade 1,70 segundos (otimo)
+#20- Sql Obter as OPs Baixadas por faccionista no Periodo: velocidade 1,70 segundos (otimo)
 
 def OpsBaixadasFaccionista(datainicial, datafinal):
     opBaixadas = "  SELECT CONVERT(VARCHAR(10), R.codOP) AS numeroOP, R.codFase as codFase, R.codFac,"\
@@ -203,3 +206,15 @@ def OpsBaixadasFaccionista(datainicial, datafinal):
                      " AND codNatureza1 IN (5,7))"
 
     return opBaixadas
+
+#21- Sql Obter os itens substitutos dos ultimos 100 dias a nivel de op : velocidade 2,50 segundos (otimo)
+
+def RegistroSubstituto():
+    registro = "SELECT s.codRequisicao , r.numOPConfec as numeroOP , r.dtBaixa, s.codItemPrincipal, ri.nomeMaterial, s.codMaterial as subst,"\
+                " (select ri2.nomeMaterial from tcq.RequisicaoItem ri2 where s.codEmpresa = ri2.codEmpresa and s.codRequisicao = ri2.codRequisicao  and ri2.codMaterial = s.codMaterial)"\
+                " as nomeSub"\
+                " FROM TCQ.Requisicao R"\
+                " inner join tcq.RequisicaoItemSubst s on s.codEmpresa = r.codEmpresa and s.codRequisicao = r.numero"\
+                " left join tcq.RequisicaoItem ri on s.codEmpresa = ri.codEmpresa and s.codRequisicao = ri.codRequisicao  and ri.codMaterial = s.codItemPrincipal "\
+                " WHERE R.codEmpresa = 1 and r.dtBaixa  > DATEADD('day', -100, CURRENT_TIMESTAMP)"
+    return registro
