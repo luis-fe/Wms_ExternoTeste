@@ -47,7 +47,7 @@ def salvar(rotina, ip,datahoraInicio):
     cursor.close()
 
     conn.close()
-    ExcluirHistorico(3)
+    ExcluirHistorico(2)
 # Funcao que retorna a utima atualizacao
 def UltimaAtualizacao(classe, dataInicial):
 
