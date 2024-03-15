@@ -3,21 +3,37 @@ import pandas as pd
 
 
 def SubstitutosPorOP(filtro = ''):
+   if  filtro == '':
+        conn = ConexaoPostgreMPL.conexao()
 
-    conn = ConexaoPostgreMPL.conexao()
+        consultar = pd.read_sql('Select categoria, numeroop, codproduto, databaixa_req as databaixa, '
+                                '"coodigoPrincipal" as "codigoPrinc", '
+                                'nomecompontente as "nomePrinc",'
+                                '"coodigoSubs" as "codigoSub",'
+                                'nomesub as "nomeSubst", considera from "Reposicao"."SubstitutosSkuOP" ', conn)
 
-    consultar = pd.read_sql('Select categoria, numeroop, codproduto, databaixa_req as databaixa, '
-                            '"coodigoPrincipal" as "codigoPrinc", '
-                            'nomecompontente as "nomePrinc",'
-                            '"coodigoSubs" as "codigoSub",'
-                            'nomesub as "nomeSubst", considera from "Reposicao"."SubstitutosSkuOP" ', conn)
+        conn.close()
 
-    conn.close()
+        # Fazer a ordenacao
+        consultar = consultar.sort_values(by=['considera','databaixa'], ascending=False)  # escolher como deseja classificar
 
-    # Fazer a ordenacao
-    consultar = consultar.sort_values(by=['considera','databaixa'], ascending=False)  # escolher como deseja classificar
+        return consultar
+   else:
+       conn = ConexaoPostgreMPL.conexao()
 
-    return consultar
+       consultar = pd.read_sql('Select categoria, numeroop, codproduto, databaixa_req as databaixa, '
+                               '"coodigoPrincipal" as "codigoPrinc", '
+                               'nomecompontente as "nomePrinc",'
+                               '"coodigoSubs" as "codigoSub",'
+                               'nomesub as "nomeSubst", considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ', conn, params=(filtro,))
+
+       conn.close()
+
+       # Fazer a ordenacao
+       consultar = consultar.sort_values(by=['considera', 'databaixa'],
+                                         ascending=False)  # escolher como deseja classificar
+
+       return consultar
 
 def ObterCategorias():
     conn = ConexaoPostgreMPL.conexao()
