@@ -6,7 +6,7 @@ def SubstitutosPorOP(filtro = ''):
    if  filtro == '':
         conn = ConexaoPostgreMPL.conexao()
 
-        consultar = pd.read_sql('Select categoria, numeroop, codproduto, databaixa_req as databaixa, '
+        consultar = pd.read_sql('Select categoria, numeroop, codproduto, cor, databaixa_req as databaixa, '
                                 '"coodigoPrincipal" as "codigoPrinc", '
                                 'nomecompontente as "nomePrinc",'
                                 '"coodigoSubs" as "codigoSub",'
@@ -21,7 +21,7 @@ def SubstitutosPorOP(filtro = ''):
    else:
        conn = ConexaoPostgreMPL.conexao()
 
-       consultar = pd.read_sql('Select categoria, numeroop, codproduto, databaixa_req as databaixa, '
+       consultar = pd.read_sql('Select categoria, numeroop, codproduto, cor, databaixa_req as databaixa, '
                                '"coodigoPrincipal" as "codigoPrinc", '
                                'nomecompontente as "nomePrinc",'
                                '"coodigoSubs" as "codigoSub",'
