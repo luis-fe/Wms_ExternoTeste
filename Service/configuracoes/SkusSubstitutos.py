@@ -10,7 +10,7 @@ def SubstitutosPorOP(filtro = ''):
                                 '"coodigoPrincipal" as "codigoPrinc", '
                                 'nomecompontente as "nomePrinc",'
                                 '"coodigoSubs" as "codigoSub",'
-                                'nomesub as "nomeSubst", considera from "Reposicao"."SubstitutosSkuOP" ', conn)
+                                'nomesub as "nomeSubst", aplicacao, considera from "Reposicao"."SubstitutosSkuOP" ', conn)
 
         conn.close()
 
@@ -27,7 +27,7 @@ def SubstitutosPorOP(filtro = ''):
                                '"coodigoPrincipal" as "codigoPrinc", '
                                'nomecompontente as "nomePrinc",'
                                '"coodigoSubs" as "codigoSub",'
-                               'nomesub as "nomeSubst", considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ', conn, params=(filtro,))
+                               'nomesub as "nomeSubst",aplicacao,  considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ', conn, params=(filtro,))
 
        conn.close()
 
