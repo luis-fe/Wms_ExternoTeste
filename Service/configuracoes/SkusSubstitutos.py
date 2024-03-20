@@ -6,11 +6,11 @@ def SubstitutosPorOP(filtro = ''):
    if  filtro == '':
         conn = ConexaoPostgreMPL.conexao()
 
-        consultar = pd.read_sql('Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor, databaixa_req as databaixa, '
-                                '"coodigoPrincipal" as "codigoPrinc", '
-                                'nomecompontente as "nomePrinc",'
-                                '"coodigoSubs" as "codigoSub",'
-                                'nomesub as "nomeSubst", aplicacao, considera from "Reposicao"."SubstitutosSkuOP" ', conn)
+        consultar = pd.read_sql('Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor as "4-cor", databaixa_req as "5-databaixa", '
+                                '"coodigoPrincipal" as "6-codigoPrinc", '
+                                'nomecompontente as "7-nomePrinc",'
+                                '"coodigoSubs" as "8-codigoSub",'
+                                'nomesub as "9-nomeSubst", aplicacao as "10-aplicacao", considera from "Reposicao"."SubstitutosSkuOP" ', conn)
 
         conn.close()
 
@@ -23,11 +23,11 @@ def SubstitutosPorOP(filtro = ''):
    else:
        conn = ConexaoPostgreMPL.conexao()
 
-       consultar = pd.read_sql('Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor, databaixa_req as databaixa, '
-                               '"coodigoPrincipal" as "codigoPrinc", '
-                               'nomecompontente as "nomePrinc",'
-                               '"coodigoSubs" as "codigoSub",'
-                               'nomesub as "nomeSubst",aplicacao,  considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ', conn, params=(filtro,))
+       consultar = pd.read_sql('Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor as "4-cor", databaixa_req as "5-databaixa", '
+                               '"coodigoPrincipal" as "6-codigoPrinc", '
+                               'nomecompontente as "7-nomePrinc",'
+                               '"coodigoSubs" as "8-codigoSub",'
+                               'nomesub as "9-nomeSubst",aplicacao as "10-aplicacao",  considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ', conn, params=(filtro,))
 
        conn.close()
 
