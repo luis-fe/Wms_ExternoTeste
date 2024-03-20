@@ -17,7 +17,7 @@ def SubstitutosPorOP(filtro = ''):
         consultar.fillna('-',inplace=True)
 
         # Fazer a ordenacao
-        consultar = consultar.sort_values(by=['considera','databaixa'], ascending=False)  # escolher como deseja classificar
+        consultar = consultar.sort_values(by=['considera','5-databaixa'], ascending=False)  # escolher como deseja classificar
 
         return consultar
    else:
@@ -32,7 +32,7 @@ def SubstitutosPorOP(filtro = ''):
        conn.close()
 
        # Fazer a ordenacao
-       consultar = consultar.sort_values(by=['considera', 'databaixa'],
+       consultar = consultar.sort_values(by=['considera', '5-databaixa'],
                                          ascending=False)  # escolher como deseja classificar
        consultar.fillna('-', inplace=True)
 
