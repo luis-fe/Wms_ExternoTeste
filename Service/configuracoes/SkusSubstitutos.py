@@ -91,7 +91,7 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
 
     validador = PesquisarSKUOP(numeroop, SKU)
 
-    if validador['status'] == 'False':
+    if validador['status'][0] == 'False':
 
         return pd.DataFrame([{'mensagem':'sem restricao de Substituto segue fluxo !'}])
 
