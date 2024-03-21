@@ -36,6 +36,8 @@ def SubstitutosPorOP(filtro = ''):
                                          ascending=False)  # escolher como deseja classificar
        consultar.fillna('-', inplace=True)
 
+       consultar = consultar.drop_duplicates()
+
        return consultar
 
 def ObterCategorias():
