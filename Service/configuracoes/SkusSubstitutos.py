@@ -102,8 +102,8 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
 
     if sugestaoEndereco.empty:
 
-        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
-                            'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
+        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SUBSTUICAO. ',
+                            'EnderecoRepor':'Solicitar para Supervisor endereco de SKU DE SUBSTITUICAO '}])
     else:
         endereco = sugestaoEndereco['codendereco'][0]
 
@@ -111,7 +111,7 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
         #Atualizar endereco com a informacao
         PreReservarEndereco(endereco, validador['status'][0])
 
-        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
+        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SKU DE SUBSTUICAO. ',
                             'EnderecoRepor':f'Repor no endereco {endereco}'}])
 
 
