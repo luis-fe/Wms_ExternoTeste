@@ -116,7 +116,7 @@ def RecarrearEnderecoTeste():
                 return jsonify(enderecos_data)
             # Etapa 4 : Caso o endereco estiver vazio, o processo irá continuar e a proxima validacao é se a OP está baixada
             else:
-                print(f'caixa da reposicao {Ncaixa}')
+                print(f'caixa da reposicao {Ncaixa} e usuario {usuario}')
                 codigoOP = InfoCaixa['numeroop'][0]
 
                 client_ip = request.remote_addr
