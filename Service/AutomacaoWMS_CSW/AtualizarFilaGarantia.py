@@ -1,10 +1,14 @@
+'''''
+        Nesse arquivo .py é realizado a operacao de conectar ao csw para atualizar a fila de tags , 
+             disponibilizando -as no WMS. 
+'''''
 import ConexaoCSW
 import pandas as pd
-
 import ConexaoPostgreMPL
 from Service.configuracoes import empresaConfigurada
 import BuscasAvancadas
 
+# 1 - Funcao para atualizar toda a fila da garantia
 def AtualizaFilaGarantia():
     emp = empresaConfigurada.EmpresaEscolhida()
 
@@ -12,6 +16,9 @@ def AtualizaFilaGarantia():
 
     consulta = pd.read_sql(BuscasAvancadas.TagDisponiveis(emp),conn)
     conn.close() # encerrar conexao com o csw
+
+    restringe = BuscaResticaoSubstitutos()
+    consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
 
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'replace')
 
@@ -49,6 +56,22 @@ def AtualizacaoFilaOFF_op(op):
 
     conn2.close()
 
+
+
+    restringe = BuscaResticaoSubstitutos()
+    consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'append')
 
     return pd.DataFrame([{'Status': True, 'mensagem':f'tags da op {numeroop} atualizadas na Garantia com sucesso !'}])
+
+
+def BuscaResticaoSubstitutos():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select numeroop , cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP" '
+                           "sso where sso.considera = 'sim'",conn)
+
+    conn.close()
+
+    return consulta
