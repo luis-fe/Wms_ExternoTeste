@@ -87,7 +87,7 @@ def PesquisaEnderecoSubstitutoVazio():
     return consulta
 
 
-def SugerirEnderecoRestrito(numeroop, ):
+def SugerirEnderecoRestrito(numeroop,SKU ):
     sugestaoEndereco = PesquisaEnderecoSubstitutoVazio()
 
     if SugerirEnderecoRestrito.empty:
@@ -100,3 +100,11 @@ def SugerirEnderecoRestrito(numeroop, ):
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
                             'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
 
+
+def PesquisarSKUOP(numeroop,SKU):
+    conn = ConexaoPostgreMPL.conexao()
+
+
+    conn.close()
+
+    return

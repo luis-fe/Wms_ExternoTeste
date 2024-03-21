@@ -49,12 +49,12 @@ def InculirTagCaixa(dataframe):
         conn = ConexaoPostgreMPL.conexao()
 
         cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-        insert = 'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario, "DataReposicao")' \
-                 ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
+        insert = 'insert into off.reposicao_qualidade (codbarrastag, codreduzido, engenharia, descricao, natureza, codempresa, cor, tamanho, numeroop, caixa, usuario, "DataReposicao", resticao)' \
+                 ' values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )'
 
         values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                    , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
-                   row['usuario'], row['DataReposicao']) for index, row in dataframe.iterrows()]
+                   row['usuario'], row['DataReposicao'], row['resticao']) for index, row in dataframe.iterrows()]
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
         cursor.close()  # Feche o cursor
@@ -106,7 +106,7 @@ def ApontarTagCaixa(codbarras, Ncaixa, empresa, usuario, natureza, estornar = Fa
             consultaCsw['caixa'] = Ncaixa
             consultaCsw['natureza'] = natureza
             consultaCsw['DataReposicao'] = obterHoraAtual()
-
+            consultaCsw['resticao'] = '-'
             InculirTagCaixa(consultaCsw)
             conn2.close()
             return pd.DataFrame([{'status':True , 'Mensagem':'tag inserido !'}])
