@@ -151,3 +151,27 @@ def PreReservarEndereco(endereco, restricao):
     cursor.close()
 
     conn.close()
+
+def EnderecoPropostoSubtituicao(restricao):
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select codendereco from "Reposicao"."Reposicao".cadendereco '
+                           'where pre_reserva = %s', conn,params=(restricao))
+    conn.close()
+
+    return consulta['codendereco'][0]
+
+def LimprandoPréReserva(endereco):
+    conn = ConexaoPostgreMPL.conexao()
+
+    update = 'update "Reposicao"."Reposicao".cadendereco ' \
+             'set pre_reserva is null ' \
+             'where codendereco = %s '
+
+    cursor = conn.cursor()
+    cursor.execute(update,(endereco,))
+    conn.commit()
+
+    cursor.close()
+
+    conn.close()

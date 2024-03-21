@@ -68,7 +68,7 @@ def ValidarSituacaoOPCSW(numeroOP):
 def InfoCaixa(caixa):
     conn1 = ConexaoPostgreMPL.conexao() # Abrindo a Conexao com o Postgre WMS
     consulta = pd.read_sql('select rq.caixa, rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
-                            ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
+                            ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao", resticao as restricao  from "off".reposicao_qualidade rq  '
                             "where rq.caixa = %s ", conn1, params=(caixa,))
     conn1.close() # Fechado a Conexao com o Postgre WMS
 
@@ -77,7 +77,7 @@ def InfoCaixa(caixa):
 
     else:
 
-        return consulta
+        return consulta #NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 
 
 ## Processo 2 - Buscando os EPC no Csw  (Esse estratégia se dá devido ao fato de ser uma tabela pessada no CSW, optou-se por utilizar nessa etapa)
