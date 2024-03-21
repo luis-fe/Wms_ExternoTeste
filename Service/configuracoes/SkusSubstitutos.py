@@ -18,6 +18,7 @@ def SubstitutosPorOP(filtro = ''):
 
         # Fazer a ordenacao
         consultar = consultar.sort_values(by=['considera','5-databaixa'], ascending=False)  # escolher como deseja classificar
+        consultar = consultar.drop_duplicates()
 
         return consultar
    else:
