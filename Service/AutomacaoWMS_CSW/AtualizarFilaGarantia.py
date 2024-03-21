@@ -69,7 +69,8 @@ def AtualizacaoFilaOFF_op(op):
 def BuscaResticaoSubstitutos():
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql('select numeroop , cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP" '
+    consulta = pd.read_sql("select numeroop , codproduto||'||'||numeroop  as resticao,  "
+                            'cor, considera  from "Reposicao"."Reposicao"."SubstitutosSkuOP"  '
                            "sso where sso.considera = 'sim'",conn)
 
     conn.close()
