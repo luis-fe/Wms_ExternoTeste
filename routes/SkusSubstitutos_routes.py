@@ -65,5 +65,28 @@ def CategoriasSubstitutos():
         end_data.append(end_dict)
     return jsonify(end_data)
 
+@SkusSubstitutos_routes.route('/api/SalvarSubstitutos', methods=['PUT'])
+@token_required
+def SalvarSubstitutos():
+    # Obtém os dados do corpo da requisição (JSON)
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    # Extraia os valores dos campos do novo usuário
 
+    arrayOP = novo_endereco.get('arrayOP')
+    arraycor = novo_endereco.get('arraycor')
+    arraydesconsidera = novo_endereco.get('arraydesconsidera')
+
+
+    Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
 

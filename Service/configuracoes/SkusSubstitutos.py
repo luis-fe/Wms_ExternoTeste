@@ -51,26 +51,52 @@ def ObterCategorias():
 
     return consultar
 
-def UpdetaConsidera(arrayOP , arrayCompSub, arrayconsidera):
+def UpdetaConsidera(arrayOP , arraycor, arraydesconsidera):
     conn = ConexaoPostgreMPL.conexao()
 
     indice = 0
     for i in range(len(arrayOP)):
         indice = 1 + indice
         op = arrayOP[i]
-        compSub = arrayCompSub[i]
-        considera = arrayconsidera[i]
+        cor = arraycor[i]
+        considera = arraydesconsidera[i]
 
-        update = 'update "Reposicao"."SubstitutosSkuOP" set considera = %s where numeroop = %s and "coodigoSubs" = %s'
+        update = 'update "Reposicao"."SubstitutosSkuOP" set considera = %s where numeroop = %s and "cor" = %s'
 
         cursor = conn.cursor()
-        cursor.execute(update,(considera, op, compSub,))
+        cursor.execute(update,(considera, op, cor,))
         conn.commit()
         cursor.close()
 
 
-
-
-
     conn.close()
     return pd.DataFrame([{'Mensagem':'Salvo com sucesso'}])
+
+
+def PesquisaEnderecoSubstitutoVazio():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = pd.read_sql('select c.codendereco , saldo from "Reposicao"."Reposicao".enderecoporsku sle '
+                        'right join "Reposicao"."Reposicao".cadendereco c on c.codendereco = sle.codendereco '
+                            "where c.endereco_subst = 'sim' and saldo is null ", conn)
+
+    conn.close()
+
+    consulta['saldo'] = 0
+
+    return consulta
+
+
+def SugerirEnderecoRestrito(numeroop, ):
+    sugestaoEndereco = PesquisaEnderecoSubstitutoVazio()
+
+    if SugerirEnderecoRestrito.empty:
+
+        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
+                            'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
+    else:
+
+
+        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
+                            'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
+
