@@ -78,7 +78,7 @@ def PesquisaEnderecoSubstitutoVazio():
 
     consulta = pd.read_sql('select c.codendereco , saldo from "Reposicao"."Reposicao".enderecoporsku sle '
                         'right join "Reposicao"."Reposicao".cadendereco c on c.codendereco = sle.codendereco '
-                            "where c.endereco_subst = 'sim' and saldo is null ", conn)
+                            "where c.endereco_subst = 'sim' and saldo is null and pre_reserva is null", conn)
 
     conn.close()
 
@@ -88,23 +88,65 @@ def PesquisaEnderecoSubstitutoVazio():
 
 
 def SugerirEnderecoRestrito(numeroop,SKU ):
-    sugestaoEndereco = PesquisaEnderecoSubstitutoVazio()
 
-    if SugerirEnderecoRestrito.empty:
+    validador = PesquisarSKUOP(numeroop, SKU)
+
+    if validador == 'False':
+
+        return pd.DataFrame([{'mensagem':'sem restricao de Substituto segue fluxo !'}])
+
+    else:
+
+
+        sugestaoEndereco = PesquisaEnderecoSubstitutoVazio()
+
+    if sugestaoEndereco.empty:
 
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
                             'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
     else:
+        endereco = sugestaoEndereco['codendereco'][0]
 
+        #Atualizar endereco com a informacao
+        PreReservarEndereco(endereco, validador)
 
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como "SUBSTUICAO". ',
-                            'EnderecoRepor':'Solicitar para Supervisor "endereco de substituto"'}])
+                            'EnderecoRepor':f'Repor no endereco {endereco}'}])
 
 
 def PesquisarSKUOP(numeroop,SKU):
     conn = ConexaoPostgreMPL.conexao()
 
+    consulta = pd.read_sql('select resticao from "off".filareposicaoof x '
+                           'where numeroop = %s and codreduzido = %s ', conn ,params=(numeroop,SKU))
 
     conn.close()
 
-    return
+    if consulta.empty:
+
+        return pd.DataFrame([{'status':'False'}])
+    else:
+
+        resticao = consulta['resticao'][0]
+
+        if resticao != '-':
+            return pd.DataFrame([{'status': resticao}])
+
+        else:
+            return pd.DataFrame([{'status': 'False'}])
+
+
+def PreReservarEndereco(endereco, restricao):
+    conn = ConexaoPostgreMPL.conexao()
+
+    update = 'update "Reposicao"."Reposicao".cadendereco ' \
+             'set pre_reserva = %s ' \
+             'where codendereco = %s '
+
+    cursor = conn.cursor()
+    cursor.execute(update,(restricao, endereco))
+    conn.commit()
+
+    cursor.close()
+
+    conn.close()
