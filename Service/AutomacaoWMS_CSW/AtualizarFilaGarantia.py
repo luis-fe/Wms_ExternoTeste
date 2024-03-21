@@ -19,6 +19,8 @@ def AtualizaFilaGarantia():
 
     restringe = BuscaResticaoSubstitutos()
     consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+    consulta['resticao'].fillna('-',inplace=True)
+
 
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'replace')
 
@@ -60,6 +62,8 @@ def AtualizacaoFilaOFF_op(op):
 
     restringe = BuscaResticaoSubstitutos()
     consulta = pd.merge(consulta,restringe,on=['numeroop','cor'],how='left')
+    consulta['resticao'].fillna('-',inplace=True)
+
 
     ConexaoPostgreMPL.Funcao_InserirOFF(consulta, consulta.size, 'filareposicaoof', 'append')
 
