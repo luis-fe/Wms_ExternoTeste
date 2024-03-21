@@ -69,7 +69,7 @@ def RecarrearEnderecoTeste():
 
         # Funcao de contingencia para casos  que derem errado:
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
-
+        print(f'caixa da reposicao {Ncaixa}')
 
         # Etapa 1 : Valida se o Endereco existe
         StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
