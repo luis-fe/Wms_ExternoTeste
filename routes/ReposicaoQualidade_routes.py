@@ -161,7 +161,7 @@ def RecarrearEnderecoTeste():
 
 
                     # 5.1 Restricao de endereco Especial
-                    if configuracaoRestricao['implenta_endereco_subs'][0] == 'sim' and InfoCaixa['restricao'] != '-':
+                    if configuracaoRestricao == 'sim' and InfoCaixa['restricao'] != '-':
 
                         #Verifica o endereco proposto para a reposicao
                         enderecoPreReservado = Service.configuracoes.SkusSubstitutos.EnderecoPropostoSubtituicao(InfoCaixa['restricao'][0])#Retorna o endereco Pré reservado
