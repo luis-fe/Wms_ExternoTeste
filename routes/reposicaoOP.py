@@ -3,8 +3,8 @@ import Reposicao
 from Service import reposicaoOPModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from Service.configuracoes import empresaConfigurada
-
+from Service.configuracoes import empresaConfigurada, SkusSubstitutos
+import pandas as pd
 
 reposicaoOP_routes = Blueprint('reposicaoOP', __name__)
 
@@ -126,7 +126,7 @@ def get_ApontaReposicao():
 
 
         # ETAPA 1 - Funacao utilizada para fazer a atualizacao do codigo de barra como REPOSTO.
-        Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
+        Apontamento, restricao = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
 
         if Apontamento == 'Reposto':
             if estornar == True:
@@ -144,7 +144,41 @@ def get_ApontaReposicao():
 
             configuracaoRestricao = empresaConfigurada.RegraDeEnderecoParaSubstituto()  # Retorno implenta_endereco_subs: sim ou nao
 
-            return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
+            # 2.1 - Verifica se o WMS esta configurado para restringir os enderecos dos substitutos
+            if configuracaoRestricao == 'sim':
+
+                if restricao != '-': # Caso a tag tenha restricao de substituto
+
+                    # Verifica o endereco proposto para a reposicao
+                    enderecoPreReservado = SkusSubstitutos.EnderecoPropostoSubtituicao(restricao)  # Retorna o endereco Pré reservado
+
+                    # 2.1.1 Caso o endereco reposto nao corresponda ao pré reservado:
+                    if enderecoPreReservado != endereco:
+
+                        Retorno = pd.DataFrame([{'status': False,
+                                                 'message': f'Erro! o Endereco: {endereco} a ser reposto nao corresponde ao Sugerido {enderecoPreReservado}, reponha no endereco sugerido!'}])  # 'Mesagem'
+                        column_names = Retorno.columns  # Obtém os nomes das colunas
+                        enderecos_data = []  # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+
+                        for index, row in Retorno.iterrows():
+                            enderecos_dict = {}
+                            for column_name in column_names:
+                                enderecos_dict[column_name] = row[column_name]
+                            enderecos_data.append(enderecos_dict)
+                        return jsonify(
+                            enderecos_data)  # Devolve a resposta no Json com a mensagem de erro
+                    else:
+
+                        Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza,
+                                                   estornar)
+                        # Limpar a Pré Reserva do Endereco
+                        SkusSubstitutos.LimprandoPréReserva(endereco)
+
+                        return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
+
+            else:
+                Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
+                return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
 
     except KeyError as e:
         return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400

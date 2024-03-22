@@ -205,15 +205,17 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
 
     # Verificando se o codbarras solicitado  está na Fila de Reposição
     cursor.execute(
-        'SELECT "codbarrastag" FROM "Reposicao"."filareposicaoportag" ce '
+        'SELECT "codbarrastag", resticao FROM "Reposicao"."filareposicaoportag" ce '
         'WHERE "codbarrastag" = %s '
         'and codnaturezaatual = %s ' #Provisorio ate o sergio arrumar
         , (codbarras,natureza,)
     )
-    fila_reposicao = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
+    fila_reposicao = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag','resticao'])
+    fila_reposicao['fila_reposicao'].fillna('-',inplace=True)
 
     if estornar == True:
         retorno = 'Reposto'
+        retorno2 = 'Reposto'
 
     elif not fila_reposicao.empty:
         update = 'UPDATE "Reposicao"."filareposicaoportag" ce ' \
@@ -223,14 +225,12 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
         conn.commit()
         cursor.close()
 
-        cursor = conn.cursor()
 
-        insert = 'INSERT INTO "Reposicao"."tagsreposicao" ("usuario","codbarrastag", "DataReposicao", "Endereco", natureza, proveniencia) ' \
-                 'VALUES (%s, %s, %s, %s, %s, %s)'
-        cursor.execute(insert, (usuario,codbarras, dataHora, endereco,natureza, 'veio da fila: reposicaoOP'))
-        conn.commit()
-        cursor.close()
+
+
         retorno = 'A Repor'
+        retorno2 = fila_reposicao['resticao'][0]
+
     else:
         # Verificando se está na Prateleira
         cursor.execute(
@@ -242,13 +242,31 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
         prateleira = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag'])
         if not prateleira.empty:
             retorno = 'Reposto'
+            retorno2 = 'Reposto'
+
         else:
             retorno = False
+            retorno2 = 'Falso'
 
     cursor.close()
     conn.close()
 
-    return retorno
+    return retorno, retorno2
+
+
+def InserirReposicao(usuario, codbarras, endereco, dataHora, empresa, natureza, estornar):
+    conn = ConexaoPostgreMPL.conexao()
+
+
+    cursor = conn.cursor()
+
+    insert = 'INSERT INTO "Reposicao"."tagsreposicao" ("usuario","codbarrastag", "DataReposicao", "Endereco", natureza, proveniencia) ' \
+             'VALUES (%s, %s, %s, %s, %s, %s)'
+    cursor.execute(insert, (usuario, codbarras, dataHora, endereco, natureza, 'veio da fila: reposicaoOP'))
+    conn.commit()
+    cursor.close()
+    conn.close()
+
 
 
 
