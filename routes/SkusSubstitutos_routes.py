@@ -69,13 +69,11 @@ def CategoriasSubstitutos():
 @token_required
 def SalvarSubstitutos():
     # Obtém os dados do corpo da requisição (JSON)
-    # Obtenha os dados do corpo da requisição
-    novo_endereco = request.get_json()
-    # Extraia os valores dos campos do novo usuário
 
-    arrayOP = novo_endereco.get('arrayOP','')
-    arraycor = novo_endereco.get('arraycor','')
-    arraydesconsidera = novo_endereco.get('arraydesconsidera','')
+
+    arrayOP = request.args.get('arrayOP','')
+    arraycor = request.args.get('arraycor','')
+    arraydesconsidera = request.args.get('arraydesconsidera','')
 
 
     Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
