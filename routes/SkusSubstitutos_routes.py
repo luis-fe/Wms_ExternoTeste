@@ -71,9 +71,9 @@ def SalvarSubstitutos():
     # Obtém os dados do corpo da requisição (JSON)
 
 
-    arrayOP = request.args.get('arrayOP','')
-    arraycor = request.args.get('arraycor','')
-    arraydesconsidera = request.args.get('arraydesconsidera','')
+    arrayOP = request.args.get('arrayOP')
+    arraycor = request.args.get('arraycor')
+    arraydesconsidera = request.args.get('arraydesconsidera')
 
 
     Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
