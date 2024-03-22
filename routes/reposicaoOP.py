@@ -1,3 +1,5 @@
+import PediosApontamento
+import Reposicao
 from Service import reposicaoOPModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -102,3 +104,41 @@ def get_DetalhaOPxSKU():
             op_dict[column_name] = row[column_name]
         OP_data.append(op_dict)
     return jsonify(OP_data)
+
+
+### API UTILIZADA PARA Apontar a Reposicao das Tags nos enderecos, utilizados nos modulos REPOSICAO OP e REPOSICAO SKU da aplicacao mobile:
+@reposicaoOP_routes.route('/api/ApontamentoReposicao', methods=['POST'])
+@token_required
+def get_ApontaReposicao():
+    emp = empresaConfigurada.EmpresaEscolhida() # Verificar qual a empresa configuracada (1 - matriz , 4 - Filial)
+    try:
+
+        data = request.get_json() # Obtenha os dados do corpo da requisição
+        codUsuario = data['codUsuario']
+        codbarra = data['codbarra']
+        endereco = data['endereco']
+        dataHora = data['dataHora']
+        estornar = data.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
+        natureza = data.get('natureza', '5')  # Valor padrão: False, se 'estornar' não estiver presente no corpo
+        empresa = data.get('empresa', emp)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
+
+
+
+        # Verifica se existe atribuição
+        Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
+
+        if Apontamento == 'Reposto':
+            if estornar == True:
+                Reposicao.EstornoApontamento(codbarra, empresa, natureza)
+                return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
+
+            ender, ender2 = PediosApontamento.EndereçoTag(codbarra, empresa, natureza)
+            return jsonify({'message': f'codigoBarras {codbarra} ja reposto no endereço {ender}'})
+
+        if Apontamento is False:
+            return jsonify({'message': False, 'Status': f'codigoBarras {codbarra} nao existe no Estoque'})
+
+        return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
+
+    except KeyError as e:
+        return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
