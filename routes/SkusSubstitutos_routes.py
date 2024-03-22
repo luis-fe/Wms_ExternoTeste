@@ -68,13 +68,12 @@ def CategoriasSubstitutos():
 @SkusSubstitutos_routes.route('/api/SalvarSubstitutos', methods=['PUT'])
 @token_required
 def SalvarSubstitutos():
-    # Obtém os dados do corpo da requisição (JSON)
-
-
-    arrayOP = request.args.get('arrayOP')
-    print(arrayOP)
-    arraycor = request.args.get('arraycor')
-    arraydesconsidera = request.args.get('arraydesconsidera')
+    # Obtenha os dados do corpo da requisição
+    corpo = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    arrayOP = corpo.get('arrayOP')
+    arraycor = corpo.get('arraycor')
+    arraydesconsidera = corpo.get('arraydesconsidera')
 
 
     Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
