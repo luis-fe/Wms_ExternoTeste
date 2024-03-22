@@ -5,6 +5,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 from Service.configuracoes import empresaConfigurada
 
+
 reposicaoOP_routes = Blueprint('reposicaoOP', __name__)
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
@@ -138,7 +139,12 @@ def get_ApontaReposicao():
         if Apontamento is False:
             return jsonify({'message': False, 'Status': f'codigoBarras {codbarra} nao existe no Estoque'})
 
-        return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
+        else:
+            ## ETAPA 2 - Verifica se a tag tem restricao de Substituto para ser tratato especial:
+
+            configuracaoRestricao = empresaConfigurada.RegraDeEnderecoParaSubstituto()  # Retorno implenta_endereco_subs: sim ou nao
+
+            return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
 
     except KeyError as e:
         return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400

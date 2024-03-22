@@ -73,9 +73,9 @@ def SalvarSubstitutos():
     novo_endereco = request.get_json()
     # Extraia os valores dos campos do novo usuário
 
-    arrayOP = novo_endereco.get('arrayOP')
-    arraycor = novo_endereco.get('arraycor')
-    arraydesconsidera = novo_endereco.get('arraydesconsidera')
+    arrayOP = novo_endereco.get('arrayOP','')
+    arraycor = novo_endereco.get('arraycor','')
+    arraydesconsidera = novo_endereco.get('arraydesconsidera','')
 
 
     Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
