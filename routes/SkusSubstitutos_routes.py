@@ -72,6 +72,7 @@ def SalvarSubstitutos():
 
 
     arrayOP = request.args.get('arrayOP')
+    print(arrayOP)
     arraycor = request.args.get('arraycor')
     arraydesconsidera = request.args.get('arraydesconsidera')
 
