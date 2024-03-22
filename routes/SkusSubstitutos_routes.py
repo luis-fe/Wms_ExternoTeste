@@ -75,6 +75,7 @@ def SalvarSubstitutos():
     arraycor = corpo.get('arraycor')
     arraydesconsidera = corpo.get('arraydesconsidera')
 
+    print(arrayOP)
 
     Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
     # Obtém os nomes das colunas
