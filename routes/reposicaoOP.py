@@ -124,7 +124,7 @@ def get_ApontaReposicao():
 
 
 
-        # Verifica se existe atribuição
+        # ETAPA 1 - Funacao utilizada para fazer a atualizacao do codigo de barra como REPOSTO.
         Apontamento = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
 
         if Apontamento == 'Reposto':

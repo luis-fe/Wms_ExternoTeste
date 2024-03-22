@@ -203,7 +203,7 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
 
-    # Verificando se está na Fila de Reposição
+    # Verificando se o codbarras solicitado  está na Fila de Reposição
     cursor.execute(
         'SELECT "codbarrastag" FROM "Reposicao"."filareposicaoportag" ce '
         'WHERE "codbarrastag" = %s '
