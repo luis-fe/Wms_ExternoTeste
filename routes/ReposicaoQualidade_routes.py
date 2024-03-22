@@ -29,7 +29,7 @@ def restart_server():
 @reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['POST'])
 @token_required
 def ReporCaixaLivre():
-    try:
+    #try:
         emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
         # Obtenha os dados do corpo da requisição
         novo_usuario = request.get_json()
@@ -53,11 +53,12 @@ def ReporCaixaLivre():
                 enderecos_dict[column_name] = row[column_name]
             enderecos_data.append(enderecos_dict)
         return jsonify(enderecos_data)
-
+'''''
     except Exception as e:
         print(f"Erro detectado: {str(e)}")
         restart_server()
         return jsonify({"error": "O servidor foi reiniciado devido a um erro."})
+'''''
 
 
 
