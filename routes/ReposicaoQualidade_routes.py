@@ -189,6 +189,9 @@ def RecarrearEnderecoTeste():
                             epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                             #Limpar a Pré Reserva do Endereco
                             Service.configuracoes.SkusSubstitutos.LimprandoPréReserva(endereco)
+                            Service.configuracoes.SkusSubstitutos.AtualizarReservadoLiberados()
+
+
                             RecarregarEndereco.IncrementarCaixa(endereco, epc, usuario)
                             ## Limpeza retirada ate achar o erro
                             # RecarregarEndereco.LimpandoDuplicidadeFilaOFF()

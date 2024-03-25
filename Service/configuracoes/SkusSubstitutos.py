@@ -165,7 +165,7 @@ def LimprandoPréReserva(endereco):
     conn = ConexaoPostgreMPL.conexao()
 
     update = 'update "Reposicao"."Reposicao".cadendereco ' \
-             'set reservado = pre_reserva , pre_reserva is null  ' \
+             'set reservado = pre_reserva , pre_reserva = null  ' \
              'where codendereco = %s '
 
     cursor = conn.cursor()
@@ -176,3 +176,22 @@ def LimprandoPréReserva(endereco):
 
     conn.close()
 
+
+def AtualizarReservadoLiberados():
+    conn = ConexaoPostgreMPL.conexao()
+
+
+    update = 'update  "Reposicao"."Reposicao".cadendereco c'\
+' set reservado = null '\
+' where c.codendereco in ('\
+' select c.codendereco from "Reposicao"."Reposicao".enderecoporsku sle' \
+' right join "Reposicao"."Reposicao".cadendereco c on c.codendereco = sle.codendereco'\
+" where c.endereco_subst = %s and saldo is null and reservado is not null)"
+
+    cursor = conn.cursor()
+    cursor.execute(update, ('sim'))
+    conn.commit()
+
+    cursor.close()
+
+    conn.close()
