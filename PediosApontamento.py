@@ -460,12 +460,13 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
 def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
     conn = ConexaoPostgreMPL.conexao()
 
-    # 1. Verificar se o codigobarra veio da Reposição ou se veio da Fila/Inventario
+    # ETAPA 1. Verificar se o codigobarra veio da Reposição ou se veio da Fila/Inventario
     pesquisaTagReposicao = pd.read_sql(
         'SELECT "codbarrastag", "codreduzido", "Endereco" FROM "Reposicao".tagsreposicao f WHERE codbarrastag = %s',
         conn, params=(codbarra,))
 
-    if not pesquisaTagReposicao.empty: #1.1 Nesse caso o codigo veio normal da Reposicao
+    # ETAPA 1.1 Nesse caso o codigo veio normal da Reposicao
+    if not pesquisaTagReposicao.empty:
         reduzido = pesquisaTagReposicao['codreduzido'][0]
 
         #1.2 Inicio fazendo uma consulta para verificar se o produto possue mais de 2 reservas de endereco
@@ -473,6 +474,8 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             'SELECT p.codpedido, p.produto, p.necessidade, p.valorunitarioliq, p.endereco FROM "Reposicao".pedidossku p '
             'WHERE codpedido = %s AND produto = %s and necessidade > 0',
             conn, params=(codpedido, reduzido))
+
+        print(pesquisaPedidoSKU1['codpedido'])
 
         tamanhoPesquisa2 = pesquisaPedidoSKU1['codpedido'].size #1.3 Aqui avalio se existe 1 uma ou mais de 1 uma reserva de enderecos diferentes.
 
@@ -500,8 +503,10 @@ def VerificacoesApontamento(codbarra, codpedido, enderecoAPI):
             print('Pegou o 2 estornar')
             return 2, reduzido, 2, 2, pesquisaPedidoSKUEstornado['endereco'][0]  # Se as condicoes nao forem atendidas
 
+
+    # ETAPA 2 - Else caso a tag NAO seja encontrada na reposicao
     else:
-        # 2 - Else caso a tag NAO seja encontrada na reposicao
+
         pesquisa3 = pd.read_sql(
             'SELECT "codbarrastag", "codreduzido" AS codreduzido FROM "Reposicao".filareposicaoportag f '
             'WHERE codbarrastag = %s', conn, params=(codbarra,))
