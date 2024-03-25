@@ -102,9 +102,10 @@ def EnderecoAtacado():
     natureza = novo_endereco.get('natureza','5')
     empresa = novo_endereco.get('empresa','1')
     imprimir = novo_endereco.get('imprimir', False)
+    enderecoReservado = novo_endereco.get('sim', '-')
 
 
-    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir))
+    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir),enderecoReservado)
 
 
 
