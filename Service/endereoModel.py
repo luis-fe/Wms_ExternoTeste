@@ -88,11 +88,17 @@ def EnderecosDisponiveis(natureza, empresa):
     }
     return [data]
 
-def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza, imprimir):
+
+# Codigo para incluir enderecos por atacado ou fazer um update por atacado
+def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza, imprimir, enderecoReservado = '-'):
 
     conn = ConexaoPostgreMPL.conexao()
-    query = 'insert into "Reposicao".cadendereco (codendereco, rua, modulo, posicao, tipo, codempresa, natureza) ' \
-            'values (%s, %s, %s, %s, %s, %s, %s )'
+    query = 'insert into "Reposicao".cadendereco (codendereco, rua, modulo, posicao, tipo, codempresa, natureza, endereco_subst) ' \
+            'values (%s, %s, %s, %s, %s, %s, %s, %s )'
+
+    update = 'update "Reposicao".cadendereco ' \
+             ' set codendereco = %s , rua = %s , modulo = %s , posicao = %s , tipo = %s , codempresa = %s , natureza = %s , endereco_subst = %s ' \
+            ' where  codendereco = %s '
 
 
     r = int(rua)
@@ -121,10 +127,12 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                 else:
                     print(f'sem imprimir')
                 if select.empty:
-                    cursor.execute(query, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,))
+                    cursor.execute(query, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,enderecoReservado))
                     conn.commit()
                     cursor.close()
                 else:
+
+                    cursor.execute(update, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,enderecoReservado, codendereco))
                     cursor.close()
                     print(f'{codendereco} ja exite')
                 p += 1
