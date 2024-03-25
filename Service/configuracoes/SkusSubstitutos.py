@@ -165,7 +165,7 @@ def LimprandoPréReserva(endereco):
     conn = ConexaoPostgreMPL.conexao()
 
     update = 'update "Reposicao"."Reposicao".cadendereco ' \
-             'set pre_reserva is null ' \
+             'set reservado = pre_reserva , pre_reserva is null  ' \
              'where codendereco = %s '
 
     cursor = conn.cursor()

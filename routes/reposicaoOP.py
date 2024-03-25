@@ -156,7 +156,7 @@ def get_ApontaReposicao():
                     if enderecoPreReservado != endereco:
 
                         Retorno = pd.DataFrame([{'status': False,
-                                                 'message': f'Erro! o Endereco: {endereco} a ser reposto nao corresponde ao Sugerido {enderecoPreReservado}, reponha no endereco sugerido!'}])  # 'Mesagem'
+                                                 'message': f'Erro! o Endereco: {endereco}  nao corresponde ao Sugerido {enderecoPreReservado}, reponha no endereco sugerido!'}])  # 'Mesagem'
                         column_names = Retorno.columns  # Obtém os nomes das colunas
                         enderecos_data = []  # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
 
@@ -178,7 +178,7 @@ def get_ApontaReposicao():
 
             else:
                 Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
-                return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
+                return jsonify({'message': True, 'status': f'eu seu alvo com Sucesso'})
 
     except KeyError as e:
         return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
