@@ -133,6 +133,8 @@ def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite,
                 else:
 
                     cursor.execute(update, (codendereco, ruaAtual, moduloAtual, posicaoAtual, tipo, codempresa, natureza,enderecoReservado, codendereco))
+                    conn.commit()
+
                     cursor.close()
                     print(f'{codendereco} ja exite')
                 p += 1
