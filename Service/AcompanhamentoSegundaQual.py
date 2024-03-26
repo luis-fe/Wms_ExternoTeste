@@ -26,6 +26,9 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista['nomeOrigem']= 'COSTURA'
 
     tags = pd.merge(tags,OpsFaccinista,on=['numeroOP','nomeOrigem'], how='left')
+
+
+
     tags.fillna('-',inplace=True)
 
     TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
