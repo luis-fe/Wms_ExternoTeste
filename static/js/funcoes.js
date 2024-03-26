@@ -239,7 +239,7 @@ async function CarregarDados() {
             const data = await response.json();
             console.log(data);
 
-            const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS");
+            const TipoNotaFiltrado = data.filter(item => item["03-TipoNota"] !== "39 - BN MPLUS" && item["03-TipoNota"] !== "242-MOS GO");
 
             TipoNotaFiltrado.forEach(item => {
                 item["18-%Reposto"] = parseFloat(item["18-%Reposto"]);
