@@ -24,9 +24,9 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
     OpsFaccinista = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
     OpsFaccinista['nomeOrigem']= 'COSTURA'
-    tags['OPpai2'] = tags['numeroOP'].str.split('-').str.get(0)
+    tags['OPpai'] = tags['numeroOP'].str.split('-').str.get(0)
 
-    tags = pd.merge(tags,OpsFaccinista,on=['numeroOP','nomeOrigem'], how='left')
+    tags = pd.merge(tags,OpsFaccinista,on=['OPpai','nomeOrigem'], how='left')
 
 
 
