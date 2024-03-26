@@ -242,3 +242,13 @@ def SqlBuscaTags(emp, codbarras):
     ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = ' + emp + ' and situacao in (0, 9) and codbarrastag = '+codbarras
 
     return consulta
+
+#24 - Sql Busca das tag indenizadas velocidade : 0,59s (boa)
+
+def TagsIndenizadas():
+    consulta = 'SELECT top 100000 i.codOP as numeroOP , i.codFornecedor as fornecedorIdenizado , i.vlrUnitario, it.codBarras  FROM tct.Indenizacoes i'\
+' left JOIN TCT.IndenizacoesTags IT ON IT.codEmpresa = I.codEmpresa AND I.codOP = IT.codOP '\
+' WHERE i.codEmpresa = 1 '\
+' order by i.codOP desc '
+
+    return consulta
