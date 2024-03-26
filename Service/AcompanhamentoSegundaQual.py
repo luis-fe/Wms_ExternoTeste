@@ -13,10 +13,12 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     motivos = pd.read_sql(BuscasAvancadas.Motivos(),conn)
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
+    tags['codOrigem'] = tags['codOrigem'].astype(str)
+
 
     tags = pd.merge(tags,motivos,on='motivo2Qualidade', how='left')
 
-    tags['motivo2Qualidade'] =tags['nome']+"("+tags['nomeOrigem']+")"
+    tags['motivo2Qualidade'] =tags['codOrigem']+tags['nome']+"("+tags['nomeOrigem']+")"
     tags['qtde'] = 1
 
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
