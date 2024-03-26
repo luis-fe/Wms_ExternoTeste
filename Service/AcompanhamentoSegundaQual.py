@@ -22,6 +22,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
+    OpsFaccinista = OpsFaccinista[OpsFaccinista['codFase'] in [55, 429]]
 
     tags = pd.merge(tags,OpsFaccinista,on='numeroOP', how='left')
     tags.fillna('-',inplace=True)
