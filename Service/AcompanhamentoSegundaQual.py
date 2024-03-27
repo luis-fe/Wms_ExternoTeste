@@ -42,6 +42,8 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429,455])]
     OpsFaccinista1.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
     OpsFaccinista1['nomeOrigem']= 'COSTURA'
+    OpsFaccinista1.rename(columns={'nomeFaccicionista': 'nomeFaccicionistaCostura'}, inplace=True)
+
 
     tags['OPpai'] = tags['numeroOP'].str.split('-').str.get(0)
     tags = pd.merge(tags,OpsFaccinista1,on=['OPpai','nomeOrigem'], how='left')
