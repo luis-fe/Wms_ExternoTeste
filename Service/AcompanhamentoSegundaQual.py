@@ -62,7 +62,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags = pd.merge(tags,fasesInternas,on=['OPpai','nomeOrigem'], how='left')
 
-    tags['nomeFaccicionistaCostura'] = pd.apply(lambda row: row['nomeInterno'] if row['nomeFaccicionistaCostura'] == '-' else row['nomeFaccicionistaCostura'], axis=1)
+    tags['nomeFaccicionistaCostura'] = tags.apply(lambda row: row['nomeInterno'] if row['nomeFaccicionistaCostura'] == '-' else row['nomeFaccicionistaCostura'], axis=1)
     tags.drop('nomeInterno', axis=1, inplace=True)
 
 
