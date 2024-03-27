@@ -67,4 +67,23 @@ def MotivosAgrupado():
         end_data.append(end_dict)
     return jsonify(end_data)
 
+@AcompanhamentoQual_routes.route('/api/OrigemAgrupado', methods=['GET'])
+@token_required
+def OrigemAgrupado():
+    # Obtém os dados do corpo da requisição (JSON)
+    DataIncial = request.args.get('DataIncial','')
+    DataFinal = request.args.get('DataFinal', '')
+
+    Endereco_det = AcompanhamentoSegundaQual.PorOrigem(DataIncial,DataFinal)
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
 

@@ -116,6 +116,12 @@ def MotivosAgrupado(iniVenda, finalVenda):
 
     return Agrupamento
 
+def PorOrigem(iniVenda, finalVenda):
+
+    x = TagSegundaQualidade(iniVenda, finalVenda)
+    x = x['4- Detalhamento ']
+
+    return x
 
 
 
