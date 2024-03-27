@@ -92,11 +92,11 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
 # Essa Funcao é utilizada para capturar as tags de motivo de 2 qualidade e agrupalas por motivo + origem
 def MotivosAgrupado(iniVenda, finalVenda):
-    iniVenda = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
-    finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
+    dataini = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
+    datafim = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
     conn = ConexaoCSW.Conexao()
 
-    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda, finalVenda), conn)
+    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(dataini, datafim), conn)
     motivos = pd.read_sql(BuscasAvancadas.Motivos(), conn)
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
