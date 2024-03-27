@@ -111,6 +111,9 @@ def MotivosAgrupado(iniVenda, finalVenda):
     Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
 
+    x = TagSegundaQualidade(iniVenda, finalVenda)
+    print(x['4- Detalhamento'])
+
     return Agrupamento
 
 

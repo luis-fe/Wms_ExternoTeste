@@ -265,3 +265,14 @@ def MovFase(arrayFases, datainicio, dataFim):
 
     return consulta
 
+def OPsEstampariaFilhas():
+
+    consulta = 'SELECT case when dados.OPpai is null then dados.numeroOP else dados.OPpai end OPpai, dados.codfase  FROM ( '\
+      ' SELECT m.numeroOP, m.codfase, datamov,'\
+        ' (SELECT p.codOPConjunto  FROM  tco.RelacaoOPsConjuntoPartes p WHERE p.empresa = 1 and p.codOPParte = m.numeroop  ) as OPpai'\
+        ' FROM tco.MovimentacaoOPFase m WHERE m.codempresa = 1 '\
+' AND m.codFase IN (74, 435) '\
+" AND datamov BETWEEN '2024-01-01' AND '2024-03-27') as dados;"
+
+    return consulta
+
