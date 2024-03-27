@@ -80,7 +80,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeFaccicionista'] if row['nomeFaccicionistaCostura'] == '-' else row['nomeFaccicionistaCostura'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeOrigem'] if row['nomeOrigem'] == 'BORDADO' else row['nomeFaccicionistaCostura'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeOrigem'] if row['nomeOrigem'] == 'CORTE' else   row['nomeFaccicionista'], axis=1)
-    tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeOrigem'] if row['nomeOrigem'] == 'SILK' and row['estamparia'] == '-'  else   row['nomeFaccicionista'], axis=1)
+    tags['nomeFaccicionista'] = tags.apply(lambda row: 'SILK INTERNO MPL'if row['nomeOrigem'] == 'SILK' and row['estamparia'] == '-'  else   row['nomeFaccicionista'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['estamparia'] if row['nomeOrigem'] == 'SILK' and row['estamparia'] != '-'  else   row['nomeFaccicionista'], axis=1)
 
     tags.drop('nomeInterno', axis=1, inplace=True)
