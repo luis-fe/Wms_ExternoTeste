@@ -57,7 +57,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags = pd.merge(tags,OpsFaccinista2,on=['OPpai','nomeOrigem'], how='left')
 
-    fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427',iniProd,finalVenda),conn)
+    fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427, 62',iniProd,finalVenda),conn)
     fasesInternas['OPpai'] = fasesInternas['numeroOP'].str.split('-').str.get(0)
     fasesInternas.drop(['numeroOP','dataMov'], axis=1, inplace=True)
     fasesInternas['nomeInterno'] = 'COSTURA INTERNA MPL'
