@@ -23,14 +23,16 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
     OpsFaccinista = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
+    OpsFaccinista.drop(['codFase','numeroOP2'], axis=1, inplace=True)
+
     OpsFaccinista['nomeOrigem']= 'COSTURA'
 
     tags['OPpai'] = tags['numeroOP'].str.split('-').str.get(0)
 
     tags = pd.merge(tags,OpsFaccinista,on=['OPpai','nomeOrigem'], how='left')
-    tags.drop('codFase', axis=1, inplace=True)
 
     OpsFaccinista2 = OpsFaccinista[OpsFaccinista['codFase'].isin([439, 200])]
+    OpsFaccinista2.drop(['codFase','numeroOP2'], axis=1, inplace=True)
 
     OpsFaccinista2['nomeOrigem']= 'LAVANDERIA'
 
