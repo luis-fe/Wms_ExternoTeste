@@ -39,7 +39,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
 
-    OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
+    OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429,455])]
     OpsFaccinista1.drop(['codFase','numeroOP2'], axis=1, inplace=True)
     OpsFaccinista1['nomeOrigem']= 'COSTURA'
 
