@@ -55,7 +55,20 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista2.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
     OpsFaccinista2['nomeOrigem']= 'LAVANDERIA'
 
+    OpsFaccinista3 = OpsFaccinista[OpsFaccinista['codFase'].isin([74, 435])]
+    OpsFaccinista3.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
+
+    ObterPaidasPartes = pd.read_sql(BuscasAvancadas.OPsEstampariaFilhas(),conn)
+    OpsFaccinista3 = pd.merge(OpsFaccinista3,ObterPaidasPartes,on='OPpai',how='left')
+
+    OpsFaccinista3['nomeOrigem']= 'SILK'
+    OpsFaccinista3.rename(columns={'nomeFaccicionista': 'nomeFaccicionistaSilk'}, inplace=True)
+
+
+
     tags = pd.merge(tags,OpsFaccinista2,on=['OPpai','nomeOrigem'], how='left')
+    tags = pd.merge(tags,OpsFaccinista3,on=['OPpai','nomeOrigem'], how='left')
+
 
     fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427, 62',iniProd,finalVenda),conn)
     fasesInternas['OPpai'] = fasesInternas['numeroOP'].str.split('-').str.get(0)
