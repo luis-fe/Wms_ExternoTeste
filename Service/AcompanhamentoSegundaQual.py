@@ -121,7 +121,7 @@ def PorOrigem(iniVenda, finalVenda):
     x = TagSegundaQualidade(iniVenda, finalVenda)
     x = x['4- Detalhamento '][0]
 
-    return x
+    return pd.DataFrame(x)
 
 
 
