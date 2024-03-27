@@ -260,7 +260,7 @@ def MovFase(arrayFases, datainicio, dataFim):
     consulta = 'SELECT m.numeroOP , m.codfase, datamov ' \
                 ' FROM tco.MovimentacaoOPFase m WHERE m.codempresa = 1' \
                ' AND m.codFase IN ('+arrayFases+') ' \
-               " AND datamov BETWEEN('"+datainicio+"' AND '"+dataFim+"') ;"
+               " AND datamov BETWEEN '"+datainicio+"' AND "+"'"+dataFim+"'"
 
 
     return consulta
