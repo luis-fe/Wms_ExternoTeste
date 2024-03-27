@@ -57,10 +57,13 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427',iniProd,finalVenda),conn)
     fasesInternas['OPpai'] = fasesInternas['numeroOP'].str.split('-').str.get(0)
     fasesInternas.drop(['numeroOP','dataMov'], axis=1, inplace=True)
-    fasesInternas['nomeInterno'] = 'costuraInterna'
+    fasesInternas['nomeInterno'] = 'COSTURA INTERNA MPL'
     fasesInternas['nomeOrigem']= 'COSTURA'
 
     tags = pd.merge(tags,fasesInternas,on=['OPpai','nomeOrigem'], how='left')
+
+    tags['nomeFaccicionistaCostura'] = pd.apply(lambda row: row['nomeInterno'] if row['nomeFaccicionistaCostura'] == '-' else row['nomeFaccicionistaCostura'], axis=1)
+    tags.drop('nomeInterno', axis=1, inplace=True)
 
 
     tags.fillna('-',inplace=True)
