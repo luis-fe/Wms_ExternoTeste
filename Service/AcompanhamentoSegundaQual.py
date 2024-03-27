@@ -120,8 +120,11 @@ def PorOrigem(iniVenda, finalVenda):
 
     x = TagSegundaQualidade(iniVenda, finalVenda)
     x = x['4- Detalhamento '][0]
+    x = pd.DataFrame(x)
+    Agrupamento = x.groupby('nomeFaccicionista')['qtde'].sum().reset_index()
 
-    return pd.DataFrame(x)
+
+    return Agrupamento
 
 
 
