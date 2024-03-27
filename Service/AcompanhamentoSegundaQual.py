@@ -21,19 +21,18 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     tags['qtde'] = 1
 
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
-    OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
-    OpsFaccinista = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
-    OpsFaccinista.drop(['codFase','numeroOP2'], axis=1, inplace=True)
 
-    OpsFaccinista['nomeOrigem']= 'COSTURA'
+    OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
+
+    OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
+    OpsFaccinista1.drop(['codFase','numeroOP2'], axis=1, inplace=True)
+    OpsFaccinista1['nomeOrigem']= 'COSTURA'
 
     tags['OPpai'] = tags['numeroOP'].str.split('-').str.get(0)
-
-    tags = pd.merge(tags,OpsFaccinista,on=['OPpai','nomeOrigem'], how='left')
+    tags = pd.merge(tags,OpsFaccinista1,on=['OPpai','nomeOrigem'], how='left')
 
     OpsFaccinista2 = OpsFaccinista[OpsFaccinista['codFase'].isin([439, 200])]
     OpsFaccinista2.drop(['codFase','numeroOP2'], axis=1, inplace=True)
-
     OpsFaccinista2['nomeOrigem']= 'LAVANDERIA'
 
     tags = pd.merge(tags,OpsFaccinista2,on=['OPpai','nomeOrigem'], how='left')
