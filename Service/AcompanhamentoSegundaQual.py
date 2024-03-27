@@ -18,7 +18,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
 
 
-    iniProd = iniVenda[6:] + "-" + iniFacMes + "-" + iniVenda[:2]
+    iniProd = iniVenda[6:] + "-" + iniFacMes + "-" + '01'
 
     conn = ConexaoCSW.Conexao()
 
