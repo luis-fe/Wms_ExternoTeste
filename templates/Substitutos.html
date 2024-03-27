@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS GERENCIAL</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/Substitutos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+
+
+</head>
+<body>
+
+    <div class="Corpo">
+        <nav class="Menu">
+            <ul class="left-menu">
+                <li><a href="/indexMatriz_Teste">Home</a></li>
+                <li><a href="#">Configurações</a>
+                    <ul>
+                        <li><a href="/Usuarios_Teste">Gerenciamento de Usuários</a></li>
+                        <li><a href="/Chamados_Teste">Gerenciamento de Chamados</a></li>
+                        <li><a href="/CadastroQrCaixas_Teste">Cadastro Qr das Caixas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Relatórios</a>
+                    <ul>
+                        <li><a href="/FilaReposicao_Teste">Fila de Reposição</a></li>
+                        <li><a href="/DistribuicaoDePedidos_Teste">Distribuição de Pedidos</a></li>
+                        <li><a href="/CadastroDeEnderecos_Teste">Cadastro de Endereços</a></li>
+                        <li><a href="/ConsumoEmbalagens_Teste">Consumo Embalagens</a></li>
+                        <li><a href="/RelatorioInventario_Teste">Relatório Inventários</a></li>
+                        <li><a href="/Tela_Comparativa">Tags X Fisíco</a></li>
+                        <li><a href="/Substitutos">Análise de Substitutos</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="right-menu-item">
+                <li><a href="#">Nome do Usuário</a>
+                    <ul>
+                        <li><a href="#">Alterar Senha</a></li>
+                        <li><a href="/Login_Teste">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="TituloPrograma">
+        <h2>Itens Substitutos</h2>
+    </div>
+
+    <div class="container" style="margin-top: 15px; width: 100%; height: 88.3vh;">
+        <div class="Categorias">
+            <div class="MenuCategorias1">
+                <div class="MenuCategorias" id="MenuCategorias">
+                    <label for="text">Categorias:</label>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+                <div id="CategoriaContainer" class="custom-select-Categoria" >
+                    <div id="optionsContainer" style="display: block;  ">
+                        <label>
+                            <input type="checkbox" id="selectAllCategorias" class="selectAll"> Selecionar Tudo
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="TabelaSubstituto">
+            <table id="TabelaSubstitutos" class="display">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllCheckbox"></th>
+                        <th>Número OP</th>
+                        <th>Código Produto</th>
+                        <th>Cor Produto</th>
+                        <th>Código Principal</th>
+                        <th>Descrição Principal</th>
+                        <th>Código Substituto</th>
+                        <th>Descrição Substituto</th>
+                        <th>Categorias</th>
+                        <th>Aplicação</th>
+                        <th>OP Especial?</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="botoes" style="display: flex; margin: 20px auto; width: 80%; justify-content: space-around;">
+        <div id="PaginacaoUsuarios" class="dataTables_paginate" style="width: 100%;"></div>
+        <button id="ButtonCheck">Selecionar</button>
+    </div>
+    </div>
+
+
+    
+    
+
+
+</body>
+<script src="static/js/Substitutos.js"></script>
+</html>

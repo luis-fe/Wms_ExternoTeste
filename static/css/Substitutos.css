@@ -1,0 +1,148 @@
+:root.palheta-empresa-a {
+    --cor1: rgb(255, 255, 255);
+    --cor2: rgb(17, 45, 126);
+    --cor3: rgb(93, 140, 233);
+    --cor4: #fff;
+}
+
+:root.palheta-empresa-b {
+    --cor1: rgb(255, 255, 255);
+    --cor2: #00838F;
+    --cor3: darkgray;
+    --cor4: black;
+}
+
+.TituloPrograma h2{
+    color: white;
+}
+.TabelaSubstituto {
+    width: 100%;
+    height: 80vh;
+    min-height: 60vh;
+    max-height: 60vh;
+    margin: auto;
+    padding: auto;
+    border: 1px solid black;
+}
+
+#TabelaSubstitutos {
+    width: 100%;
+}
+
+/* Estilos para o contêiner da tabela */
+#TabelaSubstitutos_wrapper {
+    padding: 5px;
+    min-height: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+}
+
+/* Estilos para cabeçalhos e células da tabela */
+#TabelaSubstitutos th,
+#TabelaSubstitutos td {
+    text-align: center;
+    padding: 15px;
+}
+
+#TabelaSubstitutos th {
+    background-color: var(--cor2);
+    color: #ffffff;
+}
+
+/* Estilo de hover para linhas da tabela */
+#TabelaSubstitutos tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para paginação */
+#TabelaUsuarios_paginate,
+#TabelaLinhas_paginate {
+    margin-top: 10px;
+}
+
+.dataTables_botoes,
+.dataTables_paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.dataTables_paginate .paginate_button {
+    margin-left: 10px;
+    background-color: var(--cor2);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dataTables_paginate button {
+    margin-left: 10px;
+}
+
+/* Estilos para o menu de categorias */
+.MenuCategorias {
+    margin-left: 10px;
+    width: 200px;
+    flex-direction: column;
+    max-height: 20vh;
+    margin-bottom: 10px;
+}
+
+.MenuCategorias label {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.MenuCategorias i {
+    padding: 5px;
+    text-align: right;
+    box-sizing: border-box;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+/* Estilos para o contêiner de categorias */
+#CategoriaContainer {
+    z-index: 99998;
+    background-color: white;
+    position: fixed;
+
+    width: 200px;
+    overflow: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+/* Use flexbox para empilhar as opções verticalmente */
+#CategoriaContainer label {
+    display: flex; /* Usa flexbox */
+    align-items: center; /* Alinha itens verticalmente */
+    margin-bottom: 5px; /* Adiciona espaçamento entre as opções */
+}
+
+/* Estilos para os checkboxes */
+#CategoriaContainer input[type="checkbox"] {
+    margin-right: 5px; /* Adiciona espaçamento entre o checkbox e o texto */
+}
+
+#CategoriaContainer i {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+#ButtonCheck{
+    cursor: pointer;
+    background-color: var(--cor2);
+    color: white;
+}
