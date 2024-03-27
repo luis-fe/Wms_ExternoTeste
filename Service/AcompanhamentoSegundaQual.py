@@ -9,9 +9,12 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
 
     iniFacMes = iniVenda[3:5]
+    IniFacAno = iniVenda[6:]
 
     if iniFacMes in ['01']:
-        iniFacMes = '01'
+        IniFacAno = int(IniFacAno) -1
+        IniFacAno = str(IniFacAno)
+        iniFacMes = '11'
 
     elif iniFacMes in ['02','03','04','05','06','07','08','09']:
         iniFacMes = int(iniFacMes[1:2])
@@ -20,7 +23,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
 
 
-    iniProd = iniVenda[6:] + "-" + iniFacMes + "-" + '01'
+    iniProd = IniFacAno + "-" + iniFacMes + "-" + '01'
 
     conn = ConexaoCSW.Conexao()
 
