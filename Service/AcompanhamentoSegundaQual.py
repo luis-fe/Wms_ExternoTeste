@@ -5,13 +5,14 @@ import pandas as pd
 
 
 def TagSegundaQualidade(iniVenda, finalVenda):
-    iniVenda = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
+    dataIni = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
     finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
 
     iniFacMes = iniVenda[3:5]
 
     if iniFacMes in ['01']:
         iniFacMes = '01'
+
     elif iniFacMes in ['02','03','04','05','06','07','08','09']:
         iniFacMes = iniFacMes[1:2].astype(int)
         iniFacMes = iniFacMes - 1
@@ -23,7 +24,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     conn = ConexaoCSW.Conexao()
 
-    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda), conn)
+    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(dataIni,finalVenda), conn)
     motivos = pd.read_sql(BuscasAvancadas.Motivos(),conn)
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
@@ -34,7 +35,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     tags['motivo2Qualidade'] =tags['motivo2Qualidade']+tags['nome']+"("+tags['nomeOrigem']+")"
     tags['qtde'] = 1
 
-    PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
+    PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(dataIni,finalVenda), conn)
 
     OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
 
