@@ -111,8 +111,7 @@ def MotivosAgrupado(iniVenda, finalVenda):
     Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
 
-    x = TagSegundaQualidade(iniVenda, finalVenda)
-    print(x['4- Detalhamento '])
+
 
     return Agrupamento
 
@@ -122,7 +121,9 @@ def PorOrigem(iniVenda, finalVenda):
     x = x['4- Detalhamento '][0]
     x = pd.DataFrame(x)
     Agrupamento = x.groupby('nomeFaccicionista')['qtde'].sum().reset_index()
-
+    Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
+                                          ignore_index=True)  # escolher como deseja classificar
+    Agrupamento.rename(columns={'nomeFaccicionista': 'Origem'}, inplace=True)
 
     return Agrupamento
 
