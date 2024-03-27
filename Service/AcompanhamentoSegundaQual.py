@@ -142,4 +142,6 @@ def OpsEstampariaFaccionista():
     consulta = pd.read_sql('select "OPpai", "nomeFaccionista" as estamparia from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn)
 
     conn.close()
+    consulta['OPpai'] = consulta['OPpai'].str.split('-').str.get(0)
+
     return consulta
