@@ -252,3 +252,14 @@ def TagsIndenizadas():
 ' order by i.codOP desc '
 
     return consulta
+
+#25 Sql buscar movimentacao de fases especificas entre datas -  velocidade: 1,6s
+
+def MovFase(arrayFases, datainicio, dataFim):
+    consulta = 'SELECT m.numeroOP , m.codfase, datamov '\
+            ' FROM tco.MovimentacaoOPFase m'\             
+            ' WHERE m.codempresa = 1' \
+            ' AND m.codFase IN ('+arrayFases+') '\
+            " AND datamov BETWEEN "+datainicio+" AND "+dataFim+";"
+
+    return consulta
