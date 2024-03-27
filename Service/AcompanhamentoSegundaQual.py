@@ -55,18 +55,14 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista2.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
     OpsFaccinista2['nomeOrigem']= 'LAVANDERIA'
 
-    OpsFaccinistaSilk = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
-    OpsFaccinista3 = OpsFaccinistaSilk[OpsFaccinistaSilk['codFase'].isin([74, 435])]
-    OpsFaccinista3.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
 
-    ObterPaidasPartes = OpsEstampariaFaccionista()
-    OpsFaccinista3 = pd.merge(OpsFaccinista3,ObterPaidasPartes,on='OPpai',how='left')
-    OpsFaccinista3['nomeOrigem']= 'SILK'
+    ObterSilkPartes = OpsEstampariaFaccionista()
+    ObterSilkPartes['nomeOrigem']= 'SILK'
 
 
 
     tags = pd.merge(tags,OpsFaccinista2,on=['OPpai','nomeOrigem'], how='left')
-    tags = pd.merge(tags,OpsFaccinista3,on=['OPpai','nomeOrigem'], how='left')
+    tags = pd.merge(tags,ObterSilkPartes,on=['OPpai','nomeOrigem'], how='left')
 
 
     fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427, 62',iniProd,finalVenda),conn)
