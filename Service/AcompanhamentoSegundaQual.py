@@ -55,7 +55,8 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista2.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
     OpsFaccinista2['nomeOrigem']= 'LAVANDERIA'
 
-    OpsFaccinista3 = OpsFaccinista[OpsFaccinista['codFase'].isin([74, 435])]
+    OpsFaccinistaSilk = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
+    OpsFaccinista3 = OpsFaccinistaSilk[OpsFaccinistaSilk['codFase'].isin([74, 435])]
     OpsFaccinista3.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
 
     ObterPaidasPartes = pd.read_sql(BuscasAvancadas.OPsEstampariaFilhas(),conn)
