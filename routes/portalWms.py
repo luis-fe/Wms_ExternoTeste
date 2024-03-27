@@ -127,3 +127,7 @@ def DashboardComercial():
 def TelaCaixas():
     return render_template('TelaCaixas.html')
 
+@portal_routes.route('/Substitutos') # Aqui é o link da pagina incial do Portal da Garantia
+def Substitutos():
+    return render_template('Substitutos.html')
+
