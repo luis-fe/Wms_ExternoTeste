@@ -112,7 +112,7 @@ def MotivosAgrupado(iniVenda, finalVenda):
                         ignore_index=True)  # escolher como deseja classificar
 
     x = TagSegundaQualidade(iniVenda, finalVenda)
-    print(x['4- Detalhamento'])
+    print(x['4- Detalhamento '])
 
     return Agrupamento
 
