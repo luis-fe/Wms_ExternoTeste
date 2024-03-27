@@ -14,9 +14,9 @@ def TagSegundaQualidade(iniVenda, finalVenda):
         iniFacMes = '01'
 
     elif iniFacMes in ['02','03','04','05','06','07','08','09']:
-        iniFacMes = iniFacMes[1:2].astype(int)
+        iniFacMes = int(iniFacMes[1:2])
         iniFacMes = iniFacMes - 1
-        iniFacMes = '0' + iniFacMes.astype(str)
+        iniFacMes = '0' + str(iniFacMes)
 
 
 
