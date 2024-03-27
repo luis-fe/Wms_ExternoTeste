@@ -59,11 +59,9 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     OpsFaccinista3 = OpsFaccinistaSilk[OpsFaccinistaSilk['codFase'].isin([74, 435])]
     OpsFaccinista3.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
 
-    ObterPaidasPartes = pd.read_sql(BuscasAvancadas.OPsEstampariaFilhas(),conn)
+    ObterPaidasPartes = OpsEstampariaFaccionista()
     OpsFaccinista3 = pd.merge(OpsFaccinista3,ObterPaidasPartes,on='OPpai',how='left')
-
     OpsFaccinista3['nomeOrigem']= 'SILK'
-    OpsFaccinista3.rename(columns={'nomeFaccicionista': 'nomeFaccicionistaSilk'}, inplace=True)
 
 
 
@@ -142,4 +140,10 @@ def PorOrigem(iniVenda, finalVenda):
     return Agrupamento
 
 
+def OpsEstampariaFaccionista():
 
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql('select "OPpai", "nomeFaccionista" as estamparia from "Reposicao"."Reposicao"."OpsEstamparia" oe ',conn)
+
+    conn.close()
+    return consulta
