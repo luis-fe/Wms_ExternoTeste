@@ -7,6 +7,19 @@ import pandas as pd
 def TagSegundaQualidade(iniVenda, finalVenda):
     iniVenda = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
     finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
+
+    iniFacMes = iniVenda[3:5].astype(int)
+
+    if iniFacMes == 1:
+        iniFacMes = '01'
+    elif iniFacMes > 1 and iniFacMes < 10 :
+        iniFacMes = iniFacMes - 1
+        iniFacMes = '0' + iniFacMes.astype(str)
+
+
+
+    iniProd = iniVenda[6:] + "-" + iniFacMes + "-" + iniVenda[:2]
+
     conn = ConexaoCSW.Conexao()
 
     tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(iniVenda,finalVenda), conn)
@@ -22,7 +35,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(iniVenda,finalVenda), conn)
 
-    OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniVenda,finalVenda), conn)
+    OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
 
     OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429])]
     OpsFaccinista1.drop(['codFase','numeroOP2'], axis=1, inplace=True)
