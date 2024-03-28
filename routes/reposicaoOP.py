@@ -111,8 +111,8 @@ def get_DetalhaOPxSKU():
 @reposicaoOP_routes.route('/api/ApontamentoReposicao', methods=['POST'])
 @token_required
 def get_ApontaReposicao():
-    emp = empresaConfigurada.EmpresaEscolhida() # Verificar qual a empresa configuracada (1 - matriz , 4 - Filial)
-    try:
+        emp = empresaConfigurada.EmpresaEscolhida() # Verificar qual a empresa configuracada (1 - matriz , 4 - Filial)
+    #try:
 
         data = request.get_json() # Obtenha os dados do corpo da requisição
         codUsuario = data['codUsuario']
@@ -180,5 +180,5 @@ def get_ApontaReposicao():
                 Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
                 return jsonify({'message': True, 'status': f'eu seu alvo com Sucesso'})
 
-    except KeyError as e:
-        return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
+   # except KeyError as e:
+    #    return jsonify({'message': 'Erro nos dados enviados.', 'error': str(e)}), 400
