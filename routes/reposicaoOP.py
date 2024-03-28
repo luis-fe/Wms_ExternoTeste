@@ -122,7 +122,7 @@ def get_ApontaReposicao():
         estornar = data.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
         natureza = data.get('natureza', '5')  # Valor padrão: False, se 'estornar' não estiver presente no corpo
         empresa = data.get('empresa', emp)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-
+        print(data)
 
 
         # ETAPA 1 - Funacao utilizada para fazer a atualizacao do codigo de barra como REPOSTO.
