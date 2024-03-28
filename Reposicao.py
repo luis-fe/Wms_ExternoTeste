@@ -211,7 +211,7 @@ def RetornoLocalCodBarras(usuario, codbarras, endereco, dataHora, empresa, natur
         , (codbarras,natureza,)
     )
     fila_reposicao = pd.DataFrame(cursor.fetchall(), columns=['codbarrastag','resticao'])
-    fila_reposicao['fila_reposicao'].fillna('-',inplace=True)
+    fila_reposicao.fillna('-',inplace=True)
 
     if estornar == True:
         retorno = 'Reposto'
