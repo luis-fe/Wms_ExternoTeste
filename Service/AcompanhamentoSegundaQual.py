@@ -95,6 +95,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     tags['nomeFaccicionista'] = tags.apply(lambda row: 'SILK INTERNO MPL'if row['nomeOrigem'] == 'SILK' and row['estamparia'] == '-'  else   row['nomeFaccicionista'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['estamparia'] if row['nomeOrigem'] == 'SILK' and row['estamparia'] != '-'  else   row['nomeFaccicionista'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeFornecedor'] if row['nomeOrigem'] == 'LABORATORIO' and row['nomeFornecedor'] != '-'  else   row['nomeFaccicionista'], axis=1)
+    tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeFornecedor'] if 'Avaliar Lavanderia' == 'LAVANDERIA' and row['nomeFaccicionista'] == '-'  else   row['nomeFaccicionista'], axis=1)
 
 
     tags.drop(['nomeInterno',  'nomeFornecedor'], axis=1, inplace=True)
