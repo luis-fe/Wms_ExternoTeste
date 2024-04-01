@@ -6,7 +6,7 @@ from psycopg2 import errors
 
 def obterHoraAtual():
     agora = datetime.datetime.now()
-    hora_str = agora.strftime('%d/%m/%Y %H:%M')
+    hora_str = agora.strftime('%d/%m/%Y %H:%M:%S')
     return hora_str
 
 def PesquisarLinhaPadrao():
@@ -184,17 +184,19 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
 def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
 
+    dataHora = obterHoraAtual()
+
     conn = ConexaoPostgreMPL.conexao()
 
     consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s  ',conn,params=(OP,))
 
     if consulta.empty :
 
-        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ) values (%s, %s , %s , %s ) '
+        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento) values (%s, %s , %s , %s, %s ) '
 
         cursor = conn.cursor()
 
-        cursor.execute(insert,(OP, operador1, operador2 , operador3,))
+        cursor.execute(insert,(OP, operador1, operador2 , operador3,dataHora))
         conn.commit()
 
         cursor.close()
