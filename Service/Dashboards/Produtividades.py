@@ -41,7 +41,7 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
 
     consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd  '
                            'from "off"."ProdutividadeGarantiaEquipe1" pce '
-                           'where datareposicao >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
+                           'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
                            conn,
                            params=(dataInico, dataFim, horaInicio, horaFim,))
 
