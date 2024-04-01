@@ -184,21 +184,21 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     return pd.DataFrame([{'Mensagem':mensagem}])
 
-def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3):
+def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, qtd = 0):
 
     dataHora = obterHoraAtual()
 
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s  ',conn,params=(OP,))
+    consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s and operador1 = %s  ',conn,params=(OP,operador1,))
 
     if consulta.empty :
 
-        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento) values (%s, %s , %s , %s, %s ) '
+        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento, qtd) values (%s, %s , %s , %s, %s, %s ) '
 
         cursor = conn.cursor()
 
-        cursor.execute(insert,(OP, operador1, operador2 , operador3,dataHora))
+        cursor.execute(insert,(OP, operador1, operador2 , operador3,dataHora,qtd))
         conn.commit()
 
         cursor.close()
