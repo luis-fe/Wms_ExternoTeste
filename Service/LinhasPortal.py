@@ -190,6 +190,17 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, qtd = 0):
 
     conn = ConexaoPostgreMPL.conexao()
 
+    if qtd == 0:
+
+        consultar = pd.read_sql('select sum(total_pcs) as qtd from "off".ordemprod where numeroop = %s ',conn,params=(OP,))
+        if consultar.empty:
+            qtd = 0
+        else:
+            qtd = consultar['qtd'][0]
+
+    else:
+        qtd=0
+
     consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s and operador1 = %s  ',conn,params=(OP,operador1,))
 
     if consulta.empty :
