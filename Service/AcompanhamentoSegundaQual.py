@@ -66,12 +66,24 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
 
     fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427, 62',iniProd,finalVenda),conn)
+    conn.close()
+
     fasesInternas['OPpai'] = fasesInternas['numeroOP'].str.split('-').str.get(0)
     fasesInternas.drop(['numeroOP','dataMov'], axis=1, inplace=True)
     fasesInternas['nomeInterno'] = 'COSTURA INTERNA MPL'
     fasesInternas['nomeOrigem']= 'COSTURA'
-
     tags = pd.merge(tags,fasesInternas,on=['OPpai','nomeOrigem'], how='left')
+
+    conn2 = ConexaoPostgreMPL.conexao()
+
+    fornecdorTecido = pd.read_sql(' SELECT x."numOPConfec" as "OPpai" , x."nomeFornecedor"  FROM "Reposicao"."OPSDefeitoTecidos" x '
+                                    'where x."repeticaoOP" = 1', conn2)
+
+    conn2.close()
+    fornecdorTecido['OPpai'] = fornecdorTecido['OPpai'].str.split('-').str.get(0)
+    fornecdorTecido['nomeOrigem']= 'LABORATORIO'
+    tags = pd.merge(tags,fornecdorTecido,on=['OPpai','nomeOrigem'], how='left')
+
 
     tags.fillna('-',inplace=True)
 
@@ -82,15 +94,16 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     tags['nomeFaccicionista'] = tags.apply(lambda row: 'CORTE MPL' if row['nomeOrigem'] == 'CORTE' else   row['nomeFaccicionista'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: 'SILK INTERNO MPL'if row['nomeOrigem'] == 'SILK' and row['estamparia'] == '-'  else   row['nomeFaccicionista'], axis=1)
     tags['nomeFaccicionista'] = tags.apply(lambda row: row['estamparia'] if row['nomeOrigem'] == 'SILK' and row['estamparia'] != '-'  else   row['nomeFaccicionista'], axis=1)
+    tags['nomeFaccicionista'] = tags.apply(lambda row: row['nomeFornecedor'] if row['nomeOrigem'] == 'LABORATORIO' and row['nomeFornecedor'] != '-'  else   row['nomeFaccicionista'], axis=1)
 
-    tags.drop('nomeInterno', axis=1, inplace=True)
+
+    tags.drop(['nomeInterno',  'nomeFornecedor'], axis=1, inplace=True)
 
 
 
     TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
 
 
-    conn.close()
 
     TotalPecas = tags['qtde'].sum()
     data = {
