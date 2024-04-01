@@ -2,11 +2,13 @@ import datetime
 import pandas as pd
 import ConexaoPostgreMPL
 from psycopg2 import errors
+import pytz
 
 
 def obterHoraAtual():
-    agora = datetime.datetime.now()
-    hora_str = agora.strftime('%d/%m/%Y %H:%M:%S')
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    agora = datetime.datetime.now(fuso_horario)
+    hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
 
 def PesquisarLinhaPadrao():
