@@ -34,9 +34,10 @@ def AcompanhamentoQualidade():
     # Obtém os dados do corpo da requisição (JSON)
     DataIncial = request.args.get('DataIncial','')
     DataFinal = request.args.get('DataFinal', '')
+    origem = request.args.get('origem', '')
 
 
-    Endereco_det = AcompanhamentoSegundaQual.TagSegundaQualidade(DataIncial,DataFinal)
+    Endereco_det = AcompanhamentoSegundaQual.TagSegundaQualidade(DataIncial,DataFinal,origem)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -54,8 +55,9 @@ def MotivosAgrupado():
     # Obtém os dados do corpo da requisição (JSON)
     DataIncial = request.args.get('DataIncial','')
     DataFinal = request.args.get('DataFinal', '')
+    origem = request.args.get('origem', '')
 
-    Endereco_det = AcompanhamentoSegundaQual.MotivosAgrupado(DataIncial,DataFinal)
+    Endereco_det = AcompanhamentoSegundaQual.MotivosAgrupado(DataIncial,DataFinal,origem)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -73,8 +75,9 @@ def OrigemAgrupado():
     # Obtém os dados do corpo da requisição (JSON)
     DataIncial = request.args.get('DataIncial','')
     DataFinal = request.args.get('DataFinal', '')
+    origem = request.args.get('origem', '')
 
-    Endereco_det = AcompanhamentoSegundaQual.PorOrigem(DataIncial,DataFinal)
+    Endereco_det = AcompanhamentoSegundaQual.PorOrigem(DataIncial,DataFinal,origem)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -86,4 +89,20 @@ def OrigemAgrupado():
         end_data.append(end_dict)
     return jsonify(end_data)
 
+@AcompanhamentoQual_routes.route('/api/listaDeOrigens', methods=['GET'])
+@token_required
+def listaDeOrigens():
+    # Obtém os dados do corpo da requisição (JSON)
 
+
+    Endereco_det = AcompanhamentoSegundaQual.listaDeOrigens()
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)

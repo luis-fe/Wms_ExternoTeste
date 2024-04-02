@@ -4,7 +4,7 @@ import ConexaoPostgreMPL
 import pandas as pd
 
 
-def TagSegundaQualidade(iniVenda, finalVenda):
+def TagSegundaQualidade(iniVenda, finalVenda, origem):
     dataIni = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
     finalVenda = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
 
@@ -100,6 +100,11 @@ def TagSegundaQualidade(iniVenda, finalVenda):
 
     tags.drop(['nomeInterno',  'nomeFornecedor'], axis=1, inplace=True)
 
+    if origem == '' or origem == '-':
+        tags = tags
+    else:
+        tags = tags[['origem'] == origem]
+
 
 
     TotalPCsBaixadas = PecasBaixadas['qtdMovto'].sum()
@@ -115,7 +120,7 @@ def TagSegundaQualidade(iniVenda, finalVenda):
     return pd.DataFrame([data])
 
 # Essa Funcao é utilizada para capturar as tags de motivo de 2 qualidade e agrupalas por motivo + origem
-def MotivosAgrupado(iniVenda, finalVenda):
+def MotivosAgrupado(iniVenda, finalVenda, origem):
     dataini = iniVenda[6:] + "-" + iniVenda[3:5] + "-" + iniVenda[:2]
     datafim = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
     conn = ConexaoCSW.Conexao()
@@ -131,6 +136,11 @@ def MotivosAgrupado(iniVenda, finalVenda):
     tags['qtde'] = 1
     conn.close()
 
+    if origem == '' or origem == '-':
+        tags = tags
+    else:
+        tags = tags[['origem'] == origem]
+
     Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
     Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
@@ -139,9 +149,9 @@ def MotivosAgrupado(iniVenda, finalVenda):
 
     return Agrupamento
 
-def PorOrigem(iniVenda, finalVenda):
+def PorOrigem(iniVenda, finalVenda, origem):
 
-    x = TagSegundaQualidade(iniVenda, finalVenda)
+    x = TagSegundaQualidade(iniVenda, finalVenda, origem)
     x = x['4- Detalhamento '][0]
     x = pd.DataFrame(x)
     Agrupamento = x.groupby('nomeFaccicionista')['qtde'].sum().reset_index()
@@ -159,5 +169,13 @@ def OpsEstampariaFaccionista():
 
     conn.close()
     consulta['OPpai'] = consulta['OPpai'].str.split('-').str.get(0)
+
+    return consulta
+
+
+def listaDeOrigens():
+    conn = ConexaoCSW.Conexao()
+    consulta = pd.read_sql(BuscasAvancadas.OrigensCsw())
+    conn.close()
 
     return consulta

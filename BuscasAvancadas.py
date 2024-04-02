@@ -276,3 +276,13 @@ def OPsEstampariaFilhas():
 
     return consulta
 
+
+def OrigensCsw():
+
+    consulta = """
+    SELECT DISTINCT nome FROM tcp.OrgSegQualidade o
+WHERE o.Empresa = 1
+    """
+
+    return consulta
+
