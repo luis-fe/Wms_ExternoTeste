@@ -52,6 +52,7 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
     consulta = consulta.sort_values(by='qtd', ascending=False,
                                 ignore_index=True)
 
+    consulta['operador1'] = consulta['operador1'].str.split(' ').str.get(0)
 
 
     return consulta
