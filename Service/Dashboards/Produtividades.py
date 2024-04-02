@@ -53,6 +53,8 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
                                 ignore_index=True)
 
     consulta['operador1'] = consulta['operador1'].str.split(' ').str.get(0)
+    consulta['operador2'] = consulta['operador2'].str.split(' ').str.get(0)
+    consulta['operador3'] = consulta['operador3'].str.split(' ').str.get(0)
 
 
     return consulta
