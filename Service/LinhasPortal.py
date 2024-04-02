@@ -184,7 +184,7 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     return pd.DataFrame([{'Mensagem':mensagem}])
 
-def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, linha,  qtd = 0,):
+def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, linha,  qtd):
 
     dataHora = obterHoraAtual() # Passo 1 : Capturar a data e hora do apontamento
 
