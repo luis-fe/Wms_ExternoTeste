@@ -47,8 +47,9 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
 
     conn.close()
     consulta['qtd'].fillna(0,inplace=True)
+    consulta['qtd OP'] = 1
     consulta['qtd'] = consulta['qtd'].astype(float)
-    consulta  = consulta.groupby(['operador1','operador2','operador3'])['qtd'].sum().reset_index()
+    consulta  = consulta.groupby(['operador1','operador2','operador3'])['qtd','qtd OP'].sum().reset_index()
     consulta = consulta.sort_values(by='qtd', ascending=False,
                                 ignore_index=True)
 
