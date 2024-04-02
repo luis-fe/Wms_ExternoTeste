@@ -175,7 +175,7 @@ def OpsEstampariaFaccionista():
 
 def listaDeOrigens():
     conn = ConexaoCSW.Conexao()
-    consulta = pd.read_sql(BuscasAvancadas.OrigensCsw())
+    consulta = pd.read_sql(BuscasAvancadas.OrigensCsw(),conn)
     conn.close()
 
     return consulta
