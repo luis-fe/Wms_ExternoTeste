@@ -104,7 +104,7 @@ def ProdutividadeGarantiaIndividual(dataInico, dataFim , horaInicio, horaFim):
     consulta = consulta.sort_values(by='qtd', ascending=False,
                                 ignore_index=True)
 
-    consulta['operador'] = consulta['operador1'].str.split(' ').str.get(0)
+    consulta['operador'] = consulta['operador'].str.split(' ').str.get(0)
 
 
     consulta['Media Pçs/OP'] = consulta['qtd']/consulta['qtd OP']
