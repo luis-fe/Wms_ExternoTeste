@@ -39,7 +39,7 @@ def ProdutividadeCarregarEndereco(dataInico, dataFim , horaInicio, horaFim):
 def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd  '
+    consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd, linha  '
                            'from "off"."ProdutividadeGarantiaEquipe1" pce '
                            'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
                            conn,
@@ -49,7 +49,8 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
     consulta['qtd'].fillna(0,inplace=True)
     consulta['qtd OP'] = 1
     consulta['qtd'] = consulta['qtd'].astype(float)
-    consulta  = consulta.groupby(['operador1','operador2','operador3'])['qtd','qtd OP'].sum().reset_index()
+    consulta['linha'].fillna('-',inplace=True)
+    consulta  = consulta.groupby(['operador1','operador2','operador3','linha'])['qtd','qtd OP'].sum().reset_index()
     consulta = consulta.sort_values(by='qtd', ascending=False,
                                 ignore_index=True)
 
