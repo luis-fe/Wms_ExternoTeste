@@ -184,32 +184,37 @@ def AlterarLinha(nomeLinha, operador1, operador2, operador3):
 
     return pd.DataFrame([{'Mensagem':mensagem}])
 
-def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, qtd = 0):
+def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, linha,  qtd = 0,):
 
-    dataHora = obterHoraAtual()
+    dataHora = obterHoraAtual() # Passo 1 : Capturar a data e hora do apontamento
 
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexao() # Abrir a Conexao com o Banco;
 
-    if qtd == 0:
+    if qtd == 0: #1.1 - Caso a quantidade nao for informada:
 
+        # Consulta o total da OP em outra tabela do banco chamada: "off".ordemprod , que "captura as quantidades de OPs do CSW via automacao"
         consultar = pd.read_sql('select sum(total_pcs) as qtd from "off".ordemprod where numeroop = %s ',conn,params=(OP,))
-        if consultar.empty:
+
+
+        if consultar.empty: # Caso a consulta retorne vazia
             qtd = 0
         else:
-            qtd = consultar['qtd'][0]
+            qtd = consultar['qtd'][0] # Caso consiga encontrar valor na consulta
 
     else:
-        qtd=0
+        qtd=qtd #1.2 - Caso o usuario informar a quantidade, utiliza a quantidade informada ao inves de pesquisar
 
-    consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s and operador1 = %s  ',conn,params=(OP,operador1,))
 
+    # Etapa 2 - Avalia se ja existe a OP na tabela de Produtividade do Banco de dados
+    consulta = pd.read_sql('select numeroop from "Reposicao".off.prodlinha where numeroop = %s ',conn,params=(OP,))
+
+    # Etapa 2.1 - Caso nao existir, simplesmente fazemos o input
     if consulta.empty :
-
-        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento, qtd) values (%s, %s , %s , %s, %s, %s ) '
+        insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento, qtd, linha) values (%s, %s , %s , %s, %s, %s, %s ) '
 
         cursor = conn.cursor()
 
-        cursor.execute(insert,(OP, operador1, operador2 , operador3,dataHora,qtd))
+        cursor.execute(insert,(OP, operador1, operador2 , operador3,dataHora,qtd, linha))
         conn.commit()
 
         cursor.close()
@@ -217,20 +222,53 @@ def ApontarProdutividadeLinha(OP, operador1, operador2 , operador3, qtd = 0):
         conn.close()
 
         return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
+
+    # Etapa 2.1 Caso existir a OP , avalia se nessa OP os operadores sao o mesmo que o usuario esta´tentando salvar , medida que evita duplicacao
+
+
 
     else:
-        update = 'update  "Reposicao".off.prodlinha set operador1 = %s , operador2 = %s , operador3 = %s ' \
-                 'where numeroop = %s '
+        operadores = pd.read_sql('select operador1, operador2, operador3 from "Reposicao".off.prodlinha where numeroop = %s order by dataapontamento desc ', conn,params=(OP,))
 
-        cursor = conn.cursor()
+        pesquisa1 = operadores['operador1'][0]
+        pesquisa2 = operadores['operador2'][0]
+        pesquisa3 = operadores['operador3'][0]
 
-        cursor.execute(update, (operador1, operador2, operador3, OP,))
-        conn.commit()
+        # faz a comparacao:
 
-        cursor.close()
+        if operador1 in [pesquisa1, pesquisa2, pesquisa3] and operador2 in [pesquisa1, pesquisa2, pesquisa3]  :
+            print('contem')
 
-        conn.close()
-        return pd.DataFrame([{'Mensagem':'Dados inseridos com sucesso'}])
+            update = 'update  "Reposicao".off.prodlinha set operador1 = %s , operador2 = %s , operador3 = %s ' \
+                     'where numeroop = %s and linha = %s '
+
+            cursor = conn.cursor()
+
+            cursor.execute(update, (operador1, operador2, operador3, OP, linha,))
+            conn.commit()
+
+            cursor.close()
+
+            conn.close()
+            return pd.DataFrame([{'Mensagem': 'Dados inseridos com sucesso'}])
+
+
+
+        else:
+            print('não contem')
+
+            insert = 'insert into "Reposicao".off.prodlinha (numeroop, operador1 , operador2, operador3 ,dataapontamento, qtd, linha) values (%s, %s , %s , %s, %s, %s, %s ) '
+
+            cursor = conn.cursor()
+
+            cursor.execute(insert, (OP, operador1, operador2, operador3, dataHora, qtd, linha))
+            conn.commit()
+
+            cursor.close()
+
+            conn.close()
+
+            return pd.DataFrame([{'Mensagem': 'Dados inseridos com sucesso'}])
 
 
 # Produtividade Linha
