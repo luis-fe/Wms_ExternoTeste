@@ -99,6 +99,7 @@ def TagSegundaQualidade(iniVenda, finalVenda, origem):
 
 
     tags.drop(['nomeInterno',  'nomeFornecedor'], axis=1, inplace=True)
+    tags.to_csv('Defeitos.csv', index=True)
 
     if origem == '' or origem == '-':
         tags = tags
