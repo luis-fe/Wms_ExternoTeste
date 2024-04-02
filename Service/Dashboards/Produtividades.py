@@ -60,8 +60,10 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
     consulta['Media Pçs/OP'] = consulta['qtd']/consulta['qtd OP']
 
     totalP = consulta['qtd'].sum()
+    qtdOP = consulta['qtd OP'].sum()
 
     data = { '1.0- Total Peças': totalP,
+             '1.1- Qtd OPs': qtdOP,
         '2.0- Detalhamento': consulta.to_dict(orient='records')}
 
     return [data]
