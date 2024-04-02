@@ -93,8 +93,7 @@ def ProdutividadeGarantiaIndividual(dataInico, dataFim , horaInicio, horaFim):
 
     conn.close()
 
-    consulta = pd.concat(consulta1,consulta2,consulta3)
-
+    consulta = pd.concat([consulta1,consulta2,consulta3])
 
     consulta['qtd'].fillna(0,inplace=True)
     consulta['qtd OP'] = 1
