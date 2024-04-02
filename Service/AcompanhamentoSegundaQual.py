@@ -103,7 +103,7 @@ def TagSegundaQualidade(iniVenda, finalVenda, origem):
     if origem == '' or origem == '-':
         tags = tags
     else:
-        tags = tags[['origem'] == origem]
+        tags = tags[['nomeOrigem'] == origem]
 
 
 
@@ -139,7 +139,7 @@ def MotivosAgrupado(iniVenda, finalVenda, origem):
     if origem == '' or origem == '-':
         tags = tags
     else:
-        tags = tags[['origem'] == origem]
+        tags = tags[['nomeOrigem'] == origem]
 
     Agrupamento = tags.groupby('motivo2Qualidade')['qtde'].sum().reset_index()
     Agrupamento = Agrupamento.sort_values(by='qtde', ascending=False,
