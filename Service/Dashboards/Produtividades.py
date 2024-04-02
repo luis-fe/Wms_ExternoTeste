@@ -72,3 +72,49 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
 
     return [data]
 
+def ProdutividadeGarantiaIndividual(dataInico, dataFim , horaInicio, horaFim):
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta1 = pd.read_sql('select operador1 as operador,  qtd  '
+                           'from "off"."ProdutividadeGarantiaEquipe1" pce '
+                           'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
+                           conn,
+                           params=(dataInico, dataFim, horaInicio, horaFim,))
+    consulta2 = pd.read_sql('select operador2 as operador,  qtd  '
+                           'from "off"."ProdutividadeGarantiaEquipe1" pce '
+                           'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
+                           conn,
+                           params=(dataInico, dataFim, horaInicio, horaFim,))
+    consulta3 = pd.read_sql('select operador3 as operador,  qtd  '
+                           'from "off"."ProdutividadeGarantiaEquipe1" pce '
+                           'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
+                           conn,
+                           params=(dataInico, dataFim, horaInicio, horaFim,))
+
+    conn.close()
+
+    consulta = pd.concat(consulta1,consulta2,consulta3)
+
+
+    consulta['qtd'].fillna(0,inplace=True)
+    consulta['qtd OP'] = 1
+    consulta['qtd'] = consulta['qtd'].astype(float)
+
+
+    consulta  = consulta.groupby(['operador'])['qtd','qtd OP'].sum().reset_index()
+    consulta = consulta.sort_values(by='qtd', ascending=False,
+                                ignore_index=True)
+
+    consulta['operador'] = consulta['operador1'].str.split(' ').str.get(0)
+
+
+    consulta['Media Pçs/OP'] = consulta['qtd']/consulta['qtd OP']
+
+    totalP = consulta['qtd'].sum()
+    qtdOP = consulta['qtd OP'].sum()
+
+    data = { '1.0- Total Peças': totalP,
+             '1.1- Qtd OPs': qtdOP,
+        '2.0- Detalhamento': consulta.to_dict(orient='records')}
+
+    return [data]
