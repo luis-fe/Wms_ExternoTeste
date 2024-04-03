@@ -7,7 +7,7 @@ if (Empresa === "1") {
 } else if (Empresa === "4") {
     rootElement.classList.add('palheta-empresa-b');
 } else {
-    window.location.href = 'Login.html';
+    window.location.href = 'Login_Teste';
 }
 
 const containers = {
@@ -301,14 +301,14 @@ async function FuncaoConsultas(apiUrl, parametroResultado) {
                 if (Empresa === "1") {
                     if (VerificaLogin !== "Logado") {
             
-                        window.location.href = 'Login.html';
+                        window.location.href = 'Login_Teste';
                     } else {
                         await ObterSubstitutos();
                         FuncaoConsultas(ApiDadosCategorias, 'categoria');
                     }
                 } else if (Empresa === "4") {
                     if (VerificaLogin !== "Logado") {
-                        window.location.href = 'Login.html';
+                        window.location.href = 'Login_Teste';
                     } else {
                         await ObterSubstitutos();
                         FuncaoConsultas(ApiDadosCategorias, 'categoria');
@@ -317,7 +317,7 @@ async function FuncaoConsultas(apiUrl, parametroResultado) {
                 }
             });   
             
-            const linkSair = document.querySelector('.right-menu-item li a[href="Login.html"]');
+            const linkSair = document.querySelector('.right-menu-item li a[href="Login_Teste"]');
 
             linkSair.addEventListener("click" , async () => {
               localStorage.clear();
