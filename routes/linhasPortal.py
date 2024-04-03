@@ -111,6 +111,8 @@ def SalvarProdutividadeLinha():
     qtd = data.get('qtd', 0)
 
     print(data)
+    if qtd == '':
+        qtd =0
 
     linhas = LinhasPortal.ApontarProdutividadeLinha(numeroop,oper1, oper2, oper3, linha, qtd)
     # Obtém os nomes das colunas
