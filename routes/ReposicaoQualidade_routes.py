@@ -155,14 +155,17 @@ def RecarrearEnderecoTeste():
 
                 # 5: Caso a caixa "passe" por todas as validacoes e estiver autorizada a recarregar
                 else:
-
+                    print(f'5 - OP {codigoOP} Esta autorizada a regarregar ')
                     #Verifica se o WMS esá configurado para tratar restricao especial:
 
                     configuracaoRestricao = Service.configuracoes.empresaConfigurada.RegraDeEnderecoParaSubstituto() #Retorno implenta_endereco_subs: sim ou nao
 
 
                     # 5.1 Restricao de endereco Especial
+
+
                     if configuracaoRestricao == 'sim' and InfoCaixa['restricao'] != '-':
+                        print('etapa 5.1 Restricao de endereco Especial')
 
                         #Verifica o endereco proposto para a reposicao
                         enderecoPreReservado = Service.configuracoes.SkusSubstitutos.EnderecoPropostoSubtituicao(InfoCaixa['restricao'][0])#Retorna o endereco Pré reservado
@@ -214,7 +217,7 @@ def RecarrearEnderecoTeste():
                     # 5.2 Caso nao tiver  Restricao de endereco Especial
 
                     else:
-
+                        print('etapa 5.2 - sem restricao de endereco especial e aprovado para recarregar!')
                         epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                         RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
                         ## Limpeza retirada ate achar o erro
