@@ -93,7 +93,7 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
 
     if validador['status'][0] == 'False':
 
-        return pd.DataFrame([{'mensagem':'sem restricao de Substituto segue fluxo !', 'status':True}])
+        return pd.DataFrame([{'mensagem':'sem restricao de Substituto segue fluxo !', 'status':False}])
 
     else:
 
@@ -112,7 +112,7 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
         PreReservarEndereco(endereco, validador['status'][0])
 
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SKU DE SUBSTUICAO, repor nos enderecos reservados ',
-                            'status':False}])
+                            'status':True}])
 
 
 def PesquisarSKUOP(numeroop,SKU):
