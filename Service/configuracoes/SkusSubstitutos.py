@@ -111,8 +111,8 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
         #Atualizar endereco com a informacao
         PreReservarEndereco(endereco, validador['status'][0])
 
-        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SKU DE SUBSTUICAO. ',
-                            'EnderecoRepor':f'Repor no endereco {endereco}'}])
+        return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SKU DE SUBSTUICAO, repor nos enderecos reservados ',
+                            'status':False}])
 
 
 def PesquisarSKUOP(numeroop,SKU):
