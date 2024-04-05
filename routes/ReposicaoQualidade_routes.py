@@ -102,6 +102,7 @@ def RecarrearEnderecoTeste():
 
             # Estapa 2 : Extrai Informacos da caixa
             InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+
                     # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 
             reduzido = InfoCaixa['codreduzido'][0] # Cria uma variavel chamada reduzido com a informacao do codigo Reduzido (tambem chamado SKU):
@@ -128,11 +129,11 @@ def RecarrearEnderecoTeste():
 
 
             # Etapa 4 : Caso o endereco estiver vazio ou o sku for o mesmo que está no endereco,
-            #### o processo irá continuar e a proxima validacao é se a OP está baixada
-            else:
-                print(f'A caixa da reposicao {Ncaixa} esta sem OP para validar, informar ao usuario {usuario}')
+
+            else: #### o processo  continua e a proxima validacao é se a OP está baixada
 
                 codigoOP = InfoCaixa['numeroop'][0] #retira a informacao do Numero da OP para consultar se a mesma foi baixada
+                print(f'A caixa da reposicao {Ncaixa} esta sem OP{codigoOP} para validar, informar ao usuario {usuario}')
 
                 # Como é feito um interacao com o ERP CSW, essa opcao mapei o tempo de consumo da requisicao junto ao ERP
                 client_ip = request.remote_addr
