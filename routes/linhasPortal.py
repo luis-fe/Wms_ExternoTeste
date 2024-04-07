@@ -188,6 +188,7 @@ def AlterarOPsProduzidasGarantia():
     oper3 = data.get('operador3','')
     linhaNova = data.get('linhaNova','')
     qtd = data.get('qtd','')
+    print(data)
 
 
 
