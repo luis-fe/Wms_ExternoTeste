@@ -308,7 +308,7 @@ def ProdutividadeOperadorLinha(dataInicio, dataFim):
 def OPsProducidasPeriodo(dataInico, dataFim, horaInicio,horaFim):
     conn = ConexaoPostgreMPL.conexao()
 
-    consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd, linha  '
+    consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd, linha, horario  '
                            'from "off"."ProdutividadeGarantiaEquipe1" pce '
                            'where dataapontamento >= %s and dataapontamento <= %s and horario >= %s and horario <= %s ',
                            conn,
