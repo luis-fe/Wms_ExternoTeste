@@ -355,7 +355,7 @@ def  UpdateOP(numeroop, linha, oper1, oper2, oper3, qtd, linhaNova):
         linhaNova = linha
 
     update = 'update "off".prodlinha ' \
-             'set operador1 = %s , operador2 = %s , operador3 = %s, linha = %s , quantidade = %s ' \
+             'set operador1 = %s , operador2 = %s , operador3 = %s, linha = %s , qtd = %s ' \
              'where linha = %s and numeroop = %s '
 
     cursor = conn.cursor()
