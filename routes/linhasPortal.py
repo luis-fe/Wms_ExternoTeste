@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 from Service import LinhasPortal
 from Service.configuracoes import empresaConfigurada
+import pandas as pd
 
 linhas_routes = Blueprint('linhasPortal', __name__)
 
@@ -160,6 +161,41 @@ def OpsProduzidasGarantia():
     horaFinal = request.args.get('horaFinal','23:00:00')
 
     linhas = LinhasPortal.OPsProducidasPeriodo(dataInicio, dataFinal, horaInico, horaFinal)
+
+
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data),200
+
+@linhas_routes.route('/api/AlterarOPsProduzidasGarantia', methods=['PUT'])
+@token_required
+def AlterarOPsProduzidasGarantia():
+
+    data = request.get_json()
+    linha = data.get('linha','')
+    numeroop = data.get('numeroop','')
+    oper1 = data.get('operador1','')
+    oper2 = data.get('operador2','')
+    oper3 = data.get('operador3','')
+    linhaNova = data.get('linhaNova','')
+    qtd = data.get('qtd','')
+
+
+
+    if linha == '' or numeroop =='':
+        linhas = pd.DataFrame([{'Mensagem':'Linha ou op nao selecionadas'}])
+
+    else:
+        linhas = LinhasPortal.UpdateOP(numeroop, linha, oper1, oper2,oper3,qtd,linhaNova)
 
 
     # Obtém os nomes das colunas

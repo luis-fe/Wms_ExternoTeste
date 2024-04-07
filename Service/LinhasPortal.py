@@ -323,3 +323,58 @@ def OPsProducidasPeriodo(dataInico, dataFim, horaInicio,horaFim):
     return consulta
 
 
+def  UpdateOP(numeroop, linha, oper1, oper2, oper3, qtd, linhaNova):
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql('select operador1, operador2, operador3 ,numeroop, qtd, linha, horario  '
+                           'from "off"."ProdutividadeGarantiaEquipe1" pce where numeroop = %s and linha = %s', conn,
+                           params=(numeroop, linha,))
+
+    if qtd == '':
+        quantidade = consulta['qtd'][0]
+    else:
+        quantidade = qtd
+
+    if oper1 == '':
+        operador1 = consulta['operador1'][0]
+    else:
+        operador1 = oper1
+
+    if oper2 == '':
+        operador2 = consulta['operador2'][0]
+    else:
+        operador2 = oper2
+
+    if oper3 == '':
+        operador3 = consulta['operador3'][0]
+    else:
+        operador3 = oper3
+
+    if linhaNova == '':
+        linhaNova = consulta['linha'][0]
+    else:
+        linhaNova = linha
+
+    update = 'update "off".prodlinha ' \
+             'set operador1 = %s , operador2 = %s , operador3 = %s, linha = %s , quantidade = %s ' \
+             'where linha = %s and numeroop = %s '
+
+    cursor = conn.cursor()
+
+    cursor.execute(update,(operador1, operador2, operador3, linhaNova, quantidade, linha, numeroop))
+    conn.commit()
+    cursor.close()
+
+
+    conn.close()
+
+    return pd.DataFrame([{'mensagem':'Alterado com sucesso !'}])
+
+
+
+
+
+
+
+
+
+
