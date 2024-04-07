@@ -210,3 +210,28 @@ def AlterarOPsProduzidasGarantia():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data),200
+
+@linhas_routes.route('/api/DeletarOPsProduzidasGarantia', methods=['DELETE'])
+@token_required
+def DeletarOPsProduzidasGarantia():
+
+    data = request.get_json()
+    linha = data.get('linha','')
+    numeroop = data.get('numeroop','')
+
+
+    linhas = LinhasPortal.DeletarOPLINHA(numeroop, linha)
+
+
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data),200

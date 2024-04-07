@@ -370,6 +370,21 @@ def  UpdateOP(numeroop, linha, oper1, oper2, oper3, qtd, linhaNova):
     return pd.DataFrame([{'mensagem':'Alterado com sucesso !'}])
 
 
+def DeletarOPLINHA(numeroop, linha):
+    conn = ConexaoPostgreMPL.conexao()
+
+    delete = 'Delete from "off".prodlinha ' \
+             'where numeroop = %s and linha = %s '
+
+    cursor = conn.cursor()
+
+    cursor.execute(delete, (numeroop, linha))
+    conn.commit()
+    cursor.close()
+
+    conn.close()
+    return pd.DataFrame([{'mensagem':'Excluido com sucesso !'}])
+
 
 
 
