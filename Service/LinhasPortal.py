@@ -317,6 +317,9 @@ def OPsProducidasPeriodo(dataInico, dataFim, horaInicio,horaFim):
     conn.close()
 
     consulta['horario'] = consulta['horario'].astype(str)
+    consulta = consulta.sort_values(by=['horario'],
+                                          ascending=True)  # escolher como deseja classificar
+
     return consulta
 
 
