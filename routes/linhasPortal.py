@@ -149,3 +149,28 @@ def ProdutividadeOperadorLinha():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data),200
+
+
+@linhas_routes.route('/api/OpsProduzidasGarantia', methods=['GET'])
+@token_required
+def OpsProduzidasGarantia():
+    dataInicio = request.args.get('dataInicio')
+    dataFinal = request.args.get('dataFinal','-')
+    horaInico = request.args.get('horaInico','02:00:00')
+    horaFinal = request.args.get('horaFinal','23:00:00')
+
+    linhas = LinhasPortal.OPsProducidasPeriodo(dataInicio, dataFinal, horaInico, horaFinal)
+
+
+    # Obtém os nomes das colunas
+
+    # Obtém os nomes das colunas
+    column_names = linhas.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in linhas.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data),200
