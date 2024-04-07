@@ -316,6 +316,7 @@ def OPsProducidasPeriodo(dataInico, dataFim, horaInicio,horaFim):
 
     conn.close()
 
+    consulta['horario'] = consulta['horario'].astype(str)
     return consulta
 
 
