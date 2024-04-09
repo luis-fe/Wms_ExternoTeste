@@ -110,6 +110,18 @@ def ProdutividadeRepositores(dataInicial = '0', dataFInal ='0' , horarioInicial 
 
         record = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores" '
                              ' group by usuario, datareposicao', conn)
+        record2 = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores2" '
+                             ' group by usuario, datareposicao', conn)
+        record3 = pd.read_sql('select usuario, datareposicao, count(datatempo) as qtde from "Reposicao"."ProducaoRepositores3" '
+                             ' group by usuario, datareposicao', conn)
+
+        record = pd.concat([record,record2, record3])
+
+        record = record.groupby(['usuario','datareposicao'])['qtde'].sum().reset_index()
+
+
+
+
         record = record.sort_values(by='qtde', ascending=False)
         record = pd.merge(record, Usuarios,on='usuario',how='left')
         record1 = record["qtde"][0]
