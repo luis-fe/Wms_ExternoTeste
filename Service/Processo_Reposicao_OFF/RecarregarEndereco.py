@@ -63,7 +63,7 @@ def ValidarSituacaoOPCSW(numeroOP):
 
 def ValidarSituacaoOPCPelaTag(dataframTAG):
     # transformando o data frame em string separado por ','
-    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in dataframTAG['codbarras']]))
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in dataframTAG['codbarrastag']]))
 
     emp = empresaConfigurada.EmpresaEscolhida() # Aqui aponta-se de qual empresa está requerendo a informacao
     conn = ConexaoCSW.Conexao()
