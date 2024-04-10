@@ -141,6 +141,8 @@ def RecarrearEnderecoTeste():
                 client_ip = request.remote_addr
                 StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP) # Valida se a OP foi Baixada, retorno: status True foi baixado , else: está pendente
                 controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
+                teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
+                print(teste)
 
                 # 4.1 Caso a OP ainda nao estiver baixada:
                 if StatusOP['status'][0] == False:
@@ -221,8 +223,7 @@ def RecarrearEnderecoTeste():
 
                     else:
                         print('etapa 5.2 - sem restricao de endereco especial e aprovado para recarregar!')
-                        teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
-                        print(teste)
+
                         epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                         RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
                         ## Limpeza retirada ate achar o erro
