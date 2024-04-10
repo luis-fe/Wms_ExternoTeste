@@ -104,8 +104,7 @@ def RecarrearEnderecoTeste():
 
             # Estapa 2 : Extrai Informacos da caixa
             InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
-            teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
-            print(teste)
+
                     # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 
             reduzido = InfoCaixa['codreduzido'][0] # Cria uma variavel chamada reduzido com a informacao do codigo Reduzido (tambem chamado SKU):
@@ -222,6 +221,8 @@ def RecarrearEnderecoTeste():
 
                     else:
                         print('etapa 5.2 - sem restricao de endereco especial e aprovado para recarregar!')
+                        teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
+                        print(teste)
                         epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                         RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
                         ## Limpeza retirada ate achar o erro
