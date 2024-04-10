@@ -61,7 +61,7 @@ def ProdutividadeGarantiaEquipe(dataInico, dataFim , horaInicio, horaFim):
     consulta['operador3'] = consulta['operador3'].str.split(' ').str.get(0)
     consulta['linha'] = consulta['linha'].str.split(' ').str.get(0)
 
-    consulta['Media Pçs/OP'] = consulta['qtd']/consulta['qtd OP']
+    consulta['Media'] = consulta['qtd']/consulta['qtd OP']
 
     totalP = consulta['qtd'].sum()
     qtdOP = consulta['qtd OP'].sum()
