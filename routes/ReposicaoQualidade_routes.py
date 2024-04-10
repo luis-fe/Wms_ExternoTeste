@@ -74,6 +74,8 @@ def RecarrearEnderecoTeste():
         usuario = dados.get('usuario','-')
         datainicio = controle.obterHoraAtual()
 
+
+
         # Funcao de contingencia para casos  que derem errado:
         RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
 
@@ -102,6 +104,7 @@ def RecarrearEnderecoTeste():
 
             # Estapa 2 : Extrai Informacos da caixa
             InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+            RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
 
                     # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 

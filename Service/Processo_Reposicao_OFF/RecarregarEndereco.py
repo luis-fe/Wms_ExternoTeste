@@ -61,6 +61,24 @@ def ValidarSituacaoOPCSW(numeroOP):
     else:
         return pd.DataFrame([{'status': False, 'Mesagem':f'Erro! A OP {numeroOP} da caixa ainda nao foi encerrada'}])
 
+def ValidarSituacaoOPCPelaTag(dataframTAG):
+    # transformando o data frame em string separado por ','
+    resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in dataframTAG['codbarras']]))
+
+    emp = empresaConfigurada.EmpresaEscolhida() # Aqui aponta-se de qual empresa está requerendo a informacao
+    conn = ConexaoCSW.Conexao()
+    consulta = pd.read_sql('SELECT p.codBarrasTag , p.situacao , p.codNaturezaAtual  FROM Tcr.TagBarrasProduto p where codempresa = ' +emp+
+                           ' and codbarras in '+ resultado,conn)
+    conn.close()
+
+    # AGRUPANDO as situacoes
+    consulta['ocorrencia'] = 1
+    consultaSituacao = consulta.groupby(['situacao']).agg({
+        # 'usuario':'first',
+        'ocorrencia': 'count'}).reset_index()
+    print(consultaSituacao)
+
+
 
 
 ##### Os Processos abaixo exceculta o recarregamento dos enderecos
