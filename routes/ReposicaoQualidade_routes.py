@@ -104,8 +104,8 @@ def RecarrearEnderecoTeste():
 
             # Estapa 2 : Extrai Informacos da caixa
             InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
-            RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
-
+            teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
+            print(teste)
                     # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 
             reduzido = InfoCaixa['codreduzido'][0] # Cria uma variavel chamada reduzido com a informacao do codigo Reduzido (tambem chamado SKU):
