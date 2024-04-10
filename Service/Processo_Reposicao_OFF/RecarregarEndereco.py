@@ -78,7 +78,7 @@ def ValidarSituacaoOPCPelaTag(dataframTAG):
         'ocorrencia': 'count'})
 
 
-    return resultado
+    return consultaSituacao
 
 
 
