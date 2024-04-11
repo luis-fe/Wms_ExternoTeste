@@ -139,10 +139,11 @@ def RecarrearEnderecoTeste():
 
                 # Como é feito um interacao com o ERP CSW, essa opcao mapei o tempo de consumo da requisicao junto ao ERP
                 client_ip = request.remote_addr
-                StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP) # Valida se a OP foi Baixada, retorno: status True foi baixado , else: está pendente
+                #StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP) # Valida se a OP foi Baixada, retorno: status True foi baixado , else: está pendente
+                StatusOP = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
                 controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
-                teste = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
-                print(teste)
+
+
 
                 # 4.1 Caso a OP ainda nao estiver baixada:
                 if StatusOP['status'][0] == False:
