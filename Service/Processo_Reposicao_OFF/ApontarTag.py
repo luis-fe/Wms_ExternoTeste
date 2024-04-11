@@ -83,6 +83,7 @@ def EstornarTag(codbarrastag):
 def ApontarTagCaixa(codbarras, Ncaixa, empresa, usuario, natureza, estornar = False):
     conn = ConexaoPostgreMPL.conexao() # Chama o banco de dados Postgree
     codbarras = "'"+codbarras+"'"
+    usuario = usuario.strip()
     emp = empresaConfigurada.EmpresaEscolhida()
 
     ## Realiza uma consulta sql para verificar se a tag existe na tabela
