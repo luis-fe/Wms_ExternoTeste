@@ -73,10 +73,11 @@ def ValidarSituacaoOPCPelaTag(dataframTAG):
 
     # AGRUPANDO as situacoes
     consulta['ocorrencia'] = 1
+    totalCaixa = consulta['ocorrencia'].sum()
     consultaSituacao = consulta.groupby(['situacao']).agg({
         # 'usuario':'first',
-        'ocorrencia': 'count'})
-
+        'ocorrencia': 'count'}).reset_index()
+    consultaSituacao = consultaSituacao[consultaSituacao['situacao'] == 3]
 
     return consultaSituacao
 
