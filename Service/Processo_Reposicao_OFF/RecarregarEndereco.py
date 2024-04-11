@@ -78,8 +78,14 @@ def ValidarSituacaoOPCPelaTag(dataframTAG):
         # 'usuario':'first',
         'ocorrencia': 'count'}).reset_index()
     consultaSituacao = consultaSituacao[consultaSituacao['situacao'] == 3]
+    totalCaixaSit3 = consultaSituacao['ocorrencia'].sum()
 
-    return consultaSituacao
+
+    if totalCaixa== totalCaixaSit3:
+        return pd.DataFrame([{'status': True}])
+    else:
+        return pd.DataFrame([{'status': False, 'Mesagem':f'Erro! A OP possue tags ainda nao  encerrada'}])
+
 
 
 
