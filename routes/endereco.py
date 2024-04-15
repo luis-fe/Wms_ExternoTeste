@@ -92,7 +92,7 @@ def EnderecoAtacado():
     novo_endereco = request.get_json()
     # Extraia os valores dos campos do novo usuário
 
-    rua = novo_endereco.get('ruaInicial')
+    ruaInicial = novo_endereco.get('ruaInicial')
     ruaFinal = novo_endereco.get('ruaFinal')
     modulo = novo_endereco.get('modulo')
     moduloFinal = novo_endereco.get('moduloFinal')
@@ -108,7 +108,7 @@ def EnderecoAtacado():
         enderecoReservado = ''
 
 
-    endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir),enderecoReservado)
+    endereoModel.ImportEndereco(ruaInicial, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir),enderecoReservado)
 
 
 
