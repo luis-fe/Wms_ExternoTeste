@@ -104,6 +104,9 @@ def EnderecoAtacado():
     imprimir = novo_endereco.get('imprimir', False)
     enderecoReservado = novo_endereco.get('enderecoReservado', None)
 
+    if enderecoReservado in ['','-']:
+        enderecoReservado = ''
+
 
     endereoModel.ImportEndereco(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir),enderecoReservado)
 

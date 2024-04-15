@@ -90,7 +90,7 @@ def EnderecosDisponiveis(natureza, empresa):
 
 
 # Codigo para incluir enderecos por atacado ou fazer um update por atacado
-def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza, imprimir, enderecoReservado = '-'):
+def ImportEndereco(rua, ruaLimite, modulo, moduloLimite, posicao, posicaoLimite, tipo, codempresa, natureza, imprimir, enderecoReservado = ''):
 
     conn = ConexaoPostgreMPL.conexao()
     query = 'insert into "Reposicao".cadendereco (codendereco, rua, modulo, posicao, tipo, codempresa, natureza, endereco_subst) ' \
