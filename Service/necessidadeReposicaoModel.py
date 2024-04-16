@@ -59,7 +59,7 @@ def RelatorioNecessidadeReposicao():
     pedidos1 = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
     pedidos['necessidadePedido'] = pedidos['necessidadePedido'].astype(str)
     pedidos2 = pedidos.groupby('codreduzido')['necessidadePedido'].agg(', '.join).reset_index()
-    pedidos['desc_tiponota'].fillna('-',inplace ='True')
+    pedidos['desc_tiponota'].fillna('-',inplace =True)
     pedidos3 = pedidos.groupby('codreduzido')['desc_tiponota'].agg(', '.join).reset_index()
 
 
