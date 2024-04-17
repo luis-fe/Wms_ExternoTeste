@@ -170,7 +170,7 @@ def RecarrearEnderecoTeste():
                     # 5.1 Restricao de endereco Especial
 
 
-                    if configuracaoRestricao == 'sim' and InfoCaixa['restricao'] != '-':
+                    if configuracaoRestricao == 'simxx' and InfoCaixa['restricao'] != '-':
                         print('etapa 5.1 Restricao de endereco Especial')
 
                         #Verifica o endereco proposto para a reposicao
