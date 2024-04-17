@@ -1,0 +1,64 @@
+/* Estilos para o menu de categorias */
+.MenuCategorias {
+    margin-left: 10px;
+    width: 200px;
+    flex-direction: column;
+    max-height: 20vh;
+    margin-bottom: 10px;
+}
+
+.MenuCategorias label {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+.MenuCategorias i {
+    padding: 5px;
+    text-align: right;
+    box-sizing: border-box;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+/* Estilos para o contêiner de categorias */
+#CategoriaContainer {
+    z-index: 99998;
+    background-color: white;
+    position: fixed;
+    width: 200px;
+    overflow: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    border-radius: 10px;
+    padding: 2px;
+    margin-left: 10px;
+}
+
+/* Use flexbox para empilhar as opções verticalmente */
+#CategoriaContainer label {
+    display: flex; /* Usa flexbox */
+    align-items: center; /* Alinha itens verticalmente */
+    margin-bottom: 5px; /* Adiciona espaçamento entre as opções */
+}
+
+/* Estilos para os checkboxes */
+#CategoriaContainer input[type="checkbox"] {
+    margin-right: 5px; /* Adiciona espaçamento entre o checkbox e o texto */
+}
+
+#CategoriaContainer i {
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+#ButtonCheck{
+    cursor: pointer;
+    background-color: var(--cor2);
+    color: white;
+}
