@@ -145,7 +145,7 @@ def get_ApontaReposicao():
             configuracaoRestricao = empresaConfigurada.RegraDeEnderecoParaSubstituto()  # Retorno implenta_endereco_subs: sim ou nao
 
             # 2.1 - Verifica se o WMS esta configurado para restringir os enderecos dos substitutos
-            if configuracaoRestricao == 'sim':
+            if configuracaoRestricao == 'simxx':
 
                 if restricao != '-': # Caso a tag tenha restricao de substituto
 
