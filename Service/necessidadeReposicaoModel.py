@@ -158,18 +158,18 @@ def Redistribuir(pedido, produto, natureza):
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
     and codendereco in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao like '%||%')
+        where t.resticao like %s )
     union
     select ce.codendereco as endereco , ce."SaldoLiquid"  
     from "Reposicao"."Reposicao"."calculoEndereco" ce
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
     and codendereco in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao not like '%||%')
+        where t.resticao not like %s )
     order by "SaldoLiquid" desc 
     """
 
-    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,natureza, produto,))
+    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,'%||%',natureza, produto,'%||%'))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
     if tamanho >= 0:
