@@ -244,11 +244,15 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     consultar = consultar.drop_duplicates()  ## Elimando as possiveis duplicatas
 
     NPedidos = consultar['codpedido'].count()
+    consultar['dataseparacao']= pd.to_datetime(consultar['dataseparacao'],errors='coerce', infer_datetime_format=True)
     consultar['dataseparacao'] = consultar['dataseparacao'].dt.strftime('%d/%m/%Y')
 
+    dados = {
+        '0-Intervalo': f'{dataInicio} À {dataFinal}',
+        '1-Qtd Pedidos Entregues com Divergencia': f'{NPedidos} Pedidos',
+        '6 -Detalhamento': consultar.to_dict(orient='records')
 
-
-    return consultar
-
+    }
+    return pd.DataFrame([dados])
 
 
