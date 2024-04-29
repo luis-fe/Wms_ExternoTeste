@@ -113,9 +113,9 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn = ConexaoPostgreMPL.conexao()
             insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                      '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao", "usuario_rep") ' \
+                     '"numeroop", "cor", "tamanho", "totalop", "resticao", "codpedido", "dataseparacao", "usuario_rep") ' \
                      'SELECT %s, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
+                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", "resticao", ' \
                      "%s, %s, usuario " \
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
@@ -156,9 +156,9 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn = ConexaoPostgreMPL.conexao()
             insert = 'INSERT INTO "Reposicao".tags_separacao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                      '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                     '"numeroop", "cor", "tamanho", "totalop", "codpedido","dataseparacao", "usuario_rep") ' \
+                     '"numeroop", "cor", "tamanho", "totalop","resticao" ,"codpedido","dataseparacao", "usuario_rep") ' \
                      'SELECT %s, "codbarrastag", "codreduzido", %s, "engenharia", ' \
-                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", ' \
+                     '"DataReposicao", "descricao", "epc", %s, "numeresticaoroop", "cor", "tamanho", "totalop","resticao", ' \
                      "%s, %s, usuario " \
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
@@ -221,9 +221,9 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
             conn = ConexaoPostgreMPL.conexao()
             insert = 'INSERT INTO "Reposicao".tagsreposicao ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                          '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
-                         '"numeroop", "cor", "tamanho", "totalop") ' \
+                         '"numeroop", "cor", "tamanho", "totalop", "resticao") ' \
                          'SELECT usuario_rep, "codbarrastag", "codreduzido", "Endereco", "engenharia", ' \
-                         '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop"' \
+                         '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop", "resticao"' \
                          'FROM "Reposicao".tags_separacao t ' \
                          'WHERE "codbarrastag" = %s;'
             cursor = conn.cursor()
