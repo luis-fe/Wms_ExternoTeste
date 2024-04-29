@@ -1,4 +1,4 @@
-from Service.configuracoes import SkusSubstitutos
+from Service.configuracoes import SkusSubstitutos, DistibuicaoPedSub
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS
@@ -97,6 +97,26 @@ def AvaliarRestricao():
     sku = request.args.get('sku')
 
     Endereco_det = SkusSubstitutos.SugerirEnderecoRestrito(numeroop, sku)
+    # Obtém os nomes das colunas
+    column_names = Endereco_det.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    end_data = []
+    for index, row in Endereco_det.iterrows():
+        end_dict = {}
+        for column_name in column_names:
+            end_dict[column_name] = row[column_name]
+        end_data.append(end_dict)
+    return jsonify(end_data)
+
+
+@SkusSubstitutos_routes.route('/api/PedidosRestricao', methods=['GET'])
+@token_required
+def PedidosRestricao():
+    # Obtém os dados do corpo da requisição (JSON)
+    numeroop = request.args.get('numeroop')
+    sku = request.args.get('sku')
+
+    Endereco_det = DistibuicaoPedSub.PedidosSkuEspecial()
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
