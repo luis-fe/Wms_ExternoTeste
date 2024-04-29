@@ -243,11 +243,14 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     consultar = consulta[consulta['Resultado'] == False]
     consultar = consultar.drop_duplicates()  ## Elimando as possiveis duplicatas
 
-    NPedidos = consultar['codpedido'].count()
+    NPedidos = consultar.loc[:, ['codpedido']]
+    NPedidos = NPedidos.drop_duplicates()
+    NPedidos = NPedidos['codpedido'].count()
+
     consultar['dataseparacao']= pd.to_datetime(consultar['dataseparacao'],errors='coerce', infer_datetime_format=True)
     consultar['dataseparacao'] = consultar['dataseparacao'].dt.strftime('%d/%m/%Y')
 
-    consultar.columns = ['codpedido', 'engenharia', 'cor', 'OrigemSubst']
+    consultar.drop(['Resultado',],axis=1, inplace=True)
 
     dados = {
         '0-Intervalo': f'{dataInicio} À {dataFinal}',
