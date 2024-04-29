@@ -230,7 +230,7 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     conn.close()
     consultar = consultar.sort_values(by=['codpedido', 'engenharia', 'cor'],
                                       ascending=False)  # escolher como deseja classificar
-    consultar.fillna('-',inpalce=True)
+    consultar.fillna('-',inplace=True)
 
     def avaliar_grupo(df_grupo):
         return len(set(df_grupo)) == 1
