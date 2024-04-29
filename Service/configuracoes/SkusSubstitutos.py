@@ -217,4 +217,34 @@ def PesquisaEnderecoEspecial(endereco):
         return False
 
 
+def RelacaoPedidosEntregues(dataInicio, dataFinal):
+
+    query="""
+            select dataseparacao::date, codpedido , cor, engenharia, resticao as "OrigemSubst"  from "Reposicao"."Reposicao".tags_separacao ts
+    where codpedido ||cor|| engenharia in (
+    select codpedido||cor||engenharia  from "Reposicao"."Reposicao".tags_separacao ts 
+    where ts.resticao <> '-' and dataseparacao::date >= %s and dataseparacao::date <= %s )
+    """
+    conn = ConexaoPostgreMPL.conexao()
+    consultar = pd.read_sql(query,conn,params=(dataInicio,dataFinal,))
+    conn.close()
+    consultar = consultar.sort_values(by=['codpedido', 'engenharia', 'cor'],
+                                      ascending=False)  # escolher como deseja classificar
+    consultar.fillna('-',inpalce=True)
+
+    def avaliar_grupo(df_grupo):
+        return len(set(df_grupo)) == 1
+
+    df_resultado = consultar.groupby(['codpedido', 'engenharia', 'cor'])['OrigemSubst'].apply(avaliar_grupo).reset_index()
+    df_resultado.columns = ['codpedido', 'engenharia', 'cor', 'Resultado']
+
+    consulta = pd.merge(consultar, df_resultado, on=['codpedido', 'engenharia', 'cor'], how='left')
+    consulta.fillna('-', inplace=True)
+
+    consultar = consulta[consulta['Resultado'] == False]
+
+
+    return consultar
+
+
 
