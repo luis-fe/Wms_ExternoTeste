@@ -169,7 +169,7 @@ def Redistribuir(pedido, produto, natureza):
     order by "SaldoLiquid" desc 
     """
 
-    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,))
+    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,natureza, produto,))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
     if tamanho >= 0:
