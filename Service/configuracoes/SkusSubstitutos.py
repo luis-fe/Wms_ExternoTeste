@@ -247,6 +247,8 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     consultar['dataseparacao']= pd.to_datetime(consultar['dataseparacao'],errors='coerce', infer_datetime_format=True)
     consultar['dataseparacao'] = consultar['dataseparacao'].dt.strftime('%d/%m/%Y')
 
+    consultar.columns = ['codpedido', 'engenharia', 'cor', 'OrigemSubst']
+
     dados = {
         '0-Intervalo': f'{dataInicio} À {dataFinal}',
         '1-Qtd Pedidos Entregues com Divergencia': f'{NPedidos} Pedidos',
