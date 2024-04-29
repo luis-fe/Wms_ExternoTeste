@@ -241,6 +241,11 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     consulta = pd.merge(consultar, df_resultado, on=['codpedido', 'engenharia', 'cor'], how='left')
 
     consultar = consulta[consulta['Resultado'] == False]
+    consultar = consultar.drop_duplicates()  ## Elimando as possiveis duplicatas
+
+    NPedidos = consultar['codpedido'].count()
+    consultar['dataseparacao'] = consultar['dataseparacao'].dt.strftime('%d/%m/%Y')
+
 
 
     return consultar
