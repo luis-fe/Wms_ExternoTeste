@@ -21,10 +21,24 @@ where data2.resticao like '%||%'
     group by "Endereco" 
     """
 
+    consulta3= """
+    select ce.codendereco as endereco , codreduzido as produto , saldo, "SaldoLiquid"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+where ce."SaldoLiquid" > 0 and 
+codendereco in (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t where t.resticao like '%||%')
+order by "SaldoLiquid" desc 
+    """
+
     consulta = pd.read_sql(consulta,conn)
     consulta2 = pd.read_sql(consulta2,conn)
+    consulta3 = pd.read_sql(consulta3,conn)
 
     conn.close()
+
+    # Adicionando uma coluna de contagem para cada produto
+    consulta3['count'] = consulta3.groupby('produto').cumcount() + 1
+    pivot_df = consulta3.pivot_table(index='produto', columns='count', values=['endereco', 'SaldoLiquid','saldo'], aggfunc='first')
+    pivot_df.columns = [f"{col[0]}{col[1]}" for col in pivot_df.columns]
+    pivot_df.reset_index(inplace=True)
 
     consulta = pd.merge(consulta, consulta2,on='endereco',how='left')
     consulta['restricao'].fillna('-',inplace=True)
@@ -40,6 +54,7 @@ where data2.resticao like '%||%'
     df_resultado.columns = ['codpedido','engenharia','cor', 'Resultado']
 
     consulta = pd.merge(consulta, df_resultado,on=['codpedido','engenharia','cor'],how='left')
+    consulta = pd.merge(consulta, pivot_df,on='produto',how='left')
 
 
 
