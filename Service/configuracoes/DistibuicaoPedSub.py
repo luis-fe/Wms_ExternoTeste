@@ -17,7 +17,8 @@ where data2.resticao like '%||%'
     """
 
     consulta2 = """
-    select t."Endereco" as endereco, resticao as restricao  from "Reposicao"."Reposicao".tagsreposicao t where t.resticao like '%||%'
+    select t."Endereco", max(resticao) as restricao  from "Reposicao"."Reposicao".tagsreposicao t where t.resticao like '%||%'
+group by "Endereco" 
     """
 
     consulta = pd.read_sql(consulta,conn)
