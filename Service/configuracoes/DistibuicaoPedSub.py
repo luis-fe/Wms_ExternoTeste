@@ -22,7 +22,8 @@ where data2.resticao like '%||%'
     """
 
     consulta3= """
-    select ce.codendereco as endereco , codreduzido as produto , saldo, "SaldoLiquid"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+select ce.codendereco as endereco , codreduzido as produto , saldo, "SaldoLiquid", resticao  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+left  join (select "Endereco", max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t  group by "Endereco")data2 on data2."Endereco" = ce.codendereco  
 where ce."SaldoLiquid" > 0 and 
 codendereco in (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t where t.resticao like '%||%')
 order by "SaldoLiquid" desc 
@@ -36,7 +37,7 @@ order by "SaldoLiquid" desc
 
     # Adicionando uma coluna de contagem para cada produto
     consulta3['count'] = consulta3.groupby('produto').cumcount() + 1
-    pivot_df = consulta3.pivot_table(index='produto', columns='count', values=['endereco', 'SaldoLiquid','saldo'], aggfunc='first')
+    pivot_df = consulta3.pivot_table(index='produto', columns='count', values=['endereco', 'SaldoLiquid','saldo','resticao'], aggfunc='first')
     pivot_df.columns = [f"{col[0]}{col[1]}" for col in pivot_df.columns]
     pivot_df.reset_index(inplace=True)
 
