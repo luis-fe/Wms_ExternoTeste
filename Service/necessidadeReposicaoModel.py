@@ -153,8 +153,9 @@ def Redistribuir(pedido, produto, natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     query = """
-    select ce.codendereco as endereco , ce."SaldoLiquid", '0-res' as status
+    select ce.codendereco as endereco , ce."SaldoLiquid", resticao as status
     from "Reposicao"."Reposicao"."calculoEndereco" ce
+    inner join (select "Endereco", max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t  group by "Endereco")data2 on data2."Endereco" = ce.codendereco  
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
     and codendereco in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
