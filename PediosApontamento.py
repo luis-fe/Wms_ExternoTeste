@@ -158,7 +158,7 @@ def ApontamentoTagPedido(codusuario, codpedido, codbarra, datahora, enderecoApi,
                      '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
                      '"numeroop", "cor", "tamanho", "totalop","resticao" ,"codpedido","dataseparacao", "usuario_rep") ' \
                      'SELECT %s, "codbarrastag", "codreduzido", %s, "engenharia", ' \
-                     '"DataReposicao", "descricao", "epc", %s, "numeresticaoroop", "cor", "tamanho", "totalop","resticao", ' \
+                     '"DataReposicao", "descricao", "epc", %s, "numeroop", "cor", "tamanho", "totalop","resticao", ' \
                      "%s, %s, usuario " \
                      'FROM "Reposicao".tagsreposicao t ' \
                      'WHERE "codbarrastag" = %s;'
