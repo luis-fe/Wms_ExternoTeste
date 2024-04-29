@@ -48,7 +48,9 @@ if (isset($_SESSION['empresa'])) {
                     </div>
                 </a>
                 <ul>
-                    <li><a  href="./CadastroQrCode.php">CADASTRO QR CODE DAS CAIXAS</a></li>
+                    <?php if ($classe_empresa == 'Matriz'): ?>
+                        <li><a  href="./CadastroQrCode.php">CADASTRO QR CODE DAS CAIXAS</a></li>
+                    <?php endif; ?>
                     <li><a  href="./CadastroEnderecos.php">CADASTRO DE ENDEREÇOS</a></li>
                 </ul>
             </li>
@@ -71,6 +73,7 @@ if (isset($_SESSION['empresa'])) {
             </li>
         </ul>
 
+        <?php if ($classe_empresa == 'Matriz'): ?>    
         <ul>
             <li>
                 <a href="#">
@@ -83,10 +86,11 @@ if (isset($_SESSION['empresa'])) {
                 </a>
                 <ul>
                     <li><a  href="./ReservaDePedidos.php">RESERVA DE PEDIDOS</a></li>
-                    <li><a  href="./GerenciamentoLinhas.php">MONITOR DE PEDIDOS</a></li>
+                    <li><a  href="./MonitorPedidos.php">MONITOR DE PEDIDOS</a></li>
                 </ul>
             </li>
         </ul>
+        <?php endif; ?>
 
         <ul>
             <li>
@@ -104,7 +108,9 @@ if (isset($_SESSION['empresa'])) {
                     <li><a  href="./ConsumoDeEmbalagens.php">CONSUMO DE EMBALAGENS</a></li>
                     <li><a  href="./Inventarios.php">INVENTÁRIO</a></li>
                     <li><a  href="./TagsX_Estoque.php">TAG'S x FÍSICO</a></li>
+                    <?php if ($classe_empresa == 'Matriz'): ?>   
                     <li><a  href="./Substitutos.php">ANÁLISE DE SUBSTITUTOS</a></li>
+                    <?php endif; ?>
                 </ul>
             </li>
         </ul>
