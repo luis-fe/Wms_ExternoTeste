@@ -239,7 +239,6 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
     df_resultado.columns = ['codpedido', 'engenharia', 'cor', 'Resultado']
 
     consulta = pd.merge(consultar, df_resultado, on=['codpedido', 'engenharia', 'cor'], how='left')
-    consulta.fillna('-', inplace=True)
 
     consultar = consulta[consulta['Resultado'] == False]
 
