@@ -16,11 +16,23 @@ where data2.resticao like '%||%'
 )
     """
 
+    consulta2 = """
+    select t."Endereco" as endereco, resticao as restricao  from "Reposicao"."Reposicao".tagsreposicao t where t.resticao like '%||%'
+    """
+
     consulta = pd.read_sql(consulta,conn)
+    consulta2 = pd.read_sql(consulta2,conn)
 
     conn.close()
+
+    consulta = pd.merge(consulta, consulta2,on='endereco',how='left')
+    consulta['restricao'].fillna('-',inplace=True)
+
+
     consulta = consulta.sort_values(by=['codpedido','engenharia','cor'], ascending=False,
                                 ignore_index=True)
+
+
 
 
     return consulta
