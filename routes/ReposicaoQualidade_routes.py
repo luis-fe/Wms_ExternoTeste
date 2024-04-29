@@ -169,7 +169,6 @@ def RecarrearEnderecoTeste():
 
                     # 5.1 Restricao de endereco Especial
 
-
                     if configuracaoRestricao == 'sim' and InfoCaixa['restricao'][0] != '-' and InfoCaixa['restricao'][0] != 'veio csw':
                         print('etapa 5.1 Restricao de endereco Especial')
 
