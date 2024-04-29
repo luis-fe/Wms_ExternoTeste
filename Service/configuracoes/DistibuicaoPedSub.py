@@ -57,5 +57,7 @@ order by "SaldoLiquid" desc
     consulta = pd.merge(consulta, pivot_df,on='produto',how='left')
     consulta.fillna('-',inplace=True)
 
+    consulta = consulta[consulta['Resultado'] == False]
+
     return consulta
 
