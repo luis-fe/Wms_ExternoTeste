@@ -170,17 +170,17 @@ def RecarrearEnderecoTeste():
                     # 5.1 Restricao de endereco Especial
 
 
-                    if configuracaoRestricao == 'simxx' and InfoCaixa['restricao'] != '-':
+                    if configuracaoRestricao == 'sim' and InfoCaixa['restricao'][0] != '-' and InfoCaixa['restricao'][0] != 'veio csw':
                         print('etapa 5.1 Restricao de endereco Especial')
 
                         #Verifica o endereco proposto para a reposicao
-                        enderecoPreReservado = Service.configuracoes.SkusSubstitutos.EnderecoPropostoSubtituicao(InfoCaixa['restricao'][0])#Retorna o endereco Pré reservado
+                        enderecoPreReservado = Service.configuracoes.SkusSubstitutos.PesquisaEnderecoEspecial(endereco)
 
                         #5.1.1 Caso o endereco reposto nao corresponda ao pré reservado:
-                        if enderecoPreReservado != endereco:
+                        if enderecoPreReservado == False:
 
                             Retorno = pd.DataFrame([{'status': False,
-                                'Mensagem':f'Erro! o Endereco: {endereco} a ser reposto nao corresponde ao Sugerido {enderecoPreReservado}, reponha no endereco sugerido!'}])  # 'Mesagem'
+                                'Mensagem':f'Erro! o Endereco: {endereco} a ser reposto nao corresponde as prateleiras pre Reservadas para Substitutos, reponha nos enderecos sugeridos!'}])  # 'Mesagem'
                             column_names = Retorno.columns  # Obtém os nomes das colunas
                             enderecos_data = []  # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
 
@@ -197,6 +197,8 @@ def RecarrearEnderecoTeste():
                         else:
                             epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                             #Limpar a Pré Reserva do Endereco
+                            Service.configuracoes.SkusSubstitutos.PreReservarEndereco(endereco,InfoCaixa['restricao'][0])
+
                             Service.configuracoes.SkusSubstitutos.LimprandoPréReserva(endereco)
 
 

@@ -103,13 +103,13 @@ def SugerirEnderecoRestrito(numeroop,SKU ):
     if sugestaoEndereco.empty:
 
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SUBSTUICAO. ',
-                            'EnderecoRepor':'Solicitar para Supervisor endereco de SKU DE SUBSTITUICAO '}])
+                            'EnderecoRepor':'Solicitar para Supervisor os endereco de SKU DE SUBSTITUICAO ','status':False}])
     else:
         endereco = sugestaoEndereco['codendereco'][0]
 
 
         #Atualizar endereco com a informacao
-        PreReservarEndereco(endereco, validador['status'][0])
+        #PreReservarEndereco(endereco, validador['status'][0])
 
         return pd.DataFrame([{'mensagem':'Atencao! OP selecionada  como SKU DE SUBSTUICAO, repor nos enderecos reservados ',
                             'status':True}])
@@ -195,3 +195,26 @@ def AtualizarReservadoLiberados():
     cursor.close()
 
     conn.close()
+
+
+def PesquisaEnderecoEspecial(endereco):
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = """
+    select c.endereco_subst  from "Reposicao"."Reposicao".cadendereco c 
+    where c.codendereco = %s
+ """
+
+    consulta = pd.read_sql(consulta,conn,params=(endereco,))
+
+    conn.close()
+
+
+    if consulta['endereco_subst'][0] == 'sim':
+
+        return True
+    else:
+        return False
+
+
+
