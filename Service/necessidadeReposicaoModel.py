@@ -153,20 +153,20 @@ def Redistribuir(pedido, produto, natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     query = """
-    select ce.codendereco as endereco , ce."SaldoLiquid"  
+    select ce.codendereco as endereco , ce."SaldoLiquid", '0-res' as status
     from "Reposicao"."Reposicao"."calculoEndereco" ce
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
     and codendereco in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
         where t.resticao like %s )
     union
-    select ce.codendereco as endereco , ce."SaldoLiquid"  
+    select ce.codendereco as endereco , ce."SaldoLiquid"  , '1-normal' as status
     from "Reposicao"."Reposicao"."calculoEndereco" ce
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
     and codendereco in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
         where t.resticao not like %s )
-    order by "SaldoLiquid" desc 
+    order by status, "SaldoLiquid" desc 
     """
 
     EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,'%||%',natureza, produto,'%||%'))
