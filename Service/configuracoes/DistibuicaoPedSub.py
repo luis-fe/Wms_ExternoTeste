@@ -33,6 +33,13 @@ where data2.resticao like '%||%'
     consulta = consulta.sort_values(by=['codpedido','engenharia','cor'], ascending=False,
                                 ignore_index=True)
 
+    def avaliar_grupo(df_grupo):
+        return len(set(df_grupo)) == 1
+
+    df_resultado = consulta.groupby(['codpedido','engenharia','cor'])['restricao'].apply(avaliar_grupo).reset_index()
+    df_resultado.columns = ['codpedido','engenharia','cor', 'Resultado']
+
+    consulta = pd.merge(consulta, df_resultado,on=['codpedido','engenharia','cor'],how='left')
 
 
 
