@@ -91,3 +91,19 @@ order by "SaldoLiquid" desc
 
     return consulta
 
+def UpdateEndereco(dataframe):
+
+    update = """
+    update "Reposicao"."Reposicao".pedidossku 
+    set p.endereco = %s 
+    where codpedido = %s and p.produto = %s 
+    """
+
+    conn= ConexaoPostgreMPL.conexao()
+
+    for i in dataframe:
+        endereco = dataframe['BASE'][i]
+        produto = dataframe['produto'][i]
+        codpedido = dataframe['codpedido'][i]
+
+    conn.close()

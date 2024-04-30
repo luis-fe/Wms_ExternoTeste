@@ -138,7 +138,13 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
         if pedido == '-':
             print('-')
         else:
-            Redistribuir(pedido,str(produto),natureza)
+            #Verificar se o pedido é de cor/engenharia especial
+            avaliar = PedidosEspeciais(pedido, produto)
+
+            if avaliar == True:
+                DistribuirPedidosEspeciais(pedido,str(produto),natureza)
+            else:
+                Redistribuir(pedido,str(produto),natureza)
 
     conn.close()
 
@@ -153,14 +159,6 @@ def Redistribuir(pedido, produto, natureza):
     conn = ConexaoPostgreMPL.conexao()
 
     query = """
-    select ce.codendereco as endereco , ce."SaldoLiquid", resticao as status
-    from "Reposicao"."Reposicao"."calculoEndereco" ce
-    inner join (select "Endereco", max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t  group by "Endereco")data2 on data2."Endereco" = ce.codendereco  
-    where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
-    and codendereco in 
-        (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao like %s )
-    union
     select ce.codendereco as endereco , ce."SaldoLiquid"  , '1-normal' as status
     from "Reposicao"."Reposicao"."calculoEndereco" ce
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
@@ -170,7 +168,7 @@ def Redistribuir(pedido, produto, natureza):
     order by status, "SaldoLiquid" desc 
     """
 
-    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,'%||%',natureza, produto,'%||%'))
+    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,'%||%'))
 
     tamanho = EnderecosDisponiveis['endereco'].count()
     if tamanho >= 0:
@@ -227,6 +225,90 @@ def Redistribuir(pedido, produto, natureza):
         return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0', 'natureza':natureza}])
 
 
+def DistribuirPedidosEspeciais(pedido, produto, natureza):
+    query = """
+        select ce.codendereco as endereco , ce."SaldoLiquid", resticao as status
+    from "Reposicao"."Reposicao"."calculoEndereco" ce
+    inner join (select "Endereco", max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t  group by "Endereco")data2 on data2."Endereco" = ce.codendereco  
+    where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
+    and codendereco in 
+        (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
+        where t.resticao like %s )
+        order by status, "SaldoLiquid" desc 
+    """
+    conn = ConexaoPostgreMPL.conexao()
+    EnderecosDisponiveis = pd.read_sql(query,conn,params=(natureza, produto,'%||%'))
+    tamanho = EnderecosDisponiveis['endereco'].count()
+    if tamanho >= 0:
+        for i in range(tamanho):
+            pedidosku = pd.read_sql('select * from "Reposicao".pedidossku '
+                                    "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                                    , conn, params=(produto, pedido))
 
 
 
+            endereco_i= EnderecosDisponiveis['endereco'][i]
+            saldo_i = EnderecosDisponiveis['SaldoLiquid'][i]
+
+            if not pedidosku.empty:
+                sugerido = pedidosku['qtdesugerida'][0]
+                data_Hora = pedidosku['datahora'][0]
+
+                if sugerido <= saldo_i:
+                    qurery = 'update "Reposicao".pedidossku ' \
+                             "set endereco = %s, reservado = 'sim' " \
+                             "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+
+                    cursor = conn.cursor()
+                    cursor.execute(qurery, (endereco_i, produto, pedido,))
+                    conn.commit()
+                    cursor.close()
+
+                elif sugerido > saldo_i:
+                    insert = 'insert into "Reposicao".pedidossku ' \
+                             '(codpedido, produto, qtdesugerida, qtdepecasconf, endereco, necessidade, datahora, valorunitarioliq, reservado) ' \
+                             'values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+                    cursor = conn.cursor()
+                    cursor.execute(insert, (pedido, produto, saldo_i, 0, endereco_i, saldo_i,data_Hora,str(i), 'sim'))
+                    conn.commit()
+                    nova_sugerido = sugerido - saldo_i
+
+                    update = 'update "Reposicao".pedidossku ' \
+                             'set qtdesugerida = %s, necessidade = %s ' \
+                             "where produto = %s and codpedido = %s and necessidade > 0 and endereco = 'Não Reposto' "
+                    cursor.execute(update, (nova_sugerido, nova_sugerido, produto, pedido,))
+                    conn.commit()
+
+                    cursor.close()
+
+
+                else:
+
+                    print('fim')
+            else:
+                print('fim')
+
+        return pd.DataFrame([{'status': True, 'Mensagem': 'ok'}])
+    else:
+        return pd.DataFrame([{'status': False, 'Mensagem': 'Tamanho é iqual a 0', 'natureza':natureza}])
+
+
+
+def PedidosEspeciais(codpedido, produto):
+
+    consulta = """
+    select p.codpedido, produto from "Reposicao"."Reposicao".pedidossku p 
+inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
+where engenharia ||cor in (
+select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t 
+        where t.resticao not like '||') and codpedido = %s and produto = %s 
+    """
+
+    conn = ConexaoPostgreMPL.conexao()
+    consulta = pd.read_sql(consulta, conn, params=(codpedido, produto,))
+    conn.close()
+
+    if consulta.empty:
+        return False
+    else:
+        return True
