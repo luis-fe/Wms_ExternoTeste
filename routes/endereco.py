@@ -172,3 +172,21 @@ def GerarCaixa():
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' ok!'}), 200
+
+
+@endereco_routes.route('/api/ObterEnderecosEspeciais', methods=['GET'])
+@token_required
+def ObterEnderecosEspeciais():
+
+
+    FilaReposicaoOP = endereoModel.ObterEnderecosEspeciais()
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    FilaReposicaoOP_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        FilaReposicaoOP_dict = {}
+        for column_name in column_names:
+            FilaReposicaoOP_dict[column_name] = row[column_name]
+        FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
+    return jsonify(FilaReposicaoOP_data)

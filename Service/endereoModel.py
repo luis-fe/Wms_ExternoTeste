@@ -203,3 +203,18 @@ def ObterTipoPrateleira():
     return qurey
 
 
+def ObterEnderecosEspeciais():
+    conn = ConexaoPostgreMPL.conexao()
+
+    consulta = """
+    select c.codendereco, ce.saldo , ce."SaldoLiquid"  from "Reposicao"."Reposicao".cadendereco c 
+left join "Reposicao"."Reposicao"."calculoEndereco" ce on ce.endereco = c.codendereco 
+where c.endereco_subst = 'sim'
+    """
+    consulta = pd.read_sql(consulta,conn)
+
+    conn.close()
+
+    consulta.fillna(0,inplace = True)
+
+    return consulta
