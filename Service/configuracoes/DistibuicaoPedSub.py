@@ -69,13 +69,13 @@ order by "SaldoLiquid" desc
     base = base.loc[:,
                 ['codpedido','engenharia','cor','restricao']]
     base = base.drop_duplicates()
-    base.rename(columns={'restricao': '5BASE'}, inplace=True)
+    base.rename(columns={'restricao': 'BASE'}, inplace=True)
     consulta = pd.merge(consulta, base,on=['codpedido','engenharia','cor'],how='left')
 
     # Função para encontrar a coluna onde o valor da 'base' está presente
     def encontrar_coluna(row):
         for col in consulta.columns[1:]:
-            if row['5BASE'] in row[col]:
+            if row['BASE'] in row[col]:
                 return col
         return None
 
