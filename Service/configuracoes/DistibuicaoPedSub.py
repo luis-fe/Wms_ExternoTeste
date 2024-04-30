@@ -76,7 +76,7 @@ order by "SaldoLiquid" desc
     # Função para encontrar a coluna onde o valor da 'base' está presente
     def encontrar_coluna(row):
         for col in consulta.columns[14:]:
-            if isinstance(row[col], str) and row['BASE'] in row[col]:
+            if isinstance(row[col], str) and row['BASE'] == row[col]:
                 return col
         return None
 
