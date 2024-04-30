@@ -65,6 +65,14 @@ order by "SaldoLiquid" desc
     consulta['2REpeticaoEndereco'] = consulta.groupby(['codpedido','engenharia','cor','restricao'])['restricao'].transform('count')
     consulta['3REpeticaoMax'] = consulta.groupby(['codpedido','engenharia','cor'])['2REpeticaoEndereco'].transform('max')
 
+    base = consulta[consulta['3REpeticaoMax'] == consulta['2REpeticaoEndereco'] ]
+    base = base.loc[:,
+                ['codpedido','engenharia','cor','restricao']]
+    base = base.drop_duplicates()
+    base = base.loc[:, ['codpedido','engenharia','cor','5BASE']]
+    consulta = pd.merge(consulta, base,on=['codpedido','engenharia','cor'],how='left')
+
+
 
     # Case I: Se a necessidade for maior que 0 , a restricao for '-' verificar se é possivel encontrar endereco BASE para fechar o substitutos
 
