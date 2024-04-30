@@ -62,7 +62,7 @@ order by "SaldoLiquid" desc
     # Acrescentar um atributo chamado de "ENDERECO BASE", para todas os enderecos divergentes seguir ele como padrao.
     ### ele seria aquele com mais saldo
     consulta['1REpeticao'] = consulta.groupby(['codpedido','engenharia','cor'])['endereco'].transform('count')
-    consulta['2REpeticaoEndereco'] = consulta.groupby(['codpedido','engenharia','cor','endereco'])['endereco'].transform('count')
+    consulta['2REpeticaoEndereco'] = consulta.groupby(['codpedido','engenharia','cor','restricao'])['restricao'].transform('count')
 
 
     # Case I: Se a necessidade for maior que 0 , a restricao for '-' verificar se é possivel encontrar endereco BASE para fechar o substitutos
