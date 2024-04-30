@@ -79,7 +79,7 @@ order by "SaldoLiquid" desc
             if isinstance(row[col], str) and row['BASE'] in row[col]:
                 return col
         return None
-
+    print(consulta)
     # Aplicar a função em cada linha do DataFrame
     consulta['encontrada'] = consulta.apply(encontrar_coluna, axis=1)
 
