@@ -69,7 +69,7 @@ order by "SaldoLiquid" desc
     base = base.loc[:,
                 ['codpedido','engenharia','cor','restricao']]
     base = base.drop_duplicates()
-    base = base.loc[:, ['codpedido','engenharia','cor','5BASE']]
+    base.rename(columns={'restricao': '5BASE'}, inplace=True)
     consulta = pd.merge(consulta, base,on=['codpedido','engenharia','cor'],how='left')
 
 
