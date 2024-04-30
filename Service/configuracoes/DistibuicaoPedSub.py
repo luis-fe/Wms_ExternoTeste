@@ -1,5 +1,6 @@
 import pandas as pd
 import ConexaoPostgreMPL
+import numpy as np
 
 
 
@@ -75,7 +76,7 @@ order by "SaldoLiquid" desc
     # Função para encontrar a coluna onde o valor da 'base' está presente
     def encontrar_coluna(row):
         for col in consulta.columns[1:]:
-            if row['BASE'] in row[col]:
+            if pd.notna(row[col]) and row['BASE'] in row[col]:
                 return col
         return None
 
