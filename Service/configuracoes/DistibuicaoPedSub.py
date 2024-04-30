@@ -72,6 +72,15 @@ order by "SaldoLiquid" desc
     base.rename(columns={'restricao': '5BASE'}, inplace=True)
     consulta = pd.merge(consulta, base,on=['codpedido','engenharia','cor'],how='left')
 
+    # Função para encontrar a coluna onde o valor da 'base' está presente
+    def encontrar_coluna(row):
+        for col in consulta.columns[1:]:
+            if row['5BASE'] in row[col]:
+                return col
+        return None
+
+    # Aplicar a função em cada linha do DataFrame
+    consulta['encontrada'] = consulta.apply(encontrar_coluna, axis=1)
 
 
     # Case I: Se a necessidade for maior que 0 , a restricao for '-' verificar se é possivel encontrar endereco BASE para fechar o substitutos
