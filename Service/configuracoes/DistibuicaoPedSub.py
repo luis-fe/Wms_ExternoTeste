@@ -63,6 +63,7 @@ order by "SaldoLiquid" desc
     ### ele seria aquele com mais saldo
     consulta['1REpeticao'] = consulta.groupby(['codpedido','engenharia','cor'])['endereco'].transform('count')
     consulta['2REpeticaoEndereco'] = consulta.groupby(['codpedido','engenharia','cor','restricao'])['restricao'].transform('count')
+    consulta['3REpeticaoMax'] = consulta.groupby(['codpedido','engenharia','cor'])['2REpeticaoEndereco'].transform('max')
 
 
     # Case I: Se a necessidade for maior que 0 , a restricao for '-' verificar se é possivel encontrar endereco BASE para fechar o substitutos
