@@ -104,7 +104,7 @@ def UpdateEndereco(dataframe):
 
 def DashbordPedidosAAprovar():
     dados = PedidosSkuEspecial()
-    dados['Restricao'].replace('Sem Restricao','Sem Restricao||Normal')
+    dados['Restricao'] = dados['Restricao'].replace('Sem Restricao','Sem Restricao||Normal')
 
     dados['Pedido||Engenharia||Cor'] = dados.groupby(['pedido','engenharia','cor'])['Restricao'].cumcount()
 
