@@ -26,10 +26,8 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     """
     SaldoPorRestricao = pd.read_sql(SaldoPorRestricao,conn)
     SaldoPorRestricao = SaldoPorRestricao.groupby(['Restricao','engenharia','cor'])['SaldoLiquid'].transform('sum')
-    SaldoPorRestricao = SaldoPorRestricao.sort_values(
-        'SaldoLiquid',
-        ascending=False
-    )
+    SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid', ascending=False,
+                        ignore_index=True)  # escolher como deseja classificar
 
     conn.close()
 
