@@ -82,20 +82,20 @@ def UpdateEndereco(dataframe):
 
     update = """
     update "Reposicao"."Reposicao".pedidossku 
-    set p.endereco = %s 
-    where codpedido = %s and p.produto = %s 
+    set endereco = %s 
+    where codpedido = %s and produto = %s 
     """
 
-    conn= ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexao()
 
-    for i in dataframe:
-        endereco = dataframe['endereco_sugerido'][i]
-        produto = dataframe['produto'][i]
-        codpedido = dataframe['codpedido'][i]
+    cursor = conn.cursor()
+    for index, row in dataframe.iterrows():
+        endereco = row['endereco_sugerido']
+        produto = row['produto']
+        codpedido = row['codpedido']
 
-        cursor = conn.cursor()
-        cursor.execute(update,(endereco,produto,codpedido,))
+        cursor.execute(update, (endereco, codpedido, produto,))
         conn.commit()
-        cursor.close()
 
+    cursor.close()
     conn.close()
