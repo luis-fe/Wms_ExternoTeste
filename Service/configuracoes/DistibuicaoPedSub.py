@@ -73,7 +73,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
 
     consulta['consulta'] = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
 
-    mudar = consulta[consulta['consulta']=='MUDAR']
+    mudar = consulta[consulta['consulta']=='MUDAR'].reset_index()
     UpdateEndereco(mudar)
 
     return consulta
