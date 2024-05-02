@@ -22,6 +22,8 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
 
     conn.close()
 
+    consulta['Restricao'].fillna('Sem Restricao',inplace=True)
+    consulta['SomaNecessidade'] = consulta.groupby(['pedido','engenharia','cor'])['necessidade'].transform('sum')
 
     return consulta
 
