@@ -54,7 +54,6 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
     consulta['SomaNecessidade'] = consulta.groupby(['pedido','engenharia','cor'])['necessidade'].transform('sum')
     consulta = consulta[consulta['SomaNecessidade'] >0]
-    consulta['SaldoEndereco'].consulta(0, inplace=True)
     consulta['endereco_sugerido'].consulta('-', inplace=True)
 
 
