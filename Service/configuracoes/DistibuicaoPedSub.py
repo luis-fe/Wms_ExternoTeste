@@ -69,6 +69,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
 
     consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
     consulta = pd.merge(consulta,consultaSaldoRestricaoProduto,on=['produto','Restricao Sugerida'], how='left')
+    consulta['SaldoEndereco'].consulta(0, inplace=True)
 
     consulta = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
     return consulta
