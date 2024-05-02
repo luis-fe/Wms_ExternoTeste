@@ -92,7 +92,7 @@ def UpdateEndereco(dataframe):
     for index, row in dataframe.iterrows():
         endereco = row['endereco_sugerido']
         produto = row['produto']
-        codpedido = row['codpedido']
+        codpedido = row['pedido']
 
         cursor.execute(update, (endereco, codpedido, produto,))
         conn.commit()
