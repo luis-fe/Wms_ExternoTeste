@@ -32,12 +32,16 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
                         ignore_index=True)  # escolher como deseja classificar
     SaldoPorRestricao2['repeticao'] = SaldoPorRestricao2.groupby(['engenharia','cor'])['Restricao'].cumcount()
 
-    #SaldoPorRestricao2 = SaldoPorRestricao2[SaldoPorRestricao2['repeticao']==1]
+    SaldoPorRestricao2 = SaldoPorRestricao2[SaldoPorRestricao2['repeticao']==0]
+    SaldoPorRestricao2.rename(columns={'SaldoLiquid': 'SaldoTotalEngCor','Restricao':'Restricao Sugerida'}, inplace=True)
+
+
+
     conn.close()
 
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
     consulta['SomaNecessidade'] = consulta.groupby(['pedido','engenharia','cor'])['necessidade'].transform('sum')
-    consulta = consulta[consulta['SomaNecessidade'] > 0]
+    consulta = consulta[consulta['SomaNecessidade'] >0]
 
 
     def avaliar_grupo(df_grupo):
@@ -49,8 +53,9 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = pd.merge(consulta, df_resultado,on=['pedido','engenharia','cor'],how='left')
     consulta = consulta[consulta['Resultado'] == False]
 
+    consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
 
-    return SaldoPorRestricao2
+    return consulta
 
 def UpdateEndereco(dataframe):
 
