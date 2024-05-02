@@ -70,10 +70,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
     consulta = pd.merge(consulta,consultaSaldoRestricaoProduto,on=['produto','Restricao Sugerida'], how='left')
 
-    consulta['consulta'] = 'MANTER'
-    mask = (consulta['Restricao'] != consulta['Restricao Sugerida']) & (consulta['SaldoEndereco'] > 0)
-    consulta.loc[mask, 'consulta'] = 'MUDAR'
-
+    consulta = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
     return consulta
 
 def UpdateEndereco(dataframe):
