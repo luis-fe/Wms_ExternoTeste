@@ -111,12 +111,12 @@ def DashbordPedidosAAprovar():
     totalPedidos = dados[dados['Pedido||Engenharia||Cor'] == 0]
     totalPedidos = totalPedidos['Pedido||Engenharia||Cor'].count()
 
-    dados = dados.loc[:, ['pedido', 'engenharia', 'cor', 'Restricao','necessidade']]
-    dados['Restricao'] = dados['Restricao'].str.split('\|\|').str[1]
+    dados2 = dados.loc[:, ['pedido', 'engenharia', 'cor', 'Restricao','necessidade']]
+    dados2['Restricao'] = dados2['Restricao'].str.split('\|\|').str[1]
 
-    dados = dados.groupby(['pedido', 'engenharia', 'cor', 'Restricao']).agg({'necessidade': 'sum'}).reset_index()
+    dados2 = dados2.groupby(['pedido', 'engenharia', 'cor', 'Restricao']).agg({'necessidade': 'sum'}).reset_index()
 
-    df_summary = dados.groupby(['pedido', 'cor', 'engenharia']).apply(
+    df_summary = dados2.groupby(['pedido', 'cor', 'engenharia']).apply(
         lambda x: ';'.join(f"{rest}({nec})" for rest, nec in zip(x['Restricao'], x['necessidade']))).reset_index()
     df_summary.columns = ['pedido', 'cor', 'engenharia', 'Sugerido WMS']
 
