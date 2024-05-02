@@ -37,11 +37,15 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
 
 
     consultaSaldoRestricaoProduto = """
-    select ce.endereco, ce.produto , tag."Restricao" as "Restricao Sugerida", ce."SaldoLiquid" as "SaldoEndereco"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+    select ce.endereco as endereco_sugerido, ce.produto , tag."Restricao" as "Restricao Sugerida", ce."SaldoLiquid" as "SaldoEndereco"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
 join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposicao".tagsreposicao t group by "Endereco") tag on tag."Endereco" = ce.endereco 
     """
     consultaSaldoRestricaoProduto = pd.read_sql(consultaSaldoRestricaoProduto,conn)
-
+    consultaSaldoRestricaoProduto['SaldoEndereco'].fillna(0, inplace=True)
+    consultaSaldoRestricaoProduto = consultaSaldoRestricaoProduto.sort_values(by='SaldoEndereco', ascending=False,
+                        ignore_index=True)  # escolher como deseja classificar
+    consultaSaldoRestricaoProduto['repeticao2'] = SaldoPorRestricao2.groupby(['produto'])['endereco_sugerido'].cumcount()
+    consultaSaldoRestricaoProduto = consultaSaldoRestricaoProduto[consultaSaldoRestricaoProduto['repeticao2']==0]
 
     conn.close()
 
