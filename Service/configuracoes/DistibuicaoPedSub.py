@@ -31,9 +31,9 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
         return len(set(df_grupo)) == 1
 
     df_resultado = consulta.groupby(['pedido','engenharia','cor'])['Restricao'].apply(avaliar_grupo).reset_index()
-    df_resultado.columns = ['codpedido','engenharia','cor', 'Resultado']
+    df_resultado.columns = ['pedido','engenharia','cor', 'Resultado']
 
-    consulta = pd.merge(consulta, df_resultado,on=['codpedido','engenharia','cor'],how='left')
+    consulta = pd.merge(consulta, df_resultado,on=['pedido','engenharia','cor'],how='left')
     consulta = consulta[consulta['Resultado'] == False]
 
 
