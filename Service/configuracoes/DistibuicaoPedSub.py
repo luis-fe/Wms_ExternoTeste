@@ -25,7 +25,7 @@ join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = ce.codreduzido
 join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposicao".tagsreposicao t group by "Endereco") tag on tag."Endereco" = ce.endereco 
     """
     SaldoPorRestricao = pd.read_sql(SaldoPorRestricao,conn)
-    SaldoPorRestricao = SaldoPorRestricao.groupby(['Restricao','engenharia','cor'])['SaldoLiquid'].transform('sum')
+    SaldoPorRestricao2 = SaldoPorRestricao.groupby(['Restricao','engenharia','cor'])['SaldoLiquid'].transform('sum').reset_index()
    # SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid', ascending=False,
     #                    ignore_index=True)  # escolher como deseja classificar
 
@@ -46,7 +46,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = consulta[consulta['Resultado'] == False]
 
 
-    return SaldoPorRestricao
+    return SaldoPorRestricao2
 
 def UpdateEndereco(dataframe):
 
