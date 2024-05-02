@@ -105,9 +105,9 @@ def UpdateEndereco(dataframe):
 def DashbordPedidosAAprovar():
     dados = PedidosSkuEspecial()
 
-    dados['Pedido||Engenharia||Cor'] = dados.groupby(['pedido','engenharia','cor'])['Restricao'].transform('count')
-
-    totalPedidos = dados[dados['Pedido||Engenharia||Cor'] == 0].count()
+    dados['Pedido||Engenharia||Cor'] = dados.groupby(['pedido','engenharia','cor'])['Restricao'].cumcount()
+    totalPedidos = dados[dados['Pedido||Engenharia||Cor'] == 0]
+    totalPedidos = totalPedidos['Pedido||Engenharia||Cor'].count()
     data = {
 
         '1-Total Pedidos - Pedido||Engenharia||Cor':f'{totalPedidos}',
