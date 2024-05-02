@@ -25,6 +25,18 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
     consulta['SomaNecessidade'] = consulta.groupby(['pedido','engenharia','cor'])['necessidade'].transform('sum')
     consulta = consulta[consulta['SomaNecessidade'] > 0]
+
+
+    def avaliar_grupo(df_grupo):
+        return len(set(df_grupo)) == 1
+
+    df_resultado = consulta.groupby(['pedido','engenharia','cor'])['Restricao'].apply(avaliar_grupo).reset_index()
+    df_resultado.columns = ['codpedido','engenharia','cor', 'Resultado']
+
+    consulta = pd.merge(consulta, df_resultado,on=['codpedido','engenharia','cor'],how='left')
+    consulta = consulta[consulta['Resultado'] == False]
+
+
     return consulta
 
 def UpdateEndereco(dataframe):
