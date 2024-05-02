@@ -30,7 +30,9 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
         {'SaldoLiquid': 'sum'}).reset_index()
     SaldoPorRestricao2 = SaldoPorRestricao2.sort_values(by='SaldoLiquid', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
+    SaldoPorRestricao2['repeticao'] = SaldoPorRestricao2.groupby(['engenharia','cor'])['Restricao'].cumcount()
 
+    SaldoPorRestricao2 = SaldoPorRestricao2[SaldoPorRestricao2['repeticao']==1]
     conn.close()
 
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
