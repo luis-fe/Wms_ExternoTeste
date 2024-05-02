@@ -44,7 +44,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consultaSaldoRestricaoProduto['SaldoEndereco'].fillna(0, inplace=True)
     consultaSaldoRestricaoProduto = consultaSaldoRestricaoProduto.sort_values(by='SaldoEndereco', ascending=False,
                         ignore_index=True)  # escolher como deseja classificar
-    consultaSaldoRestricaoProduto['repeticao2'] = SaldoPorRestricao2.groupby('produto')['endereco_sugerido'].cumcount()
+    consultaSaldoRestricaoProduto['repeticao2'] = SaldoPorRestricao2.groupby('produto').cumcount()
     consultaSaldoRestricaoProduto = consultaSaldoRestricaoProduto[consultaSaldoRestricaoProduto['repeticao2']==0]
 
     conn.close()
