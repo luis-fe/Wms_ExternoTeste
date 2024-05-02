@@ -28,8 +28,8 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     SaldoPorRestricao['SaldoLiquid'].fillna(0, inplace=True)
     SaldoPorRestricao2 = SaldoPorRestricao.groupby(['Restricao', 'engenharia', 'cor']).agg(
         {'SaldoLiquid': 'sum'}).reset_index()
-    # SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid', ascending=False,
-    #                    ignore_index=True)  # escolher como deseja classificar
+    SaldoPorRestricao2 = SaldoPorRestricao2.sort_values(by='SaldoLiquid', ascending=False,
+                        ignore_index=True)  # escolher como deseja classificar
 
     conn.close()
 
