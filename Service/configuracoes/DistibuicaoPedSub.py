@@ -106,6 +106,12 @@ def DashbordPedidosAAprovar():
     dados = PedidosSkuEspecial()
     dados['Restricao'] = dados['Restricao'].replace('Sem Restricao','Sem Restricao||Normal')
 
+    usuarioAtribuido = """
+    SELECT f.codigopedido AS pedido, c.nome AS "UsuarioAtribuido"
+FROM "Reposicao"."Reposicao".filaseparacaopedidos f 
+LEFT JOIN "Reposicao"."Reposicao".cadusuarios c ON c.codigo::varchar = f.cod_usuario
+    """
+
     dados['Pedido||Engenharia||Cor'] = dados.groupby(['pedido','engenharia','cor'])['Restricao'].cumcount()
 
     totalPedidos = dados[dados['Pedido||Engenharia||Cor'] == 0]
@@ -119,6 +125,11 @@ def DashbordPedidosAAprovar():
     df_summary = dados2.groupby(['pedido', 'cor', 'engenharia']).apply(
         lambda x: ';'.join(f"{rest}({nec})" for rest, nec in zip(x['Restricao'], x['necessidade']))).reset_index()
     df_summary.columns = ['pedido', 'cor', 'engenharia', 'Sugerido WMS']
+    conn = ConexaoPostgreMPL.conexao()
+    usuarioAtribuido = pd.read_sql(usuarioAtribuido,conn,)
+    conn.close()
+    df_summary = pd.merge(df_summary,usuarioAtribuido,on='pedido',how="left")
+    df_summary.fillna('-',inplace=True)
 
     data = {
 
