@@ -106,8 +106,11 @@ def DashbordPedidosAAprovar():
     dados = PedidosSkuEspecial()
 
     dados['Pedido||Engenharia||Cor'] = dados.groupby(['pedido','engenharia','cor'])['Restricao'].cumcount()
+
     totalPedidos = dados[dados['Pedido||Engenharia||Cor'] == 0]
     totalPedidos = totalPedidos['Pedido||Engenharia||Cor'].count()
+
+    dados = dados.loc[:, ['pedido', 'engenharia', 'cor', 'Restricao', 'produto','necessidade']]
     data = {
 
         '1-Total Pedidos - Pedido||Engenharia||Cor':f'{totalPedidos}',
