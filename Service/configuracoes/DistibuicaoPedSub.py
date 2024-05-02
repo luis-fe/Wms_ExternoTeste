@@ -113,7 +113,7 @@ def DashbordPedidosAAprovar():
 
     dados2 = dados.loc[:, ['pedido', 'engenharia', 'cor', 'Restricao','necessidade']]
     dados2['Restricao'] = dados2['Restricao'].str.split('\|\|').str[1]
-    dados2['Necessidade'] = dados2['Necessidade'].round(0).astype(int)
+    dados2['Necessidade'] = dados2['necessidade'].round(0).astype(int)
     dados2 = dados2.groupby(['pedido', 'engenharia', 'cor', 'Restricao']).agg({'necessidade': 'sum'}).reset_index()
 
     df_summary = dados2.groupby(['pedido', 'cor', 'engenharia']).apply(
