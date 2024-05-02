@@ -68,9 +68,14 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
     consulta = pd.merge(consulta,consultaSaldoRestricaoProduto,on=['produto','Restricao Sugerida'], how='left')
     consulta['SaldoEndereco'].fillna(0, inplace=True)
-    consulta['endereco_sugerido'].fillna(0, inplace=True)
+    consulta['endereco_sugerido'].fillna('-', inplace=True)
+    consulta.fillna('-', inplace=True)
 
     consulta['consulta'] = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
+
+    mudar = consulta[consulta['consulta']=='MUDAR']
+    UpdateEndereco(mudar)
+
     return consulta
 
 def UpdateEndereco(dataframe):
@@ -84,8 +89,13 @@ def UpdateEndereco(dataframe):
     conn= ConexaoPostgreMPL.conexao()
 
     for i in dataframe:
-        endereco = dataframe['BASE'][i]
+        endereco = dataframe['endereco_sugerido'][i]
         produto = dataframe['produto'][i]
         codpedido = dataframe['codpedido'][i]
+
+        cursor = conn.cursor()
+        cursor.execute(update,(endereco,produto,codpedido,))
+        conn.commit()
+        cursor.close()
 
     conn.close()
