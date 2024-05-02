@@ -36,6 +36,12 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     SaldoPorRestricao2.rename(columns={'SaldoLiquid': 'SaldoTotalEngCor','Restricao':'Restricao Sugerida'}, inplace=True)
 
 
+    consultaSaldoRestricaoProduto = """
+    select ce.endereco, ce.produto , tag."Restricao" as "Restricao Sugerida", ce."SaldoLiquid" as "SaldoEndereco"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposicao".tagsreposicao t group by "Endereco") tag on tag."Endereco" = ce.endereco 
+    """
+    consultaSaldoRestricaoProduto = pd.read_sql(consultaSaldoRestricaoProduto,conn)
+
 
     conn.close()
 
@@ -54,6 +60,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = consulta[consulta['Resultado'] == False]
 
     consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
+    consulta = pd.merge(consulta,consultaSaldoRestricaoProduto,on=['produto','Restricao Sugerida'], how='left')
 
     return consulta
 
