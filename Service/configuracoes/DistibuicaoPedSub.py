@@ -123,7 +123,7 @@ def DashbordPedidosAAprovar():
     data = {
 
         '1-Total Pedidos - Pedido||Engenharia||Cor':f'{totalPedidos}',
-        '4- Detalhamento ': df_summary.to_dict(orient='records')
+        '4- Detalhamento ': dados.to_dict(orient='records')
 
     }
 
