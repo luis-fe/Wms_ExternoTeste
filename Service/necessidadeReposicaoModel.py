@@ -147,7 +147,8 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
             print('-')
         else:
             #Verificar se o pedido é de cor/engenharia especial
-            avaliar = DataFramePedidosEspeciais[DataFramePedidosEspeciais['pedido'] == pedido & DataFramePedidosEspeciais['produto'] == produto]
+            avaliar = DataFramePedidosEspeciais[
+                (DataFramePedidosEspeciais['pedido'] == pedido) & (DataFramePedidosEspeciais['produto'] == produto)]
 
             if not avaliar.empty:
                 DistribuirPedidosEspeciais(pedido,str(produto),natureza)
