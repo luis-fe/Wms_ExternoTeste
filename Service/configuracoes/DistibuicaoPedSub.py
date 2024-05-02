@@ -54,7 +54,6 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
     consulta['SomaNecessidade'] = consulta.groupby(['pedido','engenharia','cor'])['necessidade'].transform('sum')
     consulta = consulta[consulta['SomaNecessidade'] >0]
-    consulta['endereco_sugerido'].consulta('-', inplace=True)
 
 
     def avaliar_grupo(df_grupo):
@@ -69,6 +68,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta = pd.merge(consulta,SaldoPorRestricao2,on=['engenharia','cor'], how='left')
     consulta = pd.merge(consulta,consultaSaldoRestricaoProduto,on=['produto','Restricao Sugerida'], how='left')
     consulta['SaldoEndereco'].consulta(0, inplace=True)
+    consulta['endereco_sugerido'].consulta(0, inplace=True)
 
     consulta = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
     return consulta
