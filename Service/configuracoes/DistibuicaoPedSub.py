@@ -19,6 +19,15 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
 
     consulta = pd.read_sql(consulta,conn)
 
+    SaldoPorRestricao = """
+    select ts.engenharia , ts.cor, ce."SaldoLiquid", ce.endereco , tag."Restricao"  from "Reposicao"."Reposicao"."calculoEndereco" ce 
+join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = ce.codreduzido 
+join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposicao".tagsreposicao t group by "Endereco") tag on tag."Endereco" = ce.endereco 
+    """
+    SaldoPorRestricao = pd.read_sql(SaldoPorRestricao,conn)
+    SaldoPorRestricao = SaldoPorRestricao.groupby(['Restricao','engenharia','cor'])['SaldoLiquid'].transform('sum')
+    SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid',
+                                      ascending=False)  # escolher como deseja classificar
 
     conn.close()
 
@@ -37,7 +46,7 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
     consulta = consulta[consulta['Resultado'] == False]
 
 
-    return consulta
+    return SaldoPorRestricao
 
 def UpdateEndereco(dataframe):
 
