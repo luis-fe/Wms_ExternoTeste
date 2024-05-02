@@ -116,7 +116,7 @@ def PedidosRestricao():
     numeroop = request.args.get('numeroop')
     sku = request.args.get('sku')
 
-    Endereco_det = DistibuicaoPedSub.PedidosSkuEspecial()
+    Endereco_det = DistibuicaoPedSub.DashbordPedidosAAprovar()
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

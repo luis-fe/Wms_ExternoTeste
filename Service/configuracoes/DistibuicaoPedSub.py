@@ -99,3 +99,13 @@ def UpdateEndereco(dataframe):
 
     cursor.close()
     conn.close()
+
+
+
+def DashbordPedidosAAprovar():
+    dataframe = PedidosSkuEspecial()
+
+    dataframe['Pedido||Engenharia||Cor'] = dataframe.groupby(['pedido','engenharia','cor'])['Restricao'].transform('sum')
+
+
+    return dataframe
