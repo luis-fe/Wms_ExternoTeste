@@ -70,7 +70,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta['SaldoEndereco'].consulta(0, inplace=True)
     consulta['endereco_sugerido'].consulta(0, inplace=True)
 
-    consulta = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
+    consulta['consulta'] = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
     return consulta
 
 def UpdateEndereco(dataframe):
