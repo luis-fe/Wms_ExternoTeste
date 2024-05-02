@@ -32,7 +32,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
                         ignore_index=True)  # escolher como deseja classificar
     SaldoPorRestricao2['repeticao'] = SaldoPorRestricao2.groupby(['engenharia','cor'])['Restricao'].cumcount()
 
-    SaldoPorRestricao2 = SaldoPorRestricao2[SaldoPorRestricao2['repeticao']==1]
+    #SaldoPorRestricao2 = SaldoPorRestricao2[SaldoPorRestricao2['repeticao']==1]
     conn.close()
 
     consulta['Restricao'].fillna('Sem Restricao',inplace=True)
