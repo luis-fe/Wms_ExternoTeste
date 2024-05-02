@@ -136,7 +136,7 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
 inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
 where engenharia ||cor in (
 select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao not like '||')
+        where t.resticao  like '%||%')
     """
     DataFramePedidosEspeciais = pd.read_sql(DataFramePedidosEspeciais,conn)
     for i in range(relatorioEndereço['codpedido'].count()):
