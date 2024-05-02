@@ -25,8 +25,10 @@ join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = ce.codreduzido
 join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposicao".tagsreposicao t group by "Endereco") tag on tag."Endereco" = ce.endereco 
     """
     SaldoPorRestricao = pd.read_sql(SaldoPorRestricao,conn)
-    SaldoPorRestricao2 = SaldoPorRestricao.groupby(['Restricao','engenharia','cor'])['SaldoLiquid'].transform('sum').reset_index()
-   # SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid', ascending=False,
+    SaldoPorRestricao['SaldoLiquid'].fillna(0, inplace=True)
+    SaldoPorRestricao2 = SaldoPorRestricao.groupby(['Restricao', 'engenharia', 'cor']).agg(
+        {'SaldoLiquid': 'sum'}).reset_index()
+    # SaldoPorRestricao = SaldoPorRestricao.sort_values(by='SaldoLiquid', ascending=False,
     #                    ignore_index=True)  # escolher como deseja classificar
 
     conn.close()
