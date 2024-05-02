@@ -42,7 +42,7 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     """
     consultaSaldoRestricaoProduto = pd.read_sql(consultaSaldoRestricaoProduto,conn)
 
-    consultaSaldoRestricaoProduto['repeticao2'] = SaldoPorRestricao2.groupby(['produto'])['endereco_sugerido'].cumcount()
+    consultaSaldoRestricaoProduto['repeticao2'] = SaldoPorRestricao2.groupby(['produto','endereco_sugerido'])['endereco_sugerido'].cumcount()
 
     consultaSaldoRestricaoProduto['SaldoEndereco'].fillna(0, inplace=True)
     consultaSaldoRestricaoProduto = consultaSaldoRestricaoProduto.sort_values(by='SaldoEndereco', ascending=False,
