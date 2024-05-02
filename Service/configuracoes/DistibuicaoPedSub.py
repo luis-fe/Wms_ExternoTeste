@@ -13,7 +13,7 @@ inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto
 left join (select "Endereco" , max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t group by t."Endereco") e on e."Endereco" = p.endereco  
 where engenharia ||cor in (
 select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao not like '||')
+        where t.resticao  like '%||%')
         order by p.codpedido,ts.engenharia , ts.cor
     """
 
