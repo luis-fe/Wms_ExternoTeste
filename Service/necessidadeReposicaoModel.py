@@ -131,6 +131,14 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
     relatorioEndereço.fillna('-', inplace=True)
 
+    DataFramePedidosEspeciais = """
+    select p.codpedido as pedido, produto from "Reposicao"."Reposicao".pedidossku p 
+inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
+where engenharia ||cor in (
+select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t 
+        where t.resticao not like '||')
+    """
+    DataFramePedidosEspeciais = pd.read_sql(DataFramePedidosEspeciais,conn)
     for i in range(relatorioEndereço['codpedido'].count()):
         pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
         produto = relatorioEndereço['codreduzido'][i]
@@ -139,9 +147,9 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
             print('-')
         else:
             #Verificar se o pedido é de cor/engenharia especial
-            avaliar = PedidosEspeciais(pedido, produto)
+            avaliar = DataFramePedidosEspeciais[DataFramePedidosEspeciais['pedido'] == pedido & DataFramePedidosEspeciais['produto'] == produto]
 
-            if avaliar == True:
+            if not avaliar.empty:
                 DistribuirPedidosEspeciais(pedido,str(produto),natureza)
             else:
                 Redistribuir(pedido,str(produto),natureza)
