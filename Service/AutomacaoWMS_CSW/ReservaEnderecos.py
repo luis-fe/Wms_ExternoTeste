@@ -183,41 +183,49 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
         if modelo == 'Substitutos' and ordem == 'asc':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
-            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like %s ) and "SaldoLiquid" >0  
             order by "SaldoLiquid" asc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza,'%||%'))
+
 
         elif modelo == 'Substitutos' and ordem == 'desc':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
-            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like %s ) and "SaldoLiquid" >0  
             order by "SaldoLiquid" desc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza,'%||%'))
+
         elif modelo =='Retirar Substitutos' and ordem == 'asc':
             calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
-            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like %s) and "SaldoLiquid" >0  
             order by "SaldoLiquid" asc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza,'%||%'))
+
 
         elif modelo =='Retirar Substitutos' and ordem == 'desc':
             calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
-            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like %s ) and "SaldoLiquid" >0  
             order by "SaldoLiquid" desc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza,'%||%'))
+
         elif ordem == 'asc':
             calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
             where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza))
+
         else:
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
             where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" desc
         """
+            enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza))
 
-        # Etapa 2: Formar um DATAFRAME com as informacoes de calculo
-        enderecosSku = pd.read_sql(calculoEnderecos,conn, params=(natureza,))
-
-        #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
+    #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
 
         if consideraSobra == False:
