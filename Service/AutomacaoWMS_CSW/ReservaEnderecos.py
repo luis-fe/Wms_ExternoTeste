@@ -194,22 +194,19 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
             order by "SaldoLiquid" desc
         """
         elif modelo =='Retirar Substitutos' and ordem == 'asc':
-            calculoEnderecos = """
-            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
             order by "SaldoLiquid" asc
         """
 
         elif modelo =='Retirar Substitutos' and ordem == 'desc':
-            calculoEnderecos = """
-            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
             order by "SaldoLiquid" desc
         """
 
         elif ordem == 'asc':
-            calculoEnderecos = """
-            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
+            calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
             where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc
         """
         else:
