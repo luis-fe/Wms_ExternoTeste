@@ -179,7 +179,8 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
         """
         queue2 = pd.read_sql(skuEmPedios,conn)
 
-        # Verifica se no Modelo de Calculo é para considerar uma distribuicao Normal x somente SUBSTITUOS X somente NAO-SUBSTITUTOS
+        # Etappa 2 Verifica se no Modelo de Calculo é para considerar uma distribuicao Normal x somente SUBSTITUOS X somente NAO-SUBSTITUTOS
+    #-------------------------------------------------------------------------------------------------------------------------------------------
         if modelo == 'Substitutos' and ordem == 'asc':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
@@ -224,17 +225,23 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
             where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" desc
         """
             enderecosSku = pd.read_sql(calculoEnderecos, conn, params=(natureza))
+    #--------------------------------------------------------------------------------------------------------------------------------------------------
+
 
     #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
+    # ----------------------------------------------------------------------------------------------------------------------------------
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
-
         if consideraSobra == False:
             enderecosSku = enderecosSku[enderecosSku['repeticoesEndereco'] == 1]
         else:
             print('segue o baile')
+        #Nessa etapa 3 o consideraSobra é aplicado somente para o caso em que  queremos distribuir o saldo daques enderecos que se repetem mais de 1 vez
+    #--------------------------------------------------------------------------------------------------------------------------------------
 
+    # Etapa 4: Realizamos um Merge para filtra somente os produtos e enderecos que queremos manter no calculo, e depois contamos quantas veses o produtoxendereco se repete
+    #no dataFrame
         enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
-
+        enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
 
     # ----------------------------------------------------------------------------------------------------------------------------------
         # Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
@@ -243,7 +250,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
     # ----------------------------------------------------------------------------------------------------------------------------------
         # Calculando a necessidade de cada endereco
 
-        enderecosSku['repeticoessku'] = enderecosSku.groupby('produto').cumcount() + 1
 
 
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i)]
@@ -282,7 +288,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         cursor.close()
     conn.close()
-    return pedidoskuIteracao
 
 
 
