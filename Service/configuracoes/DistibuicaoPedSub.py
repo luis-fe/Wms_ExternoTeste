@@ -7,6 +7,7 @@ import numpy as np
 def PedidosSkuEspecial():
     conn = ConexaoPostgreMPL.conexao()
 
+# Etapa 1: Pesquisando os pedidos enviados com itens que podem ter reserva de Substitutos
     consulta = """
     select p.codpedido as pedido, ts.engenharia , ts.cor , produto, p.necessidade ,  p.endereco, e.resticao as "Restricao"  from "Reposicao"."Reposicao".pedidossku p 
 inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
@@ -127,13 +128,39 @@ LEFT JOIN "Reposicao"."Reposicao".cadusuarios c ON c.codigo::varchar = f.cod_usu
     df_summary.columns = ['pedido', 'cor', 'engenharia', 'Sugerido WMS']
     conn = ConexaoPostgreMPL.conexao()
     usuarioAtribuido = pd.read_sql(usuarioAtribuido,conn,)
-    conn.close()
     df_summary = pd.merge(df_summary,usuarioAtribuido,on='pedido',how="left")
     df_summary.fillna('-',inplace=True)
 
+    pedidosOK = """
+        select p.codpedido as pedido, ts.engenharia , ts.cor , produto, p.necessidade ,  p.endereco, e.resticao as "Restricao"  from "Reposicao"."Reposicao".pedidossku p 
+    inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
+    left join (select "Endereco" , max(resticao) as resticao from "Reposicao"."Reposicao".tagsreposicao t group by t."Endereco") e on e."Endereco" = p.endereco  
+    where engenharia ||cor in (
+    select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t 
+            where t.resticao  like '%||%')
+            order by p.codpedido,ts.engenharia , ts.cor
+        """
+    pedidosOK = pd.read_sql(pedidosOK,conn,)
+
+    def avaliar_grupo(df_grupo):
+        return len(set(df_grupo)) == 1
+
+    df_resultado = pedidosOK.groupby(['pedido', 'engenharia', 'cor'])['Restricao'].apply(avaliar_grupo).reset_index()
+    df_resultado.columns = ['pedido', 'engenharia', 'cor', 'Resultado']
+
+    pedidosOK = pd.merge(pedidosOK, df_resultado, on=['pedido', 'engenharia', 'cor'], how='left')
+    pedidosOK = pedidosOK[pedidosOK['Resultado'] == True]
+    pedidosOK['Pedido||Engenharia||Cor'] = pedidosOK.groupby(['pedido','engenharia','cor'])['Restricao'].cumcount()
+
+    totalPedidosok = pedidosOK[pedidosOK['Pedido||Engenharia||Cor'] == 0]
+    totalPedidosok = totalPedidosok['Pedido||Engenharia||Cor'].count()
+
+
+    conn.close()
+
     data = {
 
-        '1-Total Pedidos - Pedido||Engenharia||Cor':f'{totalPedidos}',
+        '1-Total Pedidos - Pedido||Engenharia||Cor':f'{totalPedidos} (pedidos casados ok: {totalPedidosok})',
         '4- Detalhamento ': df_summary.to_dict(orient='records')
 
     }
