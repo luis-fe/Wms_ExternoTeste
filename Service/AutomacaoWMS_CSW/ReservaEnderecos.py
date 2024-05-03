@@ -219,7 +219,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
         """
 
         # Etapa 2: Formar um DATAFRAME com as informacoes de calculo
-        enderecosSku = pd.read_sql(calculoEnderecos, params=(natureza,))
+        enderecosSku = pd.read_sql(calculoEnderecos,conn, params=(natureza,))
 
         #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
