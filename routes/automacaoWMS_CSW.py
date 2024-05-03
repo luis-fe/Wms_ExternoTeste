@@ -130,7 +130,7 @@ def RecarregarPedidos():
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5),'Retirar Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5),'Retirar Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(3),'Substitutos')
-    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(3),'Substitutos')
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(3),'')
     necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
     DistibuicaoPedSub.PedidosSkuEspecial()
 
