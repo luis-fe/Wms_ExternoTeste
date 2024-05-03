@@ -180,27 +180,46 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
         queue2 = pd.read_sql(skuEmPedios,conn)
 
         # Verifica se no Modelo de Calculo é para considerar uma distribuicao Normal x somente SUBSTITUOS X somente NAO-SUBSTITUTOS
-        if modelo == 'Substitutos':
+        if modelo == 'Substitutos' and ordem == 'asc':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
-            order by "SaldoLiquid" %s
+            order by "SaldoLiquid" asc
         """
-        elif modelo =='Retirar Substitutos':
+
+        elif modelo == 'Substitutos' and ordem == 'desc':
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            order by "SaldoLiquid" desc
+        """
+        elif modelo =='Retirar Substitutos' and ordem == 'asc':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
-            order by "SaldoLiquid" %s
+            order by "SaldoLiquid" asc
         """
 
+        elif modelo =='Retirar Substitutos' and ordem == 'desc':
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            order by "SaldoLiquid" desc
+        """
+
+        elif ordem == 'asc':
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
+            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc
+        """
         else:
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
-            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" %s
+            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" desc
         """
 
         # Etapa 2: Formar um DATAFRAME com as informacoes de calculo
-        enderecosSku = pd.read_sql(calculoEnderecos , conn, params=(natureza,ordem,))
+        enderecosSku = pd.read_sql(calculoEnderecos, params=(natureza,))
 
         #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
