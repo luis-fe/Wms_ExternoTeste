@@ -77,60 +77,60 @@ def RelatorioNecessidadeReposicao():
     }
     return [data]
 
-
+#Essa Funcao se aplica para distribuir os enderecos restantes que nao conseguimos distribuir no RECARREGAR PEDIDOS
 def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexao() #Abre a conexao com o Postgre
+
+#EPATA 1: LEVANTA O TODTAL DE NECESSIDADE POR SKU (SOMENTE O QUE NAO RESERVO) E A QUANTIDADE DE PEDIDOS QUE USAM ESSE SKU (QUE NAO RESERERVO)
     relatorioEndereço = pd.read_sql(
         'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
         "where necessidade > 0 and endereco = 'Não Reposto' "
         " group by produto ", conn)
+# EPATA 2: LEVANTA O ESTOQUE DISPONIVEL NA PRATELEIRA POR SKU E POR ENGENHARIA
     relatorioEndereçoEpc = pd.read_sql(
         'select codreduzido , max(epc) as epc_Referencial, engenharia, count(codreduzido) as saldoFila from "Reposicao".filareposicaoportag f '
         "where engenharia is not null and codnaturezaatual = '5' "
         'group by codreduzido, engenharia ', conn)
-
+# EPATA 3: LEVANTA O ESTOQUE DA FILA A REPOR POR SKU E POR ENGENHARIA E POR OP
     OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f '
                      " where engenharia is not null and codnaturezaatual = '5' "
                      ' group by codreduzido, numeroop',conn)
+    OP = OP.sort_values(by='qtde', ascending=False,ignore_index=True)
 
-    reservaEndereco = pd.read_sql('select codreduzido, sum("SaldoLiquid") as "DisponivelPrateleira"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
-                                  ' where ce."SaldoLiquid" > 0 and natureza = %s '
-                                  ' group by codreduzido',conn,params=(natureza,))
-
-
-
-
-    OP = OP.sort_values(by='qtde', ascending=False,
-                                                      ignore_index=True)  # escolher como deseja classificar
-
-    # Criar uma nova coluna que combina 'OP' e 'qtde' com um hífen
-    OP['ops'] =  OP['ops'].astype(str)
+# ETAPA 4: REALIZA UM TRATAMENTO NAS OPS PARA  QUE POSSA REALIZAR UMA OPERACAO DE AGRUPAMENTO NO DATAFRAME
+    OP['ops'] = OP['ops'].astype(str)
     OP['ops'] = OP['ops'].str.replace('-001', '')
 
     OP['qtde'] = OP['qtde'].astype(str)
-    OP['ops'] = OP['ops'] + ': ' + OP['qtde']+'Pç'
-    # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
+    OP['ops'] = OP['ops'] + ': ' + OP['qtde'] + 'Pç'
     OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: ' / '.join(x)).reset_index()
 
+# EPATA 5: LEVANTA A DISPONIBILIDADE LIQUIDA DE CADA SKU
+    reservaEndereco = pd.read_sql('select codreduzido, sum("SaldoLiquid") as "DisponivelPrateleira"  from "Reposicao"."Reposicao"."calculoEndereco" ce '
+                                  ' where ce."SaldoLiquid" > 0 and natureza = %s '
+                                  ' group by codreduzido',conn,params=(natureza,))
+# ETAPA 6: REALIZA UM MERGE PARA OBTER UM UNICO DATAFRAME CHAMADO *** relatorioEndereço *****
     relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP_ag, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, reservaEndereco, on='codreduzido', how='left')
 
-    # Clasificando o Dataframe para analise
+# ETAPA 7: REALIZA A CLASSIFICACAO E TRATAMENTO DOS DADOS PARA MELHOR VISUALIZACAO , MANTENDO APENAS OS PEDIDOS DISPONIVEIS NA PRATELEIRA
     relatorioEndereço = relatorioEndereço.sort_values(by='Necessidade p/repor', ascending=False,
                                                       ignore_index=True)  # escolher como deseja classificar
     relatorioEndereço.fillna('-', inplace=True)
-    #relatorioEndereço = relatorioEndereço[relatorioEndereço['engenharia']!= '-']
     relatorioEndereço = relatorioEndereço[relatorioEndereço['DisponivelPrateleira'] != '-']
 
+# ETAPA 8 : REALIZA UM LEVANTAMENTO DOS PEDIDOS X SKU QUE ESTAO PENDENTES DE RESERVA E DEPOIS E FEITO UM GROUP BY DOS SKU
     pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
                           "where p.necessidade > 0 and p.reservado = 'nao' ",conn)
     pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
 
+# ETAPA 9: REALIZA O MERGE DOS CODIGOS REDUZIDO
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
     relatorioEndereço.fillna('-', inplace=True)
 
+# ETAOA 10: É FEITO UM LEVANTAMENTO INDIVIDUALIZADO DOS PEDIDOS E PRODUTOS QUE NECESSITAM SER TRATADOS ESPECIALMENTE COMO SUBSTITUTOS
     DataFramePedidosEspeciais = """
     select p.codpedido as pedido, produto from "Reposicao"."Reposicao".pedidossku p 
 inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
@@ -139,6 +139,8 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
         where t.resticao  like '%||%')
     """
     DataFramePedidosEspeciais = pd.read_sql(DataFramePedidosEspeciais,conn)
+
+# ETAPA 11: É FEITO UMA ITERACAO LINHA A LINHA DO RELATORIO DE PRODUTOS DISPONIVEIS PARA TENTAR FAZER UMA RESERVA DE ENDERECO
     for i in range(relatorioEndereço['codpedido'].count()):
         pedido = relatorioEndereço.loc[i, 'codpedido'].split(', ')[0]
         produto = relatorioEndereço['codreduzido'][i]
@@ -146,16 +148,17 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
         if pedido == '-':
             print('-')
         else:
-            #Verificar se o pedido é de cor/engenharia especial
+            # ETAPA 11.1 Verificar se o pedido é de cor/engenharia especial E CASO FOR, DISTRIBUI USANDO OS ENDERECOS ESPECIAIS NA FUNCAO *** DistribuirPedidosEspeciais
             avaliar = DataFramePedidosEspeciais[
                 (DataFramePedidosEspeciais['pedido'] == pedido) & (DataFramePedidosEspeciais['produto'] == produto)]
-
             if not avaliar.empty:
                 DistribuirPedidosEspeciais(pedido,str(produto),natureza)
+
+
             else:
                 Redistribuir(pedido,str(produto),natureza)
 
-    conn.close()
+    conn.close()#Fecha a conexao com o Postgre
 
     data = {
 
@@ -171,9 +174,9 @@ def Redistribuir(pedido, produto, natureza):
     select ce.codendereco as endereco , ce."SaldoLiquid"  , '1-normal' as status
     from "Reposicao"."Reposicao"."calculoEndereco" ce
     where ce.natureza = %s and ce.produto = %s and ce."SaldoLiquid" > 0 
-    and codendereco in 
+    and codendereco not in 
         (select t."Endereco" from "Reposicao"."Reposicao".tagsreposicao t 
-        where t.resticao not like %s )
+        where t.resticao  like %s )
     order by status, "SaldoLiquid" desc 
     """
 
