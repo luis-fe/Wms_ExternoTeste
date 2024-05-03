@@ -184,23 +184,23 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
-            order by "SaldoLiquid"
+            order by "SaldoLiquid" %s
         """
         elif modelo =='Retirar Substitutos':
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
             where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
-            order by "SaldoLiquid"
+            order by "SaldoLiquid" %s
         """
 
         else:
             calculoEnderecos = """
             select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
-            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid"
+            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" %s
         """
 
         # Etapa 2: Formar um DATAFRAME com as informacoes de calculo
-        enderecosSku = pd.read_sql(calculoEnderecos+" "+ordem , conn, params=(natureza,))
+        enderecosSku = pd.read_sql(calculoEnderecos , conn, params=(natureza,ordem,))
 
         #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
