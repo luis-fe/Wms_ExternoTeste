@@ -166,20 +166,43 @@ def AtribuirReserva(pedido, natureza):
     datahora = obterHoraAtual()
     return pd.DataFrame([{'Mensagem': f'foram reservados  {total} pçs e incrementado {inseridosDuplos}'}])
 
+# FUNCAO UTILIZADA PARA RESERVAR OS ENDERECOS DE ACORDO COM OS PEDIDOS DISPONIVEIS
+def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao,modelo):
 
-def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao):
-
-    conn = ConexaoPostgreMPL.conexao()
-    for i in range(repeticao):
+    conn = ConexaoPostgreMPL.conexao() #Abrindo A Conexao com o CSW
+    for i in range(repeticao): #Repeticao é o numero de ciclos para aplicar a distribuicao
     # ----------------------------------------------------------------------------------------------------------------------------------
         # 1 Filtra oa reserva de sku somente para os skus em pedidos:
-        queue2 = pd.read_sql('select distinct produto from "Reposicao".pedidossku '
-                            "where necessidade > 0 and reservado = 'nao' ",conn)
+        skuEmPedios = """
+        select distinct produto from "Reposicao".pedidossku 
+        where necessidade > 0 and reservado = 'nao'
+        """
+        queue2 = pd.read_sql(skuEmPedios,conn)
 
-        enderecosSku = pd.read_sql(
-            ' select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"  '
-            ' where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" '+ ordem , conn, params=(natureza,))
+        # Verifica se no Modelo de Calculo é para considerar uma distribuicao Normal x somente SUBSTITUOS X somente NAO-SUBSTITUTOS
+        if modelo == 'Substitutos':
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            where  natureza = %s and c.codendereco  in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            order by "SaldoLiquid"
+        """
+        elif modelo =='Retirar Substitutos':
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco" c
+            where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
+            order by "SaldoLiquid"
+        """
 
+        else:
+            calculoEnderecos = """
+            select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
+            where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid"
+        """
+
+        # Etapa 2: Formar um DATAFRAME com as informacoes de calculo
+        enderecosSku = pd.read_sql(calculoEnderecos+" "+ordem , conn, params=(natureza,))
+
+        #Etapa 3: Conferir quantas vezes o sku aparece no dataframe, visto que podemos ter + de 1 endereco para o mesmo sku
         enderecosSku['repeticoesEndereco'] = enderecosSku['codendereco2'].map(enderecosSku['codendereco2'].value_counts())
 
         if consideraSobra == False:
@@ -189,14 +212,9 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         enderecosSku = pd.merge(enderecosSku,queue2, on= 'produto')
 
-        # Verificando se o endereco é normal ou de sobra
-
-
-
 
     # ----------------------------------------------------------------------------------------------------------------------------------
-        #2 - Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
-
+        # Consulto os skus que serao reservados, que sao aqueles com necessidade maior que 0 na tabela PEDIDOSSKU do banco de dados
         queue = pd.read_sql('select codpedido, produto, necessidade from "Reposicao".pedidossku '
                             "where necessidade > 0 and reservado = 'nao' ",conn)
     # ----------------------------------------------------------------------------------------------------------------------------------
@@ -241,7 +259,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         cursor.close()
     conn.close()
-
     return pedidoskuIteracao
 
 

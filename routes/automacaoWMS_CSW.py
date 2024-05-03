@@ -96,9 +96,10 @@ def ReservaEndenrecos():
     consideraSobra = request.args.get('consideraSobra',False)
     ordem = request.args.get('ordem', 'asc')
     repeticao = request.args.get('repeticao', 12)
+    modelo =request.args.get('modelo', '-')
 
-    TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra), ordem,int(repeticao))
-    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(repeticao))
+    TagReposicao = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra), ordem,int(repeticao),modelo)
+    TagReposicao2 = ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(repeticao),modelo)
 
 
 
@@ -123,10 +124,13 @@ def RecarregarPedidos():
     consideraSobra = request.args.get('consideraSobra',False)
     ordem = request.args.get('ordem', 'asc')
     repeticao = request.args.get('repeticao', 12)
+    modelo = request.args.get('modelo', '')
 
     TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
-    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5))
-    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5))
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5),'Retirar Substitutos')
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5),'Retirar Substitutos')
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(3),'Substitutos')
+    ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(3),'Substitutos')
     necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
     DistibuicaoPedSub.PedidosSkuEspecial()
 
