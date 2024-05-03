@@ -204,7 +204,6 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
             where  natureza = %s and c.codendereco  not in (select "Endereco" from "Reposicao"."Reposicao".tagsreposicao t where resticao  like '%||%') and "SaldoLiquid" >0  
             order by "SaldoLiquid" desc
         """
-
         elif ordem == 'asc':
             calculoEnderecos = """select  codreduzido as produto, codendereco as codendereco2, "SaldoLiquid"  from "Reposicao"."calculoEndereco"
             where  natureza = %s and "SaldoLiquid" >0  order by "SaldoLiquid" asc
