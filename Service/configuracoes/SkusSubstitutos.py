@@ -220,10 +220,12 @@ def PesquisaEnderecoEspecial(endereco):
 def RelacaoPedidosEntregues(dataInicio, dataFinal):
 
     query="""
-            select dataseparacao::date, codpedido , cor, engenharia, resticao as "OrigemSubst"  from "Reposicao"."Reposicao".tags_separacao ts
-    where codpedido ||cor|| engenharia in (
-    select codpedido||cor||engenharia  from "Reposicao"."Reposicao".tags_separacao ts 
-    where ts.resticao <> '-' and dataseparacao::date >= %s and dataseparacao::date <= %s )
+select dataseparacao::date, codpedido , cor, engenharia, resticao as "OrigemSubst" from "Reposicao"."Reposicao".tags_separacao ts2 
+where ts2.codpedido|| engenharia ||cor in (
+ select codpedido||engenharia||cor  from "Reposicao"."Reposicao".tags_separacao ts 
+ where numeroop||cor in (select sso.numeroop||sso.cor from "Reposicao"."Reposicao"."SubstitutosSkuOP" sso where sso.considera = 'sim'))
+order by codpedido , engenharia , cor 
+        
     """
     conn = ConexaoPostgreMPL.conexao()
     consultar = pd.read_sql(query,conn,params=(dataInicio,dataFinal,))
@@ -240,21 +242,29 @@ def RelacaoPedidosEntregues(dataInicio, dataFinal):
 
     consulta = pd.merge(consultar, df_resultado, on=['codpedido', 'engenharia', 'cor'], how='left')
 
-    consultar = consulta[consulta['Resultado'] == False]
-    consultar = consultar.drop_duplicates()  ## Elimando as possiveis duplicatas
+    consultar1 = consulta[consulta['Resultado'] == False]
+    consultar2 = consulta[consulta['Resultado'] == True]
 
-    NPedidos = consultar.loc[:, ['codpedido']]
+    consultar1 = consultar1.drop_duplicates()  ## Elimando as possiveis duplicatas
+    consultar2 = consultar2.drop_duplicates()  ## Elimando as possiveis duplicatas
+
+    NPedidos = consultar1.loc[:, ['codpedido']]
     NPedidos = NPedidos.drop_duplicates()
     NPedidos = NPedidos['codpedido'].count()
 
-    consultar['dataseparacao']= pd.to_datetime(consultar['dataseparacao'],errors='coerce', infer_datetime_format=True)
-    consultar['dataseparacao'] = consultar['dataseparacao'].dt.strftime('%d/%m/%Y')
+    NPedidosok = consultar2.loc[:, ['codpedido']]
+    NPedidosok = NPedidosok.drop_duplicates()
+    NPedidosok = NPedidosok['codpedido'].count()
 
-    consultar.drop(['Resultado',],axis=1, inplace=True)
+
+    consultar1['dataseparacao']= pd.to_datetime(consultar1['dataseparacao'],errors='coerce', infer_datetime_format=True)
+    consultar1['dataseparacao'] = consultar1['dataseparacao'].dt.strftime('%d/%m/%Y')
+
+    consultar1.drop(['Resultado',],axis=1, inplace=True)
 
     dados = {
         '0-Intervalo': f'{dataInicio} À {dataFinal}',
-        '1-Qtd Pedidos Entregues com Divergencia': f'{NPedidos} Pedidos',
+        '1-Qtd Pedidos Entregues com Divergencia': f'{NPedidos} Pedidos (Pedidos que deram certos {NPedidosok})',
         '6 -Detalhamento': consultar.to_dict(orient='records')
 
     }
