@@ -224,8 +224,8 @@ select dataseparacao::date, codpedido , cor, engenharia, resticao as "OrigemSubs
 where ts2.codpedido|| engenharia ||cor in (
  select codpedido||engenharia||cor  from "Reposicao"."Reposicao".tags_separacao ts 
  where numeroop||cor in (select sso.numeroop||sso.cor from "Reposicao"."Reposicao"."SubstitutosSkuOP" sso where sso.considera = 'sim'))
+ and dataseparacao::date >= %s and dataseparacao::date <= %s
 order by codpedido , engenharia , cor 
-        
     """
     conn = ConexaoPostgreMPL.conexao()
     consultar = pd.read_sql(query,conn,params=(dataInicio,dataFinal,))
