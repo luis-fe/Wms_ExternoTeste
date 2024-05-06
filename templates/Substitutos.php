@@ -6,9 +6,10 @@ include_once("./templates/cabecalho.php");
 <html lang="pt-BR">
 
 <head>
-    <link rel="stylesheet" href="./css/Wms.css">
+    <link rel="stylesheet" href="./css/ContainerWms.css">
     <link rel="stylesheet" href="./css/Modais.css">
     <link rel="stylesheet" href="./css/Substitutos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 </head>
 <style>
     .modalLoading {
@@ -56,6 +57,7 @@ include_once("./templates/cabecalho.php");
     <div class="Container">
         <div class="title">
             <h3>ANÁLISE DE SUBSTITUTOS</h3>
+            <i class="bi bi-download" title="Exportar Excel" id="ExportarExcel" style="color: black"></i>
             <button style="padding: 10px; background-color: black; color: white; height: 40px; cursor: pointer"
                 id="ButtonCheck">Selecionar</button>
             <i class="bi bi-x-square-fill" title="Fechar" id="FecharRotina" style="color: black"></i>
@@ -78,7 +80,7 @@ include_once("./templates/cabecalho.php");
                 </div>
             </div>
             <div class="tabela">
-                <table id="Tabela" class="Tabela">
+                <table id="TabelaSubstitutos" class="Tabela">
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="selectAllCheckbox"></th>
@@ -158,11 +160,11 @@ include_once("./templates/cabecalho.php");
         function criarTabelaSubstitutos(ListaSubstitutos) {
             $('#PaginacaoUsuarios .dataTables_paginate').remove();
 
-            if ($.fn.DataTable.isDataTable('#Tabela')) {
-                $('#Tabela').DataTable().destroy();
+            if ($.fn.DataTable.isDataTable('#TabelaSubstitutos')) {
+                $('#TabelaSubstitutos').DataTable().destroy();
             }
 
-            tabela = $('#Tabela').DataTable({
+            tabela = $('#TabelaSubstitutos').DataTable({
                 paging: true,
                 info: false,
                 searching: true,
@@ -187,15 +189,18 @@ include_once("./templates/cabecalho.php");
                     { data: '10-aplicacao' },
                     { data: 'considera' },
                 ],
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'All']],
                 language: {
                     paginate: {
                         first: 'Primeira',
                         previous: 'Anterior',
                         next: 'Próxima',
                         last: 'Última',
+                        search: 'Buscar'
                     },
                     lengthMenu: 'Mostrar_MENU_Itens Por Página',
                 }
+
             });
 
             tabela.clear().rows.add(ListaSubstitutos).draw();
@@ -414,6 +419,32 @@ include_once("./templates/cabecalho.php");
                 console.error('Erro ao enviar dados para a API:', error);
             }
         }
+
+        function exportarParaExcel() {
+            try {
+                // Selecionar a tabela e obter os dados
+                const tabela = document.getElementById('TabelaSubstitutos');
+
+                // Verificar se a tabela existe
+                if (!tabela) {
+                    throw new Error('A tabela não foi encontrada.');
+                }
+
+                // Criar um objeto Excel
+                const wb = XLSX.utils.table_to_book(tabela, { sheet: "Sheet JS" });
+
+                // Salvar o arquivo Excel
+                XLSX.writeFile(wb, 'dados_pedidos.xlsx');
+            } catch (error) {
+                console.error('Erro ao exportar para Excel:', error.message);
+                // Exibir mensagem de erro ao usuário
+                alert('Ocorreu um erro ao exportar para Excel. Por favor, tente novamente.');
+            }
+        }
+
+        $('#ExportarExcel').click(() => {
+            exportarParaExcel()
+        })
     </script>
 </body>
 
