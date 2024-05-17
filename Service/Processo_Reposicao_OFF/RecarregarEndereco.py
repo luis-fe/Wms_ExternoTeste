@@ -71,20 +71,26 @@ def ValidarSituacaoOPCPelaTag(dataframTAG):
                            ' and codBarrasTag in '+ resultado,conn)
     conn.close()
 
+    print(consulta)
     # AGRUPANDO as situacoes
     consulta['ocorrencia'] = 1
     totalCaixa = consulta['ocorrencia'].sum()
+    print(totalCaixa)
     consultaSituacao = consulta.groupby(['situacao']).agg({
         # 'usuario':'first',
         'ocorrencia': 'count'}).reset_index()
     consultaSituacao = consultaSituacao[consultaSituacao['situacao'] == 3]
     totalCaixaSit3 = consultaSituacao['ocorrencia'].sum()
+    print(totalCaixaSit3)
+    consulta = consulta[consulta['situacao'] != 3]
+    print(consulta)
+    resultado2 = '({})'.format(', '.join(["'{}'".format(valor) for valor in consulta['codBarrasTag']]))
 
 
     if totalCaixa== totalCaixaSit3:
         return pd.DataFrame([{'status': True}])
     else:
-        return pd.DataFrame([{'status': False, 'Mesagem':f'Erro! A OP possue tags ainda nao  encerrada'}])
+        return pd.DataFrame([{'status': False, 'Mensagem':f'Erro! As Tags {resultado2} nao  estao na situacao 3 em estoque, verificar junto ao supervisor'}])
 
 
 
@@ -221,3 +227,4 @@ def obterHoraAtual():
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
+
