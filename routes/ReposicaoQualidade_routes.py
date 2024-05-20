@@ -25,7 +25,7 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     return decorated_function
 def restart_server():
     print("Reiniciando o aplicativo...")
-    subprocess.call(["python", "main.py"])
+    subprocess.call(["python", "app.py"])
 @reposicao_qualidadeRoute.route('/api/ReporCaixaLivre', methods=['POST'])
 @token_required
 def ReporCaixaLivre():
