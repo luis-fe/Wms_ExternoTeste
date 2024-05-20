@@ -1,4 +1,4 @@
-import BuscasAvancadas
+import BuscasSqlCSW
 import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd

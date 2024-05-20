@@ -6,7 +6,7 @@ import ConexaoCSW
 import pandas as pd
 import ConexaoPostgreMPL
 from models.configuracoes import empresaConfigurada
-import BuscasAvancadas
+import BuscasSqlCSW
 
 # 1 - Funcao para atualizar toda a fila da garantia
 def AtualizaFilaGarantia():
