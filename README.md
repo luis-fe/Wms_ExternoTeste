@@ -17,6 +17,8 @@
     
     ConexaoCSW.py (Arquivo com as instrucoes de acesso ao Csw)
 
+    BuscasSqlCsw.py (Arquivo com as clausuas sql para buscar informacoes do Csw)
+    
     ConexaoPostgreMPL.py (Arquivo com intrucoes de acesso ao Postgre)
 
     Dockerfile (arquivo para construir a Image do Projeto)
