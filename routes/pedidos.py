@@ -1,8 +1,8 @@
-from Service import pedidosModel, imprimirEtiquetaModel
+from models import pedidosModel, imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
-from  Service.configuracoes import empresaConfigurada
+from  models.configuracoes import empresaConfigurada
 
 pedidos_routes = Blueprint('pedidos', __name__)
 

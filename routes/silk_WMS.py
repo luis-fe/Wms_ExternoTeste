@@ -1,4 +1,4 @@
-from Service import silkWMSModel
+from models import silkWMSModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 

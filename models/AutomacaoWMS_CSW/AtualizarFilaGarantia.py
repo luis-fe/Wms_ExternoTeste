@@ -5,7 +5,7 @@
 import ConexaoCSW
 import pandas as pd
 import ConexaoPostgreMPL
-from Service.configuracoes import empresaConfigurada
+from models.configuracoes import empresaConfigurada
 import BuscasAvancadas
 
 # 1 - Funcao para atualizar toda a fila da garantia

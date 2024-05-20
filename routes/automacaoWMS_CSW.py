@@ -1,10 +1,10 @@
-from Service import necessidadeReposicaoModel, controle
-from Service.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, RecarregarPedidosCSWModel, AtualizarFilaGarantia
-from Service.configuracoes import DistibuicaoPedSub
+from models import necessidadeReposicaoModel, controle
+from models.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, RecarregarPedidosCSWModel, AtualizarFilaGarantia
+from models.configuracoes import DistibuicaoPedSub
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
-from Service.configuracoes import empresaConfigurada
+from models.configuracoes import empresaConfigurada
 
 
 

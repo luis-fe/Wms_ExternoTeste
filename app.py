@@ -4,22 +4,13 @@
 '''
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-
-
-### 1.1 - Conexao com os bancos de Dados:
-###### A Conexao é feita em 2 bancos distintos: Intersystem Cache via JDBC utilizando o arquivo CacheDB.jar presente nesse projeto para
-# capturar os dados do sistema CSW e integrá-lo ao WMS;
-
-#### O segundo Banco , que é o official desse sistema é o PostgreSQL contendo as informacoes do WMS.
-
-
 import os
 from functools import wraps # Pacote que ajuda a criar o token das Api's
 import PediosApontamento
 import Relatorios
 import Reposicao
 import ReposicaoSku
-from Service.configuracoes import empresaConfigurada
+from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
 app = Flask(__name__) ## Aqui é criado essa funcao para iniciar o Projeto
@@ -43,42 +34,6 @@ def token_required(f):
         return jsonify({'message': 'Acesso negado'}), 401
 
     return decorated_function
-
-
-
-
-
-
-
-
-
-@app.route('/api/ApontamentoTagPedido', methods=['POST'])
-@token_required
-def get_ApontamentoTagPedido():
-    # Obtém os dados do corpo da requisição (JSON)
-    datas = request.get_json()
-    codusuario = datas['codUsuario']
-    codpedido = datas['codpedido']
-    enderecoApi = datas.get('endereço','-')
-    codbarras = datas['codbarras']
-    dataSeparacao = datas['dataHoraBipágem']
-    Estornar = datas.get('estornar', False)  # Valor padrão: False, se 'estornar' não estiver presente no corpo
-    print(f' usuario {codusuario} esse pedido: {codpedido}')
-
-    Endereco_det = PediosApontamento.ApontamentoTagPedido(str(codusuario), codpedido, codbarras, dataSeparacao, enderecoApi,
-                                                          Estornar)
-
-    # Obtém os nomes das colunasok
-    column_names = Endereco_det.columns
-    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    end_data = []
-    for index, row in Endereco_det.iterrows():
-        end_dict = {}
-        for column_name in column_names:
-            end_dict[column_name] = row[column_name]
-        end_data.append(end_dict)
-    return jsonify(end_data)
-
 
 @app.route('/api/ApontarTagReduzido', methods=['POST'])
 @token_required
@@ -125,7 +80,6 @@ def get_RelatorioEndereços():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-
 
 @app.route('/api/RelatorioFila', methods=['GET'])
 def get_RelatorioFila():

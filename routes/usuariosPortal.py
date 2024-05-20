@@ -1,8 +1,8 @@
 
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from Service import usuariosGarantiaModel
-from Service.configuracoes import empresaConfigurada
+from models import usuariosGarantiaModel
+from models.configuracoes import empresaConfigurada
 
 usuariosPortal_routes = Blueprint('usuariosPortal', __name__)
 

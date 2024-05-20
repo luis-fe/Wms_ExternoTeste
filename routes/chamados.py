@@ -1,4 +1,4 @@
-from Service.chamados import areaModel, chamadosModel
+from models.chamados import areaModel, chamadosModel
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS

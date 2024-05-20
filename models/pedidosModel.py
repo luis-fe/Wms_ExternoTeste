@@ -4,7 +4,7 @@ import numpy as np
 import datetime
 import pytz
 import locale
-from Service import finalizacaoPedidoModel
+from models import finalizacaoPedidoModel
 
 
 def obterHoraAtual():

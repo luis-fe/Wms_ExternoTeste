@@ -1,4 +1,4 @@
-from Service.configuracoes import SkusSubstitutos, DistibuicaoPedSub
+from models.configuracoes import SkusSubstitutos, DistibuicaoPedSub
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS

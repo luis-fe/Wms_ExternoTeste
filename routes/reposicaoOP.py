@@ -1,9 +1,9 @@
 import PediosApontamento
 import Reposicao
-from Service import reposicaoOPModel
+from models import reposicaoOPModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from Service.configuracoes import empresaConfigurada, SkusSubstitutos
+from models.configuracoes import empresaConfigurada, SkusSubstitutos
 import pandas as pd
 
 reposicaoOP_routes = Blueprint('reposicaoOP', __name__)

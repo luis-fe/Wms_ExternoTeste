@@ -1,10 +1,10 @@
 import ConexaoCSW
 import pandas as pd
-import Service.configuracoes.empresaConfigurada
+import models.configuracoes.empresaConfigurada
 
 
 def Confronto():
-    emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+    emp = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
     conn = ConexaoCSW.Conexao() # Abrir conexao com o Csw
 
     posicao = pd.read_sql("SELECT d.codItem as reduzido, d.estoqueAtual as posicao_estoque FROM est.DadosEstoque d "

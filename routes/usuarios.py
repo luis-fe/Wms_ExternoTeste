@@ -1,8 +1,8 @@
 ##### Nesse arquivo é fornecido a Api das operacoes envolvendo o login e cadastro de usuarios do WMS
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from Service import usuariosModel
-from Service.configuracoes import empresaConfigurada
+from models import usuariosModel
+from models.configuracoes import empresaConfigurada
 
 usuarios_routes = Blueprint('usuarios', __name__) # Esse é o nome atribuido para o conjunto de rotas envolvendo usuario
 

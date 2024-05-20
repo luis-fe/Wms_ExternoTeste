@@ -1,9 +1,9 @@
-import Service.ConfrontoTag_Posicao
-from Service import dashboardModel
+import models.ConfrontoTag_Posicao
+from models import dashboardModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
-from Service.Dashboards import ConsultaEstoque
+from models.Dashboards import ConsultaEstoque
 
 
 dashboard_routes = Blueprint('dashboard', __name__)
@@ -60,7 +60,7 @@ def get_statuspedidos():
 def confrontoTags():
     # Obtém os dados do corpo da requisição (JSON)
 
-    Endereco_det = Service.ConfrontoTag_Posicao.Confronto()
+    Endereco_det = models.ConfrontoTag_Posicao.Confronto()
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

@@ -2,7 +2,7 @@ import ConexaoCSW
 import ConexaoPostgreMPL
 import pandas as pd
 import psycopg2
-from Service.configuracoes import  empresaConfigurada
+from models.configuracoes import  empresaConfigurada
 
 
 

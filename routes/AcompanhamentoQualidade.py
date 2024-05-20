@@ -1,4 +1,4 @@
-from Service import AcompanhamentoSegundaQual
+from models import AcompanhamentoSegundaQual
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS

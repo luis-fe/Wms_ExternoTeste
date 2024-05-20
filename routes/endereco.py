@@ -1,4 +1,4 @@
-from Service import endereoModel,imprimirEtiquetaModel
+from models import endereoModel,imprimirEtiquetaModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd

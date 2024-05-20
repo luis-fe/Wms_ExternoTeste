@@ -1,7 +1,7 @@
 import ConexaoPostgreMPL
 import pandas as pd
 
-from Service import imprimirEtiquetaModel
+from models import imprimirEtiquetaModel
 
 
 def ObeterEnderecos():

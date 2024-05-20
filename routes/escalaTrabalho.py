@@ -1,4 +1,4 @@
-from Service.configuracoes import escalaTrabalhoModel
+from models.configuracoes import escalaTrabalhoModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd

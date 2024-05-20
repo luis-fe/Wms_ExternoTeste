@@ -1,4 +1,4 @@
-from Service import FaturamentoCswModel
+from models import FaturamentoCswModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import ConexaoCSW

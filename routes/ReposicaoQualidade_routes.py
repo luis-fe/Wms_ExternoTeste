@@ -3,10 +3,10 @@
 '''
 
 
-import Service.configuracoes.empresaConfigurada
-import Service.configuracoes.SkusSubstitutos
-from Service import ReposicaoQualidade, controle
-from Service.Processo_Reposicao_OFF import RecarregarEndereco, ApontarTag
+import models.configuracoes.empresaConfigurada
+import models.configuracoes.SkusSubstitutos
+from models import ReposicaoQualidade, controle
+from models.Processo_Reposicao_OFF import RecarregarEndereco, ApontarTag
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -30,7 +30,7 @@ def restart_server():
 @token_required
 def ReporCaixaLivre():
     #try:
-        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        emp = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
         # Obtenha os dados do corpo da requisição
         novo_usuario = request.get_json()
         # Extraia os valores dos campos do novo usuário
@@ -42,7 +42,7 @@ def ReporCaixaLivre():
         estornar = novo_usuario.get('estornar', False)
 
 
-        FilaReposicaoOP = Service.Processo_Reposicao_OFF.ApontarTag.ApontarTagCaixa(codbarras,NCaixa ,empresa,usuario, natureza, estornar)
+        FilaReposicaoOP = models.Processo_Reposicao_OFF.ApontarTag.ApontarTagCaixa(codbarras, NCaixa, empresa, usuario, natureza, estornar)
         # Obtém os nomes das colunas
         column_names = FilaReposicaoOP.columns
         # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -62,7 +62,7 @@ def ReporCaixaLivre():
 
 
 
-#### Essa api RecarrearEndereco utiliza como referencia o arquivo Service.Processo_Reposicao_OFF.RecarregarEndereco deste projeto.
+#### Essa api RecarrearEndereco utiliza como referencia o arquivo models.Processo_Reposicao_OFF.RecarregarEndereco deste projeto.
 #### Repetimos na funcao algums processos para um melhor acoplamento.
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required
@@ -164,7 +164,7 @@ def RecarrearEnderecoTeste():
                     print(f'5 - OP {codigoOP} Esta autorizada a regarregar ')
                     #Verifica se o WMS esá configurado para tratar restricao especial:
 
-                    configuracaoRestricao = Service.configuracoes.empresaConfigurada.RegraDeEnderecoParaSubstituto() #Retorno implenta_endereco_subs: sim ou nao
+                    configuracaoRestricao = models.configuracoes.empresaConfigurada.RegraDeEnderecoParaSubstituto() #Retorno implenta_endereco_subs: sim ou nao
 
 
                     # 5.1 Restricao de endereco Especial
@@ -173,7 +173,7 @@ def RecarrearEnderecoTeste():
                         print('etapa 5.1 Restricao de endereco Especial')
 
                         #Verifica o endereco proposto para a reposicao
-                        enderecoPreReservado = Service.configuracoes.SkusSubstitutos.PesquisaEnderecoEspecial(endereco)
+                        enderecoPreReservado = models.configuracoes.SkusSubstitutos.PesquisaEnderecoEspecial(endereco)
 
                         #5.1.1 Caso o endereco reposto nao corresponda ao pré reservado:
                         if enderecoPreReservado == False:
@@ -196,14 +196,14 @@ def RecarrearEnderecoTeste():
                         else:
                             epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                             #Limpar a Pré Reserva do Endereco
-                            Service.configuracoes.SkusSubstitutos.PreReservarEndereco(endereco,InfoCaixa['restricao'][0])
+                            models.configuracoes.SkusSubstitutos.PreReservarEndereco(endereco, InfoCaixa['restricao'][0])
 
-                            Service.configuracoes.SkusSubstitutos.LimprandoPréReserva(endereco)
+                            models.configuracoes.SkusSubstitutos.LimprandoPréReserva(endereco)
 
 
                             RecarregarEndereco.IncrementarCaixa(endereco, epc, usuario)
 
-                            Service.configuracoes.SkusSubstitutos.AtualizarReservadoLiberados()
+                            models.configuracoes.SkusSubstitutos.AtualizarReservadoLiberados()
 
                             ## Limpeza retirada ate achar o erro
                             # RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
@@ -407,7 +407,7 @@ def RelacaoDeOPs():
 @token_required
 def DetalhaOPQuantidade():
     try:
-        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        emp = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
         empresa = request.args.get('empresa',emp)
         numeroop = request.args.get('numeroop')
 

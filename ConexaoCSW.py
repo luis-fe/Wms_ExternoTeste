@@ -1,16 +1,16 @@
 import jaydebeapi
 import pandas as pd
-import Service.configuracoes.empresaConfigurada
+import models.configuracoes.empresaConfigurada
 
 
 
 
 
-empresa = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+empresa = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
 print(empresa)
 
 def Conexao():
-    empresa = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+    empresa = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
 
     if empresa == '1':
         x1 = ConexaoInternoMPL()
@@ -95,7 +95,7 @@ def VerificarConexao():
 
 def pesquisaTagCSW(codbarras):
     try:
-        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        emp = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
         codbarras = "'"+codbarras+"'"
         conn = Conexao()
         data = pd.read_sql(" select codBarrasTag , codNaturezaAtual , situacao  FROM Tcr.TagBarrasProduto p"

@@ -4,7 +4,7 @@ import pandas as pd
 import locale
 import datetime
 
-import Service.configuracoes.empresaConfigurada
+import models.configuracoes.empresaConfigurada
 
 
 def obterHoraAtual():
@@ -205,7 +205,7 @@ def ProdutividadeSeparadores(dataInicial = '0', dataFInal ='0', horarioInicial =
         TagReposicao = pd.merge(TagReposicao, Usuarios,on='usuario',how='left')
         TagReposicao.fillna('-', inplace=True)
 
-        emp = Service.configuracoes.empresaConfigurada.EmpresaEscolhida()
+        emp = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
         if emp == '1':
             record = pd.read_sql('select usuario, dataseparacao, count(datatempo) as qtde, '
                              'COUNT(DISTINCT codpedido) as mediapedidos '

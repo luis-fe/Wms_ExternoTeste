@@ -6,7 +6,7 @@ import psycopg2
 from psycopg2 import Error
 import datetime
 import pytz
-from Service.configuracoes import  empresaConfigurada
+from models.configuracoes import  empresaConfigurada
 
 
 ####### Nesse arquivo ApontarTag.py é realizado o processo (regra de negócios) para a bipagem das tag's nas Caixas no processo

@@ -1,5 +1,5 @@
-import Service.Dashboards.Produtividades
-from Service import produtividadeModel
+import models.Dashboards.Produtividades
+from models import produtividadeModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -121,7 +121,7 @@ def get_ProdutividadeGarantiaEquipe():
     horarioInicial = request.args.get('horarioInicial', '01:00:00')
     horarioFinal = request.args.get('horarioFinal', '23:59:00')
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = Service.Dashboards.Produtividades.ProdutividadeGarantiaEquipe(data_inicial,data_final, horarioInicial , horarioFinal)
+    TagReposicao = models.Dashboards.Produtividades.ProdutividadeGarantiaEquipe(data_inicial, data_final, horarioInicial, horarioFinal)
     TagReposicao = pd.DataFrame(TagReposicao)
 
 
@@ -145,7 +145,7 @@ def ProdutividadeGarantiaIndividual():
     horarioInicial = request.args.get('horarioInicial', '01:00:00')
     horarioFinal = request.args.get('horarioFinal', '23:59:00')
     #Relatorios.RelatorioSeparadoresLimite(10)
-    TagReposicao = Service.Dashboards.Produtividades.ProdutividadeGarantiaIndividual(data_inicial,data_final, horarioInicial , horarioFinal)
+    TagReposicao = models.Dashboards.Produtividades.ProdutividadeGarantiaIndividual(data_inicial, data_final, horarioInicial, horarioFinal)
     TagReposicao = pd.DataFrame(TagReposicao)
 
 

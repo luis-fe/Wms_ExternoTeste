@@ -1,8 +1,8 @@
 
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from Service import LinhasPortal
-from Service.configuracoes import empresaConfigurada
+from models import LinhasPortal
+from models.configuracoes import empresaConfigurada
 import pandas as pd
 
 linhas_routes = Blueprint('linhasPortal', __name__)

@@ -30,6 +30,7 @@ from .automacaoWMS_CSW import AutomacaoWMS_CSW_routes
 from .ReposicaoQualidade_routes import reposicao_qualidadeRoute
 from .AcompanhamentoQualidade import AcompanhamentoQual_routes
 from .SkusSubstitutos_routes import SkusSubstitutos_routes
+from .SeparacaoPedidos.pedidoApontamento import pedidosApontamento_routes
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
@@ -54,3 +55,4 @@ routes_blueprint.register_blueprint(AutomacaoWMS_CSW_routes)
 routes_blueprint.register_blueprint(reposicao_qualidadeRoute)
 routes_blueprint.register_blueprint(AcompanhamentoQual_routes)
 routes_blueprint.register_blueprint(SkusSubstitutos_routes)
+routes_blueprint.register_blueprint(pedidosApontamento_routes)
