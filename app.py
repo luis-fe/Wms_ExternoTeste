@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
 from functools import wraps # Pacote que ajuda a criar o token das Api's
-from .models.Dashboards import  Relatorios, ReposicaoSku
+#from .models.Dashboards import  Relatorios, ReposicaoSku
 
 from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
@@ -61,7 +61,7 @@ def get_ApontarTagReduzido():
         end_data.append(end_dict)
     return jsonify(end_data)
 
-
+'''''
 @app.route('/api/RelatorioEndereços', methods=['GET'])
 def get_RelatorioEndereços():
     # Obtém os dados do corpo da requisição (JSON)
@@ -94,7 +94,7 @@ def get_RelatorioFila():
             end_dict[column_name] = row[column_name]
         end_data.append(end_dict)
     return jsonify(end_data)
-
+'''''
 # Defina o diretório onde as imagens serão armazenadas
 UPLOAD_FOLDER = 'imagens_chamado'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
