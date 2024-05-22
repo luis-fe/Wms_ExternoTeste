@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 from models.SeparacaoPedidos import pedidosApontamentoModels
 
-pedidosApontamento_routes = Blueprint('pedidosApontamentoRoutes', __name__)
+pedidosApontamento_routes = Blueprint('pedidosApontamento_routes', __name__)
 
 ####################### TOKEN FIXO PARA ACESSO AO CONTEUDO
 def token_required(f):
