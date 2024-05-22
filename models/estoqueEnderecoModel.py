@@ -62,7 +62,7 @@ def SituacaoEndereco(endereco, empresa, natureza):
                 'where "Endereco"= %s and natureza = %s' ,conn, params=(endereco, natureza,))
             detalhatag = pd.merge(detalhatag, usuarios, on='usuario', how='left')
             conn.close()
-            SaldoSku_Usuario.fillna('-',inplace=True)
+            SaldoSku_Usuario['usuario'].fillna('-',inplace=True)
 
             data = {
                 '1- Endereço': f'{endereco} ',
