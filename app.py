@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
 from functools import wraps # Pacote que ajuda a criar o token das Api's
-from .models.Dashboards import PediosApontamento, Relatorios, Reposicao, ReposicaoSku
+from .models.Dashboards import  Relatorios, ReposicaoSku
 
 from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
