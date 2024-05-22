@@ -5,7 +5,7 @@
 
 
 
-*Organizacao Do Projeto*
+######## *Organizacao Do Projeto* ########
 
     O Projeto foi Desenvolvido utilizando o frameWork FLASK da Linguagem Python.
     Estrutura: 
@@ -29,5 +29,29 @@
 
     /models (Diretorio com a modelagem das classes )
 
-    
+    /colection (contem a colection do projeto para ser utilizada no POSTMAN.
 
+    
+######## *Instrucoes Deploy* ########
+
+    2 Opcoes: Via Docker, implantacao Normal.
+    
+    
+    2.2 Implantacao Normal
+    
+    Passo 1 comando: screen
+    Seguido de "espaço" para criar uma screen (que é uma especie de tela congelada que o deixa o codigo rodando) 
+    Passo 2 Apontar a pasta do Projeto: cd /home/grupompl/Wms_InternoMPL 
+    Passo 3: Iniciando o Serviço : sudo python3 main.py 
+
+    ***Caso já exista alguma screen reservada, basta listar todas as screen ativas
+    comando: screen -ls
+
+######## *Politica de Uso* ########
+
+    O Software WMS fica sob posse da Empresa :
+    Grupo MPL Industria e Comercio de Roupas, possuindo o código fonte da aplicação e
+    os direitos de comercialização e uso.
+
+    
+    

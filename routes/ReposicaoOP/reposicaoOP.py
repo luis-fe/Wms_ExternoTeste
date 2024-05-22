@@ -1,6 +1,6 @@
-import PediosApontamento
-import Reposicao
-from models import reposicaoOPModel
+import models.Dashboards.PediosApontamento
+import models.Dashboards.Reposicao
+from models.ReposicaoOP import reposicaoOPModel
 from flask import Blueprint, jsonify, request
 from functools import wraps
 from models.configuracoes import empresaConfigurada, SkusSubstitutos
@@ -126,14 +126,14 @@ def get_ApontaReposicao():
 
 
         # ETAPA 1 - Funacao utilizada para fazer a atualizacao do codigo de barra como REPOSTO.
-        Apontamento, restricao = Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
+        Apontamento, restricao = models.Dashboards.Reposicao.RetornoLocalCodBarras(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
 
         if Apontamento == 'Reposto':
             if estornar == True:
-                Reposicao.EstornoApontamento(codbarra, empresa, natureza)
+                models.Dashboards.Reposicao.EstornoApontamento(codbarra, empresa, natureza)
                 return jsonify({'message': f'codigoBarras {codbarra} estornado!'})
 
-            ender, ender2 = PediosApontamento.EndereçoTag(codbarra, empresa, natureza)
+            ender, ender2 = models.Dashboards.PediosApontamento.EndereçoTag(codbarra, empresa, natureza)
             return jsonify({'message': f'codigoBarras {codbarra} ja reposto no endereço {ender}'})
 
         if Apontamento is False:
@@ -169,7 +169,7 @@ def get_ApontaReposicao():
                             enderecos_data)  # Devolve a resposta no Json com a mensagem de erro
                     else:
 
-                        Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza,
+                        models.Dashboards.Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza,
                                                    estornar)
                         # Limpar a Pré Reserva do Endereco
                         SkusSubstitutos.LimprandoPréReserva(endereco)
@@ -177,7 +177,7 @@ def get_ApontaReposicao():
                         return jsonify({'message': True, 'status': f'Salvo com Sucesso'})
 
             else:
-                Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
+                models.Dashboards.Reposicao.InserirReposicao(codUsuario, codbarra, endereco, dataHora, empresa, natureza, estornar)
                 return jsonify({'message': True, 'status': f'eu seu alvo com Sucesso'})
 
    # except KeyError as e:

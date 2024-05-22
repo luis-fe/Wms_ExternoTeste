@@ -48,6 +48,8 @@ def SituacaoEndereco(endereco, empresa, natureza):
             SaldoSku_Usuario['usuario'] = SaldoSku_Usuario["usuario"] + '-'+SaldoSku_Usuario["nome"]
             SaldoSku_Usuario.drop('nome', axis=1, inplace=True)
             SaldoSku_Usuario.drop('Endereco', axis=1, inplace=True)
+            SaldoSku_Usuario.fillna('-', inplace=True)
+
 
             skus['enderco'] = endereco
             skus['Status Endereco'] = True

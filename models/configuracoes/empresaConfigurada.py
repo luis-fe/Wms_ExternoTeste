@@ -14,15 +14,7 @@ def MeuHost():
 
 
 def EmpresaEscolhida():
-    ip_address = MeuHost()
-    if ip_address == '192.168.0.183':
-        return '1'
-    elif ip_address == '192.168.0.184':
         return '4'
-    elif ip_address == '10.62.39.23':
-        return '1'
-    else:
-        return '1'
 
 
 def RegraDeEnderecoParaSubstituto():

@@ -87,10 +87,15 @@ def FilaPedidos(empresa):
     pedido['20-Separado%'] = pedido['20-Separado%'].fillna(0)
     # obtendo a Marca do Pedido
     marca = pd.read_sql('select codpedido ,  t.engenharia   from "Reposicao".pedidossku p '
-                        'join "Reposicao".tagsreposicao t on t.codreduzido = p.produto WHERE p.codempresa = ' + empresa+
+                        'join "Reposicao".tagsreposicao t on t.codreduzido = p.produto  '
                         ' group by codpedido, t.engenharia ',conn)
     marca['engenharia'] = marca['engenharia'].str.slice(1)
-    marca['21-MARCA'] =np.where((marca['engenharia'].str[:3] == '102') | (marca['engenharia'].str[:3] == '202') , 'M.POLLO', 'PACO')
+    if empresa == '4':
+
+        marca['21-MARCA'] =np.where((marca['engenharia'].str[:3] == '302') | (marca['engenharia'].str[:3] == '302') , 'M.POLLO', 'PACO')
+    else:
+        marca['21-MARCA'] =np.where((marca['engenharia'].str[:3] == '102') | (marca['engenharia'].str[:3] == '202') , 'M.POLLO', 'PACO')
+
     marca.drop('engenharia', axis=1, inplace=True)
     marca.drop_duplicates(subset='codpedido', inplace=True)
     marca.rename(columns={'codpedido': '01-CodPedido'}, inplace=True)

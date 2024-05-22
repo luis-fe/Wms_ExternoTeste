@@ -11,7 +11,7 @@ def conexao():
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "192.168.0.183"
     else:
-        host = "192.168.0.184"
+        host = "localhost"
 
     portbanco = "5432"
 
@@ -26,7 +26,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "192.168.0.183"
     else:
-        host = "192.168.0.184"
+        host = "localhost"
 
     port = "5432"
 
@@ -46,7 +46,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "192.168.0.183"
     else:
-        host = "192.168.0.184"
+        host = "localhost"
 
     port = "5432"
 
