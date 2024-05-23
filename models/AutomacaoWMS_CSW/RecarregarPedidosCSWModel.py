@@ -22,6 +22,8 @@ def obter_notaCsw():
 
     return data
 
+
+# Api utilizada Para Recarregar os Pedidos
 def RecarregarPedidos(empresa):
 
         tamanhoExclusao = ExcuindoPedidosNaoEncontrados(empresa)
@@ -240,13 +242,13 @@ def Verificando_RetornaxConferido(empresa):
 
 def DetalhandoPedidoSku(empresa, pedido):
     conncsw = ConexaoCSW.Conexao()
-    pedido2 = pedido.split('-')[0]
+    pedido2 = pedido.split('-')[0] +'|'+ pedido.split('-')[1]
 
     SugestoesAbertos = pd.read_sql(
         'select s.codPedido as codpedido, s.codSequencia , s.produto, s.qtdeSugerida as qtdesugerida , s.qtdePecasConf as qtdepecasconf  '
         'from ped.SugestaoPedItem s  '
         'WHERE s.codEmpresa =' + empresa +
-        ' and s.codPedido = '"'" + pedido2 + "'", conncsw)
+        " and s.codPedido||'|'||s.codSequencia = "+"'" + pedido2 + "'", conncsw)
 
     conncsw.close()
 
