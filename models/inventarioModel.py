@@ -8,7 +8,7 @@ import datetime
 
 
 def obterHoraAtual():
-    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
+    fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horÃ¡rio do Brasil
     agora = datetime.datetime.now(fuso_horario)
     hora_str = agora.strftime('%Y-%m-%d %H:%M:%S')
     return hora_str
@@ -49,7 +49,7 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
                        , (
                            usuario, endereco,usuario_inv,codbarra,))
 
-        # Obter o número de linhas afetadas
+        # Obter o nÃºmero de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
         conn.commit()
         cursor.close()
@@ -67,7 +67,7 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
                        , (
                            usuario,endereco, codbarra,))
 
-        # Obter o número de linhas afetadas
+        # Obter o nÃºmero de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
         conn.commit()
         cursor.close()
@@ -77,7 +77,7 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
 
     if validador == False:
         conn.close()
-        return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} não exite no estoque! ']})
+        return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} nÃ£o exite no estoque! ']})
     # caso ache na fila
     if validador ==3:
         query = 'insert into  "Reposicao".tagsreposicao_inventario ' \
@@ -88,7 +88,7 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
                        , (
                            codbarra,endereco,colu_epc, colu_tamanho,colu_cor,colu_eng,colu_red,colu_desc,colu_numeroop,colu_totalop, usuario, natureza))
 
-        # Obter o número de linhas afetadas
+        # Obter o nÃºmero de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
         conn.commit()
         cursor.close()
@@ -103,11 +103,11 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
 
 
         conn.close()
-        return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} veio da FilaReposicao, será listado ao salvar ']})
+        return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} veio da FilaReposicao, serÃ¡ listado ao salvar ']})
     if validador == 2 and padrao == False:
 
         return pd.DataFrame({'Status Conferencia': [False],
-                             'Mensagem': [f'tag: {codbarra} veio de outro endereço: {colu1} , deseja prosseguir?']})
+                             'Mensagem': [f'tag: {codbarra} veio de outro endereÃ§o: {colu1} , deseja prosseguir?']})
     if validador == 2 and padrao == True:
         insert = 'INSERT INTO "Reposicao".tagsreposicao_inventario ("usuario", "codbarrastag", "codreduzido", "Endereco", ' \
                  '"engenharia", "DataReposicao", "descricao", "epc", "StatusEndereco", ' \
@@ -130,9 +130,9 @@ def ApontarTagInventario(codbarra, endereco, usuario, padrao=False):
         conn.commit()
         cursor.close()
         conn.close()
-        return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} veio de outro endereço, será listadado ao salvar']})
+        return pd.DataFrame({'Status Conferencia': [True], 'Mensagem': [f'tag: {codbarra} veio de outro endereÃ§o, serÃ¡ listadado ao salvar']})
     else:
-        return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} não exite no estoque! ']})
+        return pd.DataFrame({'Status Conferencia': [False], 'Mensagem': [f'tag: {codbarra} nÃ£o exite no estoque! ']})
 
 
 
@@ -201,8 +201,8 @@ def SituacaoEndereco(endereco,usuario, data):
 
             skus['enderco'] = endereco
             skus['Status Endereco'] = True
-            skus['Mensagem'] = f'Endereço {endereco} existe!'
-            skus['Status do Saldo']='Cheio, será esvaziado para o INVENTARIO'
+            skus['Mensagem'] = f'EndereÃ§o {endereco} existe!'
+            skus['Status do Saldo']='Cheio, serÃ¡ esvaziado para o INVENTARIO'
 
             DetalhaSku =pd.read_sql('select "codreduzido", "codbarrastag" ,"epc"  from "Reposicao".tagsreposicao t  '
                                     'where "Endereco"='+" '"+endereco+"'",conn)
@@ -212,9 +212,9 @@ def SituacaoEndereco(endereco,usuario, data):
 
             data = {
                 '2 - Endereco': f'{skus["enderco"][0]} ',
-                '3 - Status Endereco': skus["Status Endereco"][0],
+                '3 - Status Endereco': f'{skus["Status Endereco"][0]} ',
                 '1 - Mensagem': f'{skus["Mensagem"][0]} ',
-                '4- Situacao':f'{skus["Status do Saldo"][0]} ',
+                '4- Suituacao':f'{skus["Status do Saldo"][0]} ',
                 '5- Detalhamento dos Tags:':DetalhaSku.to_dict(orient='records')
             }
             return [data]
@@ -313,9 +313,9 @@ def SalvarInventario(endereco):
     cursor.close()
     data = {
         '1 - Tags Encontradas': f'{numero_linhas_afetadas} foram encontradas e inventariadas com sucesso',
-        '2 - Tags Migradas de endereço': 
-            f'{numero_tagsMigradas} foram migradas para o endereço {endereco} e inventariadas com sucesso',
-        '3 - Tags Nao encontradas': f'{numero_tagsNaoEncontradas} não foram encontradas no endereço {endereco}',
+        '2 - Tags Migradas de endereÃ§o':
+            f'{numero_tagsMigradas} foram migradas para o endereÃ§o {endereco} e inventariadas com sucesso',
+        '3 - Tags Nao encontradas': f'{numero_tagsNaoEncontradas} nÃ£o foram encontradas no endereÃ§o {endereco}',
         '3.1 - Listagem Tags Nao encontradas [Codigo Barras, EPC]': Aviso2.to_dict(orient='records')
     }
 
@@ -336,18 +336,18 @@ def ExcluirTagsDuplicadas(endereco):
     cursor.close()
 
 
-######### FUNCAO PARA EMITIR O RELATÓRIO DE INVENTARIO REALIZADO ENTRE ALGUM PERÍODO
+######### FUNCAO PARA EMITIR O RELATÃ“RIO DE INVENTARIO REALIZADO ENTRE ALGUM PERÃODO
 
     # Parametros: 1: Data Inicio do Inventario
     # Parametro: 2: DataFinal do Inventario
     # Parametro: 3: Natureza a ser analizada
     # Parametro: 4: Empresa
-    # Parametro 5: Se deseja ou Nao emitir o relatório completo de Tag's (TRUE OR FALSE)
+    # Parametro 5: Se deseja ou Nao emitir o relatÃ³rio completo de Tag's (TRUE OR FALSE)
 def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
     conn = ConexaoPostgreMPL.conexao() # Ligando a Conexao
     natureza = str(natureza) # Obtendo a natureza e transformando para string
 
-    ## OBTENDO O TOTAL DE PEÇAS NO ESTOUE :
+    ## OBTENDO O TOTAL DE PEÃ‡AS NO ESTOUE :
         # 1 Consulta Sql das tags que estao repostas
     TotalPcs = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao t '
                            'group by natureza ',conn)
@@ -359,7 +359,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         # 3 Consulta Sql das tags que estao em fila
     TotalPcs_EmFila = pd.read_sql('select natureza, count(codbarrastag) as "totalReposicao" from "Reposicao"."Reposicao".tagsreposicao_inventario t '
                            'group by natureza ',conn)
-        # 4 UNINDO AS CONSULTAS PARA FORMAR O TOTALPEÇAS
+        # 4 UNINDO AS CONSULTAS PARA FORMAR O TOTALPEÃ‡AS
     TotalPcs = pd.concat([TotalPcs, TotalPcs_EmINVENTARIO, TotalPcs_EmFila],ignore_index=True)
 
     ## Obtendo os Enderecos que foram inventariados no periodo
@@ -370,7 +370,7 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
                                ' where df.datainicio >= %s and df.datainicio <= %s )', conn,
                                params=(dataInicio, dataFim,))
 
-    ## O codigo IF abaixo é para validar as NATUREZAS:
+    ## O codigo IF abaixo Ã© para validar as NATUREZAS:
     if natureza == '': # Caso a natureza for ocultada na API - TRAZ TODAS AS NATUREZAS
         sql1 = pd.read_sql('select codendereco  from "Reposicao"."Reposicao".cadendereco c  '
                       'order by codendereco ',conn)
@@ -393,17 +393,17 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
 
 
-        # Obtendo o total de PEÇAS e formatando o numero para tornar apresentavel
+        # Obtendo o total de PEÃ‡AS e formatando o numero para tornar apresentavel
         TotalPecas = TotalPcs['totalReposicao'].sum()
         TotalPecas = "{:,.0f}".format(TotalPecas)
         TotalPecas = str(TotalPecas).replace(',', '.')
 
-        # Obtendo o total de PEÇAS_INVENTARIADAS e formatando o numero para tornar apresentavel
+        # Obtendo o total de PEÃ‡AS_INVENTARIADAS e formatando o numero para tornar apresentavel
         invetariadoPecas = inventariado['Endereco'].count()
         invetariadoPecas = "{:,.0f}".format(invetariadoPecas)
         invetariadoPecas = str(invetariadoPecas).replace(',', '.')
 
-        #STATUS de peças Inventariadas:
+        #STATUS de peÃ§as Inventariadas:
         statusGeral = invetariadoPecas+'/'+TotalPecas
 
         sql1['rua'] = sql1['codendereco'].str.split('-').str[0]
@@ -449,19 +449,19 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
 
 
 
-        # Obtendo o total GERAL de endereços e formatando o numero para tornar apresentavel
+        # Obtendo o total GERAL de endereÃ§os e formatando o numero para tornar apresentavel
         totalEnderecos = sql['Qtd Prat.'].sum()
         sql['Qtd Prat.'] = sql['Qtd Prat.'].apply(format_with_separator2).str.replace(',','.')
 
         totalEnderecos = "{:,.0f}".format(totalEnderecos)
         totalEnderecos = str(totalEnderecos).replace(',','.')
 
-        # Obtendo o total de endereços INVENTARIADOS e formatando o numero para tornar apresentavel
+        # Obtendo o total de endereÃ§os INVENTARIADOS e formatando o numero para tornar apresentavel
         Enderecos_inv = sql['status'].sum()
         Enderecos_inv = "{:,.0f}".format(Enderecos_inv)
         Enderecos_inv = str(Enderecos_inv).replace(',', '.')
 
-        # Obtendo o % de peças  Inventariadas e formatando o numero para tornar apresentavel
+        # Obtendo o % de peÃ§as  Inventariadas e formatando o numero para tornar apresentavel
         PerInventarioPecas = (inventariado['Endereco'].count() / TotalPcs['totalReposicao'].sum())*100
         PerInventarioPecas = "{:,.0f}".format(PerInventarioPecas)
         PerInventarioPecas = str(PerInventarioPecas).replace(',', '.')+'%'
@@ -472,10 +472,10 @@ def RelatorioInventario(dataInicio, dataFim, natureza, empresa, emtirRelatorio):
         data = {
             '3 - Total Enderecos': f'{totalEnderecos} ',
             '4- Enderecos Inventariados':f'{Enderecos_inv}',
-            '1: Total de Peças':f'{TotalPecas}',
-            '2- Pçs Inventariadas':f'{invetariadoPecas}',
+            '1: Total de PeÃ§as':f'{TotalPecas}',
+            '2- PÃ§s Inventariadas':f'{invetariadoPecas}',
             '2.1- Status Getal Inventario': f'{statusGeral}',
-            '2.2- % Pçs Inventariadas': f'{PerInventarioPecas}',
+            '2.2- % PÃ§s Inventariadas': f'{PerInventarioPecas}',
             '5- Detalhamento Ruas:': sql.to_dict(orient='records')
         }
         return pd.DataFrame([data])
