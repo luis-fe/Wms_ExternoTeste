@@ -5,16 +5,37 @@ from models import usuariosGarantiaModel
 from models.configuracoes import empresaConfigurada
 
 usuariosPortal_routes = Blueprint('usuariosPortal', __name__)
+def encrypt_cesar(text, shift):
+    encrypted_text = ""
+    for char in text:
+        if char.isalpha():  # Verifica se o caractere é uma letra
+            shifted = ord(char) + shift
+            if char.islower():
+                if shifted > ord('z'):
+                    shifted -= 26
+                elif shifted < ord('a'):
+                    shifted += 26
+            elif char.isupper():
+                if shifted > ord('Z'):
+                    shifted -= 26
+                elif shifted < ord('A'):
+                    shifted += 26
+            encrypted_text += chr(shifted)
+        else:
+            encrypted_text += char
+    return encrypted_text
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        encrypted_token = encrypt_cesar('a40016aabcx9', 0)  # Criptografa o token com deslocamento 3
         token = request.headers.get('Authorization')
-        if token == 'a40016aabcx9':  # Verifica se o token é igual ao token fixo
+        if token == encrypted_token:  # Verifica se o token é igual ao token criptografado
             return f(*args, **kwargs)
         return jsonify({'message': 'Acesso negado'}), 401
 
     return decorated_function
+#print("Token criptografado:", encrypt_cesar('a40016aabcx9', 0)  )
 
 @usuariosPortal_routes.route('/api/UsuariosPortal', methods=['GET'])
 @token_required
