@@ -28,7 +28,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
    try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
-        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
+        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado, sum(n.qtdePecas) as qtdePecas'
                                 '  FROM Fat.NotaFiscal n '
                                 'where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+"'"+dataInicio+"'"+' '
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
