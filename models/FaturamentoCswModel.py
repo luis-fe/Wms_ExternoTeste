@@ -123,6 +123,8 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
         faturado = faturado.replace(';', ",")
 
         qtdePecas = dataframe['qtdePecas'].sum()
+        qtdePecas = str(qtdePecas)
+
         qtdePecas = qtdePecas.replace('.', ";")
         qtdePecas = qtdePecas.replace(',',".")
         qtdePecas = qtdePecas.replace(';', ",")
