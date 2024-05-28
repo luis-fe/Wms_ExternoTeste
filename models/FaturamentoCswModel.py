@@ -133,7 +133,7 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
         else:
             return retornaCsw
    except:
-        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida','No Retorna':f'conexao perdida','Pcs Retorna':f'conexao perdida','No Retorna MPlus':f'conexao perdida',
+        return pd.DataFrame([{'Total Faturado':f'Conexao CSW perdida','qtdePecas Faturado':f'conexao perdida','No Retorna':f'conexao perdida','Pcs Retorna':f'conexao perdida','No Retorna MPlus':f'conexao perdida',
                                   'Pcs Retorna Mplus':f'conexao perdida'}])
 
 
