@@ -121,8 +121,14 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
         faturado = faturado.replace('.', ";")
         faturado = faturado.replace(',',".")
         faturado = faturado.replace(';', ",")
+
+        qtdePecas = dataframe['qtdePecas'].sum()
+        qtdePecas = qtdePecas.replace('.', ";")
+        qtdePecas = qtdePecas.replace(',',".")
+        qtdePecas = qtdePecas.replace(';', ",")
+
         if detalhar == False:
-            return pd.DataFrame([{'Total Faturado':f'{faturado}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
+            return pd.DataFrame([{'Total Faturado':f'{faturado}','qtdePecas Faturado':f'{qtdePecas}','No Retorna':f'{retorna}','Pcs Retorna':f'{pecasSB} pçs','No Retorna MPlus':f'{ValorRetornaMplus}',
                                   'Pcs Retorna Mplus':f'{pecasMplus} pçs','Retorna ProntaEntrega':f'{ValorprontaEntrega}', 'Pç Pronta Entrega':f'{pecasProntaEntrega} pç'}])
         else:
             return retornaCsw
