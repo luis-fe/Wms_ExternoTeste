@@ -28,11 +28,21 @@ def Faturamento(empresa, dataInicio, dataFim, detalhar, mensagem):
    try:
         tipo_nota = ObterTipoNota(empresa)
         conn = ConexaoCSW.Conexao()
-        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado'
+        dataframePecas = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(i.qtdeFaturada) as qtdePecas'
+                                '  FROM Fat.NotaFiscal n '
+                                ' inner join fat.NotaFiscalItem i on i.codEmpresa = n.codEmpresa and i.numero = n.numero and i.dataEmissao = n.dataEmissao  '
+                                ' where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+"'"+dataInicio+"'"+' '
+                                ' and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
+                                'group by n.dataEmissao , n.codTipoDeNota ',conn)
+
+        dataframe = pd.read_sql('select n.codTipoDeNota as tiponota, n.dataEmissao, sum(n.vlrTotal) as faturado '
                                 '  FROM Fat.NotaFiscal n '
                                 'where n.codEmpresa = '+empresa+' and n.codPedido >= 0 and n.dataEmissao >= '+"'"+dataInicio+"'"+' '
                                 'and n.dataEmissao <= '+"'"+dataFim+"'"+'and situacao = 2 '
                                 'group by n.dataEmissao , n.codTipoDeNota ',conn)
+        dataframe = pd.merge(dataframe,dataframePecas, on=['tiponota','dataEmissao'], how='left')
+
+
 
         retornaCsw = pd.read_sql("SELECT  i.codPedido, e.vlrSugestao, sum(i.qtdePecasConf) as conf , sum(i.qtdeSugerida) as qtde,  i.codSequencia,  "
                                  " (SELECT codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = i.codEmpresa and p.codpedido = i.codPedido) as codigo "
