@@ -35,7 +35,7 @@ def DetalhaTag(codbarras):
         else:
             consulta3 = pd.read_sql('Select  codbarrastag, codreduzido, descricao, natureza, "Endereco", '
                                     " 'reposto' as situacao "
-                                    'from "Reposicao".tagsreposicao_inventario  '
+                                    'from "Reposicao".tagsreposicao  '
                                     ' where codbarrastag = %s ', conn, params=(codbarras,))
             if not consulta3.empty:
                 return consulta3
