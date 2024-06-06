@@ -8,7 +8,7 @@ def relatorioTotalFila(empresa, natureza):
 
 
     query = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS saldo '
-        'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s ' 
+        'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s '
         ' GROUP BY "numeroop" ',conn,params=(natureza,))
 
 
