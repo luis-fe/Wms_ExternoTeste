@@ -191,21 +191,17 @@ def IncrementarCaixa(endereco, dataframe ,usuario): # Informamos como parametro 
 
 # Processo 4 : Limpando a caixa na tabela FilaOFF para melhorar o espaco de armazenamento da tabela:
 def LimpandoDuplicidadeFilaOFF():
-        conn = ConexaoPostgreMPL.conexao()
-        cursor = conn.cursor()
+        with ConexaoPostgreMPL.conexao() as conn:
+            with conn.cursor() as cursor:
 
-        # Usando placeholders para evitar injeção de SQL
-        delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq ' \
-                       'WHERE rq.caixa IN (' \
-                       'SELECT DISTINCT SUBSTRING(t.proveniencia, 16) FROM "Reposicao"."Reposicao".tagsreposicao t ' \
-                       'WHERE t.proveniencia LIKE %s ' \
-                       ')'
-        # Parâmetros para o placeholder %s
-        caixa_pattern = 'Veio da Caixa%'
+                # Usando placeholders para evitar injeção de SQL
+                delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq ' \
+                               'where rq.codbarrastag in (select t.codbarrastag from "Reposicao"."Reposicao".tagsreposicao t )'
 
-        cursor.execute(delete_query, (caixa_pattern,))
-        conn.commit()
-        conn.close()
+
+                cursor.execute(delete_query)
+                conn.commit()
+                conn.close()
 # Processo 5: Funcao alternativa para atribuir a uma caixa na fila de reposicaoOFF o endereco reposto, ela ajuda nos casos de rastriabilidade de erros e será uma funcao de contingencia
 def UpdateEnderecoCAixa(Ncaixa ,endereco = '-', situacaoCaixa = '-'):
     delete = 'update "off".reposicao_qualidade ' \

@@ -206,7 +206,7 @@ def RecarrearEnderecoTeste():
                             models.configuracoes.SkusSubstitutos.AtualizarReservadoLiberados()
 
                             ## Limpeza retirada ate achar o erro
-                            # RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                            RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
 
                             # Obtém os nomes das colunas
 
@@ -229,7 +229,7 @@ def RecarrearEnderecoTeste():
                         epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
                         RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
                         ## Limpeza retirada ate achar o erro
-                        #RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                        RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
 
                         # Obtém os nomes das colunas
 
