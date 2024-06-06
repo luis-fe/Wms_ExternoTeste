@@ -34,6 +34,19 @@ group by rq.caixa , rq.numeroop , rq.codreduzido
 
     return pd.DataFrame([data])
 
+def DetalharCaixa(numeroCaixa):
+
+    DetalharCaixa = """
+    select rq.usuario, c.nome  , rq."DataReposicao",  rq.codbarrastag , f.epc ,rq.numeroop , rq.codreduzido from "Reposicao"."off".reposicao_qualidade rq 
+left join "Reposicao"."Reposicao".filareposicaoportag f on rq.codbarrastag = f.codbarrastag 
+inner join "Reposicao"."Reposicao".cadusuarios c on c.codigo = rq.usuario ::int
+where rq.caixa = %s 
+    """
+
+    with ConexaoPostgreMPL.conexao() as conn:
+        DetalharCaixa = pd.read_sql(DetalharCaixa, conn, params=(numeroCaixa,))
+
+    return DetalharCaixa
 
 
 
