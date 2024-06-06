@@ -200,8 +200,7 @@ def LimpandoDuplicidadeFilaOFF():
 
 
                 cursor.execute(delete_query)
-                conn.commit()
-                conn.close()
+
 # Processo 5: Funcao alternativa para atribuir a uma caixa na fila de reposicaoOFF o endereco reposto, ela ajuda nos casos de rastriabilidade de erros e será uma funcao de contingencia
 def UpdateEnderecoCAixa(Ncaixa ,endereco = '-', situacaoCaixa = '-'):
     delete = 'update "off".reposicao_qualidade ' \
