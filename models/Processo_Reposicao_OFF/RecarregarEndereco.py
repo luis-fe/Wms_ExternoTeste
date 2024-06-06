@@ -195,8 +195,8 @@ def LimpandoDuplicidadeFilaOFF():
             with conn.cursor() as cursor:
 
                 # Usando placeholders para evitar injeção de SQL
-                delete_query = 'DELETE FROM "Reposicao"."off".reposicao_qualidade rq ' \
-                               'where rq.codbarrastag in (select t.codbarrastag from "Reposicao"."Reposicao".tagsreposicao t )'
+                delete_query = """DELETE FROM "Reposicao"."off".reposicao_qualidade rq 
+                               where rq.codbarrastag in (select t.codbarrastag from "Reposicao"."Reposicao".tagsreposicao t )"""
 
 
                 cursor.execute(delete_query)
