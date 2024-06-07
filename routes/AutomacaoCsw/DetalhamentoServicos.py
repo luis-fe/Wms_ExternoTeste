@@ -19,7 +19,9 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @DetalhamentoServicos_routes.route('/api/DetalhamentoServicosAutomacao', methods=['GET'])
 @token_required
 def DetalhamentoServicosAutomacao():
+    empresa = request.args.get('empresa','1')
     Endereco_det = DetalhamentoServicos.BuscarServicos()
+
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

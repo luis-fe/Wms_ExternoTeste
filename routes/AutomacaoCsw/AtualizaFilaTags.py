@@ -74,6 +74,7 @@ def AtualizarTagsEstoque():
                 "status": False
             })
 @AtualizaFilaTags_routes.route('/api/LimpezaTagsSaidaForaWMS', methods=['GET'])
+@token_required
 def LimpezaTagsSaidaForaWMS():
         # Obtém os dados do corpo da requisição (JSON)
         IntervaloAutomacao = request.args.get('IntervaloAutomacao', 5)

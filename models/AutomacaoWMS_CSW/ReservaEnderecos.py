@@ -1,8 +1,11 @@
+import gc
+from models.AutomacaoWMS_CSW import controle
 import pandas as pd
 import ConexaoPostgreMPL
 from psycopg2 import sql
 import datetime
 import pytz
+import ConexaoCSW
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.datetime.now(fuso_horario)
@@ -289,5 +292,59 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
         cursor.close()
     conn.close()
 
+def avaliacaoReposicao(rotina, datainicio, emp):
+    try:
+        # Conectar usando SQLAlchemy
+        postgre_engine = ConexaoPostgreMPL.conexaoEngine()
+        # Conexão CSW via jaydebeapi
+        with ConexaoCSW.Conexao() as conn_csw:
+            with conn_csw.cursor() as cursor_csw:
+                query_csw = (
+                    "select br.codBarrasTag as codbarrastag, 'estoque' as estoque "
+                    f"from Tcr.TagBarrasProduto br WHERE br.codEmpresa = {emp} "
+                    "and br.situacao in (3, 8) and codNaturezaAtual in (5, 7, 54)"
+                )
+                cursor_csw.execute(query_csw)
+                rows = cursor_csw.fetchall()
 
+                SugestoesAbertos = pd.DataFrame(rows, columns=['codbarrastag', 'estoque'])
+
+        etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao', datainicio, 'etapa csw Tcr.TagBarrasProduto br')
+
+        # Obter tags do WMS
+        tagWms = pd.read_sql('select * from "Reposicao".tagsreposicao t', postgre_engine)
+        tagWms = pd.merge(tagWms, SugestoesAbertos, on='codbarrastag', how='left')
+        tagWms = tagWms[tagWms['estoque'] != 'estoque']
+        tamanho = tagWms['codbarrastag'].size
+        etapa2 = controle.salvarStatus_Etapa2(rotina, 'automacao', etapa1, 'comparando csw Tcr.TagBarrasProduto x WMS')
+
+        # Obter os valores para a cláusula WHERE do DataFrame
+        lista = tagWms['codbarrastag'].tolist()
+        if lista:
+            query = sql.SQL('DELETE FROM "Reposicao"."tagsreposicao" WHERE codbarrastag IN ({})').format(
+                sql.SQL(',').join(map(sql.Literal, lista))
+            )
+            # Executar a consulta DELETE
+            with ConexaoPostgreMPL.conexao() as conn:
+                cursor = conn.cursor()
+                cursor.execute(query)
+                conn.commit()
+
+            etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao', etapa2, f'excluindo tags fora WMS {tamanho} tags')
+        else:
+            etapa3 = controle.salvarStatus_Etapa3(rotina, 'automacao', etapa2, 'excluindo tags fora WMS 0 tags')
+
+        # Remover grandes DataFrames explicitamente para liberar memória
+        del SugestoesAbertos
+        del tagWms
+        del lista
+        gc.collect()
+
+    except Exception as e:
+        print(f"Erro durante a avaliação de reposição: {e}")
+        # Adicionar lógica adicional de tratamento de erros, se necessário
+
+    finally:
+        # Forçar coleta de lixo no final para garantir a liberação de memória
+        gc.collect()
 
