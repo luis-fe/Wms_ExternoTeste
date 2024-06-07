@@ -216,6 +216,8 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
+    print('etapa 1salvar status')
+    print(datahoraInicio)
     data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
     data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
 
