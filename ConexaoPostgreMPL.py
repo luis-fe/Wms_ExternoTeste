@@ -57,3 +57,15 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     chunksize = tamanho
     for i in range(0, len(df_tags), chunksize):
         df_tags.iloc[i:i + chunksize].to_sql(tabela, engine, if_exists=metodo, index=False , schema='off')
+def conexaoEngine():
+    db_name = "Reposicao"
+    db_user = "postgres"
+    db_password = "Master100"
+    if empresaConfigurada.EmpresaEscolhida() == '1':
+        host = "192.168.0.183"
+    else:
+        host = "localhost"
+    portbanco = "5432"
+
+    connection_string = f"postgresql://{db_user}:{db_password}@{host}:{portbanco}/{db_name}"
+    return create_engine(connection_string)
