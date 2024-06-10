@@ -3,7 +3,6 @@ import jaydebeapi
 from colorama import Fore
 import ConexaoCSW
 import pandas as pd
-import _queue
 import ConexaoPostgreMPL
 from models.AutomacaoWMS_CSW import controle
 
@@ -45,7 +44,6 @@ def CadastroSKU(rotina, datainico):
                 conn.close()
         except jaydebeapi.Error as e:
             print(Fore.RED + f'Erro ao fechar conexão: {e}')
-    del _queue.SimpleQueue
 
     etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao', datainico, 'from cgi.item i')
 
