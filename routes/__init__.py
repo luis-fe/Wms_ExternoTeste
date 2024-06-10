@@ -35,6 +35,7 @@ from .Dashbord.DetalhamentoFila import dashboardFila_routes
 from .AutomacaoCsw.AtualizaFilaTags import AtualizaFilaTags_routes
 from .AutomacaoCsw.DetalhamentoServicos import DetalhamentoServicos_routes
 from .AutomacaoCsw.ReservaPreFat import ReservaPreFaturamento_routes
+from  .AutomacaoCsw.AtualizaSku import InformacosPCPServicos_routes
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
@@ -64,3 +65,4 @@ routes_blueprint.register_blueprint(dashboardFila_routes)
 routes_blueprint.register_blueprint(AtualizaFilaTags_routes)
 routes_blueprint.register_blueprint(DetalhamentoServicos_routes)
 routes_blueprint.register_blueprint(ReservaPreFaturamento_routes)
+routes_blueprint.register_blueprint(InformacosPCPServicos_routes)
