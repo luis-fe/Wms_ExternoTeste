@@ -1,3 +1,4 @@
+import gc
 import psycopg2
 from sqlalchemy import create_engine
 from models.configuracoes import  empresaConfigurada

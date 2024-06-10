@@ -1,10 +1,11 @@
 import gc
 from flask import Blueprint, jsonify, request
 from functools import wraps
-from models.AutomacaoWMS_CSW  import controle, AtualizaSku
+from models.AutomacaoWMS_CSW  import controle, AtualizaSku, PedidosPCP
 from colorama import Fore
 import psutil
 import os
+
 
 InformacosPCPServicos_routes = Blueprint('InformacoesPCP', __name__)
 
@@ -37,7 +38,7 @@ def AtualizarSKU():
     rotina  = 'AtualizarSKU'
     datainicio = controle.obterHoraAtual()
     tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarSKU')
-    limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
+    limite = int(IntervaloAutomacao) * 60  # (limite de 60 minutos , convertido para segundos)
     if tempo > limite:
             print(f'\nETAPA {rotina}- Inicio: {controle.obterHoraAtual()}')
             controle.InserindoStatus(rotina,client_ip,datainicio)
@@ -51,12 +52,45 @@ def AtualizarSKU():
             gc.collect()
             memoria_depois = memory_usage()
             print(memoria_depois)
+            return jsonify({"Mensagem": "Atualizado com sucesso", "status": True})
+
 
     else:
-            cpu_percent = psutil.cpu_percent()
-            gc.collect()
+            return jsonify({
+                "Mensagem": f" EXISTE UMA ATUALIZACAO {rotina}  EM MENOS DE {IntervaloAutomacao} MINUTOS",
+                "status": False
+            })
 
-            print("Uso da CPU final do processo", cpu_percent, "%")
+@InformacosPCPServicos_routes.route('/api/AtualizarPedidosPCP', methods=['GET'])
+@token_required
+def AtualizarPedidosPCP():
+    IntervaloAutomacao = request.args.get('IntervaloAutomacao', '1')
+    empresa = request.args.get('empresa','1')
+
+    cpu_percent = psutil.cpu_percent()
+    memoria_antes = memory_usage()
+
+    print(memoria_antes)
+    print("Uso da CPU inicio do processo:", cpu_percent, "%")
+    print(Fore.LIGHTYELLOW_EX+f'\nETAPA 1 - ATUALIZACAO DO AutomacaoCadastroSKU uso atual da cpu {cpu_percent}%')
+    client_ip = 'automacao'
+    rotina  = 'AtualizarPedidosPCP'
+    datainicio = controle.obterHoraAtual()
+    tempo = controle.TempoUltimaAtualizacao(datainicio, 'AtualizarSKU')
+    limite = int(IntervaloAutomacao) * 60  # (limite de 60 minutos , convertido para segundos)
+    if tempo > limite:
+            print(f'\nETAPA AtualizarPedidos- Inicio: {controle.obterHoraAtual()}')
+            controle.InserindoStatus('pedidosItemgrade',client_ip,datainicio)
+            PedidosPCP.IncrementarPedidos(rotina, datainicio)
+            controle.salvarStatus('pedidosItemgrade', client_ip, datainicio)
+            print(f'ETAPA AtualizarPedidos- FIM: {controle.obterHoraAtual()}')
+            gc.collect()
             memoria_depois = memory_usage()
             print(memoria_depois)
-            print(f' :JA EXISTE UMA ATUALIZACAO Dos {rotina}   EM MENOS DE {IntervaloAutomacao} MINUTOS, limite de intervalo de tempo: ({controle.obterHoraAtual()}')
+            return jsonify({"Mensagem": "Atualizado com sucesso", "status": True})
+
+    else:
+            return jsonify({
+                "Mensagem": f" EXISTE UMA ATUALIZACAO {rotina}  EM MENOS DE {IntervaloAutomacao} MINUTOS",
+                "status": False
+            })
