@@ -27,8 +27,8 @@ def TagSegundaQualidade(iniVenda, finalVenda, origem):
 
     conn = ConexaoCSW.Conexao()
 
-    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(dataIni,finalVenda), conn)
-    motivos = pd.read_sql(BuscasAvancadas.Motivos(),conn)
+    tags = pd.read_sql(BuscasSqlCSW.TagsSegundaQualidadePeriodo(dataIni,finalVenda), conn)
+    motivos = pd.read_sql(BuscasSqlCSW.Motivos(),conn)
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
 
@@ -38,9 +38,9 @@ def TagSegundaQualidade(iniVenda, finalVenda, origem):
     tags['motivo2Qualidade'] =tags['motivo2Qualidade']+tags['nome']+"("+tags['nomeOrigem']+")"
     tags['qtde'] = 1
 
-    PecasBaixadas = pd.read_sql(BuscasAvancadas.OpsBaixadas(dataIni,finalVenda), conn)
+    PecasBaixadas = pd.read_sql(BuscasSqlCSW.OpsBaixadas(dataIni,finalVenda), conn)
 
-    OpsFaccinista = pd.read_sql(BuscasAvancadas.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
+    OpsFaccinista = pd.read_sql(BuscasSqlCSW.OpsBaixadasFaccionista(iniProd,finalVenda), conn)
 
     OpsFaccinista1 = OpsFaccinista[OpsFaccinista['codFase'].isin([55, 429,455])]
     OpsFaccinista1.drop(['codFase','numeroOP2','codFac','nomeFase'], axis=1, inplace=True)
@@ -65,7 +65,7 @@ def TagSegundaQualidade(iniVenda, finalVenda, origem):
     tags = pd.merge(tags,ObterSilkPartes,on=['OPpai','nomeOrigem'], how='left')
 
 
-    fasesInternas = pd.read_sql(BuscasAvancadas.MovFase('427, 62',iniProd,finalVenda),conn)
+    fasesInternas = pd.read_sql(BuscasSqlCSW.MovFase('427, 62',iniProd,finalVenda),conn)
     conn.close()
 
     fasesInternas['OPpai'] = fasesInternas['numeroOP'].str.split('-').str.get(0)
@@ -126,8 +126,8 @@ def MotivosAgrupado(iniVenda, finalVenda, origem):
     datafim = finalVenda[6:] + "-" + finalVenda[3:5] + "-" + finalVenda[:2]
     conn = ConexaoCSW.Conexao()
 
-    tags = pd.read_sql(BuscasAvancadas.TagsSegundaQualidadePeriodo(dataini, datafim), conn)
-    motivos = pd.read_sql(BuscasAvancadas.Motivos(), conn)
+    tags = pd.read_sql(BuscasSqlCSW.TagsSegundaQualidadePeriodo(dataini, datafim), conn)
+    motivos = pd.read_sql(BuscasSqlCSW.Motivos(), conn)
     tags['motivo2Qualidade'] = tags['motivo2Qualidade'].astype(str)
     motivos['motivo2Qualidade'] = motivos['motivo2Qualidade'].astype(str)
 
@@ -176,7 +176,7 @@ def OpsEstampariaFaccionista():
 
 def listaDeOrigens():
     conn = ConexaoCSW.Conexao()
-    consulta = pd.read_sql(BuscasAvancadas.OrigensCsw(),conn)
+    consulta = pd.read_sql(BuscasSqlCSW.OrigensCsw(),conn)
     conn.close()
 
     return consulta
