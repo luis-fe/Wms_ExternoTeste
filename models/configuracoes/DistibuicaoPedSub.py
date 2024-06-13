@@ -71,6 +71,12 @@ join (select "Endereco", max(resticao) as "Restricao" from "Reposicao"."Reposica
     consulta['SaldoEndereco'].fillna(0, inplace=True)
     consulta['endereco_sugerido'].fillna('-', inplace=True)
     consulta.fillna('-', inplace=True)
+    try:
+        # Verifique se a chave 'consulta' existe no DataFrame
+        if 'consulta' not in consulta.columns:
+                consulta['consulta'] = None
+    except KeyError as e:
+        print(f"KeyError: {e}")
 
     consulta['consulta'] = consulta.apply(lambda row: 'MUDAR' if row['Restricao'] != row['Restricao Sugerida'] and row['SaldoEndereco'] > 0 else 'MANTER',axis=1    )
 
