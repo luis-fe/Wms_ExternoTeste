@@ -92,7 +92,7 @@ def ApontarTagCaixa(codbarras, Ncaixa, empresa, usuario, natureza, estornar = Fa
                             'codempresa = '+empresa,conn)
     conn.close() # Encerra a chamada do banco de dados
 
-    if pesquisa.empty:
+    if pesquisa.empty and estornar == False:
     ## Caso nao for encontrado tag, é feito uma pesquisada direto do CSW para recuperar a tag , porem ela deve estar nas situacoes 0 ou 9:
         conn2 = ConexaoCSW.Conexao()
 
