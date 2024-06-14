@@ -239,9 +239,10 @@ def SqlBuscaTags(emp, codbarras):
     ' (select i.nome from cgi.Item i WHERE i.codigo = p.codReduzido) as descricao, situacao, codNaturezaAtual as natureza, codEmpresa as codempresa,'\
     " (select s.corbase||'-'||s.nomecorbase  from tcp.SortimentosProduto s WHERE s.codempresa = 1 and s.codproduto = p.codEngenharia and s.codsortimento = p.codSortimento)"\
     ' as cor, (select t.descricao from tcp.Tamanhos t WHERE t.codempresa = 1 and t.sequencia = p.seqTamanho ) as tamanho, p.numeroOP as numeroop'\
-    ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = ' + emp + ' and situacao in (0, 9) and codbarrastag = '+codbarras
+    ' from Tcr.TagBarrasProduto p WHERE p.codEmpresa = ' + emp + '  and codbarrastag = '+codbarras
 
     return consulta
+
 
 #24 - Sql Busca das tag indenizadas velocidade : 0,59s (boa)
 
