@@ -96,7 +96,7 @@ def ApontarTagCaixa(codbarras, Ncaixa, empresa, usuario, natureza, estornar = Fa
     ## Caso nao for encontrado tag, é feito uma pesquisada direto do CSW para recuperar a tag , porem ela deve estar nas situacoes 0 ou 9:
         conn2 = ConexaoCSW.Conexao()
 
-        consultaCsw = pd.read_sql(BuscasAvancadas.SqlBuscaTags(emp,codbarras), conn2)
+        consultaCsw = pd.read_sql(BuscasSqlCSW.SqlBuscaTags(emp,codbarras), conn2)
 
 
         if not consultaCsw.empty :
