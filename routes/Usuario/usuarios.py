@@ -23,15 +23,17 @@ def token_required(f):
 @usuarios_routes.route('/api/Usuarios', methods=['GET'])
 @token_required
 def get_usuarios():
-    usuarios = usuariosModel.PesquisarUsuarios()
+    consulta = usuariosModel.PesquisarUsuarios()
     # Obtém os nomes das colunas
-    column_names = ['codigo', 'nome', 'funcao', 'situacao']
+    column_names = consulta.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
-    usuarios_data = []
-    for row in usuarios:
-        usuario_dict = dict(zip(column_names, row))
-        usuarios_data.append(usuario_dict)
-    return jsonify(usuarios_data)
+    consulta_data = []
+    for index, row in consulta.iterrows():
+        consulta_dict = {}
+        for column_name in column_names:
+            consulta_dict[column_name] = row[column_name]
+        consulta_data.append(consulta_dict)
+    return jsonify(consulta_data)
 
 
 @usuarios_routes.route('/api/UsuarioSenhaRestricao', methods=['GET'])
