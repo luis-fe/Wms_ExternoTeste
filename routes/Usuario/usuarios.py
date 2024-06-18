@@ -1,4 +1,4 @@
-#####
+######
 # Nesse arquivo é fornecido a Api das operacoes envolvendo o login e cadastro de usuarios do WMS
 from flask import Blueprint, jsonify, request
 from functools import wraps
