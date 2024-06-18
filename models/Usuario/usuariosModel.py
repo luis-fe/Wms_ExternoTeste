@@ -1,5 +1,7 @@
 import datetime
 
+import pandas as pd
+
 import ConexaoPostgreMPL
 
 
@@ -11,11 +13,16 @@ def obterHoraAtual():
 def PesquisarUsuarios():
     conn = ConexaoPostgreMPL.conexao()
     cursor = conn.cursor()
-    cursor.execute('select codigo, nome, funcao, situacao from "Reposicao"."cadusuarios" c order by nome asc')
+    cursor.execute('select codigo, nome, funcao, situacao, login, "AcessaWMS", "AcessaGarantia", "AcessaPCP" from "Reposicao"."cadusuarios" c order by nome asc')
     usuarios = cursor.fetchall()
     cursor.close()
     conn.close()
-    return usuarios
+    colunas = [desc[0] for desc in cursor.description]
+    dataframe = pd.DataFrame(usuarios, columns=colunas)
+    dataframe.fillna('NAO',inplace=True)
+
+
+    return dataframe
 
 def PesquisarSenha():
     conn = ConexaoPostgreMPL.conexao()
