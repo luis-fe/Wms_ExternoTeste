@@ -31,18 +31,18 @@ def Obter_chamados(status_chamado, solicitante, atribuido_para, tipo_chamado):
 
 def novo_chamados(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
-    try:
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO "chamado"."registro_chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
+   # try:
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO "chamado"."registro_chamados" (solicitante, data_chamado, tipo_chamado, atribuido_para, '
                        'descricao_chamado, status_chamado, data_finalizacao_chamado) '
                        'VALUES (%s, %s, %s, %s, %s, %s, %s)',(solicitante, data_chamado, tipo_chamado, atribuido_para, descricao_chamado, status_chamado, data_finalizacao_chamado))
 
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return True
-    except:
-        return False
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return True
+    #except:
+    #return False
 
 def encerrarchamado(id_chamado, data_finalizacao_chamado):
     conn = ConexaoPostgreMPL.conexao()
