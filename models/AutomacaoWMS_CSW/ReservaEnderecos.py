@@ -257,6 +257,7 @@ def ReservaPedidosNaoRepostos(empresa, natureza, consideraSobra, ordem,repeticao
 
         pedidoskuIteracao = enderecosSku[enderecosSku['repeticoessku'] == (i)]
         pedidoskuIteracao = pd.merge(queue, pedidoskuIteracao, on='produto')
+        print(pedidoskuIteracao)
         pedidoskuIteracao['reptproduto'] = pedidoskuIteracao.groupby('produto').cumcount() + 1
         pedidoskuIteracao['NecessidadeAcumulada'] = pedidoskuIteracao.groupby('produto')['necessidade'].cumsum()
         pedidoskuIteracao['reserva'] = pedidoskuIteracao['SaldoLiquid']  - pedidoskuIteracao['NecessidadeAcumulada']
