@@ -10,7 +10,7 @@ def conexao():
     db_user = "postgres"
     db_password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
-        host = "192.168.0.183"
+        host = "localhost"
     else:
         host = "localhost"
 
@@ -25,7 +25,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     password = "Master100"
 
     if empresaConfigurada.EmpresaEscolhida() == '1':
-        host = "192.168.0.183"
+        host = "localhost"
     else:
         host = "localhost"
 
@@ -45,7 +45,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     user = "postgres"
     password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
-        host = "192.168.0.183"
+        host = "localhost"
     else:
         host = "localhost"
 
@@ -63,7 +63,7 @@ def conexaoEngine():
     db_user = "postgres"
     db_password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
-        host = "192.168.0.183"
+        host = "localhost"
     else:
         host = "localhost"
     portbanco = "5432"
@@ -75,7 +75,7 @@ def conexaoPCP():
     db_name = "PCP"
     db_user = "postgres"
     db_password = "Master100"
-    db_host = "192.168.0.183"
+    db_host = "localhost"
     portbanco = "5432"
 
     return psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=portbanco)
@@ -85,7 +85,7 @@ def Funcao_InserirPCP (df_tags, tamanho,tabela, metodo):
     database = "PCP"
     user = "postgres"
     password = "Master100"
-    host = "192.168.0.183"
+    host = "localhost"
     port = "5432"
 
 # Cria conexão ao banco de dados usando SQLAlchemy
