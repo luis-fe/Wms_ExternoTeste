@@ -7,7 +7,7 @@ import ConexaoPostgreMPL
 def detalhaFila(empresa, natureza):
     detalalhaTags = """
 select f.numeroop, codreduzido , descricao, count(codbarrastag) as pcs  from "Reposicao"."Reposicao".filareposicaoportag f 
-where f.codempresa = %s and f.codnaturezaatual = %s
+where f.codempresa = %s and f.codnaturezaatual = %s and status_fila is null
 group by numeroop, codreduzido, descricao  
 order by count(codbarrastag) desc
     """

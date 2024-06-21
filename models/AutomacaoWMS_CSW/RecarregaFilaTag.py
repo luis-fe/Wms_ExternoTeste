@@ -275,9 +275,12 @@ def FilaTags(rotina, datainico ,empresa):
     else:
         print('empresa 4')
 
+
+
     #try:
     tamanho2 = 1000
     ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
+    AtualizarStatusFila()
 
 
 
@@ -293,3 +296,20 @@ def LerEPC2(xemp):
                            'or codLote like "22%" )',conn)
 
     return consulta
+
+
+def AtualizarStatusFila():
+    sql = """
+    update "Reposicao"."Reposicao".filareposicaoportag
+set status_fila = 'Tag Separado'
+where codbarrastag in (
+select codbarrastag  from "Reposicao"."Reposicao".tags_separacao ts 
+where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".filareposicaoportag f))
+    """
+
+    conn = ConexaoPostgreMPL.conexao()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    conn.commit()
+    cursor.close()
+    conn.close()
