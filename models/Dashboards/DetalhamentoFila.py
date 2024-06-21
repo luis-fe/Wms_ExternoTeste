@@ -68,5 +68,25 @@ where rq.caixa = %s
 
     return DetalharCaixa
 
+def TagsFilaConferencia():
+    sql = """
+    select codbarrastag, engenharia , codreduzido , epc , dataseparacao, codpedido, "Endereco" as "EnderecoOrigem" , c.nome as usuario_Separou
+from "Reposicao"."Reposicao".tags_separacao ts 
+inner join "Reposicao"."Reposicao".cadusuarios c on c.codigo = ts.usuario :: int
+where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".filareposicaoportag f)
+
+    """
+    with ConexaoPostgreMPL.conexao() as conn:
+        detalalhaTags = pd.read_sql(sql, conn)
+
+
+    pedidos =  detalalhaTags.groupby(['codPedido']).count()
+
+
+    data = { '1.0- Total Peças': f'{detalalhaTags["codbarrastag"].sum()} pcs',
+             '1.1- Total Pedidos na Fila': f'{pedidos}',
+        '2.0- Detalhamento': detalalhaTags.to_dict(orient='records')}
+
+    return pd.DataFrame([data])
 
 
