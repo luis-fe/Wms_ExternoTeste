@@ -80,8 +80,8 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
         detalalhaTags = pd.read_sql(sql, conn)
 
 
-    pedidos = detalalhaTags.groupby('codPedido')
-    pedidos = pedidos['codPedido'].size
+    pedidos = detalalhaTags.groupby('codpedido')
+    pedidos = pedidos['codpedido'].size
 
     data = { '1.0- Total Peças': f'{detalalhaTags["codbarrastag"].sum()} pcs',
              '1.1- Total Pedidos na Fila': f'{pedidos}',
