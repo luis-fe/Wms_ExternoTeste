@@ -81,7 +81,7 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
 
 
     pedidos = detalalhaTags.groupby('codpedido')
-    pedidos = pedidos['codpedido'].size
+    pedidos = pedidos['codpedido'].count()
 
     data = { '1.0- Total Peças': f'{detalalhaTags["codbarrastag"].sum()} pcs',
              '1.1- Total Pedidos na Fila': f'{pedidos}',
