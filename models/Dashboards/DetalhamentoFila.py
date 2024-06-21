@@ -84,6 +84,8 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
     pedidos = detalhaTags.groupby('codpedido').size().reset_index(name='count')
     total_pedidos_na_fila = pedidos['codpedido'].nunique()
 
+    detalhaTags.fillna('-',inplace=True)
+
     data = {
         '1.0- Total Peças': f'{detalhaTags["codbarrastag"].nunique()} pcs',
         '1.1- Total Pedidos na Fila': f'{total_pedidos_na_fila}',
