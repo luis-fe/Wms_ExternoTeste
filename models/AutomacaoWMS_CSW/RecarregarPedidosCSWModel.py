@@ -309,16 +309,16 @@ order by codcliente
 
     update_sql = """
      UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
-     SET agrupamentopedido = :agrupamentopedido
-     WHERE codigopedido = :codigopedido
+     SET agrupamentopedido = %s
+     WHERE codigopedido = %s
      """
 
     with conn.connect() as connection:
         for index, row in consulta.iterrows():
-            connection.execute(update_sql, {
-                'agrupamentopedido': row['agrupamentopedido'],
-                'codigopedido': row['codigopedido']
-            })
+            connection.execute(update_sql, (
+                row['agrupamentopedido'],
+                row['codigopedido']
+                               ))
 
 
 
