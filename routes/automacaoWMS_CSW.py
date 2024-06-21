@@ -132,6 +132,8 @@ def RecarregarPedidos():
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(3),'Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(3),'')
     necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
+    RecarregarPedidosCSWModel.AgruparPedidos()
+
     if empresa == '1':
         DistibuicaoPedSub.PedidosSkuEspecial()
     else:

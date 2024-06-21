@@ -293,3 +293,33 @@ def DetalhandoPedidoSku(empresa, pedido):
     return SugestoesAbertos
 
 
+def AgruparPedidos():
+    sql = """
+    select codcliente , codigopedido  from "Reposicao"."Reposicao".filaseparacaopedidos f 
+where codcliente in (
+select codcliente from "Reposicao"."Reposicao".filaseparacaopedidos f 
+group by codcliente having count(codcliente)>1  )
+order by codcliente 
+    """
+
+    conn = ConexaoPostgreMPL.conexaoEngine()
+    consulta = pd.read_sql(sql,conn)
+    consulta['agrupamentopedido'] = consulta.groupby('codcliente')['codigopedido'].transform(
+        criar_agrupamentos)
+
+    update_sql = """
+     UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
+     SET agrupamentopedido = :agrupamentopedido
+     WHERE codigopedido = :codigopedido
+     """
+
+    with conn.connect() as connection:
+        for index, row in consulta.iterrows():
+            connection.execute(update_sql, {
+                'agrupamentopedido': row['agrupamentopedido'],
+                'codigopedido': row['codigopedido']
+            })
+
+
+
+
