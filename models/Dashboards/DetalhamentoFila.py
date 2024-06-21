@@ -79,9 +79,7 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
     with ConexaoPostgreMPL.conexao() as conn:
         detalalhaTags = pd.read_sql(sql, conn)
 
-
-    pedidos =  detalalhaTags.groupby(['codPedido']).count()
-
+    pedidos = detalalhaTags.groupby('codPedido').size().reset_index(name='count')
 
     data = { '1.0- Total Peças': f'{detalalhaTags["codbarrastag"].sum()} pcs',
              '1.1- Total Pedidos na Fila': f'{pedidos}',
