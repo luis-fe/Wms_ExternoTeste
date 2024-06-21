@@ -77,15 +77,19 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
 
     """
     with ConexaoPostgreMPL.conexao() as conn:
-        detalalhaTags = pd.read_sql(sql, conn)
+        detalhaTags = pd.read_sql(sql, conn)
 
 
-    pedidos = detalalhaTags.groupby('codpedido').reset_index()
-    pedidos = pedidos['codpedido'].count()
+    # Agrupando pelo codpedido e contando o número de ocorrências
+    pedidos = detalhaTags.groupby('codpedido').size().reset_index(name='count')
+    total_pedidos_na_fila = pedidos['codpedido'].nunique()
 
-    data = { '1.0- Total Peças': f'{detalalhaTags["codbarrastag"].sum()} pcs',
-             '1.1- Total Pedidos na Fila': f'{pedidos}',
-        '2.0- Detalhamento': detalalhaTags.to_dict(orient='records')}
+    data = {
+        '1.0- Total Peças': f'{detalhaTags["codbarrastag"].nunique()} pcs',
+        '1.1- Total Pedidos na Fila': f'{total_pedidos_na_fila}',
+        '2.0- Detalhamento': detalhaTags.to_dict(orient='records')
+    }
+
 
     return pd.DataFrame([data])
 
