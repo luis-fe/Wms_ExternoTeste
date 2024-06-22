@@ -56,9 +56,11 @@ def getDetalhaTagsNumeroOPReduzido():
     # Obtém os dados do corpo da requisição (JSON)
     numeroop = request.args.get('numeroop','1')
     codreduzido = request.args.get('codreduzido','1')
+    codEmpresa = request.args.get('codEmpresa','1')
+    natureza = request.args.get('natureza','1')
 
 
-    Endereco_det = DetalhamentoFila.DetalhaTagsNumeroOPReduzido(numeroop, codreduzido)
+    Endereco_det = DetalhamentoFila.DetalhaTagsNumeroOPReduzido(numeroop, codreduzido, codEmpresa, natureza)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
