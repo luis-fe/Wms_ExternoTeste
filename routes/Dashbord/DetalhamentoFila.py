@@ -57,7 +57,7 @@ def getDetalhaTagsNumeroOPReduzido():
     numeroop = request.args.get('numeroop','1')
     codreduzido = request.args.get('codreduzido','1')
     codEmpresa = request.args.get('codEmpresa','1')
-    natureza = request.args.get('natureza','1')
+    natureza = request.args.get('natureza','5')
 
 
     Endereco_det = DetalhamentoFila.DetalhaTagsNumeroOPReduzido(numeroop, codreduzido, codEmpresa, natureza)
