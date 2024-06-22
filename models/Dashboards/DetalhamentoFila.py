@@ -133,7 +133,7 @@ def ValidandoTracoOP():
 def DetalhaTagsNumeroOPReduzido(numeroop, codreduzido):
     sql = """
     select f.codbarrastag , f.epc, f.numeroop, f."DataHora", f.codreduzido  from "Reposicao"."Reposicao".filareposicaoportag f 
-where numeroop = %s and codreduzido = %s
+where numeroop = %s and codreduzido = %s and status_fila is null
     """
 
     conn = ConexaoPostgreMPL.conexaoEngine()
