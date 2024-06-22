@@ -129,6 +129,15 @@ def ValidandoTracoOP():
                 row['codbarrastag']
                                ))
 
+        sql = """
+        delete from "Reposicao"."Reposicao".filareposicaoportag f 
+        where codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".tagsreposicao  f )
+        """
+
+        connection.execute(sql)
+
+
+
 
 def DetalhaTagsNumeroOPReduzido(numeroop, codreduzido, codempresa, natureza):
     sql = """
