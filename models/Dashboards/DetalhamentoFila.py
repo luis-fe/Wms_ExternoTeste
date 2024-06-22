@@ -129,3 +129,15 @@ def ValidandoTracoOP():
                 row['codbarrastag']
                                ))
 
+
+def DetalhaTagsNumeroOPReduzido(numeroop, codreduzido):
+    sql = """
+    select f.codbarrastag , f.epc, f.numeroop, f."DataHora", f.codreduzido  from "Reposicao"."Reposicao".filareposicaoportag f 
+where numeroop = %s and codreduzido = %s
+    """
+
+    conn = ConexaoPostgreMPL.conexaoEngine()
+    c1 = pd.read_sql(sql,conn,params=(numeroop, codreduzido))
+
+    return c1
+
