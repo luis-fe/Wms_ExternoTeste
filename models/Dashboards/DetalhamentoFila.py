@@ -5,6 +5,8 @@ import ConexaoPostgreMPL
 
 
 def detalhaFila(empresa, natureza):
+
+    ValidandoTracoOP()
     detalalhaTags = """
 select f.numeroop, codreduzido , descricao, count(codbarrastag) as pcs  from "Reposicao"."Reposicao".filareposicaoportag f 
 where f.codempresa = %s and f.codnaturezaatual = %s and status_fila is null
@@ -95,4 +97,35 @@ where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".fila
 
     return pd.DataFrame([data])
 
+
+
+def ValidandoTracoOP():
+
+    sql1 = """
+    select codbarrastag, f.numeroop  from "Reposicao"."Reposicao".filareposicaoportag f 
+    where f.numeroop not like '%-001'
+    """
+
+    sql2 = """
+    select rq.codbarrastag   from "Reposicao"."off".reposicao_qualidade rq 
+    """
+
+    conn = ConexaoPostgreMPL.conexaoEngine()
+    c1 = pd.read_sql(sql1,conn)
+    c2 = pd.read_sql(sql2,conn)
+
+    c = pd.merge(c1,c2,on='codbarrastag')
+
+    update_sql = """
+    update "Reposicao"."off".reposicao_qualidade rq 
+    set numeroop = %s
+    where codbarrastag = %s
+    """
+
+    with conn.connect() as connection:
+        for index, row in c.iterrows():
+            connection.execute(update_sql, (
+                row['numeroop'],
+                row['codbarrastag']
+                               ))
 
