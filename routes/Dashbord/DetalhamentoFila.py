@@ -54,8 +54,8 @@ def getDetalharCaixa():
 @token_required
 def getDetalhaTagsNumeroOPReduzido():
     # Obtém os dados do corpo da requisição (JSON)
-    numeroop = request.args.get('numeroCaixa','1')
-    codreduzido = request.args.get('numeroCaixa','1')
+    numeroop = request.args.get('numeroop','1')
+    codreduzido = request.args.get('codreduzido','1')
 
 
     Endereco_det = DetalhamentoFila.DetalhaTagsNumeroOPReduzido(numeroop, codreduzido)
