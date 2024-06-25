@@ -35,6 +35,13 @@ SELECT e.codItem as codreduzido , e.estoqueAtual as estoqueCsw  FROM est.DadosEs
 WHERE e.codNatureza = %s and e.codEmpresa = 1
     """%natureza
 
+
+    query_SaldoEnderecos ="""
+    select t.codreduzido as codreduzido , count(codbarrastag) as  "SaldoEnderecos" from "Reposicao"."Reposicao".tagsreposicao t 
+    where t."natureza"= % 
+    group by codreduzido 
+    """
+
     with ConexaoCSW.Conexao() as conn:
         with conn.cursor() as cursor_csw:
             cursor_csw.execute(sqlCsw_query)
@@ -50,6 +57,7 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
     with ConexaoPostgreMPL.conexao() as conn:
         detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
         caixapd = pd.read_sql(caixa_query, conn)
+        query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn, params=(natureza,))
 
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
         lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index(name='caixas')
@@ -57,6 +65,7 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
     detalalhaTags = pd.merge(detalalhaTags, caixa, on=['numeroop', 'codreduzido'], how='left')
     detalalhaTags = pd.merge(detalalhaTags, dadosOP, on='numeroop', how='left')
     detalalhaTags = pd.merge(detalalhaTags, estoqueCsw, on='codreduzido', how='left')
+    detalalhaTags = pd.merge(detalalhaTags, query_SaldoEnderecos, on='codreduzido', how='left')
 
     detalalhaTags.fillna('-', inplace=True)
 
