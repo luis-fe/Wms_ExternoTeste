@@ -43,7 +43,7 @@ order by numeroOP desc
 
     # Agrupando por 'op' e 'sku' e agregando as colunas 'caixa' e 'qt'
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
-        lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index(name='caixas')
+        lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index()
 
     detalalhaTags = pd.merge(detalalhaTags, caixa ,on=['numeroop', 'codreduzido'],how='left')
 
