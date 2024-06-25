@@ -5,54 +5,54 @@ import ConexaoPostgreMPL
 
 
 def detalhaFila(empresa, natureza):
-
     ValidandoTracoOP()
-    detalalhaTags = """
-select f.numeroop, codreduzido , descricao, count(codbarrastag) as pcs  from "Reposicao"."Reposicao".filareposicaoportag f 
-where f.codempresa = %s and f.codnaturezaatual = %s and status_fila is null
-group by numeroop, codreduzido, descricao  
-order by count(codbarrastag) desc
+
+    detalalhaTags_query = """
+    SELECT f.numeroop, codreduzido, descricao, COUNT(codbarrastag) AS pcs
+    FROM "Reposicao"."Reposicao".filareposicaoportag f 
+    WHERE f.codempresa = %s AND f.codnaturezaatual = %s AND status_fila IS NULL
+    GROUP BY numeroop, codreduzido, descricao  
+    ORDER BY COUNT(codbarrastag) DESC
     """
 
-    caixa = """
-    select rq.caixa , rq.numeroop , rq.codreduzido , count(rq.codbarrastag) pc  from "Reposicao"."off".reposicao_qualidade rq 
-inner join "Reposicao"."Reposicao".filareposicaoportag f on f.codbarrastag = rq.codbarrastag
-group by rq.caixa , rq.numeroop , rq.codreduzido
+    caixa_query = """
+    SELECT rq.caixa, rq.numeroop, rq.codreduzido, COUNT(rq.codbarrastag) AS pc
+    FROM "Reposicao"."off".reposicao_qualidade rq 
+    INNER JOIN "Reposicao"."Reposicao".filareposicaoportag f ON f.codbarrastag = rq.codbarrastag
+    GROUP BY rq.caixa, rq.numeroop, rq.codreduzido
     """
 
-    sqlCsw = """
-    SELECT top 100000 numeroOP as numeroop ,dataFim, L.descricao as descOP FROM tco.OrdemProd o 
-inner join tcl.Lote L on L.codempresa = o.codempresa and L.codlote = o.codlote
-WHERE o.codEmpresa = 1 
-and o.situacao = 2 
-order by numeroOP desc
+    sqlCsw_query = """
+    SELECT TOP 100000 numeroOP AS numeroop, dataFim, L.descricao AS descOP 
+    FROM tco.OrdemProd o 
+    INNER JOIN tcl.Lote L ON L.codempresa = o.codempresa AND L.codlote = o.codlote
+    WHERE o.codEmpresa = 1 AND o.situacao = 2 
+    ORDER BY numeroOP DESC
     """
 
     with ConexaoCSW.Conexao() as conn:
         with conn.cursor() as cursor_csw:
-            # Executa a primeira consulta e armazena os resultados
-            cursor_csw.execute(sqlCsw)
+            cursor_csw.execute(sqlCsw_query)
             colunas = [desc[0] for desc in cursor_csw.description]
             rows = cursor_csw.fetchall()
             dadosOP = pd.DataFrame(rows, columns=colunas)
-            del rows
 
     with ConexaoPostgreMPL.conexao() as conn:
-        detalalhaTags = pd.read_sql(detalalhaTags, conn, params=(empresa, natureza))
-        caixapd = pd.read_sql(caixa, conn)
+        detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
+        caixapd = pd.read_sql(caixa_query, conn)
 
-    # Agrupando por 'op' e 'sku' e agregando as colunas 'caixa' e 'qt'
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
-        lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index()
+        lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index(name='caixas')
 
-    detalalhaTags = pd.merge(detalalhaTags, caixa ,on=['numeroop', 'codreduzido'],how='left')
+    detalalhaTags = pd.merge(detalalhaTags, caixa, on=['numeroop', 'codreduzido'], how='left')
+    detalalhaTags = pd.merge(detalalhaTags, dadosOP, on='numeroop', how='left')
+    detalalhaTags.fillna('-', inplace=True)
 
-    detalalhaTags = pd.merge(detalalhaTags,dadosOP,on='numeroop', how='left')
-    detalalhaTags.fillna('-',inplace=True)
-
-    data = { '1.0- Total Peças Fila': f'{detalalhaTags["pcs"].sum()} pcs',
-             '1.1- Total Caixas na Fila': f'{caixapd["caixa"].count()}',
-        '2.0- Detalhamento': detalalhaTags.to_dict(orient='records')}
+    data = {
+        '1.0- Total Peças Fila': f'{detalalhaTags["pcs"].sum()} pcs',
+        '1.1- Total Caixas na Fila': f'{caixapd["caixa"].count()}',
+        '2.0- Detalhamento': detalalhaTags.to_dict(orient='records')
+    }
 
     return pd.DataFrame([data])
 
