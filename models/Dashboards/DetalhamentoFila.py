@@ -31,7 +31,7 @@ def detalhaFila(empresa, natureza):
     """
 
     sqlEstoqueCSW = """
-SELECT e.codItem , e.estoqueAtual as estoqueCsw  FROM est.DadosEstoque e
+SELECT e.codItem as codreduzido , e.estoqueAtual as estoqueCsw  FROM est.DadosEstoque e
 WHERE e.codNatureza = %s and e.codEmpresa = 1
     """%natureza
 
