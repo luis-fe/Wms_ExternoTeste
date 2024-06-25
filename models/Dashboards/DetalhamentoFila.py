@@ -30,12 +30,22 @@ def detalhaFila(empresa, natureza):
     ORDER BY numeroOP DESC
     """
 
+    sqlEstoqueCSW = """
+SELECT e.codItem , e.estoqueAtual as estoqueCsw  FROM est.DadosEstoque e
+WHERE e.codNatureza = %s and e.codEmpresa = 1
+    """%natureza
+
     with ConexaoCSW.Conexao() as conn:
         with conn.cursor() as cursor_csw:
             cursor_csw.execute(sqlCsw_query)
             colunas = [desc[0] for desc in cursor_csw.description]
             rows = cursor_csw.fetchall()
             dadosOP = pd.DataFrame(rows, columns=colunas)
+
+            cursor_csw.execute(sqlEstoqueCSW)
+            colunas = [desc[0] for desc in cursor_csw.description]
+            rows = cursor_csw.fetchall()
+            estoqueCsw = pd.DataFrame(rows, columns=colunas)
 
     with ConexaoPostgreMPL.conexao() as conn:
         detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
@@ -46,6 +56,8 @@ def detalhaFila(empresa, natureza):
 
     detalalhaTags = pd.merge(detalalhaTags, caixa, on=['numeroop', 'codreduzido'], how='left')
     detalalhaTags = pd.merge(detalalhaTags, dadosOP, on='numeroop', how='left')
+    detalalhaTags = pd.merge(detalalhaTags, estoqueCsw, on='codreduzido', how='left')
+
     detalalhaTags.fillna('-', inplace=True)
 
     data = {
