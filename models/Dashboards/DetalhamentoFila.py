@@ -38,7 +38,7 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
 
     query_SaldoEnderecos ="""
     select t.codreduzido as codreduzido , count(codbarrastag) as  "SaldoEnderecos" from "Reposicao"."Reposicao".tagsreposicao t 
-    where t."natureza"= % 
+    where t."natureza"= %s 
     group by codreduzido 
     """
 
