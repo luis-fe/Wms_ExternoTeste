@@ -54,9 +54,16 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
             rows = cursor_csw.fetchall()
             estoqueCsw = pd.DataFrame(rows, columns=colunas)
 
+        ultima_atualizacao_Fila = """
+        select substring(max(fim),1,16) as "Ultima Atualizacao" from "Reposicao".configuracoes.controle_requisicao_csw 
+    where rotina = 'AtualizarTagsEstoque'
+        """
+
     with ConexaoPostgreMPL.conexao() as conn:
         detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
         caixapd = pd.read_sql(caixa_query, conn)
+        ultima_atualizacao_Fila = pd.read_sql(ultima_atualizacao_Fila, conn)
+
         query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn, params=(natureza,))
 
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
@@ -69,9 +76,12 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
 
     detalalhaTags.fillna('-', inplace=True)
 
+    ultima_atualizacao_Fila = ultima_atualizacao_Fila['Ultima Atualizacao'][0]
+
     data = {
         '1.0- Total Peças Fila': f'{detalalhaTags["pcs"].sum()} pcs',
         '1.1- Total Caixas na Fila': f'{caixapd["caixa"].count()}',
+        '1.2- Ultima Atualizacao':f'{ultima_atualizacao_Fila}',
         '2.0- Detalhamento': detalalhaTags.to_dict(orient='records')
     }
 

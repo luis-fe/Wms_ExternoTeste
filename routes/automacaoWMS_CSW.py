@@ -33,7 +33,6 @@ def RecarregarCodBarras():
 
     #Relatorios.RelatorioSeparadoresLimite(10)
     TagReposicao = RecarregaFilaTag.RecarregarTagFila(codBarrasTag)
-    RecarregaFilaTag.avaliacaoFila('AvaliaFila')
 
 
 

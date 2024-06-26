@@ -63,6 +63,8 @@ def AtualizarTagsEstoque():
     if tempo > limite:
             controle.InserindoStatus(rotina, client_ip, datainicio)
             RecarregaFilaTag.FilaTags(rotina, datainicio, empresa)
+            RecarregaFilaTag.avaliacaoFila(rotina)
+
             controle.salvarStatus(rotina, client_ip, datainicio)
             gc.collect()
             return jsonify({"Mensagem": "Atualizado com sucesso", "status": True})
