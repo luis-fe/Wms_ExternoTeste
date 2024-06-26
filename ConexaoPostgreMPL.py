@@ -8,7 +8,7 @@ def conexao():
 
     db_name = "Reposicao"
     db_user = "postgres"
-    db_password = "postgres"
+    db_password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "localhost"
     else:
@@ -22,7 +22,7 @@ def Funcao_Inserir (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "Reposicao"
     user = "postgres"
-    password = "postgres"
+    password = "Master100"
 
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "localhost"
@@ -43,7 +43,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "Reposicao"
     user = "postgres"
-    password = "postgres"
+    password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "localhost"
     else:
@@ -61,7 +61,7 @@ def Funcao_InserirOFF (df_tags, tamanho,tabela, metodo):
 def conexaoEngine():
     db_name = "Reposicao"
     db_user = "postgres"
-    db_password = "postgres"
+    db_password = "Master100"
     if empresaConfigurada.EmpresaEscolhida() == '1':
         host = "localhost"
     else:
@@ -74,7 +74,7 @@ def conexaoEngine():
 def conexaoPCP():
     db_name = "PCP"
     db_user = "postgres"
-    db_password = "postgres"
+    db_password = "Master100"
     db_host = "localhost"
     portbanco = "5432"
 
@@ -84,7 +84,7 @@ def Funcao_InserirPCP (df_tags, tamanho,tabela, metodo):
     # Configurações de conexão ao banco de dados
     database = "PCP"
     user = "postgres"
-    password = "postgres"
+    password = "Master100"
     host = "localhost"
     port = "5432"
 
