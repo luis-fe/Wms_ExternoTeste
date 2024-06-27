@@ -61,11 +61,16 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
     where rotina = 'AtualizarTagsEstoque'
         """
 
+        devolucoes = """
+        SELECT distinct numeroop, codreduzido, "status_fila" FROM "Reposicao"."filareposicaoportag"
+        where "status_fila" = 'Devolucao' and codnaturezaatual = %s
+        """
+
     with ConexaoPostgreMPL.conexao() as conn:
         detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
         caixapd = pd.read_sql(caixa_query, conn)
         ultima_atualizacao_Fila = pd.read_sql(ultima_atualizacao_Fila, conn)
-
+        devolucoes = pd.read_sql(devolucoes, conn)
         query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn, params=(natureza,))
 
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
@@ -75,8 +80,12 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
     detalalhaTags = pd.merge(detalalhaTags, dadosOP, on='numeroop', how='left')
     detalalhaTags = pd.merge(detalalhaTags, estoqueCsw, on='codreduzido', how='left')
     detalalhaTags = pd.merge(detalalhaTags, query_SaldoEnderecos, on='codreduzido', how='left')
+    detalalhaTags = pd.merge(detalalhaTags, devolucoes, on=['numeroop', 'codreduzido'], how='left')
+
 
     detalalhaTags.fillna('-', inplace=True)
+    detalalhaTags['descOP'] = detalalhaTags.apply(lambda r : '***DEVOLUCAO '+r['descOP'] if r['status_fila'] == 'Devolucao' else r['descOP'], axis=1)
+
 
     ultima_atualizacao_Fila = ultima_atualizacao_Fila['Ultima Atualizacao'][0]
 
