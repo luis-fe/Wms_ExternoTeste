@@ -183,7 +183,7 @@ def ValidandoTracoOP():
 
 def DetalhaTagsNumeroOPReduzido(numeroop, codreduzido, codempresa, natureza):
     sql = """
-    select f.codbarrastag , f.epc, f.numeroop, f."DataHora", f.codreduzido  from "Reposicao"."Reposicao".filareposicaoportag f 
+    select distinct f.codbarrastag , f.epc, f.numeroop, f."DataHora", f.codreduzido  from "Reposicao"."Reposicao".filareposicaoportag f 
 where numeroop = %s and codreduzido = %s and (status_fila is null or status_fila = 'Devolucao' ) and f.codempresa =  %s and f.codnaturezaatual =  %s
     """
 
