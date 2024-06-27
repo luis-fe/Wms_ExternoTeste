@@ -199,7 +199,7 @@ WHERE m.codEmpresa = %s and codTransacao = 1426
     #Transformando em lista
     lista = sqlCsw['codbarrastag'].tolist()
 
-    query1 = sql.SQL('update FROM "Reposicao"."filareposicaoportag" set "status_fila" = "Devolucao" WHERE '
+    query1 = sql.SQL('update  "Reposicao"."filareposicaoportag" set "status_fila" = "Devolucao" WHERE '
                      'not in (select codbarrastag from "Reposicao".tagsreposicao) and codbarrastag IN ({})').format(
             sql.SQL(',').join(map(sql.Literal, lista)))
 
