@@ -7,7 +7,7 @@ import ConexaoPostgreMPL
 def detalhaFila(empresa, natureza):
     ValidandoTracoOP()
     IdentificandoDevolucoes(str(empresa))
-
+    CorrigindoDuplicatas()
 
     detalalhaTags_query = """
     SELECT f.numeroop, codreduzido, descricao, COUNT(codbarrastag) AS pcs
@@ -215,4 +215,30 @@ WHERE m.codEmpresa = %s and codTransacao = 1426 and numDocto in (SELECT codbarra
     with ConexaoPostgreMPL.conexao() as conn2:
             cursor = conn2.cursor()
             cursor.execute(query1)
+            conn2.commit()
+
+
+
+def CorrigindoDuplicatas():
+
+    sql = """
+    insert into "Reposicao"."Reposicao".filareposicaoportag 
+select   codbarrastag , codnaturezaatual , engenharia , codreduzido , descricao , numeroop , cor , tamanho, 
+usuario, "Situacao" , epc, "DataHora" , totalop,  '1' as dataentrada, codempresa, resticao, considera , "status_fila"   from "Reposicao"."Reposicao".filareposicaoportag f 
+where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag f2 group by codbarrastag having count(codbarrastag)> 1
+)
+    """
+
+    delete = """
+    delete  from"Reposicao"."Reposicao".filareposicaoportag 
+where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag f2 group by codbarrastag having count(codbarrastag)> 1)
+and dataentrada = '1'
+    """
+
+        # Executar a consulta update
+    with ConexaoPostgreMPL.conexao() as conn2:
+            cursor = conn2.cursor()
+            cursor.execute(sql)
+            conn2.commit()
+            cursor.execute(delete)
             conn2.commit()
