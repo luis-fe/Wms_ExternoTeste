@@ -1,16 +1,18 @@
 import pandas as pd
-
+from psycopg2 import sql
 import ConexaoCSW
 import ConexaoPostgreMPL
 
 
 def detalhaFila(empresa, natureza):
     ValidandoTracoOP()
+    IdentificandoDevolucoes(str(empresa))
+
 
     detalalhaTags_query = """
     SELECT f.numeroop, codreduzido, descricao, COUNT(codbarrastag) AS pcs
     FROM "Reposicao"."Reposicao".filareposicaoportag f 
-    WHERE f.codempresa = %s AND f.codnaturezaatual = %s AND status_fila IS NULL
+    WHERE f.codempresa = %s AND f.codnaturezaatual = %s AND (status_fila IS NULL or status_fila = "Devolucao" )
     GROUP BY numeroop, codreduzido, descricao  
     ORDER BY COUNT(codbarrastag) DESC
     """
@@ -106,7 +108,7 @@ def TagsFilaConferencia():
     select codbarrastag, engenharia , codreduzido , epc , dataseparacao, codpedido, "Endereco" as "EnderecoOrigem" , c.nome as usuario_Separou
 from "Reposicao"."Reposicao".tags_separacao ts 
 inner join "Reposicao"."Reposicao".cadusuarios c on c.codigo = ts.usuario :: int
-where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".filareposicaoportag f)
+where ts.codbarrastag in (select codbarrastag  from "Reposicao"."Reposicao".filareposicaoportag )
 
     """
     with ConexaoPostgreMPL.conexao() as conn:
@@ -181,3 +183,28 @@ where numeroop = %s and codreduzido = %s and status_fila is null and f.codempres
 
     return c1
 
+def IdentificandoDevolucoes(empresa):
+    sqlCsw = """
+    SELECT numDocto as codbarrastag  FROM est.Movimento m
+WHERE m.codEmpresa = %s and codTransacao = 1426
+    """%empresa
+
+    with ConexaoCSW.Conexao() as conn:
+        with conn.cursor() as cursor_csw:
+            cursor_csw.execute(sqlCsw)
+            colunas = [desc[0] for desc in cursor_csw.description]
+            rows = cursor_csw.fetchall()
+            sqlCsw = pd.DataFrame(rows, columns=colunas)
+
+    #Transformando em lista
+    lista = sqlCsw['codbarrastag'].tolist()
+
+    query1 = sql.SQL('update FROM "Reposicao"."filareposicaoportag" set "status_fila" = "Devolucao" WHERE '
+                     'not in (select codbarrastag from "Reposicao".tagsreposicao) and codbarrastag IN ({})').format(
+            sql.SQL(',').join(map(sql.Literal, lista)))
+
+        # Executar a consulta update
+    with ConexaoPostgreMPL.conexao() as conn2:
+            cursor = conn2.cursor()
+            cursor.execute(query1)
+            conn2.commit()
