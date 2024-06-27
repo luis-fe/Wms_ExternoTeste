@@ -199,7 +199,7 @@ WHERE m.codEmpresa = %s and codTransacao = 1426 and numDocto in (SELECT codbarra
     #Transformando em lista
     lista = sqlCsw['codbarrastag'].tolist()
 
-    query1 = sql.SQL('update  "Reposicao"."filareposicaoportag" set "status_fila" ='+"""'Devolucao'"""+' WHERE codbarrastag not in (select codbarrastag from "Reposicao".tagsreposicao) and codbarrastag IN ({})').format(
+    query1 = sql.SQL('update  "Reposicao"."filareposicaoportag" set "status_fila" ='+"""'Devolucao'"""+' WHERE codbarrastag not in (SELECT codbarrastag FROM "Reposicao"."tags_separacao" ts WHERE ts.dataseparacao::date > now() - INTERVAL '+"'15 days'"+') and codbarrastag IN ({})').format(
             sql.SQL(',').join(map(sql.Literal, lista)))
 
         # Executar a consulta update
