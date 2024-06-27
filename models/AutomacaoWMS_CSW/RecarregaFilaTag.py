@@ -330,7 +330,7 @@ def avaliacaoFila(rotina):
             # Cria o DataFrame com as colunas
             SugestoesAbertos = pd.DataFrame(rows, columns=colunas)
 
-    datahoraInicio = obterHoraAtual()
+    datahoraInicio = controle.obterHoraAtual()
     etapa1 = controle.salvarStatus_Etapa1(rotina, 'automacao',datahoraInicio,'etapa csw Tcr.TagBarrasProduto p')
 
     conn2 = ConexaoPostgreMPL.conexao()
