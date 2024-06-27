@@ -12,7 +12,7 @@ def detalhaFila(empresa, natureza):
     detalalhaTags_query = """
     SELECT f.numeroop, codreduzido, descricao, COUNT(codbarrastag) AS pcs
     FROM "Reposicao"."Reposicao".filareposicaoportag f 
-    WHERE f.codempresa = %s AND f.codnaturezaatual = %s AND (status_fila IS NULL or status_fila = "Devolucao" )
+    WHERE f.codempresa = %s AND f.codnaturezaatual = %s AND (status_fila IS NULL or status_fila = 'Devolucao' )
     GROUP BY numeroop, codreduzido, descricao  
     ORDER BY COUNT(codbarrastag) DESC
     """
