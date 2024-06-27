@@ -70,7 +70,7 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
         detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
         caixapd = pd.read_sql(caixa_query, conn)
         ultima_atualizacao_Fila = pd.read_sql(ultima_atualizacao_Fila, conn)
-        devolucoes = pd.read_sql(devolucoes, conn)
+        devolucoes = pd.read_sql(devolucoes, conn, params=(natureza,))
         query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn, params=(natureza,))
 
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
