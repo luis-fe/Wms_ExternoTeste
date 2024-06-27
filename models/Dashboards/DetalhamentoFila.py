@@ -186,7 +186,7 @@ where numeroop = %s and codreduzido = %s and status_fila is null and f.codempres
 def IdentificandoDevolucoes(empresa):
     sqlCsw = """
     SELECT numDocto as codbarrastag  FROM est.Movimento m
-WHERE m.codEmpresa = %s and codTransacao = 1426 and numDocto in (SELECT codbarrastag from tcr.TagBarrasProduto t WHERE t.codempresa = %s and situacao = 3)
+WHERE m.codEmpresa = %s and codTransacao = 1426 and numDocto in (SELECT codbarrastag from tcr.TagBarrasProduto t WHERE t.codempresa = 1 and situacao = 3)
     """%empresa
 
     with ConexaoCSW.Conexao() as conn:
