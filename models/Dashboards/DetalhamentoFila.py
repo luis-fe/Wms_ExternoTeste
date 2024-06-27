@@ -6,7 +6,7 @@ import ConexaoPostgreMPL
 
 def detalhaFila(empresa, natureza):
     ValidandoTracoOP()
-    IdentificandoDevolucoes(str(empresa))
+    #IdentificandoDevolucoes(str(empresa))
 
 
     detalalhaTags_query = """
