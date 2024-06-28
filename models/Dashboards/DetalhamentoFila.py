@@ -232,7 +232,12 @@ where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filarepo
     delete = """
     delete  from"Reposicao"."Reposicao".filareposicaoportag 
 where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag f2 group by codbarrastag having count(codbarrastag)> 1)
-and dataentrada is null
+and dataentrada = null
+    """
+
+    update="""
+    update from "Reposicao"."Reposicao".filareposicaoportag 
+    set dataentrada = null
     """
 
         # Executar a consulta update
@@ -242,3 +247,6 @@ and dataentrada is null
             conn2.commit()
             cursor.execute(delete)
             conn2.commit()
+            cursor.execute(update)
+            conn2.commit()
+
