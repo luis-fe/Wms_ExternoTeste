@@ -232,7 +232,7 @@ where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filarepo
     delete = """
     delete  from"Reposicao"."Reposicao".filareposicaoportag 
 where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag f2 group by codbarrastag having count(codbarrastag)> 1)
-and dataentrada = null
+and dataentrada is null
     """
 
     update="""
