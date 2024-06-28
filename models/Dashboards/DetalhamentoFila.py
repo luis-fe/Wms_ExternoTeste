@@ -236,7 +236,7 @@ and dataentrada = null
     """
 
     update="""
-    update from "Reposicao"."Reposicao".filareposicaoportag 
+    update  "Reposicao"."Reposicao".filareposicaoportag 
     set dataentrada = null
     """
 
