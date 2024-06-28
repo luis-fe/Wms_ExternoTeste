@@ -223,7 +223,7 @@ def CorrigindoDuplicatas():
 
     sql = """
     insert into "Reposicao"."Reposicao".filareposicaoportag 
-select   codbarrastag , codnaturezaatual , engenharia , codreduzido , descricao , numeroop , cor , tamanho, 
+select   distinct codbarrastag , codnaturezaatual , engenharia , codreduzido , descricao , numeroop , cor , tamanho, 
 usuario, "Situacao" , epc, "DataHora" , totalop,  '1' as dataentrada, codempresa, resticao, considera , "status_fila"   from "Reposicao"."Reposicao".filareposicaoportag f 
 where codbarrastag in (select codbarrastag from "Reposicao"."Reposicao".filareposicaoportag f2 group by codbarrastag having count(codbarrastag)> 1
 )
