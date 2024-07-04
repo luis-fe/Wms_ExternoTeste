@@ -12,15 +12,15 @@ import psutil
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.now(fuso_horario)
-    agora = agora.strftime('%d/%m/%Y %H:%M:%S.%f')[:-3]
+    agora = agora.strftime('%Y/%m/%d %H:%M:%S.%f')[:-3]
     return agora
 
 def salvar(rotina, ip,datahoraInicio):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -58,8 +58,8 @@ def UltimaAtualizacao(classe, dataInicial):
     datafinal = consulta['ultimo'][0]
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(dataInicial, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datafinal, "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(dataInicial, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datafinal, "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -112,8 +112,8 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
     if utimaAtualizacao != None:
 
         # Converte as strings para objetos datetime
-        data1_obj = datetime.strptime(dataHoraAtual, "%d/%m/%Y %H:%M:%S.%f")
-        data2_obj = datetime.strptime(utimaAtualizacao, "%d/%m/%Y %H:%M:%S.%f")
+        data1_obj = datetime.strptime(dataHoraAtual, "%Y/%m/%d %H:%M:%S.%f")
+        data2_obj = datetime.strptime(utimaAtualizacao, "%Y/%m/%d %H:%M:%S.%f")
 
         # Calcula a diferença entre as datas
         diferenca = data1_obj - data2_obj
@@ -133,7 +133,7 @@ def TempoUltimaAtualizacao(dataHoraAtual, rotina):
 
 
 def conversaoData(data):
-    data1_obj = datetime.strptime(data, "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(data, "%Y/%m/%d %H:%M:%S.%f")
 
     return data1_obj
 
@@ -141,8 +141,8 @@ def InserindoStatus(rotina, ip,datahoraInicio):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -172,8 +172,8 @@ def salvarStatus(rotina, ip,datahoraInicio):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -216,8 +216,8 @@ def salvarStatus_Etapa1(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -251,8 +251,8 @@ def salvarStatus_Etapa2(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -286,8 +286,8 @@ def salvarStatus_Etapa3(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -320,8 +320,8 @@ def salvarStatus_Etapa4(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
@@ -353,8 +353,8 @@ def salvarStatus_Etapa5(rotina, ip,datahoraInicio,etapa):
     datahorafinal = obterHoraAtual()
 
     # Converte as strings para objetos datetime
-    data1_obj = datetime.strptime(datahoraInicio, "%d/%m/%Y %H:%M:%S.%f")
-    data2_obj = datetime.strptime(datahorafinal,  "%d/%m/%Y %H:%M:%S.%f")
+    data1_obj = datetime.strptime(datahoraInicio, "%Y/%m/%d %H:%M:%S.%f")
+    data2_obj = datetime.strptime(datahorafinal,  "%Y/%m/%d %H:%M:%S.%f")
 
     # Calcula a diferença entre as datas
     diferenca = data1_obj - data2_obj
