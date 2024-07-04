@@ -373,9 +373,12 @@ def avaliacaoFila(rotina):
         with conn2.cursor() as cursor:
             cursor.execute(query)
             conn2.commit()
-            cursor.execute(query2)
-            conn2.commit()
 
+            try:
+                cursor.execute(query2)
+                conn2.commit()
+            except:
+                print('sem tags para limpar na fila')
 
 
     else:
