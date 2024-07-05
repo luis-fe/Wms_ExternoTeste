@@ -40,10 +40,10 @@ def get_AtualizaSubstitutosSku():
 def AtualizarOPSDefeitoTecidos(IntervaloAutomacao):
         print('\n 11- ATUALIZA  OPS Defeito Tecidos')
 
-        rotina = 'OPSDefeitoTecidos'
+        rotina = 'SubstitutosSkuOP'
         client_ip = 'automacao'
         datainicio = controle.obterHoraAtual()
-        tempo = controle.TempoUltimaAtualizacao(datainicio, 'OPSDefeitoTecidos')
+        tempo = controle.TempoUltimaAtualizacao(datainicio, 'SubstitutosSkuOP')
         limite = IntervaloAutomacao * 60  # (limite de 60 minutos , convertido para segundos)
         if tempo > limite:
             print('\nETAPA Atualizar OPS Defeito Tecidos- Inicio')
