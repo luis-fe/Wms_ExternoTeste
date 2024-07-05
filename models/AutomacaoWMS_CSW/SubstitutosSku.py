@@ -1,7 +1,7 @@
 import ConexaoCSW
 import pandas as pd
 import ConexaoPostgreMPL
-import controle
+from models import controle
 def RegistroSubstituto():
     registro = "SELECT s.codRequisicao as requisicao , r.numOPConfec as numeroop ," \
                " (SELECT op.codProduto from tco.OrdemProd op WHERE op.codempresa = 1 and op.numeroop = r.numOPConfec ) as codproduto," \
