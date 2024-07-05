@@ -12,7 +12,7 @@ import psutil
 def obterHoraAtual():
     fuso_horario = pytz.timezone('America/Sao_Paulo')  # Define o fuso horário do Brasil
     agora = datetime.now(fuso_horario)
-    agora = agora.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+    agora = agora.strftime('%Y/%m/%d  %H:%M:%S.%f')[:-3]
     return agora
 
 def salvar(rotina, ip,datahoraInicio):
