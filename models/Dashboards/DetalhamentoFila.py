@@ -66,12 +66,13 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
         where "status_fila" = 'Devolucao' and codnaturezaatual = %s
         """
 
-    with ConexaoPostgreMPL.conexao() as conn:
-        detalalhaTags = pd.read_sql(detalalhaTags_query, conn, params=(empresa, natureza))
-        caixapd = pd.read_sql(caixa_query, conn)
-        ultima_atualizacao_Fila = pd.read_sql(ultima_atualizacao_Fila, conn)
-        devolucoes = pd.read_sql(devolucoes, conn, params=(natureza,))
-        query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn, params=(natureza,))
+        conn2 = ConexaoPostgreMPL.conexaoEngine()
+        detalalhaTags = pd.read_sql(detalalhaTags_query, conn2, params=(empresa, natureza))
+        caixapd = pd.read_sql(caixa_query, conn2)
+        ultima_atualizacao_Fila = pd.read_sql(ultima_atualizacao_Fila, conn2)
+        devolucoes = pd.read_sql(devolucoes, conn2, params=(natureza,))
+        query_SaldoEnderecos = pd.read_sql(query_SaldoEnderecos, conn2, params=(natureza,))
+
 
     caixa = caixapd.groupby(['numeroop', 'codreduzido']).apply(
         lambda x: ', '.join(x['caixa'].astype(str) + ':' + x['pc'].astype(str))).reset_index(name='caixas')
