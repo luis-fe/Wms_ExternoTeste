@@ -84,7 +84,7 @@ def ConsultaEstoqueWMS():
     modulo = request.args.get('modulo','-')
     posicao = request.args.get('posicao','-')
 
-    limit  = request.args.get('limit',10000)
+    limit  = request.args.get('limit',100000)
 
     Endereco_det = ConsultaEstoque.ConsultaEnderecoReposto(natureza,codreduzido,codengenharia,numeroOP,rua, modulo , posicao, limit)
     # Obtém os nomes das colunas
