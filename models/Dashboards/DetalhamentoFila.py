@@ -57,7 +57,7 @@ WHERE e.codNatureza = %s and e.codEmpresa = 1
             estoqueCsw = pd.DataFrame(rows, columns=colunas)
 
         ultima_atualizacao_Fila = """
-        select substring(max(fim),1,16) as "Ultima Atualizacao" from "Reposicao".configuracoes.controle_requisicao_csw 
+        select substring(max(fim),1,17) as "Ultima Atualizacao" from "Reposicao".configuracoes.controle_requisicao_csw 
     where rotina = 'AtualizarTagsEstoque'
         """
 
