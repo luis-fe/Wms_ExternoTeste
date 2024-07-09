@@ -59,7 +59,7 @@ def ConsultaEnderecoReposto(natureza, codreduzido = '-', codengenharia = '-', nu
 
 
     else:
-        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo, descricao as nome, cor as desc_cor, tam as desc_tam from "Reposicao".tagsreposicao t ' \
+        consulta = 'Select  "Endereco", codreduzido, t.engenharia , count(codbarrastag) as saldo, descricao as nome, cor as desc_cor, tamanho as desc_tam from "Reposicao".tagsreposicao t ' \
                    ' where natureza = %s '\
                 'and natureza = %s ' \
                    'group by "Endereco", codreduzido, engenharia, descricao, cor, tamanho ' \
