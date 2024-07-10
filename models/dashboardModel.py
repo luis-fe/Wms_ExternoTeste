@@ -32,13 +32,14 @@ def relatorioTotalFila(empresa, natureza):
     #Inventario['codreduzido'] = Inventario['codreduzido'].count()
     Inventario['codreduzido'] = VerificandoVazio(Inventario,'codreduzido').count()
 
-    pc_Inv = Inventario["codreduzido"][0]
+
+    if Inventario.empty:
+        pc_Inv = 0
+    else:
+        pc_Inv = Inventario["codreduzido"][0]
 
     Reposto['codreduzido'] = Reposto['codreduzido'].count()
     Reposto['codreduzido'] = VerificandoVazio(Reposto,'codreduzido').count()
-
-
-
 
 
     total =  query3['contagem'][0] +  query2['contagem'][0]
@@ -55,7 +56,12 @@ def relatorioTotalFila(empresa, natureza):
 
 
     Percentual = round(Percentual, 2) * 100
-    totalPecas = query["saldo"][0] + Reposto["codreduzido"][0]+pc_Inv
+    if query.empty:
+        saldoFila = 0
+    else:
+        saldoFila = query["saldo"][0]
+    print(f'o saldo da fila {saldoFila} e o reposto {Reposto["codreduzido"][0]}')
+    totalPecas = saldoFila + Reposto["codreduzido"][0]+pc_Inv
     # Aplicando a formatação para exibir como "100.000"
     query['saldo'] = query['saldo'].apply(lambda x: "{:,.0f}".format(x))
     saldo_str= str(query["saldo"][0])
