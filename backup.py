@@ -33,7 +33,7 @@ def Backup():
 
     bac = pd.read_csv('tagsreposicao.csv', sep=';', dtype=col_types)
     bac.fillna('-', inplace=True)
-    bac = bac.iloc[10001:50001]
+    bac = bac.iloc[10001:50001].reset_index(drop=True)
 
     print(bac)
 
