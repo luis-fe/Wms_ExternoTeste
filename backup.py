@@ -7,7 +7,7 @@ from models.configuracoes import  empresaConfigurada
 
 def Backup():
 
-    bac = pd.read_csv('tagsreposicao.csv',sep=';')
+    bac = pd.read_csv('tagsreposicao.csv',sep=',')
 
     Funcao_Inserir(bac,75000,'tagsreposicao','append')
 
