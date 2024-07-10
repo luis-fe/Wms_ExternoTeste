@@ -24,7 +24,7 @@ def relatorioTotalFila(empresa, natureza):
     Inventario = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao_inventario ti' ,conn)
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
-    query['saldo'] = query['saldo'].sum()
+
     if query.empty:
         saldo = 0
     else:
