@@ -37,7 +37,7 @@ def Backup():
     bac.fillna('-',inplace=True)
     print(bac)
 
-    Funcao_Inserir(bac, 75000, 'tagsreposicao', 'replace')
+    Funcao_Inserir(bac, 1000, 'tagsreposicao', 'append')
 
 def Funcao_Inserir(df_tags, tamanho, tabela, metodo):
     # Configurações de conexão ao banco de dados
