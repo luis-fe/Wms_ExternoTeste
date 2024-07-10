@@ -51,7 +51,7 @@ def Backup():
     }
 
     # Chamar a função para inserir dados
-    insert_into_db(bac, 'tagsreposicao', connection_params)
+    insert_into_db(bac, """Reposicao".tagsreposicao""", connection_params)
 
 def Funcao_Inserir(df_tags, tamanho, tabela, metodo):
     # Configurações de conexão ao banco de dados
