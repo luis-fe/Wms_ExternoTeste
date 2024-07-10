@@ -71,6 +71,7 @@ def relatorioTotalFila(empresa, natureza):
     query['saldo'] = query['saldo'].apply(lambda x: "{:,.0f}".format(x))
 
 
+    saldo = "{:,.0f}".format(saldo)
     saldo_str= str(saldo)
     saldo_str = saldo_str.replace(',', '.')
 
