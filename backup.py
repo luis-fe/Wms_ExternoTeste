@@ -62,7 +62,7 @@ def insert_into_db(df, table_name, connection_params):
             values = row.values.tolist()
 
             insert_statement = sql.SQL(
-                'INSERT INTO {table} ({fields}) VALUES ({placeholders})'
+                'INSERT INTO "Reposicao".{table} ({fields}) VALUES ({placeholders})'
             ).format(
                 table=sql.Identifier(table_name),
                 fields=sql.SQL(',').join(map(sql.Identifier, columns)),
