@@ -34,6 +34,7 @@ def Backup():
     }
 
     bac = pd.read_csv('tagsreposicao.csv', sep=';', dtype=col_types)
+    print(bac)
 
     Funcao_Inserir(bac, 75000, 'tagsreposicao', 'append')
 
