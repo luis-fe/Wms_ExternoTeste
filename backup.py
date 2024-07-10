@@ -8,7 +8,26 @@ def Backup():
     # Define o tipo das colunas
     col_types = {
         'usuario': str,
-        'codbarrastag':str
+        'codbarrastag':str,
+        'codreduzido':str,
+        'Endereco':str,
+        'engenharia':str,
+        'DataReposicao':str,
+        'EngenhariaPai':str,
+    'descricao':str,
+    'epc':str,
+    'StatusEndereco':str,
+    'numeroop':str,
+    'cor':str,
+    'tamanho':str,
+    'totalop':str,
+    'natureza':str,
+    'proveniencia':str,
+    'codempresa':str,
+    'usuario_inv':str,
+    'usuario_carga':str,
+    'datahora_carga':str,
+    'resticao':str
         # Adicione outras colunas e seus tipos aqui
         # 'coluna2': int,
         # 'coluna3': float,
