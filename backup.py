@@ -53,10 +53,7 @@ def Funcao_Inserir(df_tags, tamanho, tabela, metodo):
     # Inserir dados em lotes
     chunksize = tamanho
     for i in range(0, len(df_tags), chunksize):
-        try:
-            df_tags.iloc[i:i + chunksize].to_sql(tabela, engine, if_exists=metodo, index=False, schema='Reposicao')
-        except Exception as e:
-            print(f"Erro ao inserir o bloco {i // chunksize + 1}: {e}")
-            continue
+        df_tags.iloc[i:i + chunksize].to_sql(tabela, engine, if_exists=metodo, index=False, schema='Reposicao')
+
 
 Backup()
