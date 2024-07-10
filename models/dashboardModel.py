@@ -7,7 +7,7 @@ def relatorioTotalFila(empresa, natureza):
                         "where situacaopedido = 'No Retorna'",conn)
 
 
-    query = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS saldo '
+    queryFILA = pd.read_sql('SELECT numeroop, COUNT(codbarrastag) AS saldo '
         'FROM "Reposicao".filareposicaoportag t where codnaturezaatual = %s '
         ' GROUP BY "numeroop" ',conn,params=(natureza,))
 
@@ -25,10 +25,10 @@ def relatorioTotalFila(empresa, natureza):
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
 
-    if query.empty:
-        saldo = 0
+    if queryFILA.empty:
+        saldofILA = 0
     else:
-        saldo = query['saldo'].sum()
+        saldofILA = queryFILA['saldo'].sum()
 
     #query2['contagem'] = query2['qtdesugerida'].sum()
     query2['contagem'] = VerificandoVazio(query2,'qtdesugerida').sum()
@@ -61,24 +61,23 @@ def relatorioTotalFila(empresa, natureza):
 
 
     Percentual = round(Percentual, 2) * 100
-    if query.empty:
-        saldoFila = 0
-    else:
-        saldoFila = query["saldo"][0]
-    print(f'o saldo da fila {saldoFila} e o reposto {Reposto["codreduzido"][0]}')
+
+
     totalPecas = saldoFila + Reposto["codreduzido"][0]+pc_Inv
+
     # Aplicando a formatação para exibir como "100.000"
-    query['saldo'] = query['saldo'].apply(lambda x: "{:,.0f}".format(x))
+    queryFILA['saldo'] = queryFILA['saldo'].apply(lambda x: "{:,.0f}".format(x))
 
 
-    saldo = "{:,.0f}".format(saldo)
-    saldo_str= str(saldo)
+    saldofILA = "{:,.0f}".format(saldofILA)
+    saldo_str= str(saldofILA)
     saldo_str = saldo_str.replace(',', '.')
 
 
     totalPecas = "{:,.0f}".format(totalPecas)
     totalPecas = str(totalPecas)
     totalPecas = totalPecas.replace(',', '.')
+
     total = "{:,.0f}".format(total)
     total = str(total)
     total2 = total.replace(',', '.')
