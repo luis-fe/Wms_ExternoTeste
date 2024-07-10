@@ -277,7 +277,7 @@ def FilaTags(rotina, datainico ,empresa):
         print('empresa 4')
 
 
-
+    print(df_tags)
     #try:
     tamanho2 = 1000
     ConexaoPostgreMPL.Funcao_Inserir(df_tags, tamanho2,'filareposicaoportag', 'append')
