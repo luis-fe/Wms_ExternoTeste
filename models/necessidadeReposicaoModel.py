@@ -6,14 +6,20 @@ import ConexaoPostgreMPL
 
 def RelatorioNecessidadeReposicao():
     conn = ConexaoPostgreMPL.conexao()
-    relatorioEndereço = pd.read_sql(
-        'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
-        "where necessidade > 0 and endereco = 'Não Reposto' "
-        " group by produto ", conn)
+    relatorioEndereçoPedidosSku = pd.read_sql(
+        """
+        select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam", max(ts.engenharia) as engenharia  from "Reposicao".pedidossku p 
+inner join "Reposicao"."Reposicao"."Tabela_Sku" ts on ts.codreduzido = p.produto 
+where necessidade > 0 and endereco = 'Não Reposto'
+group by produto 
+        """, conn)
+
     relatorioEndereçoEpc = pd.read_sql(
-        'select codreduzido , max(epc) as epc_Referencial, engenharia, count(codreduzido) as saldoFila from "Reposicao".filareposicaoportag f '
-        "where engenharia is not null and codnaturezaatual = '5' "
-        'group by codreduzido, engenharia ', conn)
+        """select f.codreduzido , max(epc) as epc_Referencial, count(f.codreduzido) as saldoFila
+        from "Reposicao".filareposicaoportag f
+        where f.engenharia is not null and codnaturezaatual = '5'
+        group by f.codreduzido
+        """, conn)
 
 
 
@@ -41,7 +47,7 @@ def RelatorioNecessidadeReposicao():
     # Agrupar os valores da coluna 'novaColuna' com base na coluna 'reduzido'
     OP_ag = OP.groupby('codreduzido')['ops'].apply(lambda x: ' / '.join(x)).reset_index()
 
-    relatorioEndereço = pd.merge(relatorioEndereço, relatorioEndereçoEpc, on='codreduzido', how='left')
+    relatorioEndereço = pd.merge(relatorioEndereçoPedidosSku, relatorioEndereçoEpc, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, OP_ag, on='codreduzido', how='left')
     relatorioEndereço = pd.merge(relatorioEndereço, reservaEndereco, on='codreduzido', how='left')
 

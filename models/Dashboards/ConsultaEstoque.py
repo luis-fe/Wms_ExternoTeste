@@ -101,6 +101,3 @@ def FiltroEndereco(dataframe, rua, modulo, posicao):
         dataframe = dataframe
 
     return dataframe
-
-
-
