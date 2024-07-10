@@ -63,7 +63,7 @@ def relatorioTotalFila(empresa, natureza):
     Percentual = round(Percentual, 2) * 100
 
 
-    totalPecas = saldoFila + Reposto["codreduzido"][0]+pc_Inv
+    totalPecas = saldofILA + Reposto["codreduzido"][0]+pc_Inv
 
     # Aplicando a formatação para exibir como "100.000"
     queryFILA['saldo'] = queryFILA['saldo'].apply(lambda x: "{:,.0f}".format(x))
