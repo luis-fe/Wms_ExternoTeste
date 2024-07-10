@@ -5,9 +5,16 @@ from sqlalchemy import create_engine
 from models.configuracoes import empresaConfigurada
 
 def Backup():
-    bac = pd.read_csv('tagsreposicao.csv', sep=';')
-    bac['codbarrastag'] = bac['codbarrastag'].astype(str)
-    bac['usuario'] = bac['usuario'].astype(str)
+    # Define o tipo das colunas
+    col_types = {
+        'usuario': str,
+        'codbarrastag':str
+        # Adicione outras colunas e seus tipos aqui
+        # 'coluna2': int,
+        # 'coluna3': float,
+    }
+
+    bac = pd.read_csv('tagsreposicao.csv', sep=';', dtype=col_types)
 
     Funcao_Inserir(bac, 75000, 'tagsreposicao', 'append')
 
