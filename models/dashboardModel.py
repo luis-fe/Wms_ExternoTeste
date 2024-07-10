@@ -25,6 +25,11 @@ def relatorioTotalFila(empresa, natureza):
     Reposto = pd.read_sql('select codreduzido  from "Reposicao".tagsreposicao ti where natureza = %s ' ,conn, params=(natureza,))
 
     query['saldo'] = query['saldo'].sum()
+    if query.empty:
+        saldo = 0
+    else:
+        saldo = query['saldo'].sum()
+
     #query2['contagem'] = query2['qtdesugerida'].sum()
     query2['contagem'] = VerificandoVazio(query2,'qtdesugerida').sum()
     #query3['contagem'] = query3['qtdesugerida'].sum()
@@ -64,8 +69,12 @@ def relatorioTotalFila(empresa, natureza):
     totalPecas = saldoFila + Reposto["codreduzido"][0]+pc_Inv
     # Aplicando a formatação para exibir como "100.000"
     query['saldo'] = query['saldo'].apply(lambda x: "{:,.0f}".format(x))
-    saldo_str= str(query["saldo"][0])
+
+
+    saldo_str= str(saldo)
     saldo_str = saldo_str.replace(',', '.')
+
+
     totalPecas = "{:,.0f}".format(totalPecas)
     totalPecas = str(totalPecas)
     totalPecas = totalPecas.replace(',', '.')
