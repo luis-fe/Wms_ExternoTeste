@@ -6,6 +6,7 @@ from models.configuracoes import empresaConfigurada
 
 def Backup():
     bac = pd.read_csv('tagsreposicao.csv', sep=';')
+    bac['codbarrastag'] = bac['codbarrastag'].astype(str)
     Funcao_Inserir(bac, 75000, 'tagsreposicao', 'append')
 
 def Funcao_Inserir(df_tags, tamanho, tabela, metodo):
