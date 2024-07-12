@@ -18,11 +18,11 @@ def MeuHost():
 
 
 def EmpresaEscolhida():
-    empresa = os.getenv('EMPRESA')
-    if empresa is None:
+    EMPRESA_CODIGO = os.getenv('EMPRESA')
+    if EMPRESA_CODIGO is None:
         print("A variável de ambiente EMPRESA não está definida.")
         return None
-    print(f"Empresa escolhida: {empresa}")
+    print(f"Empresa escolhida: {EMPRESA_CODIGO}")
     return '1'
 
 
