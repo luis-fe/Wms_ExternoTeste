@@ -18,7 +18,7 @@ def MeuHost():
 
 
 def EmpresaEscolhida():
-        empresa =str(os.getenv('Empresa'))
+        empresa =str(os.getenv('EMPRESA'))
         print(empresa)
         return '1'
 
