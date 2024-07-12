@@ -18,9 +18,9 @@ def MeuHost():
 
 
 def EmpresaEscolhida():
-        empresa =str(os.getenv('EMPRESA'))
-        print(empresa)
-        return '1'
+    empresa = str(os.getenv('EMPRESA'))
+    print(f"Empresa escolhida: {empresa}")
+    return '1'
 
 
 def RegraDeEnderecoParaSubstituto():
