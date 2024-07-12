@@ -1,7 +1,11 @@
 import pandas as pd
 import ConexaoPostgreMPL
 import socket
+from dotenv import load_dotenv
+# Carregando as variáveis de ambiente do arquivo .env
+import os
 
+load_dotenv()
 
 def MeuHost():
     # Obtém o nome da máquina
@@ -14,7 +18,9 @@ def MeuHost():
 
 
 def EmpresaEscolhida():
-        return '4'
+        empresa =str(os.getenv('Empresa'))
+        print(empresa)
+        return '1'
 
 
 def RegraDeEnderecoParaSubstituto():
