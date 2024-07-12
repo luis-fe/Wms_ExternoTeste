@@ -66,7 +66,7 @@ def ValidarSituacaoOPCPelaTag(dataframTAG):
     resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in dataframTAG['codbarrastag']]))
 
     emp = empresaConfigurada.EmpresaEscolhida() # Aqui aponta-se de qual empresa está requerendo a informacao
-    print('empresa atual no sql'+emp)
+    print(f'empresa atual no sql{emp}')
     conn = ConexaoCSW.Conexao()
     consulta = pd.read_sql('SELECT p.codBarrasTag , p.situacao , p.codNaturezaAtual  FROM Tcr.TagBarrasProduto p where codempresa = ' +emp+
                            ' and codBarrasTag in '+ resultado,conn)
