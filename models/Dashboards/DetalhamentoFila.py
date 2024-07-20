@@ -251,3 +251,17 @@ and dataentrada is null
             cursor.execute(update)
             conn2.commit()
 
+
+def ExplodindoLocalizacaoReposicao(natureza,codreduzido ):
+
+    sql = """
+    select natureza , "Endereco" , count(codbarrastag) as saldo  from "Reposicao"."Reposicao".tagsreposicao t 
+    where t.codreduzido = %s and natureza = %s
+    group by natureza , "Endereco" 
+    """
+
+    conn = ConexaoPostgreMPL.conexaoEngine()
+    c1 = pd.read_sql(sql,conn,params=(natureza,codreduzido))
+
+    return c1
+
