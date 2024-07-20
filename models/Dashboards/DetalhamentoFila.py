@@ -261,7 +261,7 @@ def ExplodindoLocalizacaoReposicao(natureza,codreduzido ):
     """
 
     conn = ConexaoPostgreMPL.conexaoEngine()
-    c1 = pd.read_sql(sql,conn,params=(natureza,codreduzido))
+    c1 = pd.read_sql(sql,conn,params=(codreduzido,natureza))
 
     return c1
 
