@@ -1,4 +1,5 @@
 from models import pedidosModel, imprimirEtiquetaModel
+from models.Pedidos import FilaPedidos_model
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -22,7 +23,7 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @token_required
 def get_FilaPedidos():
     empresa = empresaConfigurada.EmpresaEscolhida()
-    Pedidos = pedidosModel.FilaPedidos(empresa)
+    Pedidos = FilaPedidos_model.FilaPedidos(empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
