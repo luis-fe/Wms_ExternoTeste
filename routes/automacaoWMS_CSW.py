@@ -1,6 +1,7 @@
 from models import necessidadeReposicaoModel, controle
 from models.AutomacaoWMS_CSW import RecarregaFilaTag, ReservaEnderecos, RecarregarPedidosCSWModel, AtualizarFilaGarantia
 from models.configuracoes import DistibuicaoPedSub
+from models.Pedidos import RecarregarPedidos_model
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -160,7 +161,7 @@ def ExclusaoPedidosFat():
     empresa = request.args.get('empresa','1')
 
 
-    TagReposicao = RecarregarPedidosCSWModel.ExcuindoPedidosNaoEncontrados(empresa)
+    TagReposicao = RecarregarPedidos_model.ExcuindoPedidosNaoEncontrados(empresa)
     TagReposicao = pd.DataFrame([{'Mensagem':f'{TagReposicao} pedidos foram deletados pois foram faturados'}])
 
 
