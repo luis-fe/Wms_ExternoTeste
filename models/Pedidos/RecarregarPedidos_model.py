@@ -55,12 +55,12 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         FROM ped.SugestaoPed e WHERE e.codEmpresa = """+ str(empresa) +
         """ and e.dataGeracao > DATEADD(DAY, -120, GETDATE()) and situacaoSugestao = 2""", conn)
 
-    pedidosMKT = """"
+    pedidosMKT = pd.read_sql(""""
         SELECT codPedido||'-Mkt' as codigopedido,
         (SELECT p.codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota,
         'ok' as valida 
         FROM ped.Pedido e
-        WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """+str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE())"""
+        WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """+str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE())""",conn)
     retornaCsw = pd.concat([retornaCsw,pedidosMKT])
     print(retornaCsw)
     conn.close() # Encerrar a Conexao com o CSW
