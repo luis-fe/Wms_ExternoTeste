@@ -17,7 +17,7 @@ def obterHoraAtual():
     return hora_str
 
 def FilaPedidos(empresa):
-    conn = ConexaoPostgreMPL.conexao()
+    conn = ConexaoPostgreMPL.conexaoEngine()
     pedido = pd.read_sql(
         ' select f.codigopedido , f.vlrsugestao, f.codcliente , f.desc_cliente, f.cod_usuario, f.cidade, f.estado, '
         'datageracao, f.codrepresentante , f.desc_representante, f.desc_tiponota, condicaopgto, agrupamentopedido, situacaopedido, prioridade  '
@@ -109,3 +109,30 @@ def FilaPedidos(empresa):
     pedido.replace([np.inf, -np.inf], 0, inplace=True)
 
     return pedido
+
+def FilaAtribuidaUsuario(codUsuario, empresa):
+    x = FilaPedidos(empresa)
+    codUsuario = str(codUsuario)
+    x = x[x['10-codUsuarioAtribuido'] == codUsuario]
+    x = x.sort_values(by=['prioridade',"04-codcliente"], ascending=False)
+
+    return x
+
+
+
+def ClassificarFila(coluna, tipo, empresa):
+    fila = FilaPedidos(empresa)
+    fila['12-vlrsugestao'] = fila['12-vlrsugestao'].str.replace("R\$", "").astype(float)
+
+    if tipo == 'desc':
+        fila = fila.sort_values(by=coluna, ascending=False)
+        fila['12-vlrsugestao'] = fila['12-vlrsugestao'] .astype(str)
+        fila['12-vlrsugestao'] = 'R$ ' + fila['12-vlrsugestao']
+
+        return fila
+
+    else:
+        fila['12-vlrsugestao'] = fila['12-vlrsugestao'] .astype(str)
+        fila['12-vlrsugestao'] = 'R$ ' + fila['12-vlrsugestao']
+        fila = fila.sort_values(by=coluna, ascending=True)
+        return fila

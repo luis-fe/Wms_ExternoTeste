@@ -40,7 +40,7 @@ def get_FilaPedidos():
 def get_FilaPedidosUsuario():
     empresa = empresaConfigurada.EmpresaEscolhida()
     codUsuario = request.args.get('codUsuario')
-    Pedidos = pedidosModel.FilaAtribuidaUsuario(codUsuario, empresa)
+    Pedidos = FilaPedidos_model.FilaAtribuidaUsuario(codUsuario, empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -77,7 +77,7 @@ def get_FilaPedidosClassificacao():
     tipo = request.args.get('tipo','desc')
     empresa = empresaConfigurada.EmpresaEscolhida()
 
-    Pedidos = pedidosModel.ClassificarFila(coluna, tipo, empresa)
+    Pedidos = FilaPedidos_model.ClassificarFila(coluna, tipo, empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
