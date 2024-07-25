@@ -157,6 +157,8 @@ def DetalhaPedido(codPedido):
                     ' where codreduzido in '
                     '(select  produto as reduzido '
                     'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') ", conn)
+    itensMkt = DescricaoCswItensMKT()
+    descricaoSku = pd.concat([descricaoSku,itensMkt])
 
 
     descricaoSku.drop_duplicates(subset='reduzido', keep='first', inplace=True)
@@ -407,4 +409,24 @@ def ConsultaPrioridade(pedido):
 
     prioridade = consulta['prioridade'][0]
     return prioridade
+
+def DescricaoCswItensMKT():
+    sql = """
+    SELECT d.codItem as referencia, d.codItem as reduzido, i.nome||'-saldo:'||d.estoqueAtual  as descricao, 'uni' as tamanho, 'cor-unica'  as cor    FROM est.DadosEstoque d
+inner join Cgi.Item i on i.codigo = d.codItem 
+inner join cgi.Item2 i2 on i2.Empresa = 1 and i2.codItem = i.codigo 
+WHERE d.codNatureza =21 and d.codEmpresa =1 and d.estoqueAtual > 0
+    """
+    with ConexaoCSW.Conexao() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql)
+            colunas = [desc[0] for desc in cursor.description]
+            rows = cursor.fetchall()
+            itensMKt = pd.DataFrame(rows, columns=colunas)
+
+    return itensMKt
+
+
+
+
 
