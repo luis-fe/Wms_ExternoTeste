@@ -43,7 +43,7 @@ def RecarregarPedidos(empresa):
         PedidosMkt = pd.read_sql("""SELECT codPedido||'-Mkt' as codPedido,codPedido as codPedido2,dataemissao as datageracao,'0' as priorizar, 
         vlrPedido as vlrSugestao, '2' as situacaosugestao,dataPrevFat as dataFaturamentoPrevisto
         FROM ped.Pedido e
-        WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """+str(empresa)+"""
+        WHERE e.codtiponota in (1001 , 38) and situacao = 0 and codEmpresa = """+str(empresa)+"""
         and dataEmissao > DATEADD(DAY, -120, GETDATE())""", conn)
         SugestoesAbertos = pd.concat([SugestoesAbertos, PedidosMkt])
 
@@ -56,7 +56,7 @@ def RecarregarPedidos(empresa):
         PedidosSituacaoMkt = pd.read_sql("""SELECT codPedido||'-Mkt' as codPedido,
             'Em Conferencia' as situacaopedido 
             FROM ped.Pedido e
-            WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """ +str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE()) """,conn)
+            WHERE e.codtiponota in (1001 , 38) and situacao = 0 and codEmpresa = """ +str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE()) """,conn)
 
         PedidosSituacao = pd.concat([PedidosSituacao, PedidosSituacaoMkt])
 
@@ -159,7 +159,7 @@ def ExcuindoPedidosNaoEncontrados(empresa):
         (SELECT p.codTipoNota  FROM ped.Pedido p WHERE p.codEmpresa = e.codEmpresa and p.codpedido = e.codPedido) as codtiponota,
         'ok' as valida 
         FROM ped.Pedido e
-        WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """+str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE())""",conn)
+        WHERE e.codtiponota in (1001 , 38) and situacao = 0 and codEmpresa = """+str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE())""",conn)
     retornaCsw = pd.concat([retornaCsw,pedidosMKT])
 
     conn.close() # Encerrar a Conexao com o CSW
@@ -300,7 +300,7 @@ def Verificando_RetornaxConferido(empresa):
 
     pedidosMkt = pd.read_sql("""select p.codPedido, sum(p.qtdPecasFaturadas) as conf, 'Mkt' as codSequencia
                             from ped.pedido p
-                            WHERE p.codEmpresa = """+str(empresa) +""" and dataEmissao > DATEADD(DAY, -120, GETDATE()) and situacao = 0 and codTipoNota = 1001
+                            WHERE p.codEmpresa = """+str(empresa) +""" and dataEmissao > DATEADD(DAY, -120, GETDATE()) and situacao = 0 and codtiponota in (1001 , 38)
                             GROUP BY p.codPedido """,conn)
 
     retornaCsw = pd.concat([retornaCsw,pedidosMkt])
