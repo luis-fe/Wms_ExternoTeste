@@ -53,7 +53,7 @@ def RecarregarPedidos(empresa):
             'WHERE p.codEmpresa =' + empresa +
             ' and s.situacaoSugestao = 2', conn)
 
-        PedidosSituacaoMkt = pd.read_sql("""SELECT codPedido||'-Mkt' as codigopedido,
+        PedidosSituacaoMkt = pd.read_sql("""SELECT codPedido||'-Mkt' as codPedido,
             'Em Conferencia' as situacaopedido 
             FROM ped.Pedido e
             WHERE e.codTipoNota = 1001 and situacao = 0 and codEmpresa = """ +str(empresa)+""" and dataEmissao > DATEADD(DAY, -120, GETDATE()) """,conn)
