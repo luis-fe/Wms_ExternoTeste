@@ -37,11 +37,18 @@ def FilaPedidos(empresa):
 
     try:
 
-        conn2 = ConexaoCSW.Conexao()
-        transporta = pd.read_sql('SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t'
-                                 ' join cad.Transportador  f on  f.codigo  = t.Transportador  '
-                                 ' WHERE t.Empresa ='+empresa,conn2)
-        conn2.close()
+        transporta = """SELECT  t.cidade , t.siglaEstado as estado, f.fantasia as transportadora  FROM Asgo_Trb.TransPreferencia t
+                                  join cad.Transportador  f on  f.codigo  = t.Transportador
+                                  WHERE t.Empresa ="""+str(empresa)
+
+        with ConexaoCSW.Conexao() as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(transporta)
+                colunas = [desc[0] for desc in cursor.description]
+                rows = cursor.fetchall()
+                transporta = pd.DataFrame(rows, columns=colunas)
+
+
         pedido = pd.merge(pedido, transporta, on=["cidade", "estado"], how='left')
 
        # pedido['transportadora'] = 'Perdeu Conexao Csw'
