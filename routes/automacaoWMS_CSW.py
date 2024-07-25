@@ -10,7 +10,6 @@ from models.configuracoes import empresaConfigurada
 
 
 
-
 AutomacaoWMS_CSW_routes = Blueprint('AutomacaoWMS_CSW', __name__)
 
 
@@ -127,7 +126,7 @@ def RecarregarPedidos():
     repeticao = request.args.get('repeticao', 12)
     modelo = request.args.get('modelo', '')
 
-    TagReposicao = RecarregarPedidosCSWModel.RecarregarPedidos(empresa)
+    TagReposicao = RecarregarPedidos_model.RecarregarPedidos(empresa)
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(5),'Retirar Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5),'Retirar Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(3),'Substitutos')
