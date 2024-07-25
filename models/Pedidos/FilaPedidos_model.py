@@ -41,8 +41,8 @@ def FilaPedidos(empresa):
                                   join cad.Transportador  f on  f.codigo  = t.Transportador
                                   WHERE t.Empresa ="""+str(empresa)
 
-        with ConexaoCSW.Conexao() as conn:
-            with conn.cursor() as cursor:
+        with ConexaoCSW.Conexao() as conn2:
+            with conn2.cursor() as cursor:
                 cursor.execute(transporta)
                 colunas = [desc[0] for desc in cursor.description]
                 rows = cursor.fetchall()
