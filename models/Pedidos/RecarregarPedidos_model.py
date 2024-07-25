@@ -234,7 +234,7 @@ def DetalhandoPedidoSku(empresa, pedido):
     pedido2 = pedido.split('-')[0] +'|'+ pedido.split('-')[1]
 
     if pedido.split('-')[1] == 'Mkt':
-        SugestoesAbertos = pd.read_sql("""select pg.codPedido, 'Mkt' as codSequencia, 
+        SugestoesAbertos = pd.read_sql("""select pg.codPedido as codpedido, 'Mkt' as codSequencia, 
         pg.codProduto as produto, pg.qtdePedida as qtdesugerida, 0 as qtdepecasconf  FROM ped.PedidoItemGrade pg
         WHERE pg.codEmpresa = """+str(empresa)+""" and pg.codPedido = """+pedido.split('-')[0],conncsw)
 
