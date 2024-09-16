@@ -25,7 +25,7 @@ def EmpresaEscolhida():
         return None
             print(f"Empresa escolhida: {EMPRESA_CODIGO}")"""
 
-    return '1'
+    return '4'
 
 
 def RegraDeEnderecoParaSubstituto():
