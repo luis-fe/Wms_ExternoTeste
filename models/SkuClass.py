@@ -4,4 +4,3 @@ class SKU_Class():
         self.codSKU = codSKU
 
 
-    def obtendoInformacoesSKU(self):

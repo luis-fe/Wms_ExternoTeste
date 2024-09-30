@@ -19,7 +19,7 @@ def DetalhaPedido(codPedido):
     # 1- Filtrando o Pedido na tabela de pedidosSku
     conn = ConexaoPostgreMPL.conexao()
 
-    skus1 = pd.read_sql('select codigopedido, desc_tiponota  , codcliente ||' + "'-'" + '|| desc_cliente as cliente  '
+    skus1 = pd.read_sql("""select codigopedido, desc_tiponota  , codcliente ||""" + "'-'" + '|| desc_cliente as cliente  '
                         ',codrepresentante  ||' + "'-'" + '|| desc_representante  as repres, agrupamentopedido, cod_usuario as usuario '
                     'from "Reposicao".filaseparacaopedidos f  where codigopedido= ' + "'" + codPedido + "'"
                        , conn)
@@ -78,7 +78,7 @@ def DetalhaPedido(codPedido):
     DetalhaSku.fillna('nao localizado', inplace=True)
 
 
-    finalizacaoPedidoModel.VerificarExisteApontamento(codPedido, skus['usuario'][0])
+    #finalizacaoPedidoModel.VerificarExisteApontamento(codPedido, skus['usuario'][0])
 
     data = {
         '1 - codpedido': f'{skus["codigopedido"][0]} ',

@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 from functools import wraps
 from models.Usuario import usuariosModel
 from models.configuracoes import empresaConfigurada
+from  models import UsuarioClassWms
 
 usuarios_routes = Blueprint('usuarios', __name__) # Esse é o nome atribuido para o conjunto de rotas envolvendo usuario
 
@@ -24,7 +25,7 @@ def token_required(f):
 @usuarios_routes.route('/api/Usuarios', methods=['GET'])
 @token_required
 def get_usuarios():
-    consulta = usuariosModel.PesquisarUsuarios()
+    consulta = UsuarioClassWms.Usuario().getUsuarios()
     # Obtém os nomes das colunas
     column_names = consulta.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
