@@ -170,7 +170,7 @@ def imprimirEtiqueta():
 
     codcliente = codcliente.replace('.0','')
 
-    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador,agrupamento)
+    TagReposicao = imprimirEtiquetaModel.criar_pdf(f'impressao.pdf', cliente, codcliente, pedido, transportadora, separador,agrupamento,prioridade)
     imprimirEtiquetaModel.imprimir_pdf(f'impressao.pdf')
 
     return jsonify({'message': f'Imprimido o pedido {pedido} com sucesso', 'status':True})

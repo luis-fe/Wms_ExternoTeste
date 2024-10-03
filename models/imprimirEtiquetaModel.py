@@ -11,7 +11,7 @@ import ConexaoPostgreMPL
 import pandas as pd
 
 
-def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agrupamento):
+def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agrupamento, prioridade):
     # Configurações das etiquetas e colunas
     label_width = 7.5 * cm
     label_height = 1.8 * cm
@@ -49,7 +49,10 @@ def criar_pdf(saida_pdf, titulo, cliente, pedido, transportadora, separador, agr
         c.drawString(0.3 * cm, 0.50 * cm, transportadora)
 
         c.setFont("Helvetica-Bold", 8)
-        c.drawString(0.3 * cm, 0.1 * cm, separador)
+        c.drawString(0.3 * cm, 0.1 * cm, separador+'     '+prioridade)
+
+
+
 
 
         c.drawString(2.0 * cm, 1.1 * cm, cliente)
