@@ -335,7 +335,7 @@ WHERE
     #Atualizando a prioridade
 
     consultaWMS = """
-    select codcliente, codigopedido  from "Reposicao"."Reposicao".filaseparacaopedidos f "
+    select codcliente, codigopedido  from "Reposicao"."Reposicao".filaseparacaopedidos f
     """
 
     conn = ConexaoPostgreMPL.conexaoEngine()
