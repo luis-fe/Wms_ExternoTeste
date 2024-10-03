@@ -347,9 +347,14 @@ WHERE
 
 
     update = """
-    update "Reposicao"."Reposicao".filaseparacaopedidos
-    set prioridade = COALESCE(prioridade, '') || 'REVISAR'
-    where codigopedido = %s
+UPDATE "Reposicao"."Reposicao".filaseparacaopedidos
+SET prioridade = 
+    CASE 
+        WHEN prioridade IS NULL THEN 'REVISAR'  
+        WHEN prioridade = 'REVISAR' THEN 'REVISAR'  -- Não altera se já for 'REVISAR'
+        ELSE prioridade || 'REVISAR'           
+    END
+WHERE codigopedido = %s;
     """
 
     with conn.connect() as connection:
