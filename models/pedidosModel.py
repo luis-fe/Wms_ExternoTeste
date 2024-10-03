@@ -348,7 +348,7 @@ WHERE
 
     update = """
     update "Reposicao"."Reposicao".filaseparacaopedidos
-    set prioridade = prioridade || 'REVISAR'
+    set prioridade = COALESCE(prioridade, '') || 'REVISAR'
     where codigopedido = %s
     """
 
