@@ -26,6 +26,8 @@ def get_FilaPedidos():
     Pedidos = FilaPedidos_model.FilaPedidos(empresa)
     # Obtém os nomes das colunas
     column_names = Pedidos.columns
+    pedidosModel.obtendoAsultimasDevolucoes(empresa)
+
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
     pedidos_data = []
     for index, row in Pedidos.iterrows():

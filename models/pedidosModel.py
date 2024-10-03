@@ -50,10 +50,11 @@ def DetalhaPedido(codPedido):
     # Validando as descricoes + cor + tamanho dos produtos para nao ser null
 
     descricaoSku = pd.read_sql(
-                    'select engenharia as referencia, codreduzido as reduzido, descricao, cor ,tamanho from "Reposicao"."Tabela_Sku" '
-                    ' where codreduzido in '
-                    '(select  produto as reduzido '
-                    'from "Reposicao".pedidossku p  where codpedido = ' + "'" + codPedido + "') ", conn)
+                    """
+                    select engenharia as referencia, codreduzido as reduzido, descricao, cor ,tamanho from "Reposicao"."Tabela_Sku"
+                    where codreduzido in
+                    (select  produto as reduzido
+                    from "Reposicao".pedidossku p  where codpedido = """ + "'" + codPedido + "') """, conn)
     itensMkt = DescricaoCswItensMKT()
     descricaoSku = pd.concat([descricaoSku,itensMkt])
 
@@ -306,6 +307,57 @@ WHERE d.codNatureza =21 and d.codEmpresa =1 and d.estoqueAtual > 0
             itensMKt = pd.DataFrame(rows, columns=colunas)
 
     return itensMKt
+
+
+def obtendoAsultimasDevolucoes(empresa):
+    sql = """
+    SELECT
+	DISTINCT 
+	d.codCliente as codcliente,
+	'DEVOLUCAO' as prioridade
+from
+	Fat_Dev.NotaFiscalDevolucao d
+inner join 
+	Fat_Dev.DevolucaoMotivos m on m.codEmpresa = d.codEmpresa and m.motivosPvt = d.motivosPvt 
+WHERE
+	dataEmissao >= DATEADD(DAY, -180, GETDATE()) and d.codEmpresa = """ +str(empresa) +""" and (m.descricao like '%DEF%' OR m.descricao like '%QUAL%') 
+    """
+
+    with ConexaoCSW.Conexao() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql)
+            colunas = [desc[0] for desc in cursor.description]
+            rows = cursor.fetchall()
+            devolucao = pd.DataFrame(rows, columns=colunas)
+
+
+
+    #Atualizando a prioridade
+
+    consultaWMS = """
+    select codcliente, codigopedido  from "Reposicao"."Reposicao".filaseparacaopedidos f "
+    """
+
+    conn = ConexaoPostgreMPL.conexaoEngine()
+    consulta = pd.read_sql(consultaWMS,conn)
+
+    devolucao['codcliente'] = devolucao['codcliente'].astype(str)
+    consulta = pd.merge(consulta,devolucao, on='codcliente')
+
+
+    update = """
+    update "Reposicao"."Reposicao".filaseparacaopedidos
+    set prioridade = prioridade || 'REVISAR'
+    where codigopedido = %s
+    """
+
+    with conn.connect() as connection:
+        for index, row in consulta.iterrows():
+            connection.execute(update, (
+                row["codigopedido"]
+            ))
+
+    return devolucao
 
 
 
