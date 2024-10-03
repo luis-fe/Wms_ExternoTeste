@@ -343,6 +343,7 @@ WHERE
 
     devolucao['codcliente'] = devolucao['codcliente'].astype(str)
     consulta = pd.merge(consulta,devolucao, on='codcliente')
+    print(consulta)
 
 
     update = """
