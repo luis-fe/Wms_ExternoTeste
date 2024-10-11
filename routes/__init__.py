@@ -37,7 +37,7 @@ from .AutomacaoCsw.DetalhamentoServicos import DetalhamentoServicos_routes
 from .AutomacaoCsw.ReservaPreFat import ReservaPreFaturamento_routes
 from  .AutomacaoCsw.AtualizaSku import InformacosPCPServicos_routes
 from .AutomacaoCsw.SubstitutosSku import AtualizaSubstitutosSku_routes
-from .ConfiguracaoRevisaoAPI import ConfiguracaoRevisao_routes
+from .ConfiguracaoRevisaoAPI import ConfRevisao_routes
 
 
 # Registre as rotas nos blueprints

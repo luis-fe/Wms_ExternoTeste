@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS
 
-ConfiguracaoRevisao_routes = Blueprint('ConfiguracaoRevisao_routes', __name__)
+ConfRevisao_routes = Blueprint('ConfRevisao_routes', __name__)
 
 
 def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
@@ -19,8 +19,8 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
         return jsonify({'message': 'Acesso negado'}), 401
 
     return decorated_function
-'''
-@ConfiguracaoRevisao_routes.routes('/api/obterConceitosCsw', methods=['GET'])
+
+@ConfRevisao_routes.route('/api/obterConceitosCsw', methods=['GET'])
 @token_required
 def get_obterConceitos():
     # Obtém os valores dos parâmetros DataInicial e DataFinal, se estiverem presentes na requisição
@@ -38,4 +38,3 @@ def get_obterConceitos():
             pedidos_dict[column_name] = row[column_name]
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
-'''
