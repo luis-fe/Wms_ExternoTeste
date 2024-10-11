@@ -7,12 +7,14 @@ from flask_cors import CORS
 import os
 from functools import wraps # Pacote que ajuda a criar o token das Api's
 from models.Dashboards import  Relatorios, ReposicaoSku
+from dotenv import load_dotenv, dotenv_values
 
 from models.configuracoes import empresaConfigurada
 from routes import routes_blueprint
 
 app = Flask(__name__) ## Aqui é criado essa funcao para iniciar o Projeto
 port = int(os.environ.get('PORT', 5000)) # A porta escolhida para rodar a Aplicacao é a 5000.
+load_dotenv('/home/grupompl/Wms_InternoMPL/db.env')
 
 
 #Aqui registo todas as rotas , url's DO PROJETO, para acessar bastar ir na pasta "routes",
@@ -124,4 +126,7 @@ def get_image(idchamado):
 ### Aqui iniciando o main do projeto WMS:
 
 if __name__ == '__main__':
+    api_key = os.getenv('CAMINHO')  # Troque por 'API_KEY' ou outro nome se necessário
+
+    print(api_key)  # Exibe o valor da API Key
     app.run(host='0.0.0.0', port=port) # A porta foi atribuida na variavel port
