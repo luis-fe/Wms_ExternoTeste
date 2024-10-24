@@ -88,20 +88,84 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     conn = ConexaoPostgreMPL.conexao() #Abre a conexao com o Postgre
 
 #EPATA 1: LEVANTA O TODTAL DE NECESSIDADE POR SKU (SOMENTE O QUE NAO RESERVO) E A QUANTIDADE DE PEDIDOS QUE USAM ESSE SKU (QUE NAO RESERERVO)
-    relatorioEndereço = pd.read_sql(
-        'select produto as codreduzido , sum(necessidade) as "Necessidade p/repor", count(codpedido) as "Qtd_Pedidos que usam"  from "Reposicao".pedidossku p '
-        "where necessidade > 0 and endereco = 'Não Reposto' "
-        " group by produto ", conn)
+
+    if natureza == '5':
+        consulta = """
+            select 
+                produto as codreduzido , 
+                sum(necessidade) as "Necessidade p/repor", 
+                count(codpedido) as "Qtd_Pedidos que usam"  
+            from 
+                "Reposicao".pedidossku p
+            where 
+                necessidade > 0 and endereco = 'Não Reposto' and 
+                p.codpedido in (
+                                    select
+                                        codigopedido
+                                     from
+                                        "Reposicao"."Reposicao".filaseparacaopedidos f
+                                    where
+                                        codtiponota <> '64'
+                                    )
+            group by produto 
+            """
+        relatorioEndereço = pd.read_sql(consulta, conn)
+
+    elif natureza == '7':
+        consulta = """
+            select 
+                produto as codreduzido , 
+                sum(necessidade) as "Necessidade p/repor", 
+                count(codpedido) as "Qtd_Pedidos que usam"  
+            from 
+                "Reposicao".pedidossku p
+            where 
+                necessidade > 0 and endereco = 'Não Reposto' and 
+                p.codpedido in (
+                                    select
+                                        codigopedido
+                                     from
+                                        "Reposicao"."Reposicao".filaseparacaopedidos f
+                                    where
+                                        codtiponota = '64'
+                                    )
+            group by produto 
+            """
+        relatorioEndereço = pd.read_sql(consulta, conn)
+
+    else:
+        consulta = """
+            select 
+                produto as codreduzido , 
+                sum(necessidade) as "Necessidade p/repor", 
+                count(codpedido) as "Qtd_Pedidos que usam"  
+            from 
+                "Reposicao".pedidossku p
+            where 
+                necessidade > 0 and endereco = 'Não Reposto' and 
+                p.codpedido in (
+                                    select
+                                        codigopedido
+                                     from
+                                        "Reposicao"."Reposicao".filaseparacaopedidos f
+                                    where
+                                        codtiponota <> '64'
+                                    )
+            group by produto 
+            """
+        relatorioEndereço = pd.read_sql(consulta, conn)
+
+
 # EPATA 2: LEVANTA O ESTOQUE DISPONIVEL NA PRATELEIRA POR SKU E POR ENGENHARIA
     relatorioEndereçoEpc = pd.read_sql(
         'select codreduzido , max(epc) as epc_Referencial, engenharia, count(codreduzido) as saldoFila from "Reposicao".filareposicaoportag f '
-        "where engenharia is not null and codnaturezaatual = '5' "
-        'group by codreduzido, engenharia ', conn)
+        "where engenharia is not null and codnaturezaatual = %s "
+        'group by codreduzido, engenharia ', conn, params=(natureza,))
 # EPATA 3: LEVANTA O ESTOQUE DA FILA A REPOR POR SKU E POR ENGENHARIA E POR OP
     OP = pd.read_sql('select f.codreduzido, numeroop as ops, count(codreduzido) as qtde '
                      ' from "Reposicao".filareposicaoportag f '
-                     " where engenharia is not null and codnaturezaatual = '5' "
-                     ' group by codreduzido, numeroop',conn)
+                     " where engenharia is not null and codnaturezaatual = %s "
+                     ' group by codreduzido, numeroop',conn,params=(natureza,))
     OP = OP.sort_values(by='qtde', ascending=False,ignore_index=True)
 
 # ETAPA 4: REALIZA UM TRATAMENTO NAS OPS PARA  QUE POSSA REALIZAR UMA OPERACAO DE AGRUPAMENTO NO DATAFRAME
@@ -128,9 +192,48 @@ def RelatorioNecessidadeReposicaoDisponivel(empresa, natureza):
     relatorioEndereço = relatorioEndereço[relatorioEndereço['DisponivelPrateleira'] != '-']
 
 # ETAPA 8 : REALIZA UM LEVANTAMENTO DOS PEDIDOS X SKU QUE ESTAO PENDENTES DE RESERVA E DEPOIS E FEITO UM GROUP BY DOS SKU
-    pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
-                          "where p.necessidade > 0 and p.reservado = 'nao' ",conn)
-    pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+
+    if natureza == '5':
+
+        consulta = """
+        select codpedido, produto as codreduzido from "Reposicao".pedidossku p
+        where p.necessidade > 0 and p.reservado = 'nao' and 
+                p.codpedido in (
+                select
+	codigopedido
+from
+	"Reposicao"."Reposicao".filaseparacaopedidos f
+where
+	codtiponota <> '64'
+                )
+        """
+
+        pedidos = pd.read_sql(consulta,conn)
+        pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+    elif natureza == '7':
+
+        consulta = """
+        select codpedido, produto as codreduzido from "Reposicao".pedidossku p
+        where p.necessidade > 0 and p.reservado = 'nao' and 
+                p.codpedido in (
+                select
+	codigopedido
+from
+	"Reposicao"."Reposicao".filaseparacaopedidos f
+where
+	codtiponota = '64'
+                )
+        """
+
+        pedidos = pd.read_sql(consulta, conn)
+        pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+
+
+    else:
+        pedidos = pd.read_sql('select codpedido, produto as codreduzido from "Reposicao".pedidossku p '
+                              "where p.necessidade > 0 and p.reservado = 'nao' ",conn)
+        pedidos = pedidos.groupby('codreduzido')['codpedido'].agg(', '.join).reset_index()
+
 
 # ETAPA 9: REALIZA O MERGE DOS CODIGOS REDUZIDO
     relatorioEndereço = pd.merge(relatorioEndereço, pedidos, on='codreduzido', how='left')
@@ -157,7 +260,7 @@ select t.engenharia||cor from "Reposicao"."Reposicao".tagsreposicao t
             # ETAPA 11.1 Verificar se o pedido é de cor/engenharia especial E CASO FOR, DISTRIBUI USANDO OS ENDERECOS ESPECIAIS NA FUNCAO *** DistribuirPedidosEspeciais
             avaliar = DataFramePedidosEspeciais[
                 (DataFramePedidosEspeciais['pedido'] == pedido) & (DataFramePedidosEspeciais['produto'] == produto)]
-            if not avaliar.empty:
+            if not avaliar.empty and natureza == '5':
                 DistribuirPedidosEspeciais(pedido,str(produto),natureza)
 
 

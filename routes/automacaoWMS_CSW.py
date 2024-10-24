@@ -131,7 +131,13 @@ def RecarregarPedidos():
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(5),'Retirar Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(consideraSobra),ordem,int(3),'Substitutos')
     ReservaEnderecos.ReservaPedidosNaoRepostos(empresa,natureza,bool(True),'desc',int(3),'')
+
     necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, natureza)
+    try:
+        necessidadeReposicaoModel.RelatorioNecessidadeReposicaoDisponivel(empresa, '7')
+    except:
+        print('sem pedido nat 7')
+
     RecarregarPedidosCSWModel.AgruparPedidos()
 
     if empresa == '1':
