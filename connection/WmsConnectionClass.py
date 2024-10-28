@@ -7,7 +7,7 @@ class WmsConnectionClass():
 
     def conectar(self):
 
-        db_name = "WMS"
+        db_name = "Reposicao"
         db_user = "postgres"
         db_password = "Master100"
 

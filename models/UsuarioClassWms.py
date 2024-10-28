@@ -1,6 +1,6 @@
 import pandas as pd
 from connection import WmsConnectionClass as conexao
-
+import ConexaoPostgreMPL
 class Usuario:
     """
     Classe que representa os usuários do sistema WMS.
@@ -47,7 +47,7 @@ class Usuario:
                 "Reposicao"."cadusuarios"
         """
         try:
-            with conexao.WmsConnectionClass().conectar() as conn:
+            with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
                     curr.execute(sqlGetUsuarios)
                     usuarios = curr.fetchall()
