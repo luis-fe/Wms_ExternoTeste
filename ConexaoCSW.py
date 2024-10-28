@@ -2,10 +2,6 @@ import jaydebeapi
 import pandas as pd
 import models.configuracoes.empresaConfigurada
 
-
-
-
-
 empresa = models.configuracoes.empresaConfigurada.EmpresaEscolhida()
 print(empresa)
 
@@ -24,7 +20,7 @@ def ConexaoCianorte():
    # try:
         conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+    'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
     {'user': '_system', 'password': 'ccscache'},
     'CacheDB_root.jar'
     )
@@ -37,7 +33,7 @@ def ConexaoInternoMPL():
 
         conn = jaydebeapi.connect(
             'com.intersys.jdbc.CacheDriver',
-            'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+            'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
             {'user': '_system', 'password': 'ccscache'},
             'CacheDB_root.jar'
         )
@@ -46,7 +42,7 @@ def ConexaoInternoMPL():
 def Conexao2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
-    'jdbc:Cache://192.168.0.25:1972/CONSISTEM',
+    'jdbc:Cache://187.32.10.129:1972/CONSISTEM',
     {'user': 'root', 'password': 'ccscache'},
     'CacheDB_root.jar'
 )
@@ -71,21 +67,21 @@ def VerificarConexao():
     try:
         connPrincipal = jaydebeapi.connect(
                                     'com.intersys.jdbc.CacheDriver',
-                                    'jdbc:Cache://192.168.0.25:1972/CONSISTEM?loginTimeout=10',
+                                    'jdbc:Cache://187.32.10.129:1972/CONSISTEM?loginTimeout=10',
                                     {'user': '_SYSTEM', 'password': 'ccscache'},
                                     'CacheDB.jar'
                                     )
         teste = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", connPrincipal)
-        data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal com o servidor 192.168.0.25:1972 _system ','teste':'csw'}])
+        data = pd.DataFrame([{'Mensagem':'Conexao com CSW normal com o servidor 187.32.10.129:1972 _system ','teste':'csw'}])
     except:
-        data = pd.DataFrame([{'Mensagem': 'falha na conexao com o servidor 192.168.0.25:1972 _system ','teste':'csw'}])
+        data = pd.DataFrame([{'Mensagem': 'falha na conexao com o servidor 187.32.10.129:1972 _system ','teste':'csw'}])
 
     try:
         connContigencia = Conexao2()
         teste2 = pd.read_sql(" select t.codigo ,t.descricao  from Fat.TipoDeNotaPadrao t ", connContigencia)
-        data2 = pd.DataFrame([{'Mensagem2':'Conexao com CSW normal com o servidor 192.168.0.25:1972 root ','teste':'csw'}])
+        data2 = pd.DataFrame([{'Mensagem2':'Conexao com CSW normal com o servidor 187.32.10.129:1972:1972 root ','teste':'csw'}])
     except:
-        data2 = pd.DataFrame([{'Mensagem2': 'falha na conexao com o servidor 192.168.0.25:1972 root','teste':'csw'}])
+        data2 = pd.DataFrame([{'Mensagem2': 'falha na conexao com o servidor 187.32.10.129:1972:1972 root','teste':'csw'}])
 
 
 
