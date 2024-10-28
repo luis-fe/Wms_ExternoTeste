@@ -42,13 +42,9 @@ class Usuario:
         """
         sqlGetUsuarios = """
             SELECT
-                us."matricula" AS codigo,
-                us.funcao,
-                us.nome,
-                us.login,
-                us.situacao
+                *
             FROM
-                "WMS"."Wms".usuario us
+                "Reposicao"."cadusuarios"
         """
         try:
             with conexao.WmsConnectionClass().conectar() as conn:
