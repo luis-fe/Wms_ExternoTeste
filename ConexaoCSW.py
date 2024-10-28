@@ -47,6 +47,7 @@ def Conexao2():
     'CacheDB_root.jar'
 )
     return conn
+
 def ConexaoExterna2():
     conn = jaydebeapi.connect(
     'com.intersys.jdbc.CacheDriver',
