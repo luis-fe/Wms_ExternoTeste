@@ -321,7 +321,7 @@ class ReposicaoViaOFF():
         sql = """
         select
             "Ncarrinho",
-            count(caixa) as QtdCaixa
+            count(DISTINCT caixa) as QtdCaixa
         from
 	        "off".reposicao_qualidade rq
 	    where 
