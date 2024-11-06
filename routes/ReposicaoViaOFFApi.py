@@ -125,3 +125,22 @@ def get_qtdCaixaPorCarrinho():
             enderecos_dict[column_name] = row[column_name]
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
+
+
+@ReposicaoViaOFF_routes.route('/api/consulaDetalharCarrinho', methods=['GET'])
+@token_required
+def get_consulaDetalharCarrinhoo():
+    empresa = request.args.get('empresa','1')
+    NCarrinho = request.args.get('NCarrinho','-')
+
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','',NCarrinho,'').consulaDetalharCarrinho()
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)

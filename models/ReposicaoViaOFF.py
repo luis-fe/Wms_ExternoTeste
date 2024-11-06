@@ -333,9 +333,63 @@ class ReposicaoViaOFF():
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta = pd.read_sql(sql, conn, params=(self.empresa,))
+        consulta = pd.read_sql(sql, conn, params=(self.empresa))
         consulta.fillna('-', inplace=True)
         return consulta
+
+    def consulaDetalharCarrinho(self):
+        '''Metodo que detalha um NCarrinho:
+        NCarrinho , [caixas: OP : qtdPcas]
+        total caixas
+        total OP
+        total pecas
+        '''
+
+        sql = """
+        select
+            "Ncarrinho" ,
+            caixa,
+            numeroop,
+            count(codbarrastag)as "qtdPcas"
+        from
+            "off".reposicao_qualidade rq
+        where
+            rq."Ncarrinho" = %s and rq.codempresa = %s
+        group by
+            "Ncarrinho" ,
+            caixa,
+            numeroop
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql, conn, params=(self.Ncarrinho, self.empresa))
+        consulta.fillna('-', inplace=True)
+
+        if not consulta.empty:
+
+            TotalCaixa = consulta['caixa'].nunique()
+            TotalOps = consulta['numeroop'].nunique()
+            TotalPcs = consulta['qtdPcas'].sum()
+
+            dados = {
+                '1-TotalCaixas': TotalCaixa,
+                '2-Total Ops': TotalOps,
+                '3-Total Pcs': TotalPcs,
+                '4 -Detalhamento': consulta.to_dict(orient='records')
+
+            }
+            return pd.DataFrame([dados])
+        else:
+            dados = {
+                '1-TotalCaixas': '-',
+                '2-Total Ops': '-',
+                '3-Total Pcs': '-',
+                '4 -Detalhamento': consulta.to_dict(orient='records')
+
+            }
+            return pd.DataFrame([dados])
+
+
 
 
 
