@@ -5,9 +5,12 @@ import pytz
 import ConexaoCSW
 import ConexaoPostgreMPL
 
+
 class ReposicaoViaOFF():
     """Classe do WMS responsavel pela reposicao via OFF (antes das tag entrar em estoque), atribuindo tag a um Ncaixa e a NCarrinho """
-    def __init__(self, codbarrastag, Ncaixa = None, empresa = None, usuario = None, natureza = None, estornar = False, Ncarrinho = ''):
+
+    def __init__(self, codbarrastag, Ncaixa=None, empresa=None, usuario=None, natureza=None, estornar=False,
+                 Ncarrinho='', numeroOP=None):
         self.codbarrastag = str(codbarrastag)
         self.codbarrasPesquisa = "'" + self.codbarrastag + "'"
 
@@ -17,18 +20,17 @@ class ReposicaoViaOFF():
         self.usuario = usuario
         self.natureza = natureza
         self.estornar = estornar
-
+        self.numeroOP = numeroOP
 
     def apontarTagCaixa(self):
         '''Metodo criado para apontar a tag x Caixa x Ncarrinho '''
 
         usuario = self.usuario.strip()
 
-        #2 - Validar se a Tag ja está sincronizada com o banco WMS
+        # 2 - Validar se a Tag ja está sincronizada com o banco WMS
         pesquisa = self.consultaTagOFFWMS()
 
-
-        #3 - retornando if de acordo com a respostas:
+        # 3 - retornando if de acordo com a respostas:
 
         ## Caso nao for encontrado tag, é feito uma pesquisada direto do CSW para recuperar a tag , porem ela deve estar nas situacoes 0 ou 9:
         if pesquisa.empty and self.estornar == False:
@@ -37,59 +39,58 @@ class ReposicaoViaOFF():
 
             if not consultaCsw.empty:
 
-                    consultaCsw['usuario'] = usuario
-                    consultaCsw['caixa'] = self.Ncaixa
-                    consultaCsw['natureza'] = self.natureza
-                    consultaCsw['DataReposicao'] = self.dataHora()
-                    consultaCsw['resticao'] = 'veio csw'
-                    consultaCsw['Ncarrinho'] = self.Ncarrinho
+                consultaCsw['usuario'] = usuario
+                consultaCsw['caixa'] = self.Ncaixa
+                consultaCsw['natureza'] = self.natureza
+                consultaCsw['DataReposicao'] = self.dataHora()
+                consultaCsw['resticao'] = 'veio csw'
+                consultaCsw['Ncarrinho'] = self.Ncarrinho
 
-                    self.InculirTagCaixa(consultaCsw)
-                    conn2.close()
+                self.InculirTagCaixa(consultaCsw)
+                conn2.close()
 
-
-                    return pd.DataFrame([{'status': True, 'Mensagem': 'tag inserido !'}])
+                return pd.DataFrame([{'status': True, 'Mensagem': 'tag inserido !'}])
 
             else:
 
-                    conn2.close()
-                    print('tag nao existe na tablea filareposicaooff ')
+                conn2.close()
+                print('tag nao existe na tablea filareposicaooff ')
 
-                    return pd.DataFrame([{'status': False, 'Mensagem': f'tag {self.codbarrastag} nao encontrada !'}])
+                return pd.DataFrame([{'status': False, 'Mensagem': f'tag {self.codbarrastag} nao encontrada !'}])
 
         else:
             # Caso a tag for encontrada na fila de reposicao da qualidade:
 
-                ## Aqui complementamos no DataFrame "pesquisa" as informacoes de usuario, Ncaixa, caixa e Data e Hora
-                pesquisa['usuario'] = usuario
-                pesquisa['caixa'] = self.Ncaixa
-                pesquisa['natureza'] = self.natureza
-                pesquisa['DataReposicao'] = self.dataHora()
-                pesquisa['Ncarrinho'] = self.Ncarrinho
+            ## Aqui complementamos no DataFrame "pesquisa" as informacoes de usuario, Ncaixa, caixa e Data e Hora
+            pesquisa['usuario'] = usuario
+            pesquisa['caixa'] = self.Ncaixa
+            pesquisa['natureza'] = self.natureza
+            pesquisa['DataReposicao'] = self.dataHora()
+            pesquisa['Ncarrinho'] = self.Ncarrinho
 
-                VerificandoExitenciaCaixa = self.PesquisarSeTagJaFoiBipada()  # Nessa etapa é conferida se a Tag ja foi ou nao bipada
+            VerificandoExitenciaCaixa = self.PesquisarSeTagJaFoiBipada()  # Nessa etapa é conferida se a Tag ja foi ou nao bipada
 
-                # Caso a tag ainda nao esteja bipada, aprova a insercao !:
-                if VerificandoExitenciaCaixa == 1 and self.estornar == False:
-                    self.InculirTagCaixa(pesquisa)  #
-                    return pd.DataFrame([{'status': True, 'Mensagem': 'tag inserido !'}])
+            # Caso a tag ainda nao esteja bipada, aprova a insercao !:
+            if VerificandoExitenciaCaixa == 1 and self.estornar == False:
+                self.InculirTagCaixa(pesquisa)  #
+                return pd.DataFrame([{'status': True, 'Mensagem': 'tag inserido !'}])
 
-                # Caso a tag ja tenha sido bipado, avisa ao usuario :
-                elif VerificandoExitenciaCaixa == 2 and self.estornar == False:
-                    return pd.DataFrame(
-                        [{'status': False, 'Mensagem': f'tag {self.codbarrastag} ja bipado nessa caixa, deseja estornar ?'}])
-                elif self.estornar == False and VerificandoExitenciaCaixa != 2:
-                    return pd.DataFrame(
-                        [{'status': False,
-                          'Mensagem': f'tag {self.codbarrastag} ja bipado em outra  caixa de n°{VerificandoExitenciaCaixa}, deseja estornar ?'}])
-                else:
-                    estorno = self.EstornarTag()
-                    return estorno
+            # Caso a tag ja tenha sido bipado, avisa ao usuario :
+            elif VerificandoExitenciaCaixa == 2 and self.estornar == False:
+                return pd.DataFrame(
+                    [{'status': False,
+                      'Mensagem': f'tag {self.codbarrastag} ja bipado nessa caixa, deseja estornar ?'}])
+            elif self.estornar == False and VerificandoExitenciaCaixa != 2:
+                return pd.DataFrame(
+                    [{'status': False,
+                      'Mensagem': f'tag {self.codbarrastag} ja bipado em outra  caixa de n°{VerificandoExitenciaCaixa}, deseja estornar ?'}])
+            else:
+                estorno = self.EstornarTag()
+                return estorno
 
     def consultaTagOFFWMS(self):
         # Estabelece a conexão com o banco de dados
         engine = ConexaoPostgreMPL.conexaoEngine()
-
 
         # Realiza a consulta SQL de maneira segura, usando parâmetros para evitar SQL Injection
         query = '''
@@ -98,14 +99,13 @@ class ReposicaoViaOFF():
                WHERE codbarrastag = %s
                AND codempresa = %s
            '''
-        pesquisa = pd.read_sql(query,engine, params=(self.codbarrastag, self.empresa))
+        pesquisa = pd.read_sql(query, engine, params=(self.codbarrastag, self.empresa))
 
         # Retorna os dados consultados
         return pesquisa
 
     def buscarTagCsw(self):
         '''Metodo utilizado para buscar a tag direto do Csw'''
-
 
         consulta = """
             SELECT 
@@ -120,7 +120,7 @@ class ReposicaoViaOFF():
             from 
                 Tcr.TagBarrasProduto p 
             WHERE 
-                p.codEmpresa = '""" + self.empresa + """' and situacao in (0, 9) and codbarrastag = """+ self.codbarrasPesquisa
+                p.codEmpresa = '""" + self.empresa + """' and situacao in (0, 9) and codbarrastag = """ + self.codbarrasPesquisa
 
         with ConexaoCSW.Conexao2() as conn:
             with conn.cursor() as cursor:
@@ -142,17 +142,16 @@ class ReposicaoViaOFF():
 
         return hora_str
 
-
-## Funcao que insere os dados na tabela "Reposicao".off.reposicao_qualidade , persistindo os dados com as tags bipada na caixa
+    ## Funcao que insere os dados na tabela "Reposicao".off.reposicao_qualidade , persistindo os dados com as tags bipada na caixa
     def InculirTagCaixa(self, dataframe):
 
-            ## Removendo duplicatas do dataframe:
-            dataframe = dataframe.drop_duplicates(subset=['codbarrastag'])  ## Elimando as possiveis duplicatas
+        ## Removendo duplicatas do dataframe:
+        dataframe = dataframe.drop_duplicates(subset=['codbarrastag'])  ## Elimando as possiveis duplicatas
 
-            conn = ConexaoPostgreMPL.conexao()
+        conn = ConexaoPostgreMPL.conexao()
 
-            cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
-            insert = """
+        cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+        insert = """
                     insert into off.reposicao_qualidade 
                         (
                         codbarrastag, 
@@ -172,15 +171,15 @@ class ReposicaoViaOFF():
                      values 
                         ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"""
 
-            values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
-                       , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
-                       row['usuario'], row['DataReposicao'], row['resticao'], row['Ncarrinho']) for index, row in dataframe.iterrows()]
-            cursor.executemany(insert, values)
-            conn.commit()  # Faça o commit da transação
-            cursor.close()  # Feche o cursor
+        values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
+                   , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
+                   row['usuario'], row['DataReposicao'], row['resticao'], row['Ncarrinho']) for index, row in
+                  dataframe.iterrows()]
+        cursor.executemany(insert, values)
+        conn.commit()  # Faça o commit da transação
+        cursor.close()  # Feche o cursor
 
-            conn.close()
-
+        conn.close()
 
     def PesquisarSeTagJaFoiBipada(self):
         '''Funcao que retorna se a tag ja foi ou não bipada em alguma caixa'''
@@ -213,3 +212,106 @@ class ReposicaoViaOFF():
         conn.close()
 
         return pd.DataFrame([{'status': True, 'Mensagem': 'tag estornada! '}])
+
+    def consultaCaixa(self):
+        '''Metodo utilizado para detalhar uma caixa em especifico '''
+
+        conn = ConexaoPostgreMPL.conexao()
+        consultarCAIXA = pd.read_sql(
+            'select rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza, rq."Ncarrinho", '
+            'rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao"  from "off".reposicao_qualidade rq  '
+            " where rq.caixa = %s ", conn, params=(self.Ncaixa,))
+        conn.close()
+        if consultarCAIXA.empty:
+            return pd.DataFrame({'mensagem': ['caixa vazia'], 'codbarrastag': '', 'numeroop': '', 'status': True})
+        else:
+
+            # Obtenod a quantidade de peças por reduzido e o Total Geral
+            consultarCAIXA, totalOP = self.get_quantidadeOP_Sku(consultarCAIXA)
+
+            # Organizando as informacoes
+            self.numeroOP = consultarCAIXA['numeroop'][0]
+            codempresa = consultarCAIXA['codempresa'][0]
+            self.codreduzido = consultarCAIXA['codreduzido'][0]
+            descricao = consultarCAIXA['descricao'][0]
+            self.Ncarrinho = consultarCAIXA['Ncarrinho'][0]
+            cor = consultarCAIXA['cor'][0]
+            eng = consultarCAIXA['engenharia'][0]
+            tam = consultarCAIXA['tamanho'][0]
+            consultarCAIXA.fillna('Nao Iniciado', inplace=True)
+            totalPcSku = consultarCAIXA['total_pcs'][0]
+
+            consultarCAIXA.drop(['numeroop', 'codempresa', 'codreduzido', 'descricao', 'cor', 'engenharia', 'tamanho',
+                                 'total_pcs']
+                                , axis=1, inplace=True)
+
+            totalbipagemOP, totalbipagemSku = self.totalBipado(True)
+
+            data = {
+
+                '0- mensagem ': 'Caixa Cheia',
+                '001-NCarrinho': str(self.Ncarrinho),
+                '01- status': False,
+                '02- Empresa': codempresa,
+                '03- numeroOP': self.numeroOP,
+                '04- totalOP': totalOP,
+                '05- totalOPBipado': totalbipagemOP,
+                '06- engenharia': eng,
+                '07- codreduzido': self.codreduzido,
+                '08- descricao': descricao,
+                '09- cor': cor,
+                '10- tamanho': tam,
+                '11- totalpçsSKU': totalPcSku,
+                '12- totalpcsSkuBipado': totalbipagemSku,
+                '13- Tags da Caixa ': consultarCAIXA.to_dict(orient='records')
+            }
+            return [data]
+
+    def get_quantidadeOP_Sku(self, dataFrame):
+
+        # 1 - Especifica no DataFrame a coluna numeroOP e em seguida remover as duplicadas
+        novo = dataFrame[['numeroop']]
+        novo = novo.drop_duplicates(subset=['numeroop'])
+
+        # 2: Transformar o dataFrame em lista
+        resultado = '({})'.format(', '.join(["'{}'".format(valor) for valor in novo['numeroop']]))
+
+        # 3 filtrar as OPs especificadas para obter a quantidade:
+        conn = ConexaoPostgreMPL.conexaoPCP()
+        get = pd.read_sql('SELECT  codreduzido, total_pcs '
+                          'FROM "PCP".pcp.ordemprod o '
+                          "WHERE numeroop IN " + resultado, conn)
+        conn.close()
+
+        totalGeral = get["total_pcs"].sum()
+        totalGeral = int(totalGeral)
+        get = pd.merge(dataFrame, get, on='codreduzido', how='left')
+
+        return get, totalGeral
+
+    def totalBipado(self, agrupado):
+
+        conn = ConexaoPostgreMPL.conexao()
+        consulta = pd.read_sql(
+            'select numeroop, rq.codreduzido, rq.cor as  "codSortimento", tamanho, count(codreduzido) as "Qtbipado"  from "Reposicao"."off".reposicao_qualidade rq '
+            'where rq.codempresa  = %s and numeroop = %s group by numeroop, codreduzido, cor, tamanho',
+            conn, params=(self.empresa, self.numeroOP,))
+        conn.close()
+
+        # Totaliza o total de OPs bipada
+        totalBipadoOP = consulta['numeroop'].count()
+
+        if agrupado == True:
+            totalSku = consulta[consulta['codreduzido'] == self.codreduzido]
+            totalSku = totalSku['Qtbipado'].sum()
+
+            return totalBipadoOP, totalSku
+        else:
+
+            consulta['codSortimento'] = consulta['codSortimento'].str.split('-').str[0]
+            consulta['sortimentosCores'] = consulta['codSortimento']
+            consulta.drop('codSortimento'
+                          , axis=1, inplace=True)
+
+            return consulta, totalBipadoOP
+

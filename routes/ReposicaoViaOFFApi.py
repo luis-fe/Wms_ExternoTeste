@@ -1,3 +1,5 @@
+import pandas as pd
+
 from models import ReposicaoViaOFF
 from flask import Blueprint, jsonify, request
 from functools import wraps
@@ -87,3 +89,22 @@ def ReporCaixaLivre():
                 enderecos_dict[column_name] = row[column_name]
             enderecos_data.append(enderecos_dict)
         return jsonify(enderecos_data)
+
+@ReposicaoViaOFF_routes.route('/api/ConsultaCaixa', methods=['GET'])
+@token_required
+def ConsultaCaixa():
+    empresa = request.args.get('empresa','1')
+    Ncaixa = request.args.get('Ncaixa')
+
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('',Ncaixa,empresa).consultaCaixa()
+    FilaReposicaoOP = pd.DataFrame(FilaReposicaoOP)
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
