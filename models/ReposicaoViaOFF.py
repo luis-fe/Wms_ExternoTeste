@@ -315,3 +315,29 @@ class ReposicaoViaOFF():
 
             return consulta, totalBipadoOP
 
+    def qtdCaixaPorCarrinho(self):
+        '''Metodo que resume a quantidade de Caixa x NCarrinho'''
+
+        sql = """
+        select
+            "Ncarrinho",
+            count(caixa) as QtdCaixa
+        from
+	        "off".reposicao_qualidade rq
+	    where 
+	        rq.codempresa  = %s
+        group by 
+            "Ncarrinho" 
+        order by 
+            "Ncarrinho" asc
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql, conn, params=(self.empresa))
+        consulta.fillna('-', inplace=True)
+        return consulta
+
+
+
+
+
