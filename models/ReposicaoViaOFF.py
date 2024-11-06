@@ -333,7 +333,7 @@ class ReposicaoViaOFF():
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta = pd.read_sql(sql, conn, params=(self.empresa))
+        consulta = pd.read_sql(sql, conn, params=(self.empresa,))
         consulta.fillna('-', inplace=True)
         return consulta
 
