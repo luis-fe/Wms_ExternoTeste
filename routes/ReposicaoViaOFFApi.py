@@ -153,9 +153,8 @@ def put_liberarCarrinhoo():
     NCarrinho = datas['NCarrinho']
     empresa = datas['empresa']
 
-    carrinho = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','',NCarrinho,'').liberarCarrinho()
+    consulta = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','',NCarrinho,'').liberarCarrinho()
 
-    consulta = carrinho.excluirCarrinho()
     # Obtém os nomes das colunas
     column_names = consulta.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
