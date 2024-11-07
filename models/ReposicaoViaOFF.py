@@ -398,7 +398,7 @@ class ReposicaoViaOFF():
         set 
             "statusNCarrinho" = 'liberado'
         where
-            rq."Ncarrinho" = %s and rq.codempresa = %s 
+            "Ncarrinho" = %s and codempresa = %s 
         """
 
         with ConexaoPostgreMPL.conexao() as conn:
