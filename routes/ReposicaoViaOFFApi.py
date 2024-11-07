@@ -144,3 +144,25 @@ def get_consulaDetalharCarrinhoo():
             enderecos_dict[column_name] = row[column_name]
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
+
+@ReposicaoViaOFF_routes.route('/api/liberarCarrinho', methods=['PUT'])
+@token_required
+def put_liberarCarrinhoo():
+    # Obtém os dados do corpo da requisição (JSON)
+    datas = request.get_json()
+    NCarrinho = datas['NCarrinho']
+    empresa = datas['empresa']
+
+    carrinho = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','',NCarrinho,'').liberarCarrinho()
+
+    consulta = carrinho.excluirCarrinho()
+    # Obtém os nomes das colunas
+    column_names = consulta.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in consulta.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)
