@@ -321,13 +321,17 @@ class ReposicaoViaOFF():
         sql = """
         select
             "Ncarrinho",
+            c.nome,
             count(DISTINCT caixa) as QtdCaixa
         from
 	        "off".reposicao_qualidade rq
+	    INNER JOIN 
+	        "Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = RQ.usuario 
 	    where 
-	        rq.codempresa  = %s and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null)
+	        rq.codempresa  = '1' and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null)
         group by 
-            "Ncarrinho" 
+            "Ncarrinho" ,
+            c.nome
         order by 
             "Ncarrinho" asc
         """
@@ -335,6 +339,7 @@ class ReposicaoViaOFF():
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = pd.read_sql(sql, conn, params=(self.empresa,))
         consulta.fillna('-', inplace=True)
+
         return consulta
 
     def consulaDetalharCarrinho(self):
@@ -348,17 +353,21 @@ class ReposicaoViaOFF():
         sql = """
         select
             "Ncarrinho" ,
+            c.nome,
             caixa,
             numeroop,
             count(codbarrastag)as "qtdPcas"
         from
             "off".reposicao_qualidade rq
+        INNER JOIN 
+	        "Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = RQ.usuario 
         where
             rq."Ncarrinho" = %s and rq.codempresa = %s and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null)
         group by
             "Ncarrinho" ,
             caixa,
-            numeroop
+            numeroop,
+            c.nome
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
@@ -408,9 +417,27 @@ class ReposicaoViaOFF():
 
                 return pd.DataFrame([{'status': True, 'mensagem': 'Carrinho liberado com sucesso'}])
 
+    def nomeUsuarioCarrinho(self):
+        '''Metodo que verifica o usuario do carrinho'''
 
+        sql = '''
+            select 
+                usuario||'-'||c.nome as "nomeRepositor"  
+            from 
+                "off".reposicao_qualidade R
+            inner join 
+            	"Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = R.usuario 
+            where
+                r."Ncarrinho" = %s and empresa = %s
 
+        limit 1
+        '''
 
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql, conn, params=(self.Ncarrinho, self.empresa))
+        consulta.fillna('-', inplace=True)
+
+        return consulta
 
 
 
