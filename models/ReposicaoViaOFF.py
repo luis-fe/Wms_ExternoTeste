@@ -337,6 +337,7 @@ class ReposicaoViaOFF():
         consulta.fillna('-', inplace=True)
         nomeCarrinho = self.nomeUsuarioCarrinho()
         consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
+        consulta.fillna('-', inplace=True)
 
         return consulta
 
@@ -370,6 +371,7 @@ class ReposicaoViaOFF():
 
         nomeCarrinho = self.nomeUsuarioCarrinho()
         consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
+        consulta.fillna('-', inplace=True)
 
         if not consulta.empty:
 
@@ -438,10 +440,10 @@ class ReposicaoViaOFF():
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = pd.read_sql(sql, conn, params=(self.Ncarrinho, self.empresa))
-        consulta.fillna('-', inplace=True)
 
         # Mantendo apenas a primeira ocorrência de cada valor em col1
         consulta = consulta.drop_duplicates(subset="Ncarrinho", keep="first").reset_index(drop=True)
+        consulta.fillna('-', inplace=True)
 
         return consulta
 
