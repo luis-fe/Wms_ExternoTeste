@@ -28,7 +28,7 @@ class Carrinho():
 
         conn = ConexaoPostgreMPL.conexaoEngine()
 
-        consulta = pd.read_sql(consulta,conn,params=(self.empresa))
+        consulta = pd.read_sql(consulta,conn,params=(self.empresa,))
 
         return consulta
 
