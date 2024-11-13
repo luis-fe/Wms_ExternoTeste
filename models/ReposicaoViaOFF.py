@@ -321,17 +321,13 @@ class ReposicaoViaOFF():
         sql = """
         select
             "Ncarrinho",
-            c.nome,
             count(DISTINCT caixa) as QtdCaixa
         from
 	        "off".reposicao_qualidade rq
-	    INNER JOIN 
-	        "Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = RQ.usuario 
 	    where 
 	        rq.codempresa  = '1' and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null)
         group by 
-            "Ncarrinho" ,
-            c.nome
+            "Ncarrinho"
         order by 
             "Ncarrinho" asc
         """
@@ -339,6 +335,8 @@ class ReposicaoViaOFF():
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = pd.read_sql(sql, conn, params=(self.empresa,))
         consulta.fillna('-', inplace=True)
+        nomeCarrinho = self.nomeUsuarioCarrinho()
+        consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
 
         return consulta
 
@@ -353,26 +351,25 @@ class ReposicaoViaOFF():
         sql = """
         select
             "Ncarrinho" ,
-            c.nome,
             caixa,
             numeroop,
             count(codbarrastag)as "qtdPcas"
         from
             "off".reposicao_qualidade rq
-        INNER JOIN 
-	        "Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = RQ.usuario 
         where
             rq."Ncarrinho" = %s and rq.codempresa = %s and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null)
         group by
             "Ncarrinho" ,
             caixa,
-            numeroop,
-            c.nome
+            numeroop
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = pd.read_sql(sql, conn, params=(self.Ncarrinho, self.empresa))
         consulta.fillna('-', inplace=True)
+
+        nomeCarrinho = self.nomeUsuarioCarrinho()
+        consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
 
         if not consulta.empty:
 
@@ -421,21 +418,30 @@ class ReposicaoViaOFF():
         '''Metodo que verifica o usuario do carrinho'''
 
         sql = '''
-            select 
-                usuario||'-'||c.nome as "nomeRepositor"  
-            from 
-                "off".reposicao_qualidade R
-            inner join 
-            	"Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = R.usuario 
-            where
-                r."Ncarrinho" = %s and empresa = %s
-
-        limit 1
+        select
+            "Ncarrinho",
+            c.nome
+        from
+	        "off".reposicao_qualidade rq
+	    INNER JOIN 
+	        "Reposicao"."Reposicao".cadusuarios c on C.codigo::VARCHAR = RQ.usuario 
+	    where 
+	        rq.codempresa  = '1' 
+	        and (rq."statusNCarrinho" <> 'liberado' or rq."statusNCarrinho" is null) 
+	        and ("Ncarrinho" is not null and "Ncarrinho" <> '')
+        group by 
+            "Ncarrinho" ,
+            c.nome
+        order by 
+            "Ncarrinho" asc
         '''
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = pd.read_sql(sql, conn, params=(self.Ncarrinho, self.empresa))
         consulta.fillna('-', inplace=True)
+
+        # Mantendo apenas a primeira ocorrência de cada valor em col1
+        consulta = consulta.drop_duplicates(subset="Ncarrinho", keep="first").reset_index(drop=True)
 
         return consulta
 
