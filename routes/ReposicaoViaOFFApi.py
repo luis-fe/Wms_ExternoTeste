@@ -188,7 +188,7 @@ def GET_obterOPReduzido():
 @token_required
 def GET_consultarTags_OP_rdz():
     empresa = request.args.get('empresa','1')
-    numeroop = request.args.get('numeroOP','-')
+    numeroop = request.args.get('numeroop','-')
     codreduzido = request.args.get('codreduzido','-')
 
 
