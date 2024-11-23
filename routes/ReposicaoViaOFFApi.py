@@ -192,7 +192,7 @@ def GET_consultarTags_OP_rdz():
     codreduzido = request.args.get('codreduzido','-')
 
 
-    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','','',numeroop,str(codreduzido)).consultarTags_OP_rdz()
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',str(empresa),'','','','',numeroop,str(codreduzido)).consultarTags_OP_rdz()
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
