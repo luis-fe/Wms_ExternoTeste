@@ -165,3 +165,68 @@ def put_liberarCarrinhoo():
             pedidos_dict[column_name] = row[column_name]
         pedidos_data.append(pedidos_dict)
     return jsonify(pedidos_data)
+
+@ReposicaoViaOFF_routes.route('/api/obterOPReduzido', methods=['GET'])
+@token_required
+def GET_obterOPReduzido():
+    empresa = request.args.get('empresa','1')
+    codbarrastag = request.args.get('codbarrastag','-')
+
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF(codbarrastag,'',empresa,'','','','','').obterOPReduzido()
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
+
+@ReposicaoViaOFF_routes.route('/api/consultarTags_OP_rdz', methods=['GET'])
+@token_required
+def GET_consultarTags_OP_rdz():
+    empresa = request.args.get('empresa','1')
+    numeroOP = request.args.get('numeroOP','-')
+    reduzido = request.args.get('reduzido','-')
+
+
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','','',numeroOP,reduzido).consultarTags_OP_rdz()
+    # Obtém os nomes das colunas
+    column_names = FilaReposicaoOP.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    enderecos_data = []
+    for index, row in FilaReposicaoOP.iterrows():
+        enderecos_dict = {}
+        for column_name in column_names:
+            enderecos_dict[column_name] = row[column_name]
+        enderecos_data.append(enderecos_dict)
+    return jsonify(enderecos_data)
+
+
+@ReposicaoViaOFF_routes.route('/api/registrarTagsOFArray', methods=['PUT'])
+@token_required
+def put_registrarTagsOFArray():
+    # Obtém os dados do corpo da requisição (JSON)
+    datas = request.get_json()
+    arrayTags = datas['arrayTags']
+    empresa = datas['empresa']
+    Ncarrinho = datas['Ncarrinho']
+    usuario = datas['usuario']
+    Ncaixa = datas['Ncaixa']
+
+
+    consulta = ReposicaoViaOFF.ReposicaoViaOFF("", Ncaixa, empresa, usuario, '', '',
+                 Ncarrinho,'' ,'').registrarTagsOFArray(arrayTags)
+
+    # Obtém os nomes das colunas
+    column_names = consulta.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    pedidos_data = []
+    for index, row in consulta.iterrows():
+        pedidos_dict = {}
+        for column_name in column_names:
+            pedidos_dict[column_name] = row[column_name]
+        pedidos_data.append(pedidos_dict)
+    return jsonify(pedidos_data)

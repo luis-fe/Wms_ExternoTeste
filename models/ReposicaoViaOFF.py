@@ -10,7 +10,7 @@ class ReposicaoViaOFF():
     """Classe do WMS responsavel pela reposicao via OFF (antes das tag entrar em estoque), atribuindo tag a um Ncaixa e a NCarrinho """
 
     def __init__(self, codbarrastag, Ncaixa=None, empresa=None, usuario=None, natureza=None, estornar=False,
-                 Ncarrinho='', numeroOP=None):
+                 Ncarrinho='', numeroOP=None,codreduzido =None):
         self.codbarrastag = str(codbarrastag)
         self.codbarrasPesquisa = "'" + self.codbarrastag + "'"
 
@@ -21,6 +21,7 @@ class ReposicaoViaOFF():
         self.natureza = natureza
         self.estornar = estornar
         self.numeroOP = numeroOP
+        self.codreduzido = codreduzido
 
     def apontarTagCaixa(self):
         '''Metodo criado para apontar a tag x Caixa x Ncarrinho '''
@@ -446,6 +447,104 @@ class ReposicaoViaOFF():
         consulta.fillna('-', inplace=True)
 
         return consulta
+
+    def registrarTagsOFArray(self, arrayTags):
+        '''Metodo para registrar na Reposicao OFF as tags via Array'''
+        pesquisa = pd.DataFrame(arrayTags, columns=['codbarrastag'])  # Define o nome da coluna como 'Tag'
+
+        pesquisa['usuario'] = self.usuario
+        pesquisa['caixa'] = self.Ncaixa
+        pesquisa['natureza'] = self.natureza
+        pesquisa['DataReposicao'] = self.dataHora()
+        pesquisa['Ncarrinho'] = self.Ncarrinho
+
+        ## Removendo duplicatas do dataframe:
+        pesquisa = pesquisa.drop_duplicates(subset=['codbarrastag'])  ## Elimando as possiveis duplicatas
+
+        conn = ConexaoPostgreMPL.conexao()
+
+        cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
+        insert = """
+                    insert into off.reposicao_qualidade 
+                        (
+                        codbarrastag, 
+                        codreduzido, 
+                        engenharia, 
+                        descricao, 
+                        natureza, 
+                        codempresa, 
+                        cor, 
+                        tamanho, 
+                        numeroop, 
+                        caixa, 
+                        usuario, 
+                        "DataReposicao", 
+                        resticao, 
+                        "Ncarrinho")
+                     values 
+                        ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"""
+
+        values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
+                   , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
+                   row['usuario'], row['DataReposicao'], row['resticao'], row['Ncarrinho']) for index, row in
+                  pesquisa.iterrows()]
+        cursor.executemany(insert, values)
+        conn.commit()  # Faça o commit da transação
+        cursor.close()  # Feche o cursor
+
+        conn.close()
+
+        return pd.DataFrame([{'Mensagem':'Tags Registradas com sucesso','status':True}])
+
+
+
+    def consultarTags_OP_rdz(self):
+        '''Metodo utilizado para obter as tags e o reduzido '''
+
+        sql = """
+        select
+            f.codbarrastag,
+            f.codreduzido,
+            f.engenharia,
+            f.cor,
+            f.tamanho,
+            f.numeroop ,
+            f.descricao 
+        from
+            "off".filareposicaoof f
+        where
+            f.numeroop = %s
+            and codempresa = %s
+            and codreduzido = %s
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql,conn,params=(self.numeroOP, self.empresa, self.codreduzido,))
+
+        return consulta
+
+
+    def obterOPReduzido(self):
+        '''Metodo utilizado para consultar o reduzido e a OP apartir da primeira tag'''
+
+        sql = """
+        select
+            f.codreduzido,
+            f.numeroop 
+        from
+            "off".filareposicaoof f
+        where
+            f.codbarrastag = %s
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql,conn,params=(self.codbarrastag,))
+
+        return consulta
+
+
+
+
 
 
 
