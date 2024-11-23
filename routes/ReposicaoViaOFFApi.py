@@ -188,11 +188,11 @@ def GET_obterOPReduzido():
 @token_required
 def GET_consultarTags_OP_rdz():
     empresa = request.args.get('empresa','1')
-    numeroOP = request.args.get('numeroOP','-')
-    reduzido = request.args.get('reduzido','-')
+    numeroop = request.args.get('numeroOP','-')
+    codreduzido = request.args.get('codreduzido','-')
 
 
-    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','','',numeroOP,reduzido).consultarTags_OP_rdz()
+    FilaReposicaoOP = ReposicaoViaOFF.ReposicaoViaOFF('','',empresa,'','','','',numeroop,str(codreduzido)).consultarTags_OP_rdz()
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
