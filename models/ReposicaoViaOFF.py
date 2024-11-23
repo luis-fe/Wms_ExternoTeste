@@ -457,6 +457,10 @@ class ReposicaoViaOFF():
         pesquisa['natureza'] = self.natureza
         pesquisa['DataReposicao'] = self.dataHora()
         pesquisa['Ncarrinho'] = self.Ncarrinho
+        pesquisa['codempresa'] = self.empresa
+
+
+
 
         ## Removendo duplicatas do dataframe:
         pesquisa = pesquisa.drop_duplicates(subset=['codbarrastag'])  ## Elimando as possiveis duplicatas
@@ -468,25 +472,18 @@ class ReposicaoViaOFF():
                     insert into off.reposicao_qualidade 
                         (
                         codbarrastag, 
-                        codreduzido, 
-                        engenharia, 
-                        descricao, 
                         natureza, 
                         codempresa, 
-                        cor, 
-                        tamanho, 
-                        numeroop, 
                         caixa, 
                         usuario, 
                         "DataReposicao", 
-                        resticao, 
                         "Ncarrinho")
                      values 
-                        ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s )"""
+                        (  %s, %s, %s, %s, %s, %s, %s )"""
 
-        values = [(row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
-                   , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'], row['caixa'],
-                   row['usuario'], row['DataReposicao'], row['resticao'], row['Ncarrinho']) for index, row in
+        values = [(row['codbarrastag']
+                   , row['natureza'], row['codempresa'],   row['caixa'],
+                   row['usuario'], row['DataReposicao'],  row['Ncarrinho']) for index, row in
                   pesquisa.iterrows()]
         cursor.executemany(insert, values)
         conn.commit()  # Faça o commit da transação
@@ -503,13 +500,7 @@ class ReposicaoViaOFF():
 
         sql = """
         select
-            f.codbarrastag,
-            f.codreduzido,
-            f.engenharia,
-            f.cor,
-            f.tamanho,
-            f.numeroop ,
-            f.descricao 
+            f.codbarrastag
         from
             "off".filareposicaoof f
         where
@@ -530,7 +521,11 @@ class ReposicaoViaOFF():
         sql = """
         select
             f.codreduzido,
-            f.numeroop 
+            f.engenharia,
+            f.cor,
+            f.tamanho,
+            f.numeroop ,
+            f.descricao  
         from
             "off".filareposicaoof f
         where
