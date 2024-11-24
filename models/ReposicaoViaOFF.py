@@ -492,7 +492,18 @@ class ReposicaoViaOFF():
 
             return pd.DataFrame([{'Mensagem':'Tags Registradas com sucesso','status':True}])
         except:
-            return pd.DataFrame([{'Mensagem':'Tags ja possuem registro','status':False}])
+
+            query = f"""
+            SELECT codbarrastag
+            FROM off.reposicao_qualidade 
+            WHERE codbarrastag = ANY(ARRAY{arrayTags}::text[]);
+            """
+            conn = ConexaoPostgreMPL.conexaoEngine()
+            consulta = pd.read_sql(query,conn)
+
+            tag_array = consulta['codbarrastag'].to_list()
+
+            return pd.DataFrame([{'Mensagem':f'Tags{tag_array} ja possuem registro','status':False}])
 
 
 
