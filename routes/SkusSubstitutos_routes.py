@@ -2,6 +2,7 @@ from models.configuracoes import SkusSubstitutos, DistibuicaoPedSub
 from flask import Blueprint, jsonify, request, Flask, send_from_directory
 from functools import wraps
 from flask_cors import CORS
+from models import RegistroSubstitutos
 import pandas as pd
 import os
 from werkzeug.utils import secure_filename
@@ -74,10 +75,12 @@ def SalvarSubstitutos():
     arrayOP = corpo.get('arrayOP')
     arraycor = corpo.get('arraycor')
     arraydesconsidera = corpo.get('arraydesconsidera')
+    empresa = corpo.get('empresa','1')
+    usuario = corpo.get('usuario','-')
 
-    print(arrayOP)
 
-    Endereco_det = SkusSubstitutos.UpdetaConsidera(arrayOP, arraycor, arraydesconsidera)
+
+    Endereco_det = RegistroSubstitutos.RegistroSubstitutos(empresa,usuario).registrarSubstituto(arrayOP, arraycor, arraydesconsidera)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
