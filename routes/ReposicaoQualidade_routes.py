@@ -5,8 +5,7 @@
 
 import models.configuracoes.empresaConfigurada
 import models.configuracoes.SkusSubstitutos
-from models import ReposicaoQualidade, controle
-from models.Processo_Reposicao_OFF import RecarregarEndereco
+from models import ReposicaoQualidade, controle, Reposicao, Endereco, ReposicaoViaOFF, Configuracoes
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -30,61 +29,63 @@ def restart_server():
 
 
 
-#### Essa api RecarrearEndereco utiliza como referencia o arquivo models.Processo_Reposicao_OFF.RecarregarEndereco deste projeto.
-#### Repetimos na funcao algums processos para um melhor acoplamento.
+'''Rota da api para recarregar Endereco'''
 @reposicao_qualidadeRoute.route('/api/RecarrearEndereco', methods=['POST'])
 @token_required
 def RecarrearEnderecoTeste():
 
-        dados = request.get_json()# Obtenha os dados do corpo da requisição
-        Ncaixa = dados['Ncaixa']# Extraia os valores dos campos do novo usuário
+        dados = request.get_json()
+        Ncaixa = dados['Ncaixa']
         endereco = dados['endereco']
         usuario = dados.get('usuario','-')
-        datainicio = controle.obterHoraAtual()
+        empresa = dados.get('empresa','1')
 
 
+        # 1 - Instanciando o objeto Reposicao
+        repor = Reposicao.Reposicao('',endereco,empresa,usuario,'',Ncaixa)
 
-        # Funcao de contingencia para casos  que derem errado:
-        RecarregarEndereco.UpdateEnderecoCAixa(Ncaixa,endereco,'ReposicaoIniciada')
 
-        # Etapa 1 : Valida se o Endereco existe no WMS
-        StatusEndereco = RecarregarEndereco.ValidaEndereco(endereco)
+        # 2 : Valida se o Endereco existe no WMS
+        StatusEndereco = Endereco.Endereco(repor.endereco,repor.empresa).validaEndereco()
 
-        # 1.1 - Caso Nao existir NO WMS:
+        # 2.1 - Caso Nao existir NO WMS:
         if StatusEndereco['status'][0] == False:
 
-            Retorno = StatusEndereco ##'Mensagem':f'Erro! O endereco {endereco} nao esta cadastrado, contate o supervisor.
+            Retorno = StatusEndereco#'Mensagem':f'Erro! O endereco {endereco} nao esta cadastrado, contate o supervisor.
 
             column_names = Retorno.columns # Obtém os nomes das colunas
-
-            # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
             enderecos_data = []
             for index, row in Retorno.iterrows():
                 enderecos_dict = {}
                 for column_name in column_names:
                     enderecos_dict[column_name] = row[column_name]
                 enderecos_data.append(enderecos_dict)
-            return jsonify(enderecos_data) ## EXIBIR A MENSAGEM DE RETORNO EM JSON
+            return jsonify(enderecos_data)
 
 
-        # 1.2 - Caso Exista no WMS:
+        # 2.2 - Caso Exista no WMS:
         else:
-
             # Estapa 2 : Extrai Informacos da caixa
-            InfoCaixa = RecarregarEndereco.InfoCaixa(Ncaixa)
+            InfoCaixa = ReposicaoViaOFF.ReposicaoViaOFF('',repor.Ncaixa,repor.empresa).informcaoCaixaDetalhado()
+            # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, Knatureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
 
-                    # Retorno: NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
+            reduzido = InfoCaixa['codreduzido'][0]
+            # Cria uma variavel chamada reduzido com a informacao do codigo Reduzido (tambem chamado SKU):
 
-            reduzido = InfoCaixa['codreduzido'][0] # Cria uma variavel chamada reduzido com a informacao do codigo Reduzido (tambem chamado SKU):
+            # Etapa 3 :Avalia se no endereco que o usario esta tentando repor esta vazio:
+            StatusEnderecoOculpacao = repor.avalicaoOcupacaoEndereco()
+            #Retorno : status: False - significa que está cheio , else : está Vazio
 
-        # Etapa 3 :Avalia se no endereco que o usario esta tentando repor esta vazio:
-            StatusEnderecoOculpacao = RecarregarEndereco.EnderecoOculpado(endereco)
-                            #Retorno : status: False - significa que está cheio , else : está Vazio
+            #3.1 - Caso o endereco estiver cheio e o "codigo reduzido" for diferente ao do "codigo reduzido da Caixa"  - Nao permite a operacao
+            if StatusEnderecoOculpacao['status'][0] == False and \
+                    reduzido != StatusEnderecoOculpacao['codreduzido'][0]:
 
-                #3.1 - Caso o endereco estiver cheio e o "codigo reduzido" for diferente ao do "codigo reduzido da Caixa"  - Nao permite a operacao
-            if StatusEnderecoOculpacao['status'][0] == False and reduzido != StatusEnderecoOculpacao['codreduzido'][0]:
                 Retorno = StatusEnderecoOculpacao
                 Retorno.drop('codreduzido', axis=1, inplace=True)
+
+                # Faz o registro da inconsistencia:
+                repor.detalhaErro = 'endereco está cheio com outro sku'
+                repor.put_registroPendenciasRecarregarEndereco()
 
                 # Obtém os nomes das colunas
                 column_names = Retorno.columns
@@ -95,21 +96,15 @@ def RecarrearEnderecoTeste():
                     for column_name in column_names:
                         enderecos_dict[column_name] = row[column_name]
                     enderecos_data.append(enderecos_dict)
-                return jsonify(enderecos_data) # Retorno do Json Mensagem':f'Endereco está cheio, com o sequinte sku xxxx diferente do informado
+                return jsonify(enderecos_data)
 
 
             # Etapa 4 : Caso o endereco estiver vazio ou o sku for o mesmo que está no endereco,
-
-            else: #### o processo  continua e a proxima validacao é se a OP está baixada
+            #### o processo  continua e a proxima validacao é se a OP está baixada
+            else:
 
                 codigoOP = InfoCaixa['numeroop'][0] #retira a informacao do Numero da OP para consultar se a mesma foi baixada
-                print(f'A caixa da reposicao {Ncaixa} esta sem OP{codigoOP} para validar, informar ao usuario {usuario}')
-
-                # Como é feito um interacao com o ERP CSW, essa opcao mapei o tempo de consumo da requisicao junto ao ERP
-                client_ip = request.remote_addr
-                #StatusOP = RecarregarEndereco.ValidarSituacaoOPCSW(codigoOP) # Valida se a OP foi Baixada, retorno: status True foi baixado , else: está pendente
-                StatusOP = RecarregarEndereco.ValidarSituacaoOPCPelaTag(InfoCaixa)
-                controle.salvar('ValidarSituacaoOPCSW', client_ip, datainicio)
+                StatusOP = repor.validarSituacaoTags(InfoCaixa['codbarrastag'])
 
 
 
@@ -129,10 +124,9 @@ def RecarrearEnderecoTeste():
 
                 # 5: Caso a caixa "passe" por todas as validacoes e estiver autorizada a recarregar
                 else:
-                    print(f'5 - OP {codigoOP} Esta autorizada a regarregar ')
                     #Verifica se o WMS esá configurado para tratar restricao especial:
-
-                    configuracaoRestricao = models.configuracoes.empresaConfigurada.RegraDeEnderecoParaSubstituto() #Retorno implenta_endereco_subs: sim ou nao
+                    configuracaoRestricao = Configuracoes.ConfiguracoesGerais(repor.empresa).consultaRegraDeEnderecoParaSubstituto()
+                    #Retorno implenta_endereco_subs: sim ou nao
 
 
                     # 5.1 Restricao de endereco Especial
@@ -140,14 +134,23 @@ def RecarrearEnderecoTeste():
                     if configuracaoRestricao == 'sim' and InfoCaixa['restricao'][0] != '-' and InfoCaixa['restricao'][0] != 'veio csw':
                         print('etapa 5.1 Restricao de endereco Especial')
 
-                        #Verifica o endereco proposto para a reposicao
-                        enderecoPreReservado = models.configuracoes.SkusSubstitutos.PesquisaEnderecoEspecial(endereco)
+                        # 5.1.1 Verifica o endereco escolhido e notifica caso esse endereco estiver cheio, para nao misturar as OPs
+                        # 5.1.2 verifica se o numero da OP que esta no endereco é o mesmo da Op que esta sendo reposta
 
-                        #5.1.1 Caso o endereco reposto nao corresponda ao pré reservado:
-                        if enderecoPreReservado == False:
+                        if StatusEnderecoOculpacao['status'][0] == False \
+                                and InfoCaixa['numeroop'][0] != repor.verificarOpsEndereco():
+
+                            # Registra a incroguencia
+                            repor.detalheErro = 'tentou incluir tag com restricao de substiuto misturado em outras'
+                            repor.put_registroPendenciasRecarregarEndereco()
+
 
                             Retorno = pd.DataFrame([{'status': False,
-                                'Mensagem':f'Erro! o Endereco: {endereco} a ser reposto nao corresponde as prateleiras pre Reservadas para Substitutos, reponha nos enderecos sugeridos!'}])  # 'Mesagem'
+                                'Mensagem':f'Erro! os itens a ser reposto sao substitutos e o endereco{repor.endereco} está cheio com outras OPs !'}])  # 'Mesagem'
+
+
+
+
                             column_names = Retorno.columns  # Obtém os nomes das colunas
                             enderecos_data = []  # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
 
@@ -162,19 +165,7 @@ def RecarrearEnderecoTeste():
 
                         # 5.1.2 Caso o endereco sugerido for igual ao informado pelo usuario
                         else:
-                            epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
-                            #Limpar a Pré Reserva do Endereco
-                            models.configuracoes.SkusSubstitutos.PreReservarEndereco(endereco, InfoCaixa['restricao'][0])
-
-                            models.configuracoes.SkusSubstitutos.LimprandoPréReserva(endereco)
-
-
-                            RecarregarEndereco.IncrementarCaixa(endereco, epc, usuario)
-
-                            models.configuracoes.SkusSubstitutos.AtualizarReservadoLiberados()
-
-                            ## Limpeza retirada ate achar o erro
-                            RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                            repor.registrarTagsNoEndereco(InfoCaixa)
 
                             # Obtém os nomes das colunas
 
@@ -190,18 +181,12 @@ def RecarrearEnderecoTeste():
                             return jsonify(enderecos_data)
 
                     # 5.2 Caso nao tiver  Restricao de endereco Especial
-
                     else:
-                        print('etapa 5.2 - sem restricao de endereco especial e aprovado para recarregar!')
-
-                        epc = RecarregarEndereco.EPC_CSW_OP(InfoCaixa)
-                        RecarregarEndereco.IncrementarCaixa(endereco,epc, usuario)
-                        ## Limpeza retirada ate achar o erro
-                        RecarregarEndereco.LimpandoDuplicidadeFilaOFF()
+                        repor.registrarTagsNoEndereco(InfoCaixa)
 
                         # Obtém os nomes das colunas
 
-                        Retorno = pd.DataFrame([{'status':True,'Mensagem':'Endereco carregado com sucesso!'}])
+                        Retorno = pd.DataFrame([{'status': True, 'Mensagem': 'Endereco carregado com sucesso!'}])
                         column_names = Retorno.columns
                         # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
                         enderecos_data = []
@@ -211,6 +196,13 @@ def RecarrearEnderecoTeste():
                                 enderecos_dict[column_name] = row[column_name]
                             enderecos_data.append(enderecos_dict)
                         return jsonify(enderecos_data)
+
+
+
+
+
+
+
 
 
 @reposicao_qualidadeRoute.route('/api/PesquisarCodbarrastag', methods=['GET'])

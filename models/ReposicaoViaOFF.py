@@ -10,7 +10,7 @@ class ReposicaoViaOFF():
     """Classe do WMS responsavel pela reposicao via OFF (antes das tag entrar em estoque), atribuindo tag a um Ncaixa e a NCarrinho """
 
     def __init__(self, codbarrastag, Ncaixa=None, empresa=None, usuario=None, natureza=None, estornar=False,
-                 Ncarrinho='', numeroOP=None,codreduzido =None):
+                 Ncarrinho='', numeroOP=None, codreduzido=None):
         self.codbarrastag = str(codbarrastag)
         self.codbarrasPesquisa = "'" + self.codbarrastag + "'"
 
@@ -337,7 +337,7 @@ class ReposicaoViaOFF():
         consulta = pd.read_sql(sql, conn, params=(self.empresa,))
         consulta.fillna('-', inplace=True)
         nomeCarrinho = self.nomeUsuarioCarrinho()
-        consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
+        consulta = pd.merge(consulta, nomeCarrinho, on='Ncarrinho', how='left')
         consulta.fillna('-', inplace=True)
 
         return consulta
@@ -371,7 +371,7 @@ class ReposicaoViaOFF():
         consulta.fillna('-', inplace=True)
 
         nomeCarrinho = self.nomeUsuarioCarrinho()
-        consulta = pd.merge(consulta,nomeCarrinho,on='Ncarrinho',how='left')
+        consulta = pd.merge(consulta, nomeCarrinho, on='Ncarrinho', how='left')
         consulta.fillna('-', inplace=True)
 
         if not consulta.empty:
@@ -481,8 +481,8 @@ class ReposicaoViaOFF():
                             (  %s, %s, %s, %s, %s, %s, %s )"""
 
             values = [(row['codbarrastag']
-                       , row['natureza'], row['codempresa'],   row['caixa'],
-                       row['usuario'], row['DataReposicao'],  row['Ncarrinho']) for index, row in
+                       , row['natureza'], row['codempresa'], row['caixa'],
+                       row['usuario'], row['DataReposicao'], row['Ncarrinho']) for index, row in
                       pesquisa.iterrows()]
             cursor.executemany(insert, values)
             conn.commit()  # Faça o commit da transação
@@ -490,7 +490,7 @@ class ReposicaoViaOFF():
 
             conn.close()
 
-            return pd.DataFrame([{'Mensagem':'Tags Registradas com sucesso','status':True}])
+            return pd.DataFrame([{'Mensagem': 'Tags Registradas com sucesso', 'status': True}])
         except:
 
             query = f"""
@@ -504,9 +504,6 @@ class ReposicaoViaOFF():
             tag_array = consulta['codbarrastag'].to_list()
 
             return pd.DataFrame([{'Mensagem':f'Tags{tag_array} ja possuem registro','status':False}])
-
-
-
 
     def consultarTags_OP_rdz(self):
         '''Metodo utilizado para obter as tags e o reduzido '''
@@ -523,10 +520,9 @@ class ReposicaoViaOFF():
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta = pd.read_sql(sql,conn,params=(self.numeroOP, self.empresa, self.codreduzido,))
+        consulta = pd.read_sql(sql, conn, params=(self.numeroOP, self.empresa, self.codreduzido,))
 
         return consulta
-
 
     def obterOPReduzido(self):
         '''Metodo utilizado para consultar o reduzido e a OP apartir da primeira tag'''
@@ -546,9 +542,24 @@ class ReposicaoViaOFF():
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta = pd.read_sql(sql,conn,params=(self.codbarrastag,))
+        consulta = pd.read_sql(sql, conn, params=(self.codbarrastag,))
 
         return consulta
+
+    def informcaoCaixaDetalhado(self):
+        conn1 = ConexaoPostgreMPL.conexaoEngine()  # Abrindo a Conexao com o Postgre WMS
+        consulta = pd.read_sql(
+            'select rq.caixa, rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
+            ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao", resticao as restricao  from "off".reposicao_qualidade rq  '
+            "where rq.caixa = %s and rq.empresa = %s ", conn1, params=(self.Ncaixa, self.empresa))
+
+        if consulta.empty:
+            return pd.DataFrame([{'caixa': 'vazia', 'codreduzido': '-'}])
+
+        else:
+
+            return consulta  # NumeroCaixa, codbarras, codreduzido, engenharia, descricao, natureza, emoresa, cor , tamanho , OP , usuario , DataReposicao, restricao
+
 
 
 

@@ -25,11 +25,23 @@ class RegistroSubstitutos():
             conn = ConexaoPostgreMPL.conexao()
 
             consultar = pd.read_sql(
-                'Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor as "4-cor", databaixa_req as "5-databaixa", '
-                '"coodigoPrincipal" as "6-codigoPrinc", '
-                'nomecompontente as "7-nomePrinc",'
-                '"coodigoSubs" as "8-codigoSub",'
-                'nomesub as "9-nomeSubst", aplicacao as "10-aplicacao", considera from "Reposicao"."SubstitutosSkuOP" ',
+                """Select 
+                        categoria as "1-categoria", 
+                        s.numeroop as "2-numeroOP", 
+                        codproduto as "3-codProduto", 
+                        s.cor as "4-cor", 
+                        databaixa_req as "5-databaixa",
+                        "coodigoPrincipal" as "6-codigoPrinc", 
+                        nomecompontente as "7-nomePrinc",
+                        "coodigoSubs" as "8-codigoSub",
+                        nomesub as "9-nomeSubst", 
+                        aplicacao as "10-aplicacao", 
+                        rs.considera
+                    from 
+                        "Reposicao"."SubstitutosSkuOP" s
+                    left join
+                    	(select distinct numeroop, cor, 'sim' as considera from "Reposicao"."RegistroSubstituto") rs 
+                    	on rs.numeroop = s.numeroop and rs.cor = s.cor  """,
                 conn)
 
             conn.close()
@@ -46,11 +58,26 @@ class RegistroSubstitutos():
             conn = ConexaoPostgreMPL.conexao()
 
             consultar = pd.read_sql(
-                'Select categoria as "1-categoria", numeroop as "2-numeroOP", codproduto as "3-codProduto", cor as "4-cor", databaixa_req as "5-databaixa", '
-                '"coodigoPrincipal" as "6-codigoPrinc", '
-                'nomecompontente as "7-nomePrinc",'
-                '"coodigoSubs" as "8-codigoSub",'
-                'nomesub as "9-nomeSubst",aplicacao as "10-aplicacao",  considera from "Reposicao"."SubstitutosSkuOP" where categoria = %s ',
+                """Select 
+                        categoria as "1-categoria", 
+                        s.numeroop as "2-numeroOP", 
+                        codproduto as "3-codProduto", 
+                        s.cor as "4-cor", 
+                        databaixa_req as "5-databaixa",
+                        "coodigoPrincipal" as "6-codigoPrinc", 
+                        nomecompontente as "7-nomePrinc",
+                        "coodigoSubs" as "8-codigoSub",
+                        nomesub as "9-nomeSubst", 
+                        aplicacao as "10-aplicacao", 
+                        rs.considera
+                    from 
+                        "Reposicao"."SubstitutosSkuOP" s
+                    left join
+                    	(select distinct numeroop, cor, 'sim' as considera from "Reposicao"."RegistroSubstituto") rs 
+                    	on rs.numeroop = s.numeroop and rs.cor = s.cor  
+                    where
+                        s.categoria = %s	
+                    	""",
                 conn, params=(self.aplicarFiltroCategoria,))
 
             conn.close()
@@ -76,6 +103,7 @@ class RegistroSubstitutos():
             dataHora = self.obterHoraAtual()
 
             insert = 'insert into "Reposicao"."RegistroSubstituto" (numeroop, cor, usuario, "dataHoraRegistro", empresa) values (%s, %s, %s, %s, %s)'
+            update = """update "Reposicao"."RegistroSubstituto" set considera = 'sim' and consideracao = 'sim' where numeroop = %s and cor =%s  """
 
             cursor = conn.cursor()
 
@@ -83,9 +111,16 @@ class RegistroSubstitutos():
                 cursor.execute(insert, (self.numeroop , self.cor, self.usurio, dataHora, self.empresa))
                 conn.commit()
 
+                cursor.execute(update,(self.numeroop, self.cor))
+                conn.commit()
+
+
             else:
                 delete = '''delete from "Reposicao"."RegistroSubstituto" where "numeroop" = %s and empresa = %s and cor = %s  '''
                 cursor.execute(delete, (self.numeroop , self.empresa, self.cor))
+                conn.commit()
+
+                cursor.execute(update,(self.numeroop, self.cor))
                 conn.commit()
 
 

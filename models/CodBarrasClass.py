@@ -1,7 +1,6 @@
 import ConexaoPostgreMPL
 import datetime
 import pytz
-from models import SkuClass
 
 class codBarrasTag():
     '''Classe que define os metodos e atributos de cobBarrasTag no WMS'''
