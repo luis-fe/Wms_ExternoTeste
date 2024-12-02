@@ -18,7 +18,7 @@ class CaixaOFF():
                 rq.caixa, 
                 rq.usuario 
             from 
-                "Reposicao"."off".reposicao_qualidade rq '
+                "Reposicao"."off".reposicao_qualidade rq 
             where 
                 rq.codempresa  = %s order by caixa
         """
