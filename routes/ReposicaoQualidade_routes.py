@@ -5,7 +5,7 @@
 
 import models.configuracoes.empresaConfigurada
 import models.configuracoes.SkusSubstitutos
-from models import ReposicaoQualidade, controle, Reposicao, Endereco, ReposicaoViaOFF, Configuracoes
+from models import ReposicaoQualidade, controle, Reposicao, Endereco, ReposicaoViaOFF, Configuracoes, Caixa
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -287,7 +287,7 @@ def CaixasAbertasGeral():
     empresa = request.args.get('empresa','1')
 
 
-    FilaReposicaoOP = ReposicaoQualidade.CaixasAbertas(empresa)
+    FilaReposicaoOP = Caixa.CaixaOFF('',empresa).caixasAbertas()
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes

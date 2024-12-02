@@ -74,6 +74,7 @@ class Carrinho():
         return consulta
 
     def excluirCarrinho(self):
+        '''Metodo utilizado para excuir carrinho, somente se o carrinho estiver vazio'''
 
         #Valida se o carrinho ta atribuido a uma caixa
         validando = self.validandoCarrinho()
