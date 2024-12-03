@@ -19,7 +19,8 @@ class CaixaOFF():
                 rq.caixa, 
                 rq.usuario,
                 codreduzido,
-                numeroop 
+                numeroop ,
+                descricao
             from 
                 "Reposicao"."off".reposicao_qualidade rq 
             where 
@@ -44,16 +45,27 @@ class CaixaOFF():
 
         return consulta
 
-    def CaixasAbertasUsuario(self):
+    def caixasAbertasUsuario(self):
+        '''Metodo utilizado para consultar as caixas abertas para um usuario em especifico'''
 
+
+        sql = """
+            select distinct 
+                rq.caixa, 
+                rq.usuario,
+                codreduzido,
+                numeroop ,
+                descricao
+            from 
+                "Reposicao"."off".reposicao_qualidade rq 
+            where 
+                rq.codempresa  = %s and usuario = %s order by caixa
+        """
 
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta = pd.read_sql(
-            'SELECT rq.caixa, rq.numeroop, rq.codreduzido, descricao '
-            'FROM "Reposicao"."off".reposicao_qualidade rq '
-            'WHERE rq.usuario = %s',
-            conn, params=(self.usuario,)
+        consulta = pd.read_sql(sql,
+            conn, params=(self.empresa, self.usuario,)
         )
 
         # Realizando o agrupamento no Pandas
@@ -65,7 +77,7 @@ class CaixaOFF():
             'where numeroop in (select distinct numeroop from "Reposicao"."off".reposicao_qualidade rq where rq.usuario = %s) '
             'group by codreduzido, numeroop ', conn, params=(self.usuario,))
 
-        consulta = pd.merge(consulta, BipadoSKU, on=('codreduzido', 'numeroop'), how='left')
+        consulta = pd.merge(consulta, BipadoSKU, on=['codreduzido', 'numeroop'], how='left')
 
         if not consulta.empty:
             consulta['usuario'] = str(self.usuario)
