@@ -156,22 +156,7 @@ def ObterTipoPrateleira():
     return jsonify(FilaReposicaoOP_data)
 
 
-@endereco_routes.route('/api/GerarCaixa', methods=['PUT'])
-@token_required
-def GerarCaixa():
-    # Obtenha os dados do corpo da requisição
-    novo_endereco = request.get_json()
-    # Extraia os valores dos campos do novo usuário
 
-    QuantidadeImprimir = novo_endereco.get('QuantidadeImprimir')
-    usuario = novo_endereco.get('usuario','')
-    salvaEtiqueta = novo_endereco.get('salvaEtiqueta', False)
-
-
-    imprimirEtiquetaModel.QuantidadeImprimir(QuantidadeImprimir,usuario,bool(salvaEtiqueta))
-
-    # inserir o novo usuário no banco de dados
-    return jsonify({'message': f' ok!'}), 200
 
 
 @endereco_routes.route('/api/ObterEnderecosEspeciais', methods=['GET'])

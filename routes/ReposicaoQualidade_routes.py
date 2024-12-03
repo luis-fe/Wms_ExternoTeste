@@ -279,7 +279,22 @@ def ExcluirCaixa():
         enderecos_data.append(enderecos_dict)
     return jsonify(enderecos_data)
 
+@reposicao_qualidadeRoute.route('/api/GerarCaixa', methods=['PUT'])
+@token_required
+def GerarCaixa():
+    # Obtenha os dados do corpo da requisição
+    novo_endereco = request.get_json()
+    # Extraia os valores dos campos do novo usuário
 
+    QuantidadeImprimir = novo_endereco.get('QuantidadeImprimir')
+    usuario = novo_endereco.get('usuario','')
+    salvaEtiqueta = novo_endereco.get('salvaEtiqueta', False)
+
+
+    Caixa.CaixaOFF('','',usuario,QuantidadeImprimir).gerarCaixas(salvaEtiqueta)
+
+    # inserir o novo usuário no banco de dados
+    return jsonify({'message': f' ok!'}), 200
 
 @reposicao_qualidadeRoute.route('/api/CaixasAbertasGeral', methods=['GET'])
 @token_required
@@ -307,7 +322,7 @@ def CaixasAbertasUsuario():
         empresa = request.args.get('empresa','1')
         codUsuario = request.args.get('codUsuario')
 
-        FilaReposicaoOP = ReposicaoQualidade.CaixasAbertasUsuario(empresa, codUsuario)
+        FilaReposicaoOP = Caixa.CaixaOFF('', empresa,codUsuario).caixasAbertasUsuario()
         # Obtém os nomes das colunas
         column_names = FilaReposicaoOP.columns
         # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
