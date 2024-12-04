@@ -33,14 +33,14 @@ class Endereco ():
         '''Metodo utilizado para cadastrar um novo endereco '''
 
 
-        inserir = 'insert into "Reposicao".cadendereco ("codendereco","rua","modulo","posicao")' \
-                  ' VALUES (%s,%s,%s,%s);'
+        inserir = 'insert into "Reposicao".cadendereco ("codendereco","rua","modulo","posicao", "codempresa" )' \
+                  ' VALUES (%s,%s,%s,%s,%s);'
         codenderco = self.rua + "-" + self.modulo + "-" + self.posicao
 
         conn = ConexaoPostgreMPL.conexao()
         cursor = conn.cursor()
         cursor.execute(inserir
-                       , (codenderco, self.rua, self.modulo, self.posicao))
+                       , (codenderco, self.rua, self.modulo, self.posicao, self.empresa))
 
         # Obter o número de linhas afetadas
         numero_linhas_afetadas = cursor.rowcount
