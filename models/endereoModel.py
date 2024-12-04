@@ -9,22 +9,6 @@ def ObeterEnderecos():
     endercos = pd.read_sql(
         ' select * from "Reposicao"."cadendereco" ce   ', conn)
     return endercos
-def CadEndereco (rua, modulo, posicao):
-    inserir = 'insert into "Reposicao".cadendereco ("codendereco","rua","modulo","posicao")' \
-          ' VALUES (%s,%s,%s,%s);'
-    codenderco = rua+"-"+modulo+"-"+posicao
-
-    conn = ConexaoPostgreMPL.conexao()
-    cursor = conn.cursor()
-    cursor.execute(inserir
-                   , (codenderco, rua, modulo, posicao))
-
-    # Obter o número de linhas afetadas
-    numero_linhas_afetadas = cursor.rowcount
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return codenderco
 
 def Deletar_Endereco(Endereco):
     conn = ConexaoPostgreMPL.conexao()

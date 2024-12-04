@@ -48,3 +48,10 @@ class Endereco ():
         cursor.close()
         conn.close()
         return codenderco
+
+    def obeterEnderecos(self):
+        '''Metodo que consulta todos os enderecos disponiveis no WMS '''
+        conn = ConexaoPostgreMPL.conexao()
+        endercos = pd.read_sql(
+            ' select * from "Reposicao"."cadendereco" ce   ', conn)
+        return endercos
