@@ -1,4 +1,4 @@
-from models import endereoModel,imprimirEtiquetaModel
+from models import endereoModel,Endereco
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
@@ -42,8 +42,9 @@ def criar_enderco():
     rua = novo_endereco.get('rua')
     modulo = novo_endereco.get('modulo')
     posicao = novo_endereco.get('posicao')
+    empresa = novo_endereco.get('empresa','1')
 
-    codendereco = endereoModel.CadEndereco(rua, modulo, posicao)
+    codendereco = Endereco.Endereco('',empresa, rua, modulo, posicao).cadEndereco()
 
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f'Novo endereco:{codendereco} criado com sucesso'}), 201
