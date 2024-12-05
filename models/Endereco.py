@@ -12,7 +12,7 @@ class Endereco ():
         self.rua = rua
         self.modulo = modulo
         self.posicao = posicao
-        self.natureza = natureza
+        self.natureza = str(natureza)
 
     def validaEndereco(self):
         '''Metodo utilizado para validar se extite o endereco no WMS'''
