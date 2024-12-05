@@ -11,7 +11,8 @@ import tempfile
 class Endereco ():
     '''Classe criada para entidade Endereco do WMS '''
 
-    def __init__(self, endereco = None, empresa = None, rua = None, modulo = None, posicao = None, natureza = None, ruaLimite = None, moduloLimite = None, posicaoLimite = None ):
+    def __init__(self, endereco = None, empresa = None, rua = None, modulo = None, posicao = None, natureza = None, ruaLimite = None,
+                 moduloLimite = None, posicaoLimite = None, tipoEndereco = None ):
 
         self.endereco = endereco
         self.empresa = str(empresa)
@@ -22,6 +23,7 @@ class Endereco ():
         self.ruaLimite = ruaLimite
         self.moduloLimite = moduloLimite
         self.posicaoLimite = posicaoLimite
+        self.tipoEndereco = tipoEndereco
 
     def validaEndereco(self):
         '''Metodo utilizado para validar se extite o endereco no WMS'''
@@ -295,6 +297,53 @@ class Endereco ():
                                 {'PageSize': 'Custom.10x0.25cm', 'FitToPage': 'True', 'Scaling': '100',
                                  'Orientation': '3'})
         print(f"ID {job_id} enviado para impressão")
+
+    def deletarVariosEnderecos(self):
+
+        '''Metodo utilizado para deletar varios enderecos de acordo com rua ini x rua fim , modulo ini x modulo fim, posica ini x posicao fim '''
+
+        conn = ConexaoPostgreMPL.conexao()
+        query = 'delete from "Reposicao".cadendereco ' \
+                'where rua = %s and modulo = %s and posicao = %s and codempresa = %s '
+
+        r = int(self.rua)
+        self.ruaLimite = int(self.ruaLimite) + 1
+
+        m = int(self.modulo)
+        self.moduloLimite = int(self.moduloLimite) + 1
+
+        p = int(self.posicao)
+        self.posicaoLimite = int(self.posicaoLimite) + 1
+
+        while r < self.ruaLimite:
+            ruaAtual = self.Acres_0(r)
+            while m < self.moduloLimite:
+                moduloAtual = self.Acres_0(m)
+                while p < self.posicaoLimite:
+                    posicaoAtual = self.Acres_0(p)
+                    self.endereco = ruaAtual + '-' + moduloAtual + "-" + posicaoAtual
+                    cursor = conn.cursor()
+                    select = pd.read_sql('select "Endereco" from "Reposicao".tagsreposicao where "Endereco" = %s ',
+                                         conn,
+                                         params=(self.endereco,))
+                    if select.empty:
+                        cursor.execute(query, (ruaAtual, moduloAtual, posicaoAtual, self.empresa))
+                        conn.commit()
+                        cursor.close()
+                    else:
+                        cursor.close()
+                        print(f'{self.endereco} nao pode ser excluido ')
+                    p += 1
+                p = int(self.posicao)
+                m += 1
+            m = int(self.modulo)
+            r += 1
+
+    def obterTipoPrateleira(self):
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        qurey = pd.read_sql('select tipo from "Reposicao"."configuracaoTipo" ', conn)
+
+        return qurey
 
 
 

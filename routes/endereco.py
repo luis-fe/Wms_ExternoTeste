@@ -137,22 +137,23 @@ def EnderecoAtacadoDelatar():
     moduloFinal = novo_endereco.get('moduloFinal')
     posicao = novo_endereco.get('posicao')
     posicaoFinal = novo_endereco.get('posicaoFinal')
-    tipo = novo_endereco.get('tipo','COLECAO')
+    #tipo = novo_endereco.get('tipo','COLECAO')
     natureza = novo_endereco.get('natureza','5')
     empresa = novo_endereco.get('empresa','1')
 
+    enderecos = Endereco.Endereco('',empresa,rua,modulo,posicao,natureza,ruaFinal,moduloFinal,posicaoFinal)
 
-    endereoModel.ImportEnderecoDeletar(rua, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza)
-
+    enderecos.deletarVariosEnderecos()
     # inserir o novo usuário no banco de dados
     return jsonify({'message': f' enderecos excluidos com sucesso, exceto o que tem saldo !'}), 200
+
 
 @endereco_routes.route('/api/ObterTipoPrateleira', methods=['GET'])
 @token_required
 def ObterTipoPrateleira():
 
 
-    FilaReposicaoOP = endereoModel.ObterTipoPrateleira()
+    FilaReposicaoOP = Endereco.Endereco().obterTipoPrateleira()
     # Obtém os nomes das colunas
     column_names = FilaReposicaoOP.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
@@ -165,9 +166,8 @@ def ObterTipoPrateleira():
     return jsonify(FilaReposicaoOP_data)
 
 
-
-
-
+# Rota cancelada pois o modulo foi descontinuado
+''''
 @endereco_routes.route('/api/ObterEnderecosEspeciais', methods=['GET'])
 @token_required
 def ObterEnderecosEspeciais():
@@ -184,3 +184,4 @@ def ObterEnderecosEspeciais():
             FilaReposicaoOP_dict[column_name] = row[column_name]
         FilaReposicaoOP_data.append(FilaReposicaoOP_dict)
     return jsonify(FilaReposicaoOP_data)
+'''
