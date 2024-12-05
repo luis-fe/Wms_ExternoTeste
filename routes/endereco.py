@@ -59,7 +59,7 @@ def get_DisponibilidadeEnderecos():
     # Obtém os dados do corpo da requisição (JSON)
     empresa = request.args.get('empresa','1')
     natureza = request.args.get('natureza','5')
-    Endereco_det = endereoModel.EnderecosDisponiveis(natureza, empresa)
+    Endereco_det = Endereco.Endereco('',empresa,'','','',natureza).enderecosDisponiveis()
     Endereco_det = pd.DataFrame(Endereco_det)
     # Obtém os nomes das colunas
     column_names = Endereco_det.columns
@@ -77,8 +77,11 @@ def get_DisponibilidadeEnderecos():
 def delet_Endereco(codigoEndereco):
     # Obtém os dados do corpo da requisição (JSON)
     data = request.get_json()
+
+    empresa = data.get('empresa','1')
+
     # Verifica se a coluna "funcao" está presente nos dados recebidos
-    dados = endereoModel.Deletar_Endereco(codigoEndereco)
+    dados = Endereco.Endereco(codigoEndereco,empresa).deletar_Endereco()
     # Obtém os nomes das colunas
     column_names = dados.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
