@@ -106,17 +106,18 @@ def EnderecoAtacado():
     moduloFinal = novo_endereco.get('moduloFinal')
     posicao = novo_endereco.get('posicao')
     posicaoFinal = novo_endereco.get('posicaoFinal')
-    tipo = novo_endereco.get('tipo','COLECAO')
+    #tipo = novo_endereco.get('tipo','COLECAO')
     natureza = novo_endereco.get('natureza','5')
     empresa = novo_endereco.get('empresa','1')
     imprimir = novo_endereco.get('imprimir', False)
     enderecoReservado = novo_endereco.get('enderecoReservado', None)
 
-    if enderecoReservado in ['','-']:
-        enderecoReservado = ''
 
 
-    endereoModel.ImportEndereco(ruaInicial, ruaFinal, modulo,moduloFinal, posicao, posicaoFinal, tipo, empresa, natureza, bool(imprimir),enderecoReservado)
+    enderecos = Endereco.Endereco('',empresa,ruaInicial,modulo,posicao,natureza,ruaFinal,moduloFinal,posicaoFinal)
+
+    enderecos.gerarVariosEnderecos(imprimir)
+
 
 
 
