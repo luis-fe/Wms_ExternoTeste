@@ -1,4 +1,4 @@
-from models import endereoModel,Endereco
+from models import Endereco
 from flask import Blueprint, jsonify, request
 from functools import wraps
 import pandas as pd
