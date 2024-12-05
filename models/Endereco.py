@@ -74,7 +74,7 @@ class Endereco ():
         # 1.2 Carregando todos os enderecos
         relatorioEndereco2 = pd.read_sql(
             'select codendereco, contagem as saldo from "Reposicao"."enderecosReposicao" where natureza = %s and codempresa = %s '
-            ' ', conn, params=(self.natureza,self.empresa))
+            , conn, params=(self.natureza,self.empresa))
 
         # Calculando a Taxa de Ocupacao
         TaxaOcupacao = 1 - (relatorioEndereco["codendereco"].size / relatorioEndereco2["codendereco"].size)
