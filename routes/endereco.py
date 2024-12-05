@@ -20,7 +20,11 @@ def token_required(f): # TOKEN FIXO PARA ACESSO AO CONTEUDO
 @endereco_routes.route('/api/Enderecos', methods=['GET'])
 @token_required
 def get_enderecos():
-    enderecos = Endereco.Endereco().obeterEnderecos()
+    empresa = request.args.get('empresa','1')
+
+
+
+    enderecos = Endereco.Endereco('',empresa).obeterEnderecos()
     # Obtém os nomes das colunas
     column_names = enderecos.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
