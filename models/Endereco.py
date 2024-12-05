@@ -52,7 +52,7 @@ class Endereco ():
         '''Metodo que consulta todos os enderecos disponiveis no WMS '''
         conn = ConexaoPostgreMPL.conexaoEngine()
         endercos = pd.read_sql(
-            ' select codempresa, natureza, endereco, tipo from "Reposicao"."cadendereco" ce   where codempresa = %s', conn, params=(self.empresa,))
+            ' select codempresa, natureza, "Endereco", tipo from "Reposicao"."cadendereco" ce   where codempresa = %s', conn, params=(self.empresa,))
 
         endercos.fillna('-',inplace=True)
 
