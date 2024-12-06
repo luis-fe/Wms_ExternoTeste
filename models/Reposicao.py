@@ -21,6 +21,7 @@ class Reposicao():
         self.Ncaixa = Ncaixa
         self.DataHora = self.obterHoraAtual()
         self.detalhaErro = ''
+        self.situacaoTagCsw = ''
 
     def avalicaoOcupacaoEndereco(self):
         '''Metodo utilizado para avaliar a oculpacao do endereco '''
