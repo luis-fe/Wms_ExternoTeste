@@ -19,7 +19,7 @@ class ConfiguracoesGerais():
         '''Metodo criado para consultar a regra de Endereci Substituto'''
         conn = ConexaoPostgreMPL.conexaoEngine()
         empresa = pd.read_sql('Select implenta_endereco_subs from "Reposicao".configuracoes.empresa '
-                              'where empresa = %s', conn, params=(self.empresa,))
+                              'where codempresa = %s', conn, params=(self.empresa,))
 
         return empresa['implenta_endereco_subs'][0]
 
