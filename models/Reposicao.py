@@ -265,6 +265,8 @@ class Reposicao():
             conn.commit()  # Faça o commit da transação
             cursor.close()  # Feche o cursor
 
+            self.excluirCaixaValidada()
+
             return dataframe
 
 
@@ -286,6 +288,22 @@ class Reposicao():
 
 
                 return dataframe
+
+
+    def excluirCaixaValidada(self):
+        '''Metodo chamado para excluir as caixas validadas da reposicao OFF '''
+
+        delete = '''
+        delete from "off"."reposicao_qualidade"
+        where caixa = %s
+        '''
+
+        with ConexaoPostgreMPL.conexao() as conn :
+            with conn.cursor() as curr:
+                curr.execute(delete,(self.Ncaixa,))
+                conn.commit()
+
+
 
 
 
