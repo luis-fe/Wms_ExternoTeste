@@ -59,7 +59,7 @@ class Reposicao():
 
         sql = """
         SELECT 
-            p.codBarrasTag , 
+            p.codBarrasTag as codbarrastag , 
             p.situacao , 
             p.codNaturezaAtual  
         FROM 

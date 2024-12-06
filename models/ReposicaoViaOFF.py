@@ -549,12 +549,28 @@ class ReposicaoViaOFF():
     def informcaoCaixaDetalhado(self):
         conn1 = ConexaoPostgreMPL.conexaoEngine()  # Abrindo a Conexao com o Postgre WMS
         consulta = pd.read_sql(
-            'select rq.caixa, rq.codbarrastag , rq.codreduzido, rq.engenharia, rq.descricao, rq.natureza'
-            ', rq.codempresa, rq.cor, rq.tamanho, rq.numeroop, rq.usuario, rq."DataReposicao", resticao as restricao  from "off".reposicao_qualidade rq  '
-            "where rq.caixa = %s and rq.codempresa = %s ", conn1, params=(self.Ncaixa, self.empresa))
+            """
+            select 
+                rq.caixa, 
+                rq.codbarrastag , 
+                rq.codreduzido, 
+                rq.engenharia, 
+                rq.descricao, 
+                rq.natureza,
+                rq.codempresa, 
+                rq.cor, 
+                rq.tamanho, 
+                rq.numeroop, 
+                rq.usuario, 
+                rq."DataReposicao", 
+                resticao as restricao  
+            from "off".reposicao_qualidade rq  
+            where 
+                rq.caixa = %s 
+                and rq.codempresa = %s """, conn1, params=(self.Ncaixa, self.empresa))
 
         if consulta.empty:
-            return pd.DataFrame([{'caixa': 'vazia', 'codreduzido': '-'}])
+            return pd.DataFrame([{'caixa': 'vazia', 'codreduzido': '-','codbarrastag':'-'}])
 
         else:
 
