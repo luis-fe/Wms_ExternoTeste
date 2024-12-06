@@ -90,11 +90,11 @@ class Reposicao():
         consultaSituacao = consultaSituacao[consultaSituacao['situacao'] == 3]
         totalCaixaSit3 = consultaSituacao['ocorrencia'].sum()
         consulta2 = consulta[consulta['situacao'] != 3].reset_index()
-        resultado2 = '({})'.format(', '.join(["'{}'".format(valor) for valor in consulta2['codBarrasTag']]))
+        resultado2 = '({})'.format(', '.join(["'{}'".format(valor) for valor in consulta2['codbarrastag']]))
 
         if totalCaixa == totalCaixaSit3:
             for _, row in consulta.iterrows():
-                self.codbarrastag = row['codBarrasTag']
+                self.codbarrastag = row['codbarrastag']
                 self.situacaoTagCsw = row['situacao']
                 self.natureza = row['codNaturezaAtual']
 
@@ -104,7 +104,7 @@ class Reposicao():
         else:
 
             for _, row in consulta.iterrows():
-                self.codbarrastag = row['codBarrasTag']
+                self.codbarrastag = row['codbarrastag']
                 self.situacaoTagCsw = row['situacao']
                 self.natureza = row['codNaturezaAtual']
 
