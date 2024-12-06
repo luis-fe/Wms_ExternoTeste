@@ -71,7 +71,7 @@ class Reposicao():
 
         with ConexaoCSW.Conexao() as conn:
             with conn.cursor() as cursor_csw:
-                cursor_csw.execute(sql())
+                cursor_csw.execute(sql)
                 colunas = [desc[0] for desc in cursor_csw.description]
                 # Busca todos os dados
                 rows = cursor_csw.fetchall()
