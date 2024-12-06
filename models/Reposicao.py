@@ -243,7 +243,7 @@ class Reposicao():
         '''Metodo que salva as informacoes no endereco '''
 
         #1. encontrando os EPC's das tags aprovadas
-        epc = self.consultaCswEPC(dataframe['codbarrastag'])
+        epc = self.consultaCswEPC(dataframe)
         dataframe = pd.merge(dataframe, epc,on='codbarrastag',how='left')
         dataframe.fillna('-',inplace=True)
         try:
