@@ -564,7 +564,8 @@ class ReposicaoViaOFF():
                 rq.usuario, 
                 rq."DataReposicao", 
                 resticao as restricao  
-            from "off".reposicao_qualidade rq  
+            from 
+                "off".reposicao_qualidade rq  
             where 
                 rq.caixa = %s 
                 and rq.codempresa = %s """, conn1, params=(self.Ncaixa, self.empresa))

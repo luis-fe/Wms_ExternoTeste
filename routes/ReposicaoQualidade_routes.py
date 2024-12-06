@@ -104,7 +104,7 @@ def RecarrearEnderecoTeste():
             else:
 
                 codigoOP = InfoCaixa['numeroop'][0] #retira a informacao do Numero da OP para consultar se a mesma foi baixada
-                StatusOP = repor.validarSituacaoTags(InfoCaixa['codbarrastag'])
+                StatusOP = repor.validarSituacaoTags(InfoCaixa)
 
 
 
