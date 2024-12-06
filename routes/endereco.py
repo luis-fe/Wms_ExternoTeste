@@ -153,12 +153,12 @@ def EnderecoAtacadoDelatar():
 def ObterTipoPrateleira():
 
 
-    FilaReposicaoOP = Endereco.Endereco().obterTipoPrateleira()
+    tipoPrateleira = Endereco.Endereco().obterTipoPrateleira()
     # Obtém os nomes das colunas
-    column_names = FilaReposicaoOP.columns
+    column_names = tipoPrateleira.columns
     # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
     FilaReposicaoOP_data = []
-    for index, row in FilaReposicaoOP.iterrows():
+    for index, row in tipoPrateleira.iterrows():
         FilaReposicaoOP_dict = {}
         for column_name in column_names:
             FilaReposicaoOP_dict[column_name] = row[column_name]

@@ -30,7 +30,7 @@ class Endereco ():
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = 'select codendereco  FROM "Reposicao"."Reposicao".cadendereco c  ' \
-                   ' where "codendereco" = %s  and empresa = %s'
+                   ' where "codendereco" = %s  and codempresa = %s'
         consulta = pd.read_sql(consulta, conn, params=(self.endereco,self.empresa))
 
         if consulta.empty:

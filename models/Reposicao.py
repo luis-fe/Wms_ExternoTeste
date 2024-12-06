@@ -23,7 +23,7 @@ class Reposicao():
         self.detalhaErro = ''
 
     def avalicaoOcupacaoEndereco(self):
-        '''Metodo utilizado para avaliar '''
+        '''Metodo utilizado para avaliar a oculpacao do endereco '''
 
         conn = ConexaoPostgreMPL.conexaoEngine()
         consulta = 'select distinct codreduzido from "Reposicao"."Reposicao".tagsreposicao ' \
@@ -39,7 +39,7 @@ class Reposicao():
                 self.codreduzido = str(consulta["codreduzido"][0])
 
                 return pd.DataFrame(
-                    [{'Mensagem': f'Endereco está cheio, com o sequinte sku {consulta["codreduzido"][0]}', 'status': False,
+                    [{'Mensagem': f'Endereco está cheio, com o sequinte sku {consulta["codreduzido"][0]}', 'status': True,
                       'codreduzido': self.codreduzido}])
             else:
                 return pd.DataFrame(
