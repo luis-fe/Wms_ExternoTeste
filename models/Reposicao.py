@@ -248,8 +248,13 @@ class Reposicao():
         dataframe.fillna('-',inplace=True)
         try:
             conn = ConexaoPostgreMPL.conexao()
-            insert = 'insert into "Reposicao".tagsreposicao ("Endereco","codbarrastag","codreduzido",' \
-                     '"engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", "proveniencia","DataReposicao", usuario_carga, datahora_carga, epc) values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s, %s, %s )'
+            insert = """ 
+                insert into 
+                    "Reposicao".tagsreposicao 
+                        ("Endereco","codbarrastag","codreduzido",
+                        "engenharia","descricao","natureza","codempresa","cor","tamanho","numeroop","usuario", 
+                        "proveniencia","DataReposicao", usuario_carga, datahora_carga, epc, resticao)
+                    values ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s , %s, %s, %s, %s )"""
             dataframe['proveniencia'] = 'Veio da Caixa: ' + dataframe['caixa'][0]
 
             cursor = conn.cursor()  # Crie um cursor para executar a consulta SQL
@@ -259,7 +264,7 @@ class Reposicao():
             values = [(self.endereco, row['codbarrastag'], row['codreduzido'], row['engenharia'], row['descricao']
                        , row['natureza'], row['codempresa'], row['cor'], row['tamanho'], row['numeroop'],
                        row['usuario'], row['proveniencia'], row['DataReposicao'], row['usuario_carga'],
-                       row['data_hora_carga'],row['epc']) for index, row in dataframe.iterrows()]
+                       row['data_hora_carga'],row['epc'], row['resticao']) for index, row in dataframe.iterrows()]
 
             cursor.executemany(insert, values)
             conn.commit()  # Faça o commit da transação
