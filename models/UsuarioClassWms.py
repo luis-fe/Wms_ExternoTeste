@@ -74,7 +74,7 @@ class Usuario:
             (%s, %s, %s, %s, %s, %s)
         """
         try:
-            with conexao.WmsConnectionClass().conectar() as conn:
+            with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
                     curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'Ativo',self.perfil))
                     conn.commit()
