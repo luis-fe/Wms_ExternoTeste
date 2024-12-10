@@ -87,14 +87,21 @@ def criar_usuario():
     nome = novo_usuario.get('nome')
     senha = novo_usuario.get('senha')
     situacao = novo_usuario.get('situacao')
+    perfil = novo_usuario.get('perfil')
+    login = novo_usuario.get('login',codigo)
+
     emp = empresaConfigurada.EmpresaEscolhida()
     empresa = novo_usuario.get('empresa',emp)
     # inserir o novo usuário no banco de dados
-    c, n, f, g = usuariosModel.PesquisarUsuariosCodigo(codigo)
-    if c != 0:
+
+    # Instanciando o objeto usuario
+    usuario = UsuarioClassWms.Usuario(codigo, login,nome,situacao,funcao,senha,perfil)
+
+    a, b, c, d, e = usuario.consultaUsuario()
+    if a != 0:
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} ja existe'}), 201
     else:
-        usuariosModel.InserirUsuario(codigo, funcao, nome, senha, situacao, empresa)
+        usuario.inserirUsuario()
         # Retorne uma resposta indicando o sucesso da operação
         return jsonify({'message': f'Novo usuário:{codigo}- {nome} criado com sucesso'}), 201
 

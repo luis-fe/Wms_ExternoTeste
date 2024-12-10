@@ -14,7 +14,7 @@ class Usuario:
         senha (str): Senha de acesso do usuário.
     """
 
-    def __init__(self, codigo=None, login=None, nome=None, situacao=None, funcaoWMS=None, senha=None):
+    def __init__(self, codigo=None, login=None, nome=None, situacao=None, funcaoWMS=None, senha=None, perfil = None):
         """
         Construtor da classe Usuario.
 
@@ -32,6 +32,7 @@ class Usuario:
         self.situacao = situacao
         self.funcaoWMS = funcaoWMS
         self.senha = senha
+        self.perfil = perfil
 
     def getUsuarios(self):
         """
@@ -67,15 +68,15 @@ class Usuario:
             bool: True se a inserção for bem-sucedida, False caso contrário.
         """
         insert = """
-        INSERT INTO "WMS"."Wms".usuario
-            (matricula, funcao, nome, login, situacao)
+        INSERT INTO "Reposicao"."Reposicao".cadusuarios
+            (codigo, funcao, nome, login, situacao, perfil)
         VALUES
-            (%s, %s, %s, %s, %s)
+            (%s, %s, %s, %s, %s, %s)
         """
         try:
             with conexao.WmsConnectionClass().conectar() as conn:
                 with conn.cursor() as curr:
-                    curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'Ativo'))
+                    curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'Ativo',self.perfil))
                     conn.commit()
             return True
         except Exception as e:
@@ -93,7 +94,7 @@ class Usuario:
         SELECT 
             COUNT(*)
         FROM 
-            "WMS"."Wms".usuario us
+            "Reposicao"."Reposicao".cadusuarios us
         WHERE 
             codigo = %s AND senha = %s
         """
@@ -106,3 +107,18 @@ class Usuario:
         except Exception as e:
             print(f"Erro ao consultar usuário e senha: {e}")
             return False
+
+    def consultaUsuario(self):
+        conn = ConexaoPostgreMPL.conexao()
+        cursor = conn.cursor()
+        codigo = int(self.codigo)
+        cursor.execute('select codigo, nome, funcao, situacao, empresa, perfil from "Reposicao"."cadusuarios" c'
+                       ' where codigo = %s', (codigo,))
+        usuarios = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        if not usuarios:
+            return 0, 0, 0, 0, 0
+        else:
+            return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5]
+
