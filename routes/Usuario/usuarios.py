@@ -86,7 +86,7 @@ def criar_usuario():
     funcao = novo_usuario.get('funcao')
     nome = novo_usuario.get('nome')
     senha = novo_usuario.get('senha')
-    situacao = novo_usuario.get('situacao')
+    situacao = novo_usuario.get('situacao','ATIVO')
     perfil = novo_usuario.get('perfil')
     login = novo_usuario.get('login',codigo)
 
