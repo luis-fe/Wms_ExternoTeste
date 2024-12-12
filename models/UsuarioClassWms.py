@@ -69,14 +69,14 @@ class Usuario:
         """
         insert = """
         INSERT INTO "Reposicao"."Reposicao".cadusuarios
-            (codigo, funcao, nome, login, situacao, perfil)
+            (codigo, funcao, nome, login, situacao, perfil, senha)
         VALUES
             (%s, %s, %s, %s, %s, %s)
         """
         try:
             with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
-                    curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'Ativo',self.perfil))
+                    curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'ATIVO',self.perfil, self.senha))
                     conn.commit()
             return True
         except Exception as e:
@@ -112,13 +112,39 @@ class Usuario:
         conn = ConexaoPostgreMPL.conexao()
         cursor = conn.cursor()
         codigo = int(self.codigo)
-        cursor.execute('select codigo, nome, funcao, situacao, empresa, perfil from "Reposicao"."cadusuarios" c'
-                       ' where codigo = %s', (codigo,))
+        cursor.execute("""
+                select
+                       codigo, 
+                       nome, 
+                       funcao, 
+                       situacao, 
+                       empresa, 
+                       perfil, 
+                       login 
+                from 
+                    "Reposicao"."cadusuarios" c'
+                where 
+                    codigo = %s
+                       """, (codigo,))
         usuarios = cursor.fetchall()
         cursor.close()
         conn.close()
         if not usuarios:
             return 0, 0, 0, 0, 0
         else:
-            return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5]
+            return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5], usuarios[0][6], usuarios[0][7]
+
+    def PesquisarSenha(self):
+        '''Api usada para restricao de pesquisa de senha dos usuarios '''
+
+        conn = ConexaoPostgreMPL.conexao()
+        cursor = conn.cursor()
+        cursor.execute('select codigo, nome, senha from "Reposicao"."cadusuarios" c')
+        usuarios = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        return usuarios
+
+
 
