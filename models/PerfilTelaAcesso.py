@@ -31,7 +31,7 @@ class TelaAcesso ():
     def cadastrarTelaAcesso(self):
         '''metodo utilizado para inserir tela de acesso ao TelaAcesso'''
 
-        verifica = self.consultaTelasAcesso()
+        verifica = self.consultarNomeTelaAcesso()
 
         if verifica.empty:
 
