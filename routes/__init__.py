@@ -41,7 +41,7 @@ from .ConfiguracaoRevisaoAPI import ConfRevisao_routes
 from .ReposicaoViaOFFApi import ReposicaoViaOFF_routes
 from .CarrinhoOFFApi import CarrinhoOFF_routes
 from .TelaAcessoApi import PerfilTelaAcesso_routes
-
+from .Pefil import Perfil_routes
 
 # Registre as rotas nos blueprints
 routes_blueprint.register_blueprint(usuarios_routes)
@@ -77,3 +77,4 @@ routes_blueprint.register_blueprint(ConfRevisao_routes)
 routes_blueprint.register_blueprint(ReposicaoViaOFF_routes)
 routes_blueprint.register_blueprint(CarrinhoOFF_routes)
 routes_blueprint.register_blueprint(PerfilTelaAcesso_routes)
+routes_blueprint.register_blueprint(Perfil_routes)
