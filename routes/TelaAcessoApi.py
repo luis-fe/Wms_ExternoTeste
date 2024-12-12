@@ -32,3 +32,47 @@ def get_usuarios():
             consulta_dict[column_name] = row[column_name]
         consulta_data.append(consulta_dict)
     return jsonify(consulta_data)
+
+@PerfilTelaAcesso_routes.route('/api/cadastrarTelaAcesso', methods=['POST'])
+@token_required
+def criar_cadastrarTelaAcesso():
+    # Obtenha os dados do corpo da requisição
+    novo_Tela = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    urlTela = novo_Tela.get('urlTela')
+    nomeTela = novo_Tela.get('nomeTela')
+
+
+    consulta = PerfilTelaAcesso.TelaAcesso(urlTela, nomeTela).cadastrarTelaAcesso()
+    # Obtém os nomes das colunas
+    column_names = consulta.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    consulta_data = []
+    for index, row in consulta.iterrows():
+        consulta_dict = {}
+        for column_name in column_names:
+            consulta_dict[column_name] = row[column_name]
+        consulta_data.append(consulta_dict)
+    return jsonify(consulta_data)
+
+
+@PerfilTelaAcesso_routes.route('/api/excuirTelaAcesso', methods=['DELETE'])
+@token_required
+def DELETE_excuirTelaAcesso():
+    # Obtenha os dados do corpo da requisição
+    novo_Tela = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    nomeTela = novo_Tela.get('nomeTela')
+
+
+    consulta = PerfilTelaAcesso.TelaAcesso('', nomeTela).exclussaoDeTelaAcesso()
+    # Obtém os nomes das colunas
+    column_names = consulta.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    consulta_data = []
+    for index, row in consulta.iterrows():
+        consulta_dict = {}
+        for column_name in column_names:
+            consulta_dict[column_name] = row[column_name]
+        consulta_data.append(consulta_dict)
+    return jsonify(consulta_data)
