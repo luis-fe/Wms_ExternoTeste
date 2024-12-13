@@ -186,7 +186,7 @@ class Usuario:
             codigo, 
             nome, 
             perfil as "codPerfil",
-            p."nomePefil"
+            p."nomePerfil"
         from 
             "Reposicao"."cadusuarios" c
         inner join 
