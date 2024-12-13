@@ -189,7 +189,7 @@ class Usuario:
             p."nomePerfil"
         from 
             "Reposicao"."cadusuarios" c
-        inner join 
+        left join 
             "Reposicao"."Pefil" p 
         on perfil::varchar = "codPerfil"
         
