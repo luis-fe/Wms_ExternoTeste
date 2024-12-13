@@ -46,6 +46,7 @@ class Usuario:
                 *
             FROM
                 "Reposicao"."cadusuarios"
+            order by nome
         """
         try:
             with ConexaoPostgreMPL.conexao() as conn:
