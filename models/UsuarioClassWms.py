@@ -211,7 +211,7 @@ class Usuario:
 
         consulta = pd.merge(consulta1, consulta2, on = 'codPerfil', how='left')
 
-        consulta['codPerfil'].fillna('-',inplace=True)
+        consulta.fillna('-',inplace=True)
 
 
         # Agrupa mantendo todas as colunas do DataFrame planos e transforma lotes e nomelote em arrays
