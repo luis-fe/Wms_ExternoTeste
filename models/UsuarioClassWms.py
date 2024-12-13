@@ -1,6 +1,7 @@
 import pandas as pd
 from connection import WmsConnectionClass as conexao
 import ConexaoPostgreMPL
+from models import Perfil
 class Usuario:
     """
     Classe que representa os usuários do sistema WMS.
@@ -146,6 +147,95 @@ class Usuario:
         conn.close()
 
         return usuarios
+
+    def inserirPerfilUsuario(self, nomePerfil):
+        ''' metodo construido para inserir o Pefil ao usuario '''
+
+        update = """
+                update 
+                    "Reposicao"."cadusuarios"
+                set
+                    perfil = %s
+                where 
+                    codigo = %s
+        """
+
+        perfil = Perfil.Perfil('',nomePerfil)
+        perfil.descobrircodPerfil()
+        self.perfil = perfil.codPerfil
+
+        if self.perfil == None:
+
+            with ConexaoPostgreMPL.conexao() as conn:
+                with conn.cursor() as curr :
+
+                    curr.execute(update,(self.perfil, self.codigo))
+                    conn.commit()
+
+            return pd.DataFrame([{'status':True, 'Mensagem': 'Salvo com sucesso'}])
+
+        else:
+            return pd.DataFrame([{'status':False, 'Mensagem': f'{nomePerfil} nao encontrado '}])
+
+
+    def rotasAutorizadasUsuarios(self):
+        '''Metodo que retorna as rotas altorizadas para os usuarios '''
+
+        sql1 = """
+        select  
+            codigo, 
+            nome, 
+            perfil as "codPerfil",
+            c."nomePefil"
+        from 
+            "Reposicao"."cadusuarios" c
+        inner join 
+            "Reposicao"."Pefil" p 
+        on perfil::varchar = "codPerfil"
+        
+        """
+
+        sql2 = """
+                    select 
+                "codPerfil",
+                "nomeTela"
+            from 
+                "Reposicao"."TelaAcessoPerfil"
+            where 
+                "nomeTela" ='teste'
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta1 = pd.read_sql(sql1,conn)
+        consulta2 = pd.read_sql(sql2,conn)
+
+        consulta = pd.merge(consulta1, consulta2, on = 'codPerfil', how='left')
+
+        consulta['codPerfil'].fillna('-',inplace=True)
+
+
+        # Agrupa mantendo todas as colunas do DataFrame planos e transforma lotes e nomelote em arrays
+        grouped = consulta.groupby(['codigo', 'nome',"codPerfil","nomePefil"]).agg({
+            'nomeTela': lambda x: list(x.dropna().astype(str).unique())
+        }).reset_index()
+
+        return grouped
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

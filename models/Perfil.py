@@ -149,3 +149,32 @@ class Perfil ():
         consulta = pd.read_sql(sql,conn,params=(self.codPerfil,))
 
         return consulta
+
+
+    def descobrircodPerfil(self):
+        ''' metodo utilizado para encontrar o nome do perfil '''
+
+        sql = """
+                        select
+        	        "codPerfil",
+        	        "nomePerfil"
+                from
+        	        "Reposicao"."Reposicao"."Pefil" p 
+        	    where 
+        	        "nomePerfil" = %s
+                """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql, conn, params=(self.nomePerfil,))
+
+        if consulta.empty:
+            self.codPerfil = None
+        else:
+            self.codPerfil = consulta['codPerfil'][0]
+
+        return self.codPerfil
+
+
+
+
+

@@ -145,3 +145,43 @@ def check_user_password():
     else:
         return jsonify({"status": False,
                         "message": f'Usuário ou senha não existe'}), 401
+
+@usuarios_routes.route('/api/incluirPerfilUsuario', methods=['POST'])
+@token_required
+def post_incluirPerfilUsuario():
+
+        # Obtenha os dados do corpo da requisição
+        novo_Tela = request.get_json()
+        # Extraia os valores dos campos do novo usuário
+        codUsuario = novo_Tela.get('codUsuario')
+        nomePerfil = novo_Tela.get('nomePerfil')
+
+        consulta = UsuarioClassWms.Usuario(codUsuario).inserirPerfilUsuario(nomePerfil)
+        # Obtém os nomes das colunas
+        column_names = consulta.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        consulta_data = []
+        for index, row in consulta.iterrows():
+            consulta_dict = {}
+            for column_name in column_names:
+                consulta_dict[column_name] = row[column_name]
+            consulta_data.append(consulta_dict)
+        return jsonify(consulta_data)
+
+
+@usuarios_routes.route('/api/rotasAutorizadasUsuarios', methods=['GET'])
+@token_required
+def get_rotasAutorizadasUsuarios():
+
+
+        consulta = UsuarioClassWms.Usuario().rotasAutorizadasUsuarios()
+        # Obtém os nomes das colunas
+        column_names = consulta.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        consulta_data = []
+        for index, row in consulta.iterrows():
+            consulta_dict = {}
+            for column_name in column_names:
+                consulta_dict[column_name] = row[column_name]
+            consulta_data.append(consulta_dict)
+        return jsonify(consulta_data)
