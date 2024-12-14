@@ -139,7 +139,7 @@ class Usuario:
         else:
             self.perfil = usuarios[0][6]
             return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5], usuarios[0][6], \
-            usuarios[0][7]
+                usuarios[0][7]
 
     def PesquisarSenha(self):
         '''Api usada para restricao de pesquisa de senha dos usuarios '''
@@ -201,14 +201,13 @@ class Usuario:
         sql2 = """
                     select 
                 "codPerfil",
-                "nomeTela",
+                tp."nomeTela",
                 t."urlTela"
             from 
                 "Reposicao"."TelaAcessoPerfil" tp
-            inner join "Reposicao"."TelaAcesso" t
-            on tp."nomeTela" = t."urlTela"
-            where 
-                "nomeTela" ='teste'
+            inner join 
+                "Reposicao"."TelaAcesso" t
+                on tp."nomeTela" = t."nomeTela"
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
@@ -225,12 +224,18 @@ class Usuario:
         }).reset_index()
 
         grouped = grouped.sort_values(by='nome', ascending=True,
-                                              ignore_index=True)  # escolher como deseja classificar
+                                      ignore_index=True)  # escolher como deseja classificar
 
         return grouped
 
+    def rotasAutorizadasPORUsuario(self):
+        '''Metodo que retorna as rotas altorizadas para o usuario em especifico '''
 
+        todos = self.rotasAutorizadasUsuarios()
 
+        usuario = todos[todos['codigo'] == self.codigo].reset_index()
+
+        return usuario
 
 
 
