@@ -185,3 +185,22 @@ def get_rotasAutorizadasUsuarios():
                 consulta_dict[column_name] = row[column_name]
             consulta_data.append(consulta_dict)
         return jsonify(consulta_data)
+
+
+@usuarios_routes.route('/api/rotasAutorizadasUsuarios', methods=['GET'])
+@token_required
+def get_rotasAutorizadasUsuarios():
+        # Obtém o código do usuário e a senha dos parâmetros da URL
+        codigo = request.args.get('codigo')
+
+        consulta = UsuarioClassWms.Usuario(codigo).rotasAutorizadasPORUsuario()
+        # Obtém os nomes das colunas
+        column_names = consulta.columns
+        # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+        consulta_data = []
+        for index, row in consulta.iterrows():
+            consulta_dict = {}
+            for column_name in column_names:
+                consulta_dict[column_name] = row[column_name]
+            consulta_data.append(consulta_dict)
+        return jsonify(consulta_data)
