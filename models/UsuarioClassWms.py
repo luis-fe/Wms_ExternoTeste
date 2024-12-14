@@ -167,8 +167,8 @@ class Usuario:
 
         perfil = Perfil.Perfil('', nomePerfil)
         self.perfil = perfil.descobrircodPerfil()
-
-        if self.perfil == None:
+        validador = self.perfil
+        if validador != None:
 
             with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
@@ -178,7 +178,7 @@ class Usuario:
             return pd.DataFrame([{'status': True, 'Mensagem': 'Salvo com sucesso'}])
 
         else:
-            return pd.DataFrame([{'status': False, 'Mensagem': f'{nomePerfil} nao encontrado '}])
+            return pd.DataFrame([{'status': False, 'Mensagem': f'{self.perfil}-{nomePerfil} nao encontrado '}])
 
     def rotasAutorizadasUsuarios(self):
         '''Metodo que retorna as rotas altorizadas para os usuarios '''
