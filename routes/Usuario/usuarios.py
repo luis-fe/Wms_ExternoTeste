@@ -187,9 +187,9 @@ def get_rotasAutorizadasUsuarios():
         return jsonify(consulta_data)
 
 
-@usuarios_routes.route('/api/rotasAutorizadasUsuarios', methods=['GET'])
+@usuarios_routes.route('/api/rotasAutorizadasPORUsuario', methods=['GET'])
 @token_required
-def get_rotasAutorizadasUsuarios():
+def get_rotasAutorizadasPORUsuario():
         # Obtém o código do usuário e a senha dos parâmetros da URL
         codigo = request.args.get('codigo')
 
