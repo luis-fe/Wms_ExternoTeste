@@ -201,9 +201,12 @@ class Usuario:
         sql2 = """
                     select 
                 "codPerfil",
-                "nomeTela"
+                "nomeTela",
+                t."urlTela"
             from 
-                "Reposicao"."TelaAcessoPerfil"
+                "Reposicao"."TelaAcessoPerfil" tp
+            inner join "Reposicao"."TelaAcesso" t
+            on tp."nomeTela" = t."urlTela"
             where 
                 "nomeTela" ='teste'
         """
@@ -218,7 +221,7 @@ class Usuario:
 
         # Agrupa mantendo todas as colunas do DataFrame planos e transforma lotes e nomelote em arrays
         grouped = consulta.groupby(['codigo', 'nome', "codPerfil", "nomePerfil"]).agg({
-            'nomeTela': lambda x: list(x.dropna().astype(str).unique())
+            'urlTela': lambda x: list(x.dropna().astype(str).unique())
         }).reset_index()
 
         grouped = grouped.sort_values(by='nome', ascending=True,
