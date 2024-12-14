@@ -2,6 +2,8 @@ import pandas as pd
 from connection import WmsConnectionClass as conexao
 import ConexaoPostgreMPL
 from models import Perfil
+
+
 class Usuario:
     """
     Classe que representa os usuários do sistema WMS.
@@ -15,7 +17,7 @@ class Usuario:
         senha (str): Senha de acesso do usuário.
     """
 
-    def __init__(self, codigo=None, login=None, nome=None, situacao=None, funcaoWMS=None, senha=None, perfil = None):
+    def __init__(self, codigo=None, login=None, nome=None, situacao=None, funcaoWMS=None, senha=None, perfil=None):
         """
         Construtor da classe Usuario.
 
@@ -78,7 +80,8 @@ class Usuario:
         try:
             with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
-                    curr.execute(insert, (self.codigo, self.funcaoWMS, self.nome, self.login, 'ATIVO',self.perfil, self.senha))
+                    curr.execute(insert,
+                                 (self.codigo, self.funcaoWMS, self.nome, self.login, 'ATIVO', self.perfil, self.senha))
                     conn.commit()
             return True
         except Exception as e:
@@ -134,7 +137,9 @@ class Usuario:
         if not usuarios:
             return 0, 0, 0, 0, 0
         else:
-            return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5], usuarios[0][6], usuarios[0][7]
+            self.perfil = usuarios[0][6]
+            return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5], usuarios[0][6], \
+            usuarios[0][7]
 
     def PesquisarSenha(self):
         '''Api usada para restricao de pesquisa de senha dos usuarios '''
@@ -160,23 +165,20 @@ class Usuario:
                     codigo = %s
         """
 
-        perfil = Perfil.Perfil('',nomePerfil)
-        perfil.descobrircodPerfil()
-        self.perfil = perfil.codPerfil
+        perfil = Perfil.Perfil('', nomePerfil)
+        self.perfil = perfil.descobrircodPerfil()
 
         if self.perfil == None:
 
             with ConexaoPostgreMPL.conexao() as conn:
-                with conn.cursor() as curr :
-
-                    curr.execute(update,(self.perfil, self.codigo))
+                with conn.cursor() as curr:
+                    curr.execute(update, (self.perfil, self.codigo))
                     conn.commit()
 
-            return pd.DataFrame([{'status':True, 'Mensagem': 'Salvo com sucesso'}])
+            return pd.DataFrame([{'status': True, 'Mensagem': 'Salvo com sucesso'}])
 
         else:
-            return pd.DataFrame([{'status':False, 'Mensagem': f'{nomePerfil} nao encontrado '}])
-
+            return pd.DataFrame([{'status': False, 'Mensagem': f'{nomePerfil} nao encontrado '}])
 
     def rotasAutorizadasUsuarios(self):
         '''Metodo que retorna as rotas altorizadas para os usuarios '''
@@ -192,8 +194,8 @@ class Usuario:
         left join 
             "Reposicao"."Pefil" p 
         on perfil::varchar = "codPerfil"
-        order by nome
-        
+        order by c.nome asc
+
         """
 
         sql2 = """
@@ -207,18 +209,20 @@ class Usuario:
         """
 
         conn = ConexaoPostgreMPL.conexaoEngine()
-        consulta1 = pd.read_sql(sql1,conn)
-        consulta2 = pd.read_sql(sql2,conn)
+        consulta1 = pd.read_sql(sql1, conn)
+        consulta2 = pd.read_sql(sql2, conn)
 
-        consulta = pd.merge(consulta1, consulta2, on = 'codPerfil', how='left')
+        consulta = pd.merge(consulta1, consulta2, on='codPerfil', how='left')
 
-        consulta.fillna('-',inplace=True)
-
+        consulta.fillna('-', inplace=True)
 
         # Agrupa mantendo todas as colunas do DataFrame planos e transforma lotes e nomelote em arrays
-        grouped = consulta.groupby(['codigo', 'nome',"codPerfil","nomePerfil"]).agg({
+        grouped = consulta.groupby(['codigo', 'nome', "codPerfil", "nomePerfil"]).agg({
             'nomeTela': lambda x: list(x.dropna().astype(str).unique())
         }).reset_index()
+
+        grouped = grouped.sort_values(by='nome', ascending=True,
+                                              ignore_index=True)  # escolher como deseja classificar
 
         return grouped
 
