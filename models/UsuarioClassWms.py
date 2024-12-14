@@ -127,7 +127,7 @@ class Usuario:
                        perfil, 
                        login 
                 from 
-                    "Reposicao"."cadusuarios" c'
+                    "Reposicao"."cadusuarios" c
                 where 
                     codigo = %s
                        """, (codigo,))
@@ -139,7 +139,7 @@ class Usuario:
         else:
             self.perfil = usuarios[0][6]
             return usuarios[0][1], usuarios[0][2], usuarios[0][3], usuarios[0][4], usuarios[0][5], usuarios[0][6], \
-                usuarios[0][7]
+            usuarios[0][7]
 
     def PesquisarSenha(self):
         '''Api usada para restricao de pesquisa de senha dos usuarios '''
@@ -224,18 +224,30 @@ class Usuario:
         }).reset_index()
 
         grouped = grouped.sort_values(by='nome', ascending=True,
-                                      ignore_index=True)  # escolher como deseja classificar
+                                              ignore_index=True)  # escolher como deseja classificar
 
         return grouped
+
 
     def rotasAutorizadasPORUsuario(self):
         '''Metodo que retorna as rotas altorizadas para o usuario em especifico '''
 
         todos = self.rotasAutorizadasUsuarios()
 
-        usuario = todos[todos['codigo'] == self.codigo].reset_index()
+        usuario = todos[todos['codigo'] ==int(self.codigo)].reset_index()
 
         return usuario
+
+    def inserirArrayPefilUsuario(self, arrayUsuario, arrayNomePerfil):
+        '''Metodo para inserir via array os perfil aos usuarios'''
+
+        # Correção do for utilizando zip para iterar sobre ambas as listas
+        for a, p in zip(arrayUsuario, arrayNomePerfil):
+            self.codigo = a
+            self.inserirPerfilUsuario(p)
+
+        return pd.DataFrame([{'status': True, 'Mensagem': 'Perfis inseridos com sucesso'}])
+
 
 
 

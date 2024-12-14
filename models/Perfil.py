@@ -159,7 +159,7 @@ class Perfil():
         else:
             self.codPerfil = consulta['codPerfil'][0]
 
-        return consulta['codPerfil'][0]
+        return self.codPerfil
 
 
 
