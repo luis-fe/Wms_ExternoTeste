@@ -119,14 +119,15 @@ def check_user_password():
         return jsonify({'message': 'Código do usuário e senha devem ser fornecidos.'}), 400
 
     # Consulta no banco de dados para verificar se o usuário e senha correspondem
-    result = usuariosModel.ConsultaUsuarioSenha(codigo, senha)
+    usuario = UsuarioClassWms.Usuario(codigo,'','','','',senha)
+    result = usuario.consultaUsuarioSenha()
 
 
     # Verifica se o usuário existe
     if result == 1:
         # Consulta no banco de dados para obter informações adicionais do usuário
 
-        nome, funcao, situacao, empresa1 = usuariosModel.PesquisarUsuariosCodigo(codigo)
+        codigo, nome, funcao, situacao, empresa1, perfil, login = usuario.consultaUsuario()
 
         # Verifica se foram encontradas informações adicionais do usuário
         if nome != 0:
@@ -138,7 +139,9 @@ def check_user_password():
                 "nome": nome,
                 "funcao": funcao,
                 "situacao": situacao,
-                "empresa":empresa1
+                "empresa":empresa1,
+                "perfil":perfil,
+                "login":login
             })
         else:
             return jsonify({'message': 'Não foi possível obter informações adicionais do usuário.'}), 500
