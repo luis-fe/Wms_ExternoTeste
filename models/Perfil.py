@@ -103,6 +103,36 @@ class Perfil():
     def exclussaoDePerfil(self):
         '''Metodo utilizado para excluir o perfil caso ele nao esteja em uso'''
 
+        sql = """
+        select 
+            *
+        from
+            "Reposicao".cadusuarios c
+        where 
+            perfil::varchar = %s
+
+        """
+
+        conn = ConexaoPostgreMPL.conexaoEngine()
+        consulta = pd.read_sql(sql, conn, params=(self.codPerfil,))
+
+        if consulta.empty:
+
+            delete = """
+            delete from "Reposicao"."Pefil"
+            where "codPerfil" = %s
+            """
+
+            with ConexaoPostgreMPL.conexao() as conn:
+                with conn.cursor() as curr:
+                    curr.execute(delete, (self.codPerfil,))
+                    conn.commit()
+
+            return pd.DataFrame([{'status': True, 'Mensagem': 'Perfil Excluido com sucesso !'}])
+
+        else:
+            return pd.DataFrame([{'status': False, 'Mensagem': 'O perfil esta vinculado a usuario !'}])
+
     def updatePerfil(self):
         '''Metodo utilizado para update do Perfil '''
 

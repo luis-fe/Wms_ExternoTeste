@@ -55,3 +55,25 @@ def post_cadastrarOuAtualizarPerfil():
             consulta_dict[column_name] = row[column_name]
         consulta_data.append(consulta_dict)
     return jsonify(consulta_data)
+
+
+@Perfil_routes.route('/api/escluirPerfil', methods=['DELETE'])
+@token_required
+def post_excluirPerfil():
+
+    # Obtenha os dados do corpo da requisição
+    novo_Tela = request.get_json()
+    # Extraia os valores dos campos do novo usuário
+    codPerfil = novo_Tela.get('codPerfil')
+
+    consulta = Perfil.Perfil(codPerfil).exclussaoDePerfil()
+    # Obtém os nomes das colunas
+    column_names = consulta.columns
+    # Monta o dicionário com os cabeçalhos das colunas e os valores correspondentes
+    consulta_data = []
+    for index, row in consulta.iterrows():
+        consulta_dict = {}
+        for column_name in column_names:
+            consulta_dict[column_name] = row[column_name]
+        consulta_data.append(consulta_dict)
+    return jsonify(consulta_data)
