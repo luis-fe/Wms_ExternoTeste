@@ -40,7 +40,7 @@ def get_usuarios():
 @usuarios_routes.route('/api/UsuarioSenhaRestricao', methods=['GET'])
 @token_required
 def get_usuariosRestricao():
-    usuarios = usuariosModel.PesquisarSenha()
+    usuarios = UsuarioClassWms.Usuario().PesquisarSenha()
 
     # Obtém os nomes das colunas
     column_names = ['codigo', 'nome ', 'senha']
@@ -131,7 +131,6 @@ def check_user_password():
 
         # Verifica se foram encontradas informações adicionais do usuário
         if nome != 0:
-            usuariosModel.RegistroLog(codigo)
             # Retorna as informações adicionais do usuário
             return jsonify({
                 "status": True,
