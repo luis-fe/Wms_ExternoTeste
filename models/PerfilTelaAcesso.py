@@ -7,10 +7,11 @@ import ConexaoPostgreMPL
 class TelaAcesso ():
     '''Classe para interagir com o perfil do usuario'''
 
-    def __init__(self, urlTela = None, nomeTela = None):
+    def __init__(self, urlTela = None, nomeTela = None, menu = None):
 
         self.urlTela = urlTela
         self.nomeTela = nomeTela
+        self.menu = menu
 
     def consultaTelasAcesso(self):
         '''metodo utilizado para consultar as TelaAcesso cadastrado'''
@@ -18,7 +19,8 @@ class TelaAcesso ():
         sql = """
         select
             "urlTela",
-            "nomeTela"
+            "nomeTela",
+            "menu"
         from
             "Reposicao"."TelaAcesso"
         """
@@ -38,14 +40,14 @@ class TelaAcesso ():
 
             insert = """
             insert into 
-                "Reposicao"."TelaAcesso" ("urlTela","nomeTela")
+                "Reposicao"."TelaAcesso" ("urlTela","nomeTela", "menu")
             values
-                (%s, %s)
+                (%s, %s, %s)
             """
 
             with ConexaoPostgreMPL.conexao() as conn:
                 with conn.cursor() as curr:
-                    curr.execute(insert,(self.urlTela, self.nomeTela))
+                    curr.execute(insert,(self.urlTela, self.nomeTela, self.menu))
                     conn.commit()
 
             return pd.DataFrame([{'status':True,"Mensagem":'Tela cadastrada com sucesso'}])
@@ -99,7 +101,8 @@ class TelaAcesso ():
         sql = """
         select
             "urlTela",
-            "nomeTela"
+            "nomeTela",
+            "menu"
         from
             "Reposicao"."TelaAcesso"
         where 

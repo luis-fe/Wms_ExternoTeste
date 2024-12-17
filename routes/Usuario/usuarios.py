@@ -58,7 +58,7 @@ def update_usuario(codigo):
     # Obtém os dados do corpo da requisição (JSON)
     data = request.get_json()
     # Verifica se a coluna "funcao" está presente nos dados recebidos
-    nome_ant, funcao_ant, situacao_ant , empresa_ant = usuariosModel.PesquisarUsuariosCodigo(codigo)
+    codigo_ant, nome_ant, funcao_ant, situacao_ant , empresa_ant, perfil_ant, login_ant = UsuarioClassWms.Usuario(codigo).consultaUsuario()
     if 'funcao' in data:
         nova_funcao = data['funcao']
     else:
@@ -71,7 +71,18 @@ def update_usuario(codigo):
         situacao_novo = data['situacao']
     else:
         situacao_novo = situacao_ant
-    usuariosModel.AtualizarInformacoes(nome_novo, nova_funcao, situacao_novo, codigo)
+
+    if 'login' in data:
+        login = data['login']
+    else:
+        login = login_ant
+
+    if 'perfil' in data:
+        perfil = data['perfil']
+    else:
+        perfil = perfil_ant
+
+    UsuarioClassWms.Usuario(codigo,login,nome_novo,situacao_novo,nova_funcao,'',perfil).AtualizarInformacoes()
 
     return jsonify({'message': f'Dados do Usuário {codigo} - {nome_novo} atualizado com sucesso'})
 
